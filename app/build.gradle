@@ -1,30 +1,141 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    defaultConfig {
-        applicationId "com.qiaoqiao"
-        minSdkVersion 9
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
+
+    configurations {
+        all*.exclude module: 'support-v4'
+        all*.exclude module: 'mediarouter-v7'
+    }
+
+    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        multiDexEnabled = true
+
+        applicationId project.APP_APPLICATIONID
+        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+
+        versionName project.APP_VERSIONNAME
+        versionCode Integer.parseInt(project.APP_VERSIONCODE)
+
+        testInstrumentationRunner project.TEST_RUNNER
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        htmlReport false
+        abortOnError false
+    }
 }
+
+
+ext {
+    //App libs
+    bus = "3+"
+    dagger = "2+"
+    gson = "2.8.0"
+    junit = "4.12"
+    retrofit = "2.1.0"
+    rxandroid = "2.0.1"
+    multidexVersion = "1.0.1"
+    rxandroidAdapter = "1.0.0"
+    appCompatVersion = "25.3.1"
+    smoothprogressbar = "1.0.0"
+
+    //Test libs
+    testRules = 0.5
+    testRunner = 0.5
+    espresso = "2.2.2"
+    dexmakerVersion = '1.2'
+    hamcrestVersion = '1.3'
+    mockitoVersion = '1.10.19'
+}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
+
+    //UITest
+    androidTestCompile("com.android.support.test:rules:${testRules}", {
+        exclude group: 'com.android.support'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    androidTestCompile("com.android.support.test:runner:${testRunner}", {
+        exclude group: 'com.android.support'
+    })
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${espresso}", {
+        exclude group: 'com.android.support'
+    })
+    androidTestCompile("com.android.support.test.espresso:espresso-web:${espresso}", {
+        exclude group: 'com.android.support'
+    })
+    compile("com.android.support.test.espresso:espresso-idling-resource:${espresso}", {
+        exclude group: 'com.android.support'
+    })
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${espresso}", {
+        exclude group: 'com.android.support'
+    })
+    androidTestCompile("com.android.support.test.espresso:espresso-intents:${espresso}", {
+        exclude group: 'com.android.support'
+    })
+
+    //UnitTest
+    testCompile "junit:junit:${junit}"
+    androidTestCompile "org.mockito:mockito-core:${mockitoVersion}"
+    androidTestCompile "com.google.dexmaker:dexmaker:${dexmakerVersion}"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}"
+    testCompile "junit:junit:${junit}"
+    testCompile "org.mockito:mockito-all:${mockitoVersion}"
+    testCompile "org.hamcrest:hamcrest-all:${hamcrestVersion}"
+
+    //Support libraries
+    compile "com.android.support:design:${appCompatVersion}"
+    compile "com.android.support:multidex:${multidexVersion}"
+    compile "com.android.support:appcompat-v7:${appCompatVersion}"
+    compile "com.android.support:support-compat:${appCompatVersion}"
+    compile "com.android.support:recyclerview-v7:${appCompatVersion}"
+    compile "com.android.support:support-core-ui:${appCompatVersion}"
+    compile "com.android.support:support-fragment:${appCompatVersion}"
+    compile "com.android.support:support-core-utils:${appCompatVersion}"
+    compile "com.android.support:support-annotations:${appCompatVersion}"
+    compile "com.android.support:support-media-compat:${appCompatVersion}"
+
+    //Google libs
+    compile "de.greenrobot:eventbus:${bus}"
+    compile "com.google.code.gson:gson:${gson}"
+    compile "com.google.dagger:dagger:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+
+    //Rx for android
+    compile "io.reactivex.rxjava2:rxandroid:${rxandroid}"
+    compile "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${rxandroidAdapter}"
+    //Instead this official adapter, more info
+    // see https://github.com/JakeWharton/retrofit2-rxjava2-adapter
+    // see http://stackoverflow.com/questions/35233161/illegalargumentexception-could-not-locate-call-adapter-for-rx-observable-rxjava
+    //compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    //Official Retrofit
+    compile "com.squareup.retrofit2:retrofit:${retrofit}"
+    compile "com.squareup.retrofit2:retrofit-mock:${retrofit}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit}"
+
+    compile "com.github.castorflex.smoothprogressbar:library:${smoothprogressbar}"
 }
