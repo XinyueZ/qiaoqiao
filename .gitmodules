@@ -1,0 +1,3 @@
+[submodule "submodules/cameraview"]
+	path = submodules/cameraview
+	url = https://github.com/google/cameraview.git

@@ -1,1 +1,3 @@
-include ':app'
+include ':app', ':cameraview'
+
+project(':cameraview').projectDir = new File('submodules/cameraview/library')
