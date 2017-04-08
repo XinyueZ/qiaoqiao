@@ -29,7 +29,7 @@
 //                  奔驰宝马贵者趣，公交自行程序员。
 //                  别人笑我忒疯癫，我笑自己命太贱。
 
-package com.qiaoqiao;
+package com.qiaoqiao.app;
 
 import android.support.multidex.MultiDexApplication;
 

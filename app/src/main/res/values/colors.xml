@@ -3,4 +3,25 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">@android:color/white</color>
+    <color name="colorBlack">@android:color/black</color>
+    <color name="colorTransparent">@android:color/transparent</color>
+    <color name="colorBlueGrey">#90A4AE</color>
+    <color name="colorGrey">#9E9E9E</color>
+    <color name="colorYellow">#FFEB3B</color>
+    <color name="colorGreen">#E8F5E9</color>
+    <color name="colorRed">#FFEBEE</color>
+
+    <integer-array name="loading_colors">
+        <item>@color/color_pocket_1</item>
+        <item>@color/color_pocket_2</item>
+        <item>@color/color_pocket_3</item>
+        <item>@color/color_pocket_4</item>
+    </integer-array>
+
+
+    <color name="color_pocket_1">#4CAF50</color>
+    <color name="color_pocket_2">#3F51B5</color>
+    <color name="color_pocket_3">#F44336</color>
+    <color name="color_pocket_4">#009688</color>
 </resources>
