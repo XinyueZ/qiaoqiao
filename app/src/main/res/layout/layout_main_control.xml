@@ -12,44 +12,23 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/from_local_fb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/larger"
-            android:layout_marginLeft="@dimen/larger"
-            android:layout_marginRight="@dimen/larger"
-            android:layout_marginStart="@dimen/larger"
-            android:layout_weight="1"
+            style="@style/MainControlButton"
             app:backgroundTint="@color/colorBrown"
-            app:elevation="@dimen/medium"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_from_local"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/capture_fb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/larger"
-            android:layout_marginLeft="@dimen/larger"
-            android:layout_marginRight="@dimen/larger"
-            android:layout_marginStart="@dimen/larger"
-            android:layout_weight="1"
+            style="@style/MainControlButton"
             app:backgroundTint="@color/colorCyan"
-            app:elevation="@dimen/medium"
             app:fabSize="normal"
             app:srcCompat="@drawable/ic_capture"/>
 
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/from_web_fb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/larger"
-            android:layout_marginLeft="@dimen/larger"
-            android:layout_marginRight="@dimen/larger"
-            android:layout_marginStart="@dimen/larger"
-            android:layout_weight="1"
+            style="@style/MainControlButton"
             app:backgroundTint="@color/colorBlueGrey"
-            app:elevation="@dimen/medium"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_from_web"/>
     </LinearLayout>
