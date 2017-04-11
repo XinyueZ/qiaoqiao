@@ -9,15 +9,23 @@ import dagger.Provides;
 
 @Module
 public class HomeModule {
-	private final HomeBinding mBinding;
+	private final @NonNull HomeContract.View mView;
+	private final @NonNull HomeBinding mBinding;
 
-	public HomeModule(@NonNull HomeBinding binding) {
+	public HomeModule(@NonNull HomeContract.View view, @NonNull HomeBinding binding) {
+		mView = view;
 		mBinding = binding;
 	}
 
 
 	@Provides
-	public HomeBinding  provideHomeBinding() {
+	public HomeBinding provideHomeBinding() {
 		return mBinding;
 	}
+
+	@Provides
+	public HomeContract.View provideHomeContractView() {
+		return mView;
+	}
+
 }

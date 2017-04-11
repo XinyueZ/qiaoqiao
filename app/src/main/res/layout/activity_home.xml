@@ -3,13 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.qiaoqiao.home.HomeActivity">
+    tools:context="com.qiaoqiao.home.ui.HomeActivity">
 
     <data class="HomeBinding">
 
         <variable
             name="uiHelper"
             type="com.qiaoqiao.utils.SystemUiHelper"/>
+
+        <variable
+            name="decorView"
+            type="android.view.ViewGroup"/>
     </data>
 
     <FrameLayout

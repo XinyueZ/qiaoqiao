@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.home.HomeActivity;
+import com.qiaoqiao.home.ui.HomeActivity;
 
 import java.util.List;
 
