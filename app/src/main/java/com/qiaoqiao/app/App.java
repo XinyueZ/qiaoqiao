@@ -33,16 +33,19 @@ package com.qiaoqiao.app;
 
 import android.support.multidex.MultiDexApplication;
 
+import com.google.gson.Gson;
+
 public final class App extends MultiDexApplication {
-	/**
-	 * Application's instance.
-	 */
-	@SuppressWarnings("WeakerAccess") public static App Instance;
 
+	public static AppComponent appComponent;
 
-	{
-		Instance = this;
+	private final Gson gson = new Gson();
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		appComponent = DaggerAppComponent.builder()
+		                                 .applicationModule(new ApplicationModule(this))
+		                                 .build();
 	}
-
-
 }
