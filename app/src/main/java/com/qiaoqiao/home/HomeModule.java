@@ -2,22 +2,22 @@ package com.qiaoqiao.home;
 
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.databinding.ActivityMainBinding;
-import com.qiaoqiao.views.MainControl;
+import com.qiaoqiao.databinding.HomeBinding;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class HomeModule {
-	private final ActivityMainBinding mBinding;
+	private final HomeBinding mBinding;
 
-	public HomeModule(@NonNull ActivityMainBinding binding) {
+	public HomeModule(@NonNull HomeBinding binding) {
 		mBinding = binding;
 	}
 
+
 	@Provides
-	public MainControl provideMainControl() {
-		return mBinding.mainControl;
+	public HomeBinding  provideHomeBinding() {
+		return mBinding;
 	}
 }

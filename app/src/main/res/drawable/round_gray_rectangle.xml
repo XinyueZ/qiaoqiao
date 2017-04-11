@@ -14,9 +14,7 @@
     <solid
         android:color="@color/colorTransparent">
     </solid>
-    <padding
-        android:bottom="@dimen/medium"
+    <padding 
         android:left="@dimen/medium"
-        android:right="@dimen/medium"
-        android:top="@dimen/medium"/>
+        android:right="@dimen/medium" />
 </shape>

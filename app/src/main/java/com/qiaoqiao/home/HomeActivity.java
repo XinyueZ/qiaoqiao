@@ -6,24 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
-import com.qiaoqiao.databinding.ActivityMainBinding;
+import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.utils.SystemUiHelper;
 
 import javax.inject.Inject;
 
 public final class HomeActivity extends AppCompatActivity {
-	private static final int LAYOUT = R.layout.activity_main;
-	private ActivityMainBinding mBinding;
-	private SystemUiHelper mSystemUiHelper;
+	private static final int LAYOUT = R.layout.activity_home;
+	private HomeBinding mBinding;
 	@Inject Home mHome;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mSystemUiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
-		mSystemUiHelper.hide();
+		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
+		uiHelper.hide();
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
-
+		mBinding.setUiHelper(uiHelper);
 		DaggerHomeComponent.builder()
 		                   .appComponent(App.appComponent)
 		                   .homeModule(new HomeModule(mBinding))
@@ -34,7 +33,8 @@ public final class HomeActivity extends AppCompatActivity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		mSystemUiHelper.hide();
+		mBinding.getUiHelper()
+		        .hide();
 	}
 
 
