@@ -4,5 +4,4 @@
     <dimen name="medium">10dp</dimen>
     <dimen name="small">5dp</dimen>
     <dimen name="mini">1dp</dimen>
-    <dimen name="pb_width">32dp</dimen>
 </resources>

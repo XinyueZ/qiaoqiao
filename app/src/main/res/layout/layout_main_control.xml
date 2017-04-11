@@ -2,48 +2,35 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@drawable/round_gray_rectangle"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-            android:id="@+id/loading_pb"
-            style="@style/GradientProgressBar"
-            android:layout_width="@dimen/pb_width"
-            android:layout_height="@dimen/small"
-            android:layout_gravity="top|center_horizontal"
-            android:indeterminate="true"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/from_local_fb"
+            style="@style/MainControlButton"
+            app:backgroundTint="@color/colorBrown"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_from_local"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_gray_rectangle"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/from_local_fb"
-                style="@style/MainControlButton"
-                app:backgroundTint="@color/colorBrown"
-                app:fabSize="mini"
-                app:srcCompat="@drawable/ic_from_local"/>
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/capture_fb"
-                style="@style/MainControlButton"
-                app:backgroundTint="@color/colorCyan"
-                app:fabSize="normal"
-                app:srcCompat="@drawable/ic_capture"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/capture_fb"
+            style="@style/MainControlButton"
+            app:backgroundTint="@color/colorCyan"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_capture"/>
 
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/from_web_fb"
-                style="@style/MainControlButton"
-                app:backgroundTint="@color/colorBlueGrey"
-                app:fabSize="mini"
-                app:srcCompat="@drawable/ic_from_web"/>
-        </LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/from_web_fb"
+            style="@style/MainControlButton"
+            app:backgroundTint="@color/colorBlueGrey"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_from_web"/>
     </LinearLayout>
 </layout>

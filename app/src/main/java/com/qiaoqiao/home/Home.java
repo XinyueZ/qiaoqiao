@@ -21,7 +21,8 @@ public final class Home {
 			public void onClick(View v) {
 				Toast.makeText(v.getContext(), "setOnFromLocalClickedListener", Toast.LENGTH_SHORT)
 				     .show();
-				mBinding.getUiHelper().show();
+				mBinding.getUiHelper().hide();
+				mBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
 		mBinding.mainControl.setOnCaptureClickedListener(new MainControl.OnCaptureClickedListener() {
@@ -30,7 +31,8 @@ public final class Home {
 				Toast.makeText(v.getContext(), "setOnCaptureClickedListener", Toast.LENGTH_SHORT)
 				     .show();
 
-				mBinding.getUiHelper().show();
+				mBinding.getUiHelper().hide();
+				mBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
 		mBinding.mainControl.setOnFromWebClickedListener(new MainControl.OnFromWebClickedListener() {
@@ -39,7 +41,8 @@ public final class Home {
 				Toast.makeText(v.getContext(), "setOnFromWebClickedListener", Toast.LENGTH_SHORT)
 				     .show();
 
-				mBinding.getUiHelper().show();
+				mBinding.getUiHelper().hide();
+				mBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
 	}
