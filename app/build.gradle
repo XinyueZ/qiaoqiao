@@ -124,6 +124,7 @@ dependencies {
     compile "de.greenrobot:eventbus:${bus}"
     compile "com.google.code.gson:gson:${gson}"
     compile "com.google.dagger:dagger:${dagger}"
+    compile "pub.devrel:easypermissions:${easypermissions}"
     annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
 
     //Rx for android
