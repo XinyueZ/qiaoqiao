@@ -26,7 +26,7 @@ import com.qiaoqiao.app.mvp.BaseView;
 public interface HomeContract {
 
 	interface View extends BaseView<Home> {
-
+		void showInputFromWeb();
 	}
 
 	interface Presenter extends BasePresenter {

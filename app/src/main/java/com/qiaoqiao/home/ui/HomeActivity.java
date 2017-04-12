@@ -1,5 +1,6 @@
 package com.qiaoqiao.home.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.HomeBinding;
+import com.qiaoqiao.ds.ui.FromInputWebLinkFragment;
 import com.qiaoqiao.home.DaggerHomeComponent;
 import com.qiaoqiao.home.Home;
 import com.qiaoqiao.home.HomeContract;
@@ -23,6 +25,7 @@ import static android.os.Bundle.EMPTY;
 
 public final class HomeActivity extends AppCompatActivity implements HomeContract.View {
 	private static final int LAYOUT = R.layout.activity_home;
+	private static final int LAYOUT_INPUT_WEB_LINK = R.layout.fragment_input_web_link;
 	@Inject Home mHome;
 
 	/**
@@ -57,6 +60,15 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		super.onWindowFocusChanged(hasFocus);
 	}
 
+	@SuppressLint("RestrictedApi")
+	@Override
+	public void showInputFromWeb() {
+		getSupportFragmentManager().beginTransaction()
+		                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+		                           .replace(R.id.content_root_fl, FromInputWebLinkFragment.newInstance(this))
+		                           .addToBackStack(null)
+		                           .commit();
+	}
 
 	@Override
 	protected void onResume() {

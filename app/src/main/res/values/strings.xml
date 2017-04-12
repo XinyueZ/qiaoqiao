@@ -3,4 +3,5 @@
     <string name="exit_app">Exit app</string>
     <string name="permission_setting">Set permission</string>
     <string name="permission_relation_text">QiaoQiao App needs device permission \"CAMERA\", consider to grant this permission.</string>
+    <string name="hint_link_image">Link to an image</string>
 </resources>

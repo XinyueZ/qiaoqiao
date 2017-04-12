@@ -49,12 +49,10 @@ public final class Home implements HomeContract.Presenter {
 		mBinding.mainControl.setOnFromWebClickedListener(new MainControlView.OnFromWebClickedListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(v.getContext(), "setOnFromWebClickedListener", Toast.LENGTH_SHORT)
-				     .show();
-
+				mView.showInputFromWeb();
 				mBinding.getUiHelper()
 				        .hide();
-				mBinding.loadingPb.setVisibility(View.VISIBLE);
+//				mBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
 	}

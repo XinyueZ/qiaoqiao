@@ -24,7 +24,7 @@
     </style>
 
     <style name="TextAppearance.App.TextInputLayout.Hint" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorTeal</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="TextInputLayout">
