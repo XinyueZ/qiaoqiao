@@ -3,8 +3,10 @@ package com.qiaoqiao.home.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,8 @@ import com.qiaoqiao.home.Home;
 import com.qiaoqiao.home.HomeContract;
 import com.qiaoqiao.home.HomeModule;
 import com.qiaoqiao.utils.SystemUiHelper;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -53,7 +57,7 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 
 		DaggerHomeComponent.builder()
 		                   .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
-		                   .homeModule(new HomeModule(getApplicationContext(), this, binding))
+		                   .homeModule(new HomeModule(this, binding))
 		                   .build()
 		                   .injectHome(this);
 	}
@@ -96,5 +100,24 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	@Override
 	public void setPresenter(@NonNull Home presenter) {
 		mHome = presenter;
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+			case REQUEST_FILE_SELECTOR:
+				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+				Cursor cursor = getContentResolver().query(data.getData(), filePathColumn, null, null, null);
+				if (cursor == null || cursor.getCount() < 1) {
+					return;
+				}
+				cursor.moveToFirst();
+				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+				if (columnIndex < 0) { // no column index
+					return;
+				}
+				mHome.openLocal(new File(cursor.getString(columnIndex)));
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

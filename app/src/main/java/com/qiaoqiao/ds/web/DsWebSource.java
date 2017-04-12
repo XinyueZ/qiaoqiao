@@ -1,22 +1,31 @@
 package com.qiaoqiao.ds.web;
 
 
-import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.ds.DsSource;
-import com.qiaoqiao.ds.DsType;
+
+import java.io.File;
 
 import javax.inject.Singleton;
 
 @Singleton
 public final class DsWebSource implements DsSource {
-	private final static @DsType int sDsType = DsType.WEB;
 
 	@Override
-	public void loadData(@NonNull Context cxt, @DsType int dsType, @NonNull    final DataLoadedCallback callback) {
-		if (sDsType == dsType) {
-			callback.on();
-		}
+	public void readWeb(@NonNull Uri uri, LocalLoadedCallback callback) {
+		callback.onLoaded(uri);
 	}
+
+	@Override
+	public void compressData(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
+
+	}
+
+	@Override
+	public void readLocal(@NonNull File file, BytesLoadedCallback callback) {
+
+	}
+
 }

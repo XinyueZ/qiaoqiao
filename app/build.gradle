@@ -140,4 +140,6 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:${retrofit}"
 
     compile "com.github.castorflex.smoothprogressbar:library:${smoothprogressbar}"
+
+    compile "commons-io:commons-io:${apacheIO}"
 }

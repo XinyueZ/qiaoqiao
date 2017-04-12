@@ -1,14 +1,24 @@
 package com.qiaoqiao.ds;
 
 
-import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
-public interface DsSource {
-	void loadData(@NonNull Context cxt, @DsType int dsType, @NonNull DataLoadedCallback callback);
+import java.io.File;
 
-	interface DataLoadedCallback {
-		void on();
+public interface DsSource {
+	void compressData(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback);
+
+	void readLocal(@NonNull File file, BytesLoadedCallback callback);
+
+	void readWeb(@NonNull Uri uri, LocalLoadedCallback callback);
+
+
+	interface BytesLoadedCallback {
 		void onLoaded(@NonNull final byte[] data);
+	}
+
+	interface LocalLoadedCallback {
+		void onLoaded(@NonNull Uri uri);
 	}
 }

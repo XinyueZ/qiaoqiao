@@ -62,11 +62,11 @@ public final class SystemUiHelper {
     /**
      * When this flag is set, the
      * {@link WindowManager.LayoutParams#FLAG_LAYOUT_IN_SCREEN}
-     * flag will be set on older devices, making the status bar "float" on top
+     * flag will be set onLoaded older devices, making the status bar "float" onLoaded top
      * of the activity layout. This is most useful when there are no controls at
      * the top of the activity layout.
      * <p>
-     * This flag isn't used on newer devices because the <a
+     * This flag isn't used onLoaded newer devices because the <a
      * href="http://developer.android.com/design/patterns/actionbar.html">action
      * bar</a>, the most important structural element of an Android app, should
      * be visible and not obscured by the system UI.
@@ -135,7 +135,7 @@ public final class SystemUiHelper {
     }
 
     /**
-     * @return true if the system UI is currently showing. What this means depends on the mode this
+     * @return true if the system UI is currently showing. What this means depends onLoaded the mode this
      *         {@link android.example.android.systemuivis.SystemUiHelper} was instantiated with.
      */
     public boolean isShowing() {
@@ -143,7 +143,7 @@ public final class SystemUiHelper {
     }
 
     /**
-     * Show the system UI. What this means depends on the mode this {@link android.example.android.systemuivis.SystemUiHelper} was
+     * Show the system UI. What this means depends onLoaded the mode this {@link android.example.android.systemuivis.SystemUiHelper} was
      * instantiated with.
      *
      * <p>Any currently queued delayed hide requests will be removed.
@@ -156,7 +156,7 @@ public final class SystemUiHelper {
     }
 
     /**
-     * Hide the system UI. What this means depends on the mode this {@link android.example.android.systemuivis.SystemUiHelper} was
+     * Hide the system UI. What this means depends onLoaded the mode this {@link android.example.android.systemuivis.SystemUiHelper} was
      * instantiated with.
      *
      * <p>Any currently queued delayed hide requests will be removed.
@@ -245,7 +245,7 @@ public final class SystemUiHelper {
     }
 
     /**
-     * Base implementation. Used on API level 10 and below.
+     * Base implementation. Used onLoaded API level 10 and below.
      */
     static class SystemUiHelperImplBase extends SystemUiHelperImpl {
 

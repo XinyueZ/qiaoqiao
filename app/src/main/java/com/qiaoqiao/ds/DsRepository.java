@@ -16,8 +16,10 @@
 
 package com.qiaoqiao.ds;
 
-import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import java.io.File;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -30,16 +32,24 @@ public final class DsRepository implements DsSource {
 	private final DsSource mCameraDs;
 
 	@Inject
-	DsRepository(  @Web DsSource webDs, @Local DsSource localDs, @Camera DsSource cameraDs) {
+	DsRepository(@Web DsSource webDs, @Local DsSource localDs, @Camera DsSource cameraDs) {
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;
 	}
 
 	@Override
-	public void loadData(@NonNull Context cxt, @DsType int dsType, @NonNull DataLoadedCallback callback) {
-		mWebDs.loadData(cxt, dsType, callback);
-		mLocalDs.loadData(cxt, dsType, callback);
-		mCameraDs.loadData(cxt, dsType, callback);
+	public void compressData(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
+		mCameraDs.compressData(bytes, callback);
+	}
+
+	@Override
+	public void readLocal(@NonNull File file, BytesLoadedCallback callback) {
+		mLocalDs.readLocal(file, callback);
+	}
+
+	@Override
+	public void readWeb(@NonNull Uri uri, LocalLoadedCallback callback) {
+		mWebDs.readWeb(uri, callback);
 	}
 }

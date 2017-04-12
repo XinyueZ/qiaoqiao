@@ -1,14 +1,10 @@
 package com.qiaoqiao.home;
 
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,27 +18,18 @@ import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.views.MainControlView;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.inject.Inject;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static com.qiaoqiao.app.Values.TEMP_PHOTO_NAME;
-import static com.qiaoqiao.ds.DsType.CAMERA;
-import static com.qiaoqiao.ds.DsType.LOCAL;
-import static com.qiaoqiao.ds.DsType.WEB;
 
 public final class Home implements HomeContract.Presenter {
-	private final @NonNull Context mContext;
 	private final @NonNull HomeBinding mBinding;
 	private final @NonNull HomeContract.View mView;
 	private final @NonNull DsRepository mDsRepository;
 
 	@Inject
-	Home(@NonNull Context cxt, @NonNull HomeContract.View view, @NonNull HomeBinding binding, @NonNull DsRepository dsRepository) {
-		mContext = cxt;
+	Home(@NonNull HomeContract.View view, @NonNull HomeBinding binding, @NonNull DsRepository dsRepository) {
 		mView = view;
 		mBinding = binding;
 		mDsRepository = dsRepository;
@@ -130,50 +117,12 @@ public final class Home implements HomeContract.Presenter {
 	}
 
 	private final CameraView.Callback mCameraCallback = new CameraView.Callback() {
-		private Handler mBackgroundHandler;
-
-		private Handler getBackgroundHandler() {
-			if (mBackgroundHandler == null) {
-				HandlerThread thread = new HandlerThread("background");
-				thread.start();
-				mBackgroundHandler = new Handler(thread.getLooper());
-			}
-			return mBackgroundHandler;
-		}
-
 		@Override
 		public void onPictureTaken(final CameraView cameraView, final byte[] data) {
-			getBackgroundHandler().post(new Runnable() {
+			mDsRepository.compressData(data, new DsSource.BytesLoadedCallback() {
 				@Override
-				public void run() {
-					File file = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TEMP_PHOTO_NAME);
-					OutputStream os = null;
-					try {
-						os = new FileOutputStream(file);
-						os.write(data);
-						os.close();
-						mDsRepository.loadData(mContext, CAMERA, new DsSource.DataLoadedCallback() {
-							@Override
-							public void onLoaded(@NonNull byte[] data) {
-								LL.d("Home- onPictureTaken: " + data);
-								LL.d("Home- onPictureTaken: " + data.length);
-							}
-
-							@Override
-							public void on() {
-
-							}
-
-						});
-					} catch (IOException e) {
-					} finally {
-						if (os != null) {
-							try {
-								os.close();
-							} catch (IOException e) {
-							}
-						}
-					}
+				public void onLoaded(@NonNull byte[] data) {
+					LL.d("Home-onPictureTaken:" + data.length);
 				}
 			});
 		}
@@ -188,32 +137,22 @@ public final class Home implements HomeContract.Presenter {
 	};
 
 	@Override
-	public void copyLink(@NonNull final Uri uri) {
-		mDsRepository.loadData(mContext, WEB, new DsSource.DataLoadedCallback() {
+	public void copyLink(@NonNull   Uri uri) {
+		mDsRepository.readWeb(uri, new DsSource.LocalLoadedCallback() {
 			@Override
-			public void on() {
-				LL.d("Home- copyLink: " + uri);
-			}
-
-			@Override
-			public void onLoaded(@NonNull byte[] data) {
-
+			public void onLoaded(@NonNull Uri uri) {
+				LL.d("Home-copyLink:" + uri);
 			}
 		});
 	}
 
 	@Override
-	public void openLocal(@NonNull final Uri uri) {
-		mDsRepository.loadData(mContext, LOCAL, new DsSource.DataLoadedCallback() {
+	public void openLocal(@NonNull File file) {
+		mDsRepository.readLocal(file, new DsSource.BytesLoadedCallback() {
 			@Override
 			public void onLoaded(@NonNull byte[] data) {
-				LL.d("Home- openLocal: " + uri);
+				LL.d("Home-openLocal:" + data.length);
 			}
-
-			@Override
-			public void on() {
-			}
-
 		});
 	}
 }

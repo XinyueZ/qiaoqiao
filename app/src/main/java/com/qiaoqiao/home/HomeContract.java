@@ -23,6 +23,8 @@ import android.support.annotation.NonNull;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
 
+import java.io.File;
+
 /**
  * This specifies the contract between the view and the presenter.
  */
@@ -38,6 +40,6 @@ public interface HomeContract {
 		void changeFocus();
 		void capturePhoto();
 		void copyLink(@NonNull Uri uri);
-		void openLocal(@NonNull Uri uri);
+		void openLocal(@NonNull File file);
 	}
 }
