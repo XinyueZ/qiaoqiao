@@ -49,9 +49,11 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		HomeBinding binding = DataBindingUtil.setContentView(this, LAYOUT);
 		binding.setUiHelper(uiHelper);
 		binding.setDecorView((ViewGroup) getWindow().getDecorView());
+
+
 		DaggerHomeComponent.builder()
-		                   .homeModule(new HomeModule(this, binding))
-		                   .appComponent(App.appComponent)
+		                   .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
+		                   .homeModule(new HomeModule(getApplicationContext(), this, binding))
 		                   .build()
 		                   .injectHome(this);
 	}

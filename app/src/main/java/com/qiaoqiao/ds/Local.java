@@ -13,31 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.qiaoqiao.ds;
 
-package com.qiaoqiao.home;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
+import javax.inject.Qualifier;
 
-import android.net.Uri;
-import android.support.annotation.NonNull;
+@Qualifier
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Local {
 
-import com.qiaoqiao.app.mvp.BasePresenter;
-import com.qiaoqiao.app.mvp.BaseView;
-
-/**
- * This specifies the contract between the view and the presenter.
- */
-public interface HomeContract {
-
-	interface View extends BaseView<Home> {
-		void showLoadFromLocal();
-		void showInputFromWeb();
-	}
-
-	interface Presenter extends BasePresenter {
-		void stop();
-		void changeFocus();
-		void capturePhoto();
-		void copyLink(@NonNull Uri uri);
-		void openLocal(@NonNull Uri uri);
-	}
 }
