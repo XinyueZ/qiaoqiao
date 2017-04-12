@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 
 import com.qiaoqiao.databinding.LayoutMainControlBinding;
 
-public final class MainControl extends FrameLayout {
+public final class MainControlView extends FrameLayout {
 	private LayoutMainControlBinding mBinding;
 
 	public interface OnFromLocalClickedListener extends OnClickListener {}
@@ -20,17 +20,17 @@ public final class MainControl extends FrameLayout {
 	public interface OnFromWebClickedListener extends OnClickListener {}
 
 
-	public MainControl(Context context) {
+	public MainControlView(Context context) {
 		super(context);
 		init(context);
 	}
 
-	public MainControl(Context context, AttributeSet attrs) {
+	public MainControlView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
 
-	public MainControl(Context context, AttributeSet attrs, int defStyleAttr) {
+	public MainControlView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		init(context);
 	}

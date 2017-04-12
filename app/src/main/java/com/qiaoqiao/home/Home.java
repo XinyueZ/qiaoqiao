@@ -11,7 +11,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
 import com.qiaoqiao.databinding.HomeBinding;
-import com.qiaoqiao.views.MainControl;
+import com.qiaoqiao.views.MainControlView;
 
 import javax.inject.Inject;
 
@@ -25,7 +25,7 @@ public final class Home implements HomeContract.Presenter {
 	Home(@NonNull HomeContract.View view, @NonNull HomeBinding binding) {
 		mView = view;
 		mBinding = binding;
-		mBinding.mainControl.setOnFromLocalClickedListener(new MainControl.OnFromLocalClickedListener() {
+		mBinding.mainControl.setOnFromLocalClickedListener(new MainControlView.OnFromLocalClickedListener() {
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(v.getContext(), "setOnFromLocalClickedListener", Toast.LENGTH_SHORT)
@@ -35,7 +35,7 @@ public final class Home implements HomeContract.Presenter {
 				mBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
-		mBinding.mainControl.setOnCaptureClickedListener(new MainControl.OnCaptureClickedListener() {
+		mBinding.mainControl.setOnCaptureClickedListener(new MainControlView.OnCaptureClickedListener() {
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(v.getContext(), "setOnCaptureClickedListener", Toast.LENGTH_SHORT)
@@ -46,7 +46,7 @@ public final class Home implements HomeContract.Presenter {
 				mBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
-		mBinding.mainControl.setOnFromWebClickedListener(new MainControl.OnFromWebClickedListener() {
+		mBinding.mainControl.setOnFromWebClickedListener(new MainControlView.OnFromWebClickedListener() {
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(v.getContext(), "setOnFromWebClickedListener", Toast.LENGTH_SHORT)
