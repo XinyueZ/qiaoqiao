@@ -26,6 +26,7 @@ import com.qiaoqiao.app.mvp.BaseView;
 public interface HomeContract {
 
 	interface View extends BaseView<Home> {
+		void showLoadFromLocal();
 		void showInputFromWeb();
 	}
 

@@ -1,4 +1,4 @@
-package com.qiaoqiao.ds.ui;
+package com.qiaoqiao.ds.web.ui;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;

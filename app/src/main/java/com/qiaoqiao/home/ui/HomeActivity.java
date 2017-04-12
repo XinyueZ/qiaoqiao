@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.HomeBinding;
-import com.qiaoqiao.ds.ui.FromInputWebLinkFragment;
+import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
 import com.qiaoqiao.home.DaggerHomeComponent;
 import com.qiaoqiao.home.Home;
 import com.qiaoqiao.home.HomeContract;
@@ -25,7 +25,7 @@ import static android.os.Bundle.EMPTY;
 
 public final class HomeActivity extends AppCompatActivity implements HomeContract.View {
 	private static final int LAYOUT = R.layout.activity_home;
-	private static final int LAYOUT_INPUT_WEB_LINK = R.layout.fragment_input_web_link;
+	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	@Inject Home mHome;
 
 	/**
@@ -38,6 +38,7 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		ActivityCompat.startActivity(cxt, intent, EMPTY);
 	}
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,12 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		                           .replace(R.id.content_root_fl, FromInputWebLinkFragment.newInstance(this))
 		                           .addToBackStack(null)
 		                           .commit();
+	}
+
+	@Override
+	public void showLoadFromLocal() {
+		Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(galleryIntent, REQUEST_FILE_SELECTOR);
 	}
 
 	@Override

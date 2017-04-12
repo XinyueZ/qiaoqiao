@@ -28,11 +28,10 @@ public final class Home implements HomeContract.Presenter {
 		mBinding.mainControl.setOnFromLocalClickedListener(new MainControlView.OnFromLocalClickedListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(v.getContext(), "setOnFromLocalClickedListener", Toast.LENGTH_SHORT)
-				     .show();
+				mView.showLoadFromLocal();
 				mBinding.getUiHelper()
 				        .hide();
-				mBinding.loadingPb.setVisibility(View.VISIBLE);
+//				mBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
 		mBinding.mainControl.setOnCaptureClickedListener(new MainControlView.OnCaptureClickedListener() {
