@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
+import com.qiaoqiao.app.App;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
 import com.qiaoqiao.home.DaggerHomeComponent;
@@ -50,6 +51,7 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		binding.setDecorView((ViewGroup) getWindow().getDecorView());
 		DaggerHomeComponent.builder()
 		                   .homeModule(new HomeModule(this, binding))
+		                   .appComponent(App.appComponent)
 		                   .build()
 		                   .injectHome(this);
 	}

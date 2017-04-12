@@ -33,5 +33,6 @@ public interface HomeContract {
 	interface Presenter extends BasePresenter {
 		void stop();
 		void changeFocus();
+		void capturePhoto();
 	}
 }
