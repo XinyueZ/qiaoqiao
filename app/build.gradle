@@ -111,6 +111,7 @@ dependencies {
     //Support libraries
     compile "com.android.support:design:${appCompatVersion}"
     compile "com.android.support:multidex:${multidexVersion}"
+    compile "com.android.support:transition:${appCompatVersion}"
     compile "com.android.support:appcompat-v7:${appCompatVersion}"
     compile "com.android.support:support-compat:${appCompatVersion}"
     compile "com.android.support:recyclerview-v7:${appCompatVersion}"
