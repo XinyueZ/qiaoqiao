@@ -1,13 +1,16 @@
 package com.qiaoqiao.backend;
 
-import com.demo.navigator.ds.model.NavigationEntries;
+import com.qiaoqiao.backend.model.request.AnnotateImageRequest;
+import com.qiaoqiao.backend.model.response.AnnotateImageResponseCollection;
 
 import io.reactivex.Observable;
-import retrofit2.http.GET;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface Service {
-	@GET("api/navigation")
-	Observable<NavigationEntries> getNavigationEntries();
+	@POST("images:annotate")
+	Observable<AnnotateImageResponseCollection> getAnnotateImageResponseCollection(@Query("key") int key, @Body AnnotateImageRequest request);
 
 
 }
