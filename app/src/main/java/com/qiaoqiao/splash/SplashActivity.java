@@ -34,6 +34,7 @@ public final class SplashActivity extends AppCompatActivity implements EasyPermi
 
 	private void goToHome() {
 		HomeActivity.showInstance(this);
+		finish();
 	}
 
 	private static final int RC_PERMISSIONS = 123;
