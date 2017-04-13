@@ -19,9 +19,11 @@ package com.qiaoqiao.ds;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.qiaoqiao.backend.Service;
+import com.qiaoqiao.keymanager.Key;
+
 import java.io.File;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 
@@ -31,8 +33,8 @@ public final class DsRepository extends AbstractDsSource {
 	private final AbstractDsSource mLocalDs;
 	private final AbstractDsSource mCameraDs;
 
-	@Inject
-	DsRepository(@Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs) {
+	DsRepository(@NonNull Service service, @NonNull Key key, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs) {
+		super(service, key);
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;

@@ -34,22 +34,34 @@ package com.qiaoqiao.app;
 import android.support.multidex.MultiDexApplication;
 
 import com.google.gson.Gson;
+import com.qiaoqiao.backend.BackendModule;
 import com.qiaoqiao.ds.DaggerDsRepositoryComponent;
 import com.qiaoqiao.ds.DsRepositoryComponent;
+import com.qiaoqiao.keymanager.KeyManagerModule;
+
 
 public final class App extends MultiDexApplication {
 	public DsRepositoryComponent mRepositoryComponent;
 
 	private final Gson gson = new Gson();
 
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		mRepositoryComponent = DaggerDsRepositoryComponent.builder()
+		                                                  .backendModule(new BackendModule())
+		                                                  .keyManagerModule(new KeyManagerModule())
+		                                                  .appModule(new AppModule(this))
 		                                                  .build();
 	}
 
 	public DsRepositoryComponent getRepositoryComponent() {
 		return mRepositoryComponent;
+	}
+
+
+	public Gson getGson() {
+		return gson;
 	}
 }

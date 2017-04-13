@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 
 public interface Service {
 	@POST("images:annotate")
-	Observable<AnnotateImageResponseCollection> getAnnotateImageResponseCollection(@Query("key") int key, @Body AnnotateImageRequest request);
+	Observable<AnnotateImageResponseCollection> getAnnotateImageResponse(@Query("key") int key, @Body AnnotateImageRequest request);
 
 
 }

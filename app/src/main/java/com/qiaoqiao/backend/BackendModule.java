@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class BackendModule {
+
 	@Provides
 	Service provideService() {
 		Retrofit r = new Retrofit.Builder().baseUrl("https://vision.googleapis.com/v1/")

@@ -3,7 +3,9 @@ package com.qiaoqiao.ds.local;
 
 import android.support.annotation.NonNull;
 
+import com.qiaoqiao.backend.Service;
 import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.keymanager.Key;
 import com.qiaoqiao.utils.LL;
 
 import org.apache.commons.io.FileUtils;
@@ -18,6 +20,9 @@ import static com.qiaoqiao.ds.DsUtils.convertBytes;
 @Singleton
 public final class DsLocalSource extends AbstractDsSource {
 
+	public DsLocalSource(@NonNull Service service ,  @NonNull Key key) {
+		super(service, key);
+	}
 
 	@Override
 	public void readLocal(@NonNull File file, BytesLoadedCallback callback) {

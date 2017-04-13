@@ -146,11 +146,11 @@ public final class Home implements HomeContract.Presenter {
 	};
 
 	@Override
-	public void copyLink(@NonNull Uri uri) {
+	public void openLink(@NonNull Uri uri) {
 		mDsRepository.openWebLink(uri, new AbstractDsSource.LoadWebLinkCallback() {
 			@Override
 			public void onLoaded(@NonNull Uri uri) {
-				LL.d("Home-copyLink:" + uri);
+				LL.d("Home-openLink:" + uri);
 			}
 		});
 	}

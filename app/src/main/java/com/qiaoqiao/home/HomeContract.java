@@ -44,7 +44,7 @@ public interface HomeContract {
 
 		void capturePhoto();
 
-		void copyLink(@NonNull Uri uri);
+		void openLink(@NonNull Uri uri);
 
 		void openLocal(@NonNull Context cxt, @NonNull Uri uri);
 	}
