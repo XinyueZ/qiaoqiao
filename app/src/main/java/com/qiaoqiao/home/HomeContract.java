@@ -17,13 +17,12 @@
 package com.qiaoqiao.home;
 
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
-
-import java.io.File;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -32,14 +31,21 @@ public interface HomeContract {
 
 	interface View extends BaseView<Home> {
 		void showLoadFromLocal();
+
 		void showInputFromWeb();
+
+		void showError(@NonNull android.view.View view, @NonNull String errorMessage);
 	}
 
 	interface Presenter extends BasePresenter {
 		void stop();
+
 		void changeFocus();
+
 		void capturePhoto();
+
 		void copyLink(@NonNull Uri uri);
-		void openLocal(@NonNull File file);
+
+		void openLocal(@NonNull Context cxt, @NonNull Uri uri);
 	}
 }

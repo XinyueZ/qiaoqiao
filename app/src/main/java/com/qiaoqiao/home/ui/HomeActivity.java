@@ -3,13 +3,14 @@ package com.qiaoqiao.home.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
@@ -22,15 +23,15 @@ import com.qiaoqiao.home.HomeContract;
 import com.qiaoqiao.home.HomeModule;
 import com.qiaoqiao.utils.SystemUiHelper;
 
-import java.io.File;
-
 import javax.inject.Inject;
 
 import static android.os.Bundle.EMPTY;
 
-public final class HomeActivity extends AppCompatActivity implements HomeContract.View {
+public final class HomeActivity extends AppCompatActivity implements HomeContract.View,
+                                                                     View.OnClickListener {
 	private static final int LAYOUT = R.layout.activity_home;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
+	private @Nullable Snackbar mSnackbar;
 	@Inject Home mHome;
 
 	/**
@@ -106,18 +107,27 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 			case REQUEST_FILE_SELECTOR:
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-				Cursor cursor = getContentResolver().query(data.getData(), filePathColumn, null, null, null);
-				if (cursor == null || cursor.getCount() < 1) {
+				if (!(resultCode == Activity.RESULT_OK && data != null && data.getData() != null)) {
+					super.onActivityResult(requestCode, resultCode, data);
 					return;
 				}
-				cursor.moveToFirst();
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				if (columnIndex < 0) { // no column index
-					return;
-				}
-				mHome.openLocal(new File(cursor.getString(columnIndex)));
+				mHome.openLocal(getApplicationContext(), data.getData());
 		}
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	public void showError(@NonNull android.view.View view, @NonNull String errorMessage) {
+		mSnackbar = Snackbar.make(view, errorMessage, Snackbar.LENGTH_LONG)
+		                    .setAction(android.R.string.ok, this);
+		mSnackbar.show();
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (mSnackbar == null) {
+			return;
+		}
+		mSnackbar.dismiss();
 	}
 }

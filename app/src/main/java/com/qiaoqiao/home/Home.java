@@ -1,16 +1,20 @@
 package com.qiaoqiao.home;
 
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.google.android.cameraview.CameraView;
+import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsRepository;
@@ -127,7 +131,7 @@ public final class Home implements HomeContract.Presenter {
 
 				@Override
 				public void onError(@NonNull Exception e) {
-
+					mView.showError(mBinding.home, e.toString());
 				}
 			});
 		}
@@ -152,17 +156,39 @@ public final class Home implements HomeContract.Presenter {
 	}
 
 	@Override
-	public void openLocal(@NonNull File file) {
-		mDsRepository.readLocal(file, new AbstractDsSource.BytesLoadedCallback() {
-			@Override
-			public void onLoaded(@NonNull byte[] data) {
-				LL.d("Home-openLocal:" + data.length);
+	public void openLocal(@NonNull Context cxt, @NonNull Uri uri) {
+		Cursor cursor = null;
+		try {
+			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			cursor = cxt.getContentResolver()
+			            .query(uri, filePathColumn, null, null, null);
+			if (cursor == null || cursor.getCount() < 1) {
+				mView.showError(mBinding.home, cxt.getString(R.string.error_can_not_find_file));
+				return;
 			}
-
-			@Override
-			public void onError(@NonNull Exception e) {
-
+			cursor.moveToFirst();
+			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+			if (columnIndex < 0) {
+				mView.showError(mBinding.home, cxt.getString(R.string.error_can_not_find_file));
+				return;
 			}
-		});
+			mDsRepository.readLocal(new File(cursor.getString(columnIndex)), new AbstractDsSource.BytesLoadedCallback() {
+				@Override
+				public void onLoaded(@NonNull byte[] data) {
+					LL.d("Home-openLocal:" + data.length);
+				}
+
+				@Override
+				public void onError(@NonNull Exception e) {
+					mView.showError(mBinding.home, e.toString());
+				}
+			});
+		} catch (Exception e) {
+			mView.showError(mBinding.home, cxt.getString(R.string.error_can_not_find_file));
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
 	}
 }
