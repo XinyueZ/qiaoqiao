@@ -11,7 +11,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class KeyManagerModule {
+public final class KeyManagerModule {
 
 	@Provides
 	Key provideKey(@NonNull Context cxt) {

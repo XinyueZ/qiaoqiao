@@ -41,8 +41,8 @@ public final class DsRepository extends AbstractDsSource {
 	}
 
 	@Override
-	public void compressData(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
-		mCameraDs.compressData(bytes, callback);
+	public void captureCamera(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
+		mCameraDs.captureCamera(bytes, callback);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public final class DsRepository extends AbstractDsSource {
 	}
 
 	@Override
-	public void openWebLink(@NonNull Uri uri, LoadWebLinkCallback callback) {
+	public void openWebLink(@NonNull Uri uri, OpenWebLinkCallback callback) {
 		mWebDs.openWebLink(uri, callback);
 	}
 }

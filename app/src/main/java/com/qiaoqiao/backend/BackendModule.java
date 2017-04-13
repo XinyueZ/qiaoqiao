@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class BackendModule {
+public final class BackendModule {
 
 	@Provides
 	Service provideService() {

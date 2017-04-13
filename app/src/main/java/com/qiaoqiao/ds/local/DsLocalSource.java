@@ -20,7 +20,7 @@ import static com.qiaoqiao.ds.DsUtils.convertBytes;
 @Singleton
 public final class DsLocalSource extends AbstractDsSource {
 
-	public DsLocalSource(@NonNull Service service ,  @NonNull Key key) {
+	public DsLocalSource(@NonNull Service service, @NonNull Key key) {
 		super(service, key);
 	}
 
@@ -30,6 +30,7 @@ public final class DsLocalSource extends AbstractDsSource {
 			byte bytes[] = FileUtils.readFileToByteArray(file);
 			byte[] imageBytes = convertBytes(bytes);
 			callback.onLoaded(imageBytes);
+			callback.onVisionResponse(null);
 		} catch (IOException e) {
 			LL.e(e.toString());
 			callback.onError(e);

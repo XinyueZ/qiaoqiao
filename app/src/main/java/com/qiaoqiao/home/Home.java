@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver;
 
 import com.google.android.cameraview.CameraView;
 import com.qiaoqiao.R;
+import com.qiaoqiao.backend.model.response.AnnotateImageResponseCollection;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsRepository;
@@ -123,10 +124,15 @@ public final class Home implements HomeContract.Presenter {
 	private final CameraView.Callback mCameraCallback = new CameraView.Callback() {
 		@Override
 		public void onPictureTaken(final CameraView cameraView, final byte[] data) {
-			mDsRepository.compressData(data, new AbstractDsSource.BytesLoadedCallback() {
+			mDsRepository.captureCamera(data, new AbstractDsSource.BytesLoadedCallback() {
 				@Override
 				public void onLoaded(@NonNull byte[] data) {
 					LL.d("Home-onPictureTaken:" + data.length);
+				}
+
+				@Override
+				public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
+					LL.d("Home-onVisionResponse");
 				}
 
 				@Override
@@ -147,10 +153,15 @@ public final class Home implements HomeContract.Presenter {
 
 	@Override
 	public void openLink(@NonNull Uri uri) {
-		mDsRepository.openWebLink(uri, new AbstractDsSource.LoadWebLinkCallback() {
+		mDsRepository.openWebLink(uri, new AbstractDsSource.OpenWebLinkCallback() {
 			@Override
-			public void onLoaded(@NonNull Uri uri) {
+			public void onOpened(@NonNull Uri uri) {
 				LL.d("Home-openLink:" + uri);
+			}
+
+			@Override
+			public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
+				LL.d("Home-onVisionResponse");
 			}
 		});
 	}
@@ -176,6 +187,11 @@ public final class Home implements HomeContract.Presenter {
 				@Override
 				public void onLoaded(@NonNull byte[] data) {
 					LL.d("Home-openLocal:" + data.length);
+				}
+
+				@Override
+				public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
+					LL.d("Home-onVisionResponse");
 				}
 
 				@Override
