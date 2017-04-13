@@ -1,10 +1,9 @@
 package com.qiaoqiao.ds.local;
 
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.ds.DsSource;
+import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.utils.LL;
 
 import org.apache.commons.io.FileUtils;
@@ -17,7 +16,7 @@ import javax.inject.Singleton;
 import static com.qiaoqiao.ds.DsUtils.convertBytes;
 
 @Singleton
-public final class DsLocalSource implements DsSource {
+public final class DsLocalSource extends AbstractDsSource {
 
 
 	@Override
@@ -28,18 +27,7 @@ public final class DsLocalSource implements DsSource {
 			callback.onLoaded(imageBytes);
 		} catch (IOException e) {
 			LL.e(e.toString());
+			callback.onError(e);
 		}
-	}
-
-
-
-	@Override
-	public void compressData(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
-
-	}
-
-	@Override
-	public void readWeb(@NonNull Uri uri, LocalLoadedCallback callback) {
-
 	}
 }

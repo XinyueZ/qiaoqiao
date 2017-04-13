@@ -12,8 +12,8 @@ import android.view.ViewTreeObserver;
 
 import com.google.android.cameraview.CameraView;
 import com.qiaoqiao.databinding.HomeBinding;
+import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsRepository;
-import com.qiaoqiao.ds.DsSource;
 import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.views.MainControlView;
 
@@ -119,10 +119,15 @@ public final class Home implements HomeContract.Presenter {
 	private final CameraView.Callback mCameraCallback = new CameraView.Callback() {
 		@Override
 		public void onPictureTaken(final CameraView cameraView, final byte[] data) {
-			mDsRepository.compressData(data, new DsSource.BytesLoadedCallback() {
+			mDsRepository.compressData(data, new AbstractDsSource.BytesLoadedCallback() {
 				@Override
 				public void onLoaded(@NonNull byte[] data) {
 					LL.d("Home-onPictureTaken:" + data.length);
+				}
+
+				@Override
+				public void onError(@NonNull Exception e) {
+
 				}
 			});
 		}
@@ -137,8 +142,8 @@ public final class Home implements HomeContract.Presenter {
 	};
 
 	@Override
-	public void copyLink(@NonNull   Uri uri) {
-		mDsRepository.readWeb(uri, new DsSource.LocalLoadedCallback() {
+	public void copyLink(@NonNull Uri uri) {
+		mDsRepository.openWebLink(uri, new AbstractDsSource.LoadWebLinkCallback() {
 			@Override
 			public void onLoaded(@NonNull Uri uri) {
 				LL.d("Home-copyLink:" + uri);
@@ -148,10 +153,15 @@ public final class Home implements HomeContract.Presenter {
 
 	@Override
 	public void openLocal(@NonNull File file) {
-		mDsRepository.readLocal(file, new DsSource.BytesLoadedCallback() {
+		mDsRepository.readLocal(file, new AbstractDsSource.BytesLoadedCallback() {
 			@Override
 			public void onLoaded(@NonNull byte[] data) {
 				LL.d("Home-openLocal:" + data.length);
+			}
+
+			@Override
+			public void onError(@NonNull Exception e) {
+
 			}
 		});
 	}

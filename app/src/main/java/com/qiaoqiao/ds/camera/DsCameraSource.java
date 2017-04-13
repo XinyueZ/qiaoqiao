@@ -1,12 +1,11 @@
 package com.qiaoqiao.ds.camera;
 
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.ds.DsSource;
+import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.utils.LL;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.inject.Singleton;
@@ -14,7 +13,7 @@ import javax.inject.Singleton;
 import static com.qiaoqiao.ds.DsUtils.convertBytes;
 
 @Singleton
-public final class DsCameraSource implements DsSource {
+public final class DsCameraSource extends AbstractDsSource {
 
 	@Override
 	public void compressData(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
@@ -22,17 +21,8 @@ public final class DsCameraSource implements DsSource {
 			byte[] imageBytes = convertBytes(bytes);
 			callback.onLoaded(imageBytes);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LL.e(e.toString());
+			callback.onError(e);
 		}
-	}
-
-	@Override
-	public void readLocal(@NonNull File file, BytesLoadedCallback callback) {
-
-	}
-
-	@Override
-	public void readWeb(@NonNull Uri uri, LocalLoadedCallback callback) {
-
 	}
 }

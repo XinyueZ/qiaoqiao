@@ -26,13 +26,13 @@ import javax.inject.Singleton;
 
 
 @Singleton
-public final class DsRepository implements DsSource {
-	private final DsSource mWebDs;
-	private final DsSource mLocalDs;
-	private final DsSource mCameraDs;
+public final class DsRepository extends AbstractDsSource {
+	private final AbstractDsSource mWebDs;
+	private final AbstractDsSource mLocalDs;
+	private final AbstractDsSource mCameraDs;
 
 	@Inject
-	DsRepository(@Web DsSource webDs, @Local DsSource localDs, @Camera DsSource cameraDs) {
+	DsRepository(@Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs) {
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;
@@ -49,7 +49,7 @@ public final class DsRepository implements DsSource {
 	}
 
 	@Override
-	public void readWeb(@NonNull Uri uri, LocalLoadedCallback callback) {
-		mWebDs.readWeb(uri, callback);
+	public void openWebLink(@NonNull Uri uri, LoadWebLinkCallback callback) {
+		mWebDs.openWebLink(uri, callback);
 	}
 }

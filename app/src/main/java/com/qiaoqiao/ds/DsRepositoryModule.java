@@ -15,7 +15,7 @@ final class DsRepositoryModule {
 	@Singleton
 	@Web
 	@Provides
-	DsSource provideWebDataSource() {
+	AbstractDsSource provideWebDataSource() {
 		return new DsWebSource();
 	}
 
@@ -23,7 +23,7 @@ final class DsRepositoryModule {
 	@Singleton
 	@Local
 	@Provides
-	DsSource provideLocalDataSource() {
+	AbstractDsSource provideLocalDataSource() {
 		return new DsLocalSource();
 	}
 
@@ -31,7 +31,7 @@ final class DsRepositoryModule {
 	@Singleton
 	@Camera
 	@Provides
-	DsSource provideCameraDataSource() {
+	AbstractDsSource provideCameraDataSource() {
 		return new DsCameraSource();
 	}
 
