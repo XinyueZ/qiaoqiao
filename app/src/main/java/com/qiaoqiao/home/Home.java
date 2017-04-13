@@ -42,7 +42,6 @@ public final class Home implements HomeContract.Presenter {
 
 	@Inject
 	void onInjected() {
-		mBinding.camera.addCallback(mCameraCallback);
 		mBinding.mainControl.setOnFromLocalClickedListener(new MainControlView.OnFromLocalClickedListener() {
 			@Override
 			public void onClick(View v) {
@@ -76,6 +75,7 @@ public final class Home implements HomeContract.Presenter {
 
 	@Override
 	public void start() {
+		mBinding.camera.addCallback(mCameraCallback);
 		mBinding.camera.start();
 		mBinding.getDecorView()
 		        .getViewTreeObserver()
