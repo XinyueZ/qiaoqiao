@@ -46,7 +46,7 @@ public final class SplashActivity extends AppCompatActivity implements EasyPermi
 			goToHome();
 		} else {
 			// Ask for one permission
-			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_text), RC_PERMISSIONS, CAMERA);
+			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_PERMISSIONS, CAMERA);
 		}
 	}
 

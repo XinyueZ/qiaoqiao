@@ -2,7 +2,8 @@
     <string name="app_name">QiaoQiao</string>
     <string name="exit_app">Exit app</string>
     <string name="permission_setting">Set permission</string>
-    <string name="permission_relation_text">QiaoQiao App needs device permission \"CAMERA\", consider to grant this permission.</string>
+    <string name="permission_relation_to_camera_text">QiaoQiao App needs device permission \"CAMERA\", consider to grant this permission.</string>
+    <string name="permission_relation_to_read_external_storage_text">QiaoQiao App needs device permission to read your \"EXTERNAL STORAGE\", consider to grant this permission.</string>
     <string name="hint_link_image">Link to an image</string>
     <string name="error_can_not_find_file">Can not find file.</string>
 </resources>
