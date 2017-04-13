@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+def buildNumber = 'bld' + (System.env.BUILD_NUMBER ?: 'SNAPSHOT')
 android {
 
     compileOptions {
@@ -33,7 +33,14 @@ android {
         enabled = true
     }
 
-
+    productFlavors {
+        dev {
+            applicationId project.APP_DEV_APPLICATIONID
+        }
+        live {
+            applicationId project.APP_APPLICATIONID
+        }
+    }
 
     buildTypes {
         release {
@@ -142,4 +149,13 @@ dependencies {
     compile "com.github.castorflex.smoothprogressbar:library:${smoothprogressbar}"
 
     compile "commons-io:commons-io:${apacheIO}"
+}
+
+// Rename final apks
+android.applicationVariants.all {  variant ->
+    variant.outputs.each  { output ->
+        output.outputFile = new File(
+                output.outputFile.parent, output.outputFile.name.replace("_Android", "")
+                .replace(".apk", "-${android.defaultConfig.versionName}${buildNumber}.apk"))
+    }
 }
