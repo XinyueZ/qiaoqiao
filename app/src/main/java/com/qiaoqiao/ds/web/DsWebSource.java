@@ -18,7 +18,6 @@ public final class DsWebSource extends AbstractDsSource {
 
 	@Override
 	public void openWebLink(@NonNull Uri uri, OpenWebLinkCallback callback) {
-		callback.onOpened(uri);
 		callback.onVisionResponse(null);
 	}
 }

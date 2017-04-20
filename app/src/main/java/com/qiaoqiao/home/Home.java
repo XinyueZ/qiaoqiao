@@ -126,11 +126,6 @@ public final class Home implements HomeContract.Presenter {
 		public void onPictureTaken(final CameraView cameraView, final byte[] data) {
 			mDsRepository.captureCamera(data, new AbstractDsSource.BytesLoadedCallback() {
 				@Override
-				public void onLoaded(@NonNull byte[] data) {
-					LL.d("Home-onPictureTaken:" + data.length);
-				}
-
-				@Override
 				public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
 					LL.d("Home-onVisionResponse");
 				}
@@ -154,11 +149,6 @@ public final class Home implements HomeContract.Presenter {
 	@Override
 	public void openLink(@NonNull Uri uri) {
 		mDsRepository.openWebLink(uri, new AbstractDsSource.OpenWebLinkCallback() {
-			@Override
-			public void onOpened(@NonNull Uri uri) {
-				LL.d("Home-openLink:" + uri);
-			}
-
 			@Override
 			public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
 				LL.d("Home-onVisionResponse");
@@ -184,11 +174,6 @@ public final class Home implements HomeContract.Presenter {
 				return;
 			}
 			mDsRepository.readLocal(new File(cursor.getString(columnIndex)), new AbstractDsSource.BytesLoadedCallback() {
-				@Override
-				public void onLoaded(@NonNull byte[] data) {
-					LL.d("Home-openLocal:" + data.length);
-				}
-
 				@Override
 				public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
 					LL.d("Home-onVisionResponse");

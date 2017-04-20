@@ -25,7 +25,6 @@ public final class DsCameraSource extends AbstractDsSource {
 	public void captureCamera(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
 		try {
 			byte[] imageBytes = convertBytes(bytes);
-			callback.onLoaded(imageBytes);
 			callback.onVisionResponse(null);
 		} catch (IOException e) {
 			LL.e(e.toString());

@@ -29,7 +29,6 @@ public final class DsLocalSource extends AbstractDsSource {
 		try {
 			byte bytes[] = FileUtils.readFileToByteArray(file);
 			byte[] imageBytes = convertBytes(bytes);
-			callback.onLoaded(imageBytes);
 			callback.onVisionResponse(null);
 		} catch (IOException e) {
 			LL.e(e.toString());

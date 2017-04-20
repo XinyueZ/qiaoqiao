@@ -19,6 +19,16 @@ public abstract class AbstractDsSource {
 		mKey = key;
 	}
 
+	@NonNull
+	protected Service getService() {
+		return mService;
+	}
+
+	@NonNull
+	protected Key getKey() {
+		return mKey;
+	}
+
 	public void captureCamera(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
 	}
 
@@ -30,9 +40,6 @@ public abstract class AbstractDsSource {
 
 
 	public static abstract class BytesLoadedCallback {
-		public void onLoaded(@NonNull final byte[] data) {
-		}
-
 		public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
 
 		}
@@ -43,9 +50,6 @@ public abstract class AbstractDsSource {
 	}
 
 	public static abstract class OpenWebLinkCallback {
-		public void onOpened(@NonNull Uri uri) {
-		}
-
 		public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
 
 		}
