@@ -33,7 +33,6 @@ package com.qiaoqiao.app;
 
 import android.support.multidex.MultiDexApplication;
 
-import com.google.gson.Gson;
 import com.qiaoqiao.backend.BackendModule;
 import com.qiaoqiao.ds.DaggerDsRepositoryComponent;
 import com.qiaoqiao.ds.DsRepositoryComponent;
@@ -43,7 +42,6 @@ import com.qiaoqiao.keymanager.KeyManagerModule;
 public final class App extends MultiDexApplication {
 	public DsRepositoryComponent mRepositoryComponent;
 
-	private final Gson gson = new Gson();
 
 
 	@Override
@@ -60,8 +58,4 @@ public final class App extends MultiDexApplication {
 		return mRepositoryComponent;
 	}
 
-
-	public Gson getGson() {
-		return gson;
-	}
 }

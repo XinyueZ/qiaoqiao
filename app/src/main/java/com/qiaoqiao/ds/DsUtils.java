@@ -2,23 +2,29 @@ package com.qiaoqiao.ds;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 
 public final class DsUtils {
+
+	private static final int MAX_DIMENSION = 1200;
+
 	private DsUtils() {
 	}
 
-	public static byte[] convertBytes(byte[] bytes) throws IOException {
-		Bitmap bitmap = scaleBitmapDown(BitmapFactory.decodeByteArray(bytes, 0, bytes.length), 1200);
+
+
+	public static byte[] convertBytes(@NonNull byte[] bytes) throws IOException {
+		Bitmap bitmap = scaleBitmapDown(BitmapFactory.decodeByteArray(bytes, 0, bytes.length), MAX_DIMENSION);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
 		return byteArrayOutputStream.toByteArray();
 	}
 
-	public static Bitmap scaleBitmapDown(Bitmap bitmap, int maxDimension) {
+	private static Bitmap scaleBitmapDown(@NonNull Bitmap bitmap, int maxDimension) {
 
 		int originalWidth = bitmap.getWidth();
 		int originalHeight = bitmap.getHeight();

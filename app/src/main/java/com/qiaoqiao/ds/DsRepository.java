@@ -46,12 +46,12 @@ public final class DsRepository extends AbstractDsSource {
 	}
 
 	@Override
-	public void readLocal(@NonNull File file, BytesLoadedCallback callback) {
+	public void readLocal(@NonNull File file, @NonNull  BytesLoadedCallback callback) {
 		mLocalDs.readLocal(file, callback);
 	}
 
 	@Override
-	public void openWebLink(@NonNull Uri uri, OpenWebLinkCallback callback) {
+	public void openWebLink(@NonNull Uri uri, @NonNull  OpenWebLinkCallback callback) {
 		mWebDs.openWebLink(uri, callback);
 	}
 }

@@ -7,7 +7,7 @@ public final class ImageContext {
 	@SerializedName("latLongRect") private LatLongRect latLongRect;
 	@SerializedName("languageHints") private String[] languageHints;
 
-	public ImageContext(LatLongRect latLongRect, String[] languageHints) {
+	public ImageContext(LatLongRect latLongRect, String... languageHints) {
 		this.latLongRect = latLongRect;
 		this.languageHints = languageHints;
 	}
