@@ -12,9 +12,7 @@
         android:weightSum="3">
 
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            style="@style/ButtonContainer">
 
 
             <android.support.design.widget.FloatingActionButton
@@ -26,15 +24,12 @@
 
             <ImageView
                 android:id="@+id/from_local_fb_pb"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/ButtonProgressBar"
                 app:srcCompat="@drawable/ic_animated_loading_pb"/>
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            style="@style/ButtonContainer">
 
 
             <android.support.design.widget.FloatingActionButton
@@ -46,15 +41,12 @@
 
             <ImageView
                 android:id="@+id/capture_fb_pb"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/ButtonProgressBar"
                 app:srcCompat="@drawable/ic_animated_loading_pb"/>
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            style="@style/ButtonContainer">
 
 
             <android.support.design.widget.FloatingActionButton
@@ -66,8 +58,7 @@
 
             <ImageView
                 android:id="@+id/from_web_fb_pb"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/ButtonProgressBar"
                 app:srcCompat="@drawable/ic_animated_loading_pb"/>
         </FrameLayout>
     </LinearLayout>
