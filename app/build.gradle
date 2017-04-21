@@ -138,7 +138,7 @@ dependencies {
     compile("com.google.http-client:google-http-client-gson:${httpClientGson}", {
         exclude module: 'httpclient'
     })
-    compile "com.google.apis:google-api-services-vision:${vision}"
+    compile group: "com.google.apis", name: "google-api-services-vision", version: "${vision}"
 }
 
 // Rename final apks

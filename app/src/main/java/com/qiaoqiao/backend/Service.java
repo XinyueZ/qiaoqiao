@@ -93,7 +93,7 @@ public final class Service {
 		Image build() {
 			// Add the image
 			Image imageFromUri = new Image();
-			imageFromUri.setSource(new ImageSource().setGcsImageUri(uri.toString()));
+			imageFromUri.setSource(new ImageSource().setImageUri(uri.toString()));
 			return imageFromUri;
 		}
 	}
