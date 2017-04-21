@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Service;
-import com.qiaoqiao.keymanager.Key;
 
 import java.io.File;
 
@@ -33,25 +32,25 @@ public final class DsRepository extends AbstractDsSource {
 	private final AbstractDsSource mLocalDs;
 	private final AbstractDsSource mCameraDs;
 
-	DsRepository(@NonNull Service service, @NonNull Key key, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs) {
-		super(service, key);
+	DsRepository(@NonNull Service service, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs) {
+		super(service);
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;
 	}
 
 	@Override
-	public void captureCamera(@NonNull byte[] bytes, @NonNull BytesLoadedCallback callback) {
-		mCameraDs.captureCamera(bytes, callback);
+	public void onBytes(@NonNull byte[] bytes, @NonNull LoadedCallback callback) {
+		mCameraDs.onBytes(bytes, callback);
 	}
 
 	@Override
-	public void readLocal(@NonNull File file, @NonNull  BytesLoadedCallback callback) {
-		mLocalDs.readLocal(file, callback);
+	public void onFile(@NonNull File file, @NonNull LoadedCallback callback) {
+		mLocalDs.onFile(file, callback);
 	}
 
 	@Override
-	public void openWebLink(@NonNull Uri uri, @NonNull  OpenWebLinkCallback callback) {
-		mWebDs.openWebLink(uri, callback);
+	public void onUri(@NonNull Uri uri, @NonNull LoadedCallback callback) {
+		mWebDs.onUri(uri, callback);
 	}
 }

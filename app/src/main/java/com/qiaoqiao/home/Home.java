@@ -9,13 +9,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.google.android.cameraview.CameraView;
+import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
-import com.qiaoqiao.backend.model.response.AnnotateImageResponseCollection;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsRepository;
@@ -64,6 +65,7 @@ public final class Home implements HomeContract.Presenter {
 			@Override
 			public void onClick(View v) {
 				mView.showInputFromWeb();
+				openLink(Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/HH_Rathaus_pano1.jpg/1280px-HH_Rathaus_pano1.jpg"));
 				mBinding.getUiHelper()
 				        .hide();
 //				mBinding.loadingPb.setVisibility(View.VISIBLE);
@@ -124,15 +126,14 @@ public final class Home implements HomeContract.Presenter {
 	private final CameraView.Callback mCameraCallback = new CameraView.Callback() {
 		@Override
 		public void onPictureTaken(final CameraView cameraView, final byte[] data) {
-			mDsRepository.captureCamera(data, new AbstractDsSource.BytesLoadedCallback() {
+			if (data == null) {
+				LL.e("The camera captured picture but the bytes is NULL.");
+				return;
+			}
+			mDsRepository.onBytes(data, new AbstractDsSource.LoadedCallback() {
 				@Override
-				public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
-					LL.d("Home-onVisionResponse");
-				}
-
-				@Override
-				public void onError(@NonNull Exception e) {
-					mView.showError(mBinding.home, e.toString());
+				public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
+					super.onVisionResponse(response);
 				}
 			});
 		}
@@ -148,10 +149,10 @@ public final class Home implements HomeContract.Presenter {
 
 	@Override
 	public void openLink(@NonNull Uri uri) {
-		mDsRepository.openWebLink(uri, new AbstractDsSource.OpenWebLinkCallback() {
+		mDsRepository.onUri(uri, new AbstractDsSource.LoadedCallback() {
 			@Override
-			public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
-				LL.d("Home-onVisionResponse");
+			public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
+				super.onVisionResponse(response);
 			}
 		});
 	}
@@ -173,14 +174,14 @@ public final class Home implements HomeContract.Presenter {
 				mView.showError(mBinding.home, cxt.getString(R.string.error_can_not_find_file));
 				return;
 			}
-			mDsRepository.readLocal(new File(cursor.getString(columnIndex)), new AbstractDsSource.BytesLoadedCallback() {
+			mDsRepository.onFile(new File(cursor.getString(columnIndex)), new AbstractDsSource.LoadedCallback() {
 				@Override
-				public void onVisionResponse(@NonNull AnnotateImageResponseCollection response) {
-					LL.d("Home-onVisionResponse");
+				public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
+					super.onVisionResponse(response);
 				}
 
 				@Override
-				public void onError(@NonNull Exception e) {
+				public void onException(@NonNull Exception e) {
 					mView.showError(mBinding.home, e.toString());
 				}
 			});

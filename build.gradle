@@ -56,7 +56,7 @@ ext {
     apacheIO = "2.4"
 
     //Google Service
-    vision = "v1-rev2-1.21.0"
+    vision = "v1-rev2-1+"
     httpClientGson = "1.20.0"
     apiClientAndroid = "1.20.0"
 }
