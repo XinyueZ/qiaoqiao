@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        style="@style/VisionItemRoot">
+
+        <FrameLayout
+            style="@style/VisionItemContainer"
+            android:background="@drawable/round_green_rectangle">
+
+            <TextView
+                android:id="@+id/vision_tv"
+                style="@style/VisionItemTextView"
+                tools:text="hello,world"/>
+        </FrameLayout>
+    </FrameLayout>
+</layout>
