@@ -12,13 +12,12 @@
     </style>
 
     <style name="MainControlButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginEnd">@dimen/larger</item>
         <item name="android:layout_marginLeft">@dimen/larger</item>
         <item name="android:layout_marginRight">@dimen/larger</item>
         <item name="android:layout_marginStart">@dimen/larger</item>
-        <item name="android:layout_weight">1</item>
         <item name="elevation">@dimen/medium</item>
         <item name="rippleColor">@color/colorGrey</item>
     </style>

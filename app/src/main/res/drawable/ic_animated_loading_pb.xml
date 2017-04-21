@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:drawable="@drawable/ic_loading_pb_group" >
+
+    <target
+        android:name="right"
+        android:animation="@animator/irrotation" />
+    <target
+        android:name="left"
+        android:animation="@animator/rotation" />
+</animated-vector>

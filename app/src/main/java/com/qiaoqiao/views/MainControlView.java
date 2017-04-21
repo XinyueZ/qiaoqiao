@@ -2,6 +2,8 @@ package com.qiaoqiao.views;
 
 
 import android.content.Context;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -38,6 +40,15 @@ public final class MainControlView extends FrameLayout {
 	private void init(@NonNull Context cxt) {
 		LayoutInflater inflater = LayoutInflater.from(cxt);
 		mBinding = LayoutMainControlBinding.inflate(inflater, this, true);
+		animateProgressBar(mBinding.captureFbPb.getDrawable());
+		animateProgressBar(mBinding.fromLocalFbPb.getDrawable());
+		animateProgressBar(mBinding.fromWebFbPb.getDrawable());
+	}
+
+	private void animateProgressBar(Drawable drawable) {
+		if (drawable instanceof Animatable) {
+			((Animatable) drawable).start();
+		}
 	}
 
 	public void setOnFromLocalClickedListener(@Nullable OnFromLocalClickedListener l) {
