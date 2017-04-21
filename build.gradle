@@ -15,6 +15,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
     }
 }
 
@@ -53,4 +54,9 @@ ext {
     mockitoVersion = '1.10.19'
 
     apacheIO = "2.4"
+
+    //Google Service
+    vision = "v1-rev2-1.21.0"
+    httpClientGson = "1.20.0"
+    apiClientAndroid = "1.20.0"
 }

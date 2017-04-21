@@ -29,6 +29,8 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    useLibrary 'org.apache.http.legacy'
+
     dataBinding {
         enabled = true
     }
@@ -64,36 +66,36 @@ dependencies {
     compile project(':cameraview')
 
     //UITest
-    androidTestCompile("com.android.support.test:rules:${testRules}", {
-        exclude group: 'com.android.support'
-    })
-    androidTestCompile("com.android.support.test:runner:${testRunner}", {
-        exclude group: 'com.android.support'
-    })
-    androidTestCompile("com.android.support.test.espresso:espresso-core:${espresso}", {
-        exclude group: 'com.android.support'
-    })
-    androidTestCompile("com.android.support.test.espresso:espresso-web:${espresso}", {
-        exclude group: 'com.android.support'
-    })
-    compile("com.android.support.test.espresso:espresso-idling-resource:${espresso}", {
-        exclude group: 'com.android.support'
-    })
-    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${espresso}", {
-        exclude group: 'com.android.support'
-    })
-    androidTestCompile("com.android.support.test.espresso:espresso-intents:${espresso}", {
-        exclude group: 'com.android.support'
-    })
+//    androidTestCompile("com.android.support.test:rules:${testRules}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test:runner:${testRunner}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test.espresso:espresso-core:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test.espresso:espresso-web:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+//    compile("com.android.support.test.espresso:espresso-idling-resource:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test.espresso:espresso-intents:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
 
     //UnitTest
-    testCompile "junit:junit:${junit}"
-    androidTestCompile "org.mockito:mockito-core:${mockitoVersion}"
-    androidTestCompile "com.google.dexmaker:dexmaker:${dexmakerVersion}"
-    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}"
-    testCompile "junit:junit:${junit}"
-    testCompile "org.mockito:mockito-all:${mockitoVersion}"
-    testCompile "org.hamcrest:hamcrest-all:${hamcrestVersion}"
+//    testCompile "junit:junit:${junit}"
+//    androidTestCompile "org.mockito:mockito-core:${mockitoVersion}"
+//    androidTestCompile "com.google.dexmaker:dexmaker:${dexmakerVersion}"
+//    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}"
+//    testCompile "junit:junit:${junit}"
+//    testCompile "org.mockito:mockito-all:${mockitoVersion}"
+//    testCompile "org.hamcrest:hamcrest-all:${hamcrestVersion}"
 
     //Support libraries
     compile "com.android.support:design:${appCompatVersion}"
@@ -129,11 +131,20 @@ dependencies {
     compile "com.github.castorflex.smoothprogressbar:library:${smoothprogressbar}"
 
     compile "commons-io:commons-io:${apacheIO}"
+
+    //Google Service include vision-api
+    compile("com.google.api-client:google-api-client-android:${apiClientAndroid}", {
+        exclude module: 'httpclient'
+    })
+    compile("com.google.http-client:google-http-client-gson:${httpClientGson}", {
+        exclude module: 'httpclient'
+    })
+    compile "com.google.apis:google-api-services-vision:${vision}"
 }
 
 // Rename final apks
-android.applicationVariants.all {  variant ->
-    variant.outputs.each  { output ->
+android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
         output.outputFile = new File(
                 output.outputFile.parent, output.outputFile.name.replace("_Android", "")
                 .replace(".apk", "-${android.defaultConfig.versionName}${buildNumber}.apk"))
