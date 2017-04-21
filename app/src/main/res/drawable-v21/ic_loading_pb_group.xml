@@ -15,7 +15,7 @@
             android:strokeColor="@color/colorYellow"
             android:strokeLineCap="square"
             android:strokeLineJoin="miter"
-            android:strokeWidth="4"
+            android:strokeWidth="8"
             android:trimPathEnd="0"
             android:trimPathOffset="0"
             android:trimPathStart="0" />

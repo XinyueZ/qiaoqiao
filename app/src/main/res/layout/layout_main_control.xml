@@ -9,11 +9,18 @@
         android:background="@drawable/round_gray_rectangle"
         android:gravity="center"
         android:orientation="horizontal"
+        android:paddingBottom="@dimen/medium"
+        android:paddingTop="@dimen/medium"
         android:weightSum="3">
 
         <FrameLayout
             style="@style/ButtonContainer">
 
+
+            <ImageView
+                android:id="@+id/from_local_fb_pb"
+                style="@style/ButtonProgressBar"
+                app:srcCompat="@drawable/ic_animated_loading_pb"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/from_local_fb"
@@ -22,32 +29,34 @@
                 app:fabSize="mini"
                 app:srcCompat="@drawable/ic_from_local"/>
 
-            <ImageView
-                android:id="@+id/from_local_fb_pb"
-                style="@style/ButtonProgressBar"
-                app:srcCompat="@drawable/ic_animated_loading_pb"/>
         </FrameLayout>
 
         <FrameLayout
             style="@style/ButtonContainer">
 
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/capture_fb"
-                style="@style/MainControlButton"
-                app:backgroundTint="@color/colorCyan"
-                app:fabSize="normal"
-                app:srcCompat="@drawable/ic_capture"/>
 
             <ImageView
                 android:id="@+id/capture_fb_pb"
                 style="@style/ButtonProgressBar"
                 app:srcCompat="@drawable/ic_animated_loading_pb"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/capture_fb"
+                style="@style/MainControlButton"
+                app:backgroundTint="@color/colorCyan"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_capture"/>
+
         </FrameLayout>
 
         <FrameLayout
             style="@style/ButtonContainer">
 
+
+            <ImageView
+                android:id="@+id/from_web_fb_pb"
+                style="@style/ButtonProgressBar"
+                app:srcCompat="@drawable/ic_animated_loading_pb"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/from_web_fb"
@@ -56,10 +65,6 @@
                 app:fabSize="mini"
                 app:srcCompat="@drawable/ic_from_web"/>
 
-            <ImageView
-                android:id="@+id/from_web_fb_pb"
-                style="@style/ButtonProgressBar"
-                app:srcCompat="@drawable/ic_animated_loading_pb"/>
         </FrameLayout>
     </LinearLayout>
 </layout>

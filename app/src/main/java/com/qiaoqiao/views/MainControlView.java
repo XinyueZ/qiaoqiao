@@ -40,14 +40,47 @@ public final class MainControlView extends FrameLayout {
 	private void init(@NonNull Context cxt) {
 		LayoutInflater inflater = LayoutInflater.from(cxt);
 		mBinding = LayoutMainControlBinding.inflate(inflater, this, true);
+	}
+
+	public void startCaptureProgressBar() {
 		animateProgressBar(mBinding.captureFbPb.getDrawable());
+		mBinding.captureFb.setEnabled(false);
+	}
+
+	public void stopCaptureProgressBar() {
+		stopAnimateProgressBar(mBinding.captureFbPb.getDrawable());
+		mBinding.captureFb.setEnabled(true);
+	}
+
+	public void startLocalProgressBar() {
 		animateProgressBar(mBinding.fromLocalFbPb.getDrawable());
+		mBinding.fromLocalFb.setEnabled(false);
+	}
+
+	public void stopLocalProgressBar() {
+		stopAnimateProgressBar(mBinding.fromLocalFbPb.getDrawable());
+		mBinding.fromLocalFb.setEnabled(true);
+	}
+
+	public void startWebProgressBar() {
 		animateProgressBar(mBinding.fromWebFbPb.getDrawable());
+		mBinding.fromWebFb.setEnabled(false);
+	}
+
+	public void stopWebProgressBar() {
+		stopAnimateProgressBar(mBinding.fromWebFbPb.getDrawable());
+		mBinding.fromWebFb.setEnabled(true);
 	}
 
 	private void animateProgressBar(Drawable drawable) {
 		if (drawable instanceof Animatable) {
 			((Animatable) drawable).start();
+		}
+	}
+
+	private void stopAnimateProgressBar(Drawable drawable) {
+		if (drawable instanceof Animatable) {
+			((Animatable) drawable).stop();
 		}
 	}
 
