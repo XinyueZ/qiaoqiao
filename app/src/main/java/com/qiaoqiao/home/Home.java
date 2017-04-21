@@ -16,6 +16,7 @@ import android.view.ViewTreeObserver;
 
 import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
+import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.AbstractDsSource;
@@ -120,6 +121,7 @@ public final class Home implements HomeContract.Presenter {
 
 	@Override
 	public void capturePhoto() {
+		mBinding.mainControl.startCaptureProgressBar();
 		mBinding.camera.takePicture();
 	}
 
@@ -134,6 +136,19 @@ public final class Home implements HomeContract.Presenter {
 				@Override
 				public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
+					mBinding.mainControl.stopCaptureProgressBar();
+				}
+
+				@Override
+				public void onError(@NonNull Status status) {
+					super.onError(status);
+					mBinding.mainControl.stopCaptureProgressBar();
+				}
+
+				@Override
+				public void onException(@NonNull Exception e) {
+					super.onException(e);
+					mBinding.mainControl.stopCaptureProgressBar();
 				}
 			});
 		}
@@ -149,10 +164,25 @@ public final class Home implements HomeContract.Presenter {
 
 	@Override
 	public void openLink(@NonNull Uri uri) {
+		mBinding.mainControl.startWebProgressBar();
 		mDsRepository.onUri(uri, new AbstractDsSource.LoadedCallback() {
 			@Override
 			public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
 				super.onVisionResponse(response);
+				mBinding.mainControl.stopWebProgressBar();
+			}
+
+			@Override
+			public void onError(@NonNull Status status) {
+				super.onError(status);
+				mBinding.mainControl.stopWebProgressBar();
+			}
+
+			@Override
+			public void onException(@NonNull Exception e) {
+				super.onException(e);
+				mView.showError(mBinding.home, e.toString());
+				mBinding.mainControl.stopWebProgressBar();
 			}
 		});
 	}
@@ -161,6 +191,7 @@ public final class Home implements HomeContract.Presenter {
 	public void openLocal(@NonNull Context cxt, @NonNull Uri uri) {
 		Cursor cursor = null;
 		try {
+			mBinding.mainControl.startLocalProgressBar();
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			cursor = cxt.getContentResolver()
 			            .query(uri, filePathColumn, null, null, null);
@@ -178,15 +209,25 @@ public final class Home implements HomeContract.Presenter {
 				@Override
 				public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
+					mBinding.mainControl.stopLocalProgressBar();
+				}
+
+				@Override
+				public void onError(@NonNull Status status) {
+					super.onError(status);
+					mBinding.mainControl.stopLocalProgressBar();
 				}
 
 				@Override
 				public void onException(@NonNull Exception e) {
+					super.onException(e);
 					mView.showError(mBinding.home, e.toString());
+					mBinding.mainControl.stopLocalProgressBar();
 				}
 			});
 		} catch (Exception e) {
 			mView.showError(mBinding.home, cxt.getString(R.string.error_can_not_find_file));
+			mBinding.mainControl.stopLocalProgressBar();
 		} finally {
 			if (cursor != null) {
 				cursor.close();
