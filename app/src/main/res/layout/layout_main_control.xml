@@ -20,7 +20,7 @@
             <ImageView
                 android:id="@+id/from_local_fb_pb"
                 style="@style/ButtonProgressBar"
-                app:srcCompat="@drawable/ic_animated_loading_pb"/>
+                app:srcCompat="@drawable/ic_animated_loading_small_pb"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/from_local_fb"
@@ -44,7 +44,6 @@
                 android:id="@+id/capture_fb"
                 style="@style/MainControlButton"
                 app:backgroundTint="@color/colorCyan"
-                app:fabSize="mini"
                 app:srcCompat="@drawable/ic_capture"/>
 
         </FrameLayout>
@@ -56,7 +55,7 @@
             <ImageView
                 android:id="@+id/from_web_fb_pb"
                 style="@style/ButtonProgressBar"
-                app:srcCompat="@drawable/ic_animated_loading_pb"/>
+                app:srcCompat="@drawable/ic_animated_loading_small_pb"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/from_web_fb"
