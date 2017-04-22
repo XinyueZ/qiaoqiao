@@ -43,8 +43,8 @@
         <item name="android:singleLine">true</item>
         <item name="android:lines">1</item>
         <item name="android:paddingRight">10dp</item>
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorBlueGrey</item>
+        <item name="android:textColorHint">@color/colorBlueGrey</item>
     </style>
 
     <style name="ButtonProgressBar">

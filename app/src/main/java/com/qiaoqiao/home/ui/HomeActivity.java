@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
+import com.qiaoqiao.bus.WebLinkInputEvent;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
 import com.qiaoqiao.home.DaggerHomeComponent;
@@ -34,6 +35,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -49,6 +52,23 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	private @Nullable Snackbar mSnackbar;
 	@Inject Home mPresenter;
 	private VisionManager mVisionManager;
+
+	//------------------------------------------------
+	//Subscribes, event-handlers
+	//------------------------------------------------
+
+	/**
+	 * Handler for {@link WebLinkInputEvent}.
+	 *
+	 * @param e Event {@link WebLinkInputEvent}.
+	 */
+	@Subscribe
+	public void onEvent(WebLinkInputEvent e) {
+		mPresenter.openLink(e.getUri());
+		getSupportFragmentManager().popBackStack();
+	}
+
+	//------------------------------------------------
 
 	/**
 	 * Show single instance of {@link HomeActivity}
@@ -107,12 +127,16 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 
 	@Override
 	protected void onResume() {
+		EventBus.getDefault()
+		        .register(this);
 		super.onResume();
 		mPresenter.start();
 	}
 
 	@Override
 	protected void onPause() {
+		EventBus.getDefault()
+		        .unregister(this);
 		mPresenter.stop();
 		super.onPause();
 	}

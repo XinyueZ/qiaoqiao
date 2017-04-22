@@ -65,7 +65,6 @@ public final class Home implements HomeContract.Presenter {
 			@Override
 			public void onClick(View v) {
 				mHomeView.showInputFromWeb();
-				openLink(Uri.parse("https://upload.wikimedia.org/wikipedia/commons/d/d4/Hradschin_Prag.jpg"));
 				mHomeBinding.getUiHelper()
 				            .hide();
 //				mHomeBinding.loadingPb.setVisibility(View.VISIBLE);
