@@ -70,9 +70,13 @@
 
     <style name="VisionItemTextView">
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:minLines">1</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
         <item name="android:layout_gravity">end|right</item>
+        <item name="android:singleLine">true</item>
         <item name="android:gravity">end|right</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
 
