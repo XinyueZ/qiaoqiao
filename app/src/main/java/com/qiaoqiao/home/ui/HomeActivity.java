@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
 import com.qiaoqiao.databinding.HomeBinding;
@@ -24,6 +25,10 @@ import com.qiaoqiao.home.Home;
 import com.qiaoqiao.home.HomeContract;
 import com.qiaoqiao.home.HomeModule;
 import com.qiaoqiao.utils.SystemUiHelper;
+import com.qiaoqiao.vision.DaggerVisionComponent;
+import com.qiaoqiao.vision.VisionManager;
+import com.qiaoqiao.vision.VisionModule;
+import com.qiaoqiao.vision.ui.VisionListFragment;
 
 import java.util.List;
 
@@ -42,7 +47,8 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	private static final int LAYOUT = R.layout.activity_home;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
-	@Inject Home mHome;
+	@Inject Home mPresenter;
+	private VisionManager mVisionManager;
 
 	/**
 	 * Show single instance of {@link HomeActivity}
@@ -65,18 +71,22 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		binding.setUiHelper(uiHelper);
 		binding.setDecorView((ViewGroup) getWindow().getDecorView());
 
-
 		DaggerHomeComponent.builder()
 		                   .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
 		                   .homeModule(new HomeModule(this, binding))
 		                   .build()
 		                   .injectHome(this);
+		mVisionManager = DaggerVisionComponent.builder()
+		                                      .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
+		                                      .visionModule(new VisionModule((VisionListFragment) getSupportFragmentManager().findFragmentById(R.id.vision_fg)))
+		                                      .build()
+		                                      .getVisionManager();
 	}
 
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
-		mHome.changeFocus();
+		mPresenter.changeFocus();
 		super.onWindowFocusChanged(hasFocus);
 	}
 
@@ -98,18 +108,18 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mHome.start();
+		mPresenter.start();
 	}
 
 	@Override
 	protected void onPause() {
-		mHome.stop();
+		mPresenter.stop();
 		super.onPause();
 	}
 
 	@Override
 	public void setPresenter(@NonNull Home presenter) {
-		mHome = presenter;
+		mPresenter = presenter;
 	}
 
 	@Override
@@ -120,7 +130,7 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 					super.onActivityResult(requestCode, resultCode, data);
 					return;
 				}
-				mHome.openLocal(getApplicationContext(), data.getData());
+				mPresenter.openLocal(getApplicationContext(), data.getData());
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -193,5 +203,12 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+	}
+
+	@Override
+	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
+		if (mVisionManager != null) {
+			mVisionManager.addResponseToScreen(response);
+		}
 	}
 }

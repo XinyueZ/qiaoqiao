@@ -3,7 +3,6 @@ package com.qiaoqiao.ds;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -41,7 +40,7 @@ public abstract class AbstractDsSource {
 
 
 	public static abstract class LoadedCallback {
-		public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
+		public void onVisionResponse(BatchAnnotateImagesResponse response) {
 			if (response == null) {
 				LL.d("response is NULL.");
 				return;

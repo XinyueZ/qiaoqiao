@@ -14,41 +14,28 @@
  * limitations under the License.
  */
 
-package com.qiaoqiao.home;
+package com.qiaoqiao.vision;
 
 
-import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
+import com.qiaoqiao.databinding.FragmentListVisionBinding;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface HomeContract {
+public interface VisionContract {
 
-	interface View extends BaseView<Home> {
-		void showLoadFromLocal();
-
-		void showInputFromWeb();
-
-		void showError(@NonNull android.view.View view, @NonNull String errorMessage);
-
-		void addResponseToScreen(@NonNull  BatchAnnotateImagesResponse response);
+	interface View extends BaseView<VisionManager> {
+		FragmentListVisionBinding getBinding();
 	}
 
 	interface Presenter extends BasePresenter {
+		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
+
 		void stop();
-
-		void changeFocus();
-
-		void capturePhoto();
-
-		void openLink(@NonNull Uri uri);
-
-		void openLocal(@NonNull Context cxt, @NonNull Uri uri);
 	}
 }

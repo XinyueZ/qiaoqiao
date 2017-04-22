@@ -15,15 +15,15 @@ import com.qiaoqiao.databinding.ItemVisionLandmarkBinding;
 import com.qiaoqiao.databinding.ItemVisionWebBinding;
 import com.qiaoqiao.vision.model.VisionEntity;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdapter.AbstractVisionViewHolder> {
 	private static final int ITEM_LAYOUT_WEB = R.layout.item_vision_web;
 	private static final int ITEM_LAYOUT_LANDMARK = R.layout.item_vision_landmark;
 	private static final int ITEM_TYPE_WEB = 0x91;
 	private static final int ITEM_TYPE_LANDMARK = 0x92;
-	private @NonNull final List<VisionEntity> mEntities = new ArrayList<>();
+	private @NonNull final Stack<VisionEntity> mEntities = new Stack<>();
 
 	@Override
 	public AbstractVisionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,7 +62,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		holder.mBinding.executePendingBindings();
 	}
 
-	void addVisionEntity(@NonNull VisionEntity vision) {
+	public void addVisionEntity(@NonNull VisionEntity vision) {
 		mEntities.add(vision);
 		//TODO Should update the position where we insert only.
 		notifyDataSetChanged();

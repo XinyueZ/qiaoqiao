@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.qiaoqiao.vision.ui.VisionListFragment">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="android.support.v4.app.Fragment"/>
+    </data>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/vision_rv"

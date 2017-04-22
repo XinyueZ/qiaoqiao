@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -31,98 +30,98 @@ import javax.inject.Inject;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 
 public final class Home implements HomeContract.Presenter {
-	private final @NonNull HomeBinding mBinding;
-	private final @NonNull HomeContract.View mView;
+	private final @NonNull HomeBinding mHomeBinding;
+	private final @NonNull HomeContract.View mHomeView;
 	private final @NonNull DsRepository mDsRepository;
 
 	@Inject
-	Home(@NonNull HomeContract.View view, @NonNull HomeBinding binding, @NonNull DsRepository dsRepository) {
-		mView = view;
-		mBinding = binding;
+	Home(@NonNull HomeContract.View homeView, @NonNull HomeBinding homeBinding, @NonNull DsRepository dsRepository) {
+		mHomeView = homeView;
+		mHomeBinding = homeBinding;
 		mDsRepository = dsRepository;
 	}
 
 	@Inject
 	void onInjected() {
-		mBinding.mainControl.setOnFromLocalClickedListener(new MainControlView.OnFromLocalClickedListener() {
+		mHomeBinding.mainControl.setOnFromLocalClickedListener(new MainControlView.OnFromLocalClickedListener() {
 			@Override
 			public void onClick(View v) {
-				mView.showLoadFromLocal();
-				mBinding.getUiHelper()
-				        .hide();
-//				mBinding.loadingPb.setVisibility(View.VISIBLE);
+				mHomeView.showLoadFromLocal();
+				mHomeBinding.getUiHelper()
+				            .hide();
+//				mHomeBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
-		mBinding.mainControl.setOnCaptureClickedListener(new MainControlView.OnCaptureClickedListener() {
+		mHomeBinding.mainControl.setOnCaptureClickedListener(new MainControlView.OnCaptureClickedListener() {
 			@Override
 			public void onClick(View v) {
 				capturePhoto();
-				mBinding.getUiHelper()
-				        .hide();
-//				mBinding.loadingPb.setVisibility(View.VISIBLE);
+				mHomeBinding.getUiHelper()
+				            .hide();
+//				mHomeBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
-		mBinding.mainControl.setOnFromWebClickedListener(new MainControlView.OnFromWebClickedListener() {
+		mHomeBinding.mainControl.setOnFromWebClickedListener(new MainControlView.OnFromWebClickedListener() {
 			@Override
 			public void onClick(View v) {
-				mView.showInputFromWeb();
-				openLink(Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/HH_Rathaus_pano1.jpg/1280px-HH_Rathaus_pano1.jpg"));
-				mBinding.getUiHelper()
-				        .hide();
-//				mBinding.loadingPb.setVisibility(View.VISIBLE);
+				mHomeView.showInputFromWeb();
+				openLink(Uri.parse("https://upload.wikimedia.org/wikipedia/commons/d/d4/Hradschin_Prag.jpg"));
+				mHomeBinding.getUiHelper()
+				            .hide();
+//				mHomeBinding.loadingPb.setVisibility(View.VISIBLE);
 			}
 		});
 
-		mView.setPresenter(this);
+		mHomeView.setPresenter(this);
 	}
 
 	@Override
 	public void start() {
-		mBinding.camera.addCallback(mCameraCallback);
-		mBinding.camera.start();
-		mBinding.getDecorView()
-		        .getViewTreeObserver()
-		        .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			        @Override
-			        public void onGlobalLayout() {
-				        final ViewGroup decorView = mBinding.getDecorView();
-				        if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
-					        decorView.getViewTreeObserver()
-					                 .removeOnGlobalLayoutListener(this);
-				        } else {
-					        decorView.getViewTreeObserver()
-					                 .removeGlobalOnLayoutListener(this);
-				        }
-				        Rect rect = new Rect();
-				        decorView.getWindowVisibleDisplayFrame(rect);
-				        mBinding.home.setPadding(0, rect.top, 0, 0);
-			        }
-		        });
-		final Resources resources = mBinding.getDecorView()
-		                                    .getContext()
-		                                    .getResources();
+		mHomeBinding.camera.addCallback(mCameraCallback);
+		mHomeBinding.camera.start();
+		mHomeBinding.getDecorView()
+		            .getViewTreeObserver()
+		            .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			            @Override
+			            public void onGlobalLayout() {
+				            final ViewGroup decorView = mHomeBinding.getDecorView();
+				            if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
+					            decorView.getViewTreeObserver()
+					                     .removeOnGlobalLayoutListener(this);
+				            } else {
+					            decorView.getViewTreeObserver()
+					                     .removeGlobalOnLayoutListener(this);
+				            }
+				            Rect rect = new Rect();
+				            decorView.getWindowVisibleDisplayFrame(rect);
+				            mHomeBinding.home.setPadding(0, rect.top, 0, 0);
+			            }
+		            });
+		final Resources resources = mHomeBinding.getDecorView()
+		                                        .getContext()
+		                                        .getResources();
 		int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
 		if (resourceId > 0) {
-			((ViewGroup.MarginLayoutParams) mBinding.mainControl.getLayoutParams()).bottomMargin = resources.getDimensionPixelSize(resourceId);
+			((ViewGroup.MarginLayoutParams) mHomeBinding.mainControl.getLayoutParams()).bottomMargin = resources.getDimensionPixelSize(resourceId);
 		}
 	}
 
 	@Override
 	public void stop() {
-		mBinding.camera.removeCallback(mCameraCallback);
-		mBinding.camera.stop();
+		mHomeBinding.camera.removeCallback(mCameraCallback);
+		mHomeBinding.camera.stop();
 	}
 
 	@Override
 	public void changeFocus() {
-		mBinding.getUiHelper()
-		        .hide();
+		mHomeBinding.getUiHelper()
+		            .hide();
 	}
 
 	@Override
 	public void capturePhoto() {
-		mBinding.mainControl.startCaptureProgressBar();
-		mBinding.camera.takePicture();
+		mHomeBinding.mainControl.startCaptureProgressBar();
+		mHomeBinding.camera.takePicture();
 	}
 
 	private final CameraView.Callback mCameraCallback = new CameraView.Callback() {
@@ -134,21 +133,22 @@ public final class Home implements HomeContract.Presenter {
 			}
 			mDsRepository.onBytes(data, new AbstractDsSource.LoadedCallback() {
 				@Override
-				public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
+				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
-					mBinding.mainControl.stopCaptureProgressBar();
+					mHomeBinding.mainControl.stopCaptureProgressBar();
+					mHomeView.addResponseToScreen(response);
 				}
 
 				@Override
 				public void onError(@NonNull Status status) {
 					super.onError(status);
-					mBinding.mainControl.stopCaptureProgressBar();
+					mHomeBinding.mainControl.stopCaptureProgressBar();
 				}
 
 				@Override
 				public void onException(@NonNull Exception e) {
 					super.onException(e);
-					mBinding.mainControl.stopCaptureProgressBar();
+					mHomeBinding.mainControl.stopCaptureProgressBar();
 				}
 			});
 		}
@@ -164,25 +164,26 @@ public final class Home implements HomeContract.Presenter {
 
 	@Override
 	public void openLink(@NonNull Uri uri) {
-		mBinding.mainControl.startWebProgressBar();
+		mHomeBinding.mainControl.startWebProgressBar();
 		mDsRepository.onUri(uri, new AbstractDsSource.LoadedCallback() {
 			@Override
-			public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
+			public void onVisionResponse(BatchAnnotateImagesResponse response) {
 				super.onVisionResponse(response);
-				mBinding.mainControl.stopWebProgressBar();
+				mHomeBinding.mainControl.stopWebProgressBar();
+				mHomeView.addResponseToScreen(response);
 			}
 
 			@Override
 			public void onError(@NonNull Status status) {
 				super.onError(status);
-				mBinding.mainControl.stopWebProgressBar();
+				mHomeBinding.mainControl.stopWebProgressBar();
 			}
 
 			@Override
 			public void onException(@NonNull Exception e) {
 				super.onException(e);
-				mView.showError(mBinding.home, e.toString());
-				mBinding.mainControl.stopWebProgressBar();
+				mHomeView.showError(mHomeBinding.home, e.toString());
+				mHomeBinding.mainControl.stopWebProgressBar();
 			}
 		});
 	}
@@ -191,43 +192,44 @@ public final class Home implements HomeContract.Presenter {
 	public void openLocal(@NonNull Context cxt, @NonNull Uri uri) {
 		Cursor cursor = null;
 		try {
-			mBinding.mainControl.startLocalProgressBar();
+			mHomeBinding.mainControl.startLocalProgressBar();
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			cursor = cxt.getContentResolver()
 			            .query(uri, filePathColumn, null, null, null);
 			if (cursor == null || cursor.getCount() < 1) {
-				mView.showError(mBinding.home, cxt.getString(R.string.error_can_not_find_file));
+				mHomeView.showError(mHomeBinding.home, cxt.getString(R.string.error_can_not_find_file));
 				return;
 			}
 			cursor.moveToFirst();
 			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 			if (columnIndex < 0) {
-				mView.showError(mBinding.home, cxt.getString(R.string.error_can_not_find_file));
+				mHomeView.showError(mHomeBinding.home, cxt.getString(R.string.error_can_not_find_file));
 				return;
 			}
 			mDsRepository.onFile(new File(cursor.getString(columnIndex)), new AbstractDsSource.LoadedCallback() {
 				@Override
-				public void onVisionResponse(@Nullable BatchAnnotateImagesResponse response) {
+				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
-					mBinding.mainControl.stopLocalProgressBar();
+					mHomeBinding.mainControl.stopLocalProgressBar();
+					mHomeView.addResponseToScreen(response);
 				}
 
 				@Override
 				public void onError(@NonNull Status status) {
 					super.onError(status);
-					mBinding.mainControl.stopLocalProgressBar();
+					mHomeBinding.mainControl.stopLocalProgressBar();
 				}
 
 				@Override
 				public void onException(@NonNull Exception e) {
 					super.onException(e);
-					mView.showError(mBinding.home, e.toString());
-					mBinding.mainControl.stopLocalProgressBar();
+					mHomeView.showError(mHomeBinding.home, e.toString());
+					mHomeBinding.mainControl.stopLocalProgressBar();
 				}
 			});
 		} catch (Exception e) {
-			mView.showError(mBinding.home, cxt.getString(R.string.error_can_not_find_file));
-			mBinding.mainControl.stopLocalProgressBar();
+			mHomeView.showError(mHomeBinding.home, cxt.getString(R.string.error_can_not_find_file));
+			mHomeBinding.mainControl.stopLocalProgressBar();
 		} finally {
 			if (cursor != null) {
 				cursor.close();

@@ -135,9 +135,9 @@ public final class Service {
 						          // add the features we want
 						          annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
 							          add(new Feature().setType("WEB_DETECTION")
-							                           .setMaxResults(10));
+							                           .setMaxResults(5));
 							          add(new Feature().setType("LANDMARK_DETECTION")
-							                           .setMaxResults(10));
+							                           .setMaxResults(5));
 						          }});
 						          // Add the list of one thing to the request
 						          add(annotateImageRequest);

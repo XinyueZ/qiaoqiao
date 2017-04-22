@@ -5,47 +5,48 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.api.services.vision.v1.model.EntityAnnotation;
-import com.google.api.services.vision.v1.model.WebDetection;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
-import com.qiaoqiao.vision.model.VisionEntity;
+import com.qiaoqiao.vision.VisionContract;
+import com.qiaoqiao.vision.VisionManager;
 
-public final class VisionListFragment extends Fragment {
-	/**
-	 * Main layout for this component.
-	 */
+public final class VisionListFragment extends Fragment implements VisionContract.View {
 	private static final int LAYOUT = R.layout.fragment_list_vision;
 	private FragmentListVisionBinding mBinding;
+	private VisionContract.Presenter mPresenter;
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		mBinding = DataBindingUtil.inflate(inflater, LAYOUT, container, false);
+		mBinding.setFragment(this);
 		return mBinding.getRoot();
 	}
+
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mBinding.visionRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-		mBinding.visionRv.setHasFixedSize(true);
-		mBinding.visionRv.setAdapter(new VisionListAdapter());
+		mPresenter.start();
 	}
 
-	public void addLandmarkEntity(@NonNull EntityAnnotation entityAnnotation) {
-		VisionListAdapter adapter = (VisionListAdapter) mBinding.visionRv.getAdapter();
-		adapter.addVisionEntity(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION"));
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		mPresenter.stop();
 	}
 
-	public void addEntity(@NonNull WebDetection webDetection) {
-		VisionListAdapter adapter = (VisionListAdapter) mBinding.visionRv.getAdapter();
-		adapter.addVisionEntity(new VisionEntity(webDetection, "WEB_DETECTION"));
+	@Override
+	public void setPresenter(@NonNull VisionManager presenter) {
+		mPresenter = presenter;
+	}
 
+	@Override
+	public FragmentListVisionBinding getBinding() {
+		return mBinding;
 	}
 }

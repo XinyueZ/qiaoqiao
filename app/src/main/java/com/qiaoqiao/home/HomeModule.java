@@ -8,7 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class HomeModule {
+public final class HomeModule {
 	private final @NonNull HomeContract.View mView;
 	private final @NonNull HomeBinding mBinding;
 
@@ -19,12 +19,12 @@ public class HomeModule {
 
 
 	@Provides
-	public HomeBinding provideHomeBinding() {
+	HomeBinding provideHomeBinding() {
 		return mBinding;
 	}
 
 	@Provides
-	public HomeContract.View provideHomeContractView() {
+	HomeContract.View provideHomeContractView() {
 		return mView;
 	}
 

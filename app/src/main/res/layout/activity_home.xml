@@ -48,6 +48,13 @@
             android:indeterminate="true"
             android:visibility="gone"/>
 
+        <fragment
+            android:id="@+id/vision_fg"
+            android:name="com.qiaoqiao.vision.ui.VisionListFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/larger"/>
+
         <FrameLayout
             android:id="@+id/content_root_fl"
             android:layout_width="match_parent"
