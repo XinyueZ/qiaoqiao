@@ -13,7 +13,7 @@ import com.qiaoqiao.R;
 import com.qiaoqiao.bus.EntityClickEvent;
 import com.qiaoqiao.databinding.ItemVisionLandmarkBinding;
 import com.qiaoqiao.databinding.ItemVisionWebBinding;
-import com.qiaoqiao.vision.VisionEntity;
+import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +51,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		switch (getItemViewType(position)) {
 			case ITEM_TYPE_WEB:
 				WebViewHolder webViewHolder = (WebViewHolder) holder;
-				webViewHolder.mItemVisionWebBinding.visionTv.setText("WEB new new new new INFO");
+				webViewHolder.mItemVisionWebBinding.visionTv.setText(entity.getDescription().getDescriptionText());
 				break;
 			case ITEM_TYPE_LANDMARK:
 				LandmarkViewHolder landmarkViewHolder = (LandmarkViewHolder) holder;
-				landmarkViewHolder.mItemVisionLandmarkBinding.visionTv.setText("Landmark new new new new INFO");
+				landmarkViewHolder.mItemVisionLandmarkBinding.visionTv.setText(entity.getDescription().getDescriptionText());
 				break;
 
 		}

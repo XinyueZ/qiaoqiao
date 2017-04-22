@@ -14,7 +14,7 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.WebDetection;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
-import com.qiaoqiao.vision.VisionEntity;
+import com.qiaoqiao.vision.model.VisionEntity;
 
 public final class VisionListFragment extends Fragment {
 	/**
@@ -40,12 +40,12 @@ public final class VisionListFragment extends Fragment {
 
 	public void addLandmarkEntity(@NonNull EntityAnnotation entityAnnotation) {
 		VisionListAdapter adapter = (VisionListAdapter) mBinding.visionRv.getAdapter();
-		adapter.addVisionEntity(new VisionEntity<>(entityAnnotation, "LANDMARK_DETECTION"));
+		adapter.addVisionEntity(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION"));
 	}
 
 	public void addEntity(@NonNull WebDetection webDetection) {
 		VisionListAdapter adapter = (VisionListAdapter) mBinding.visionRv.getAdapter();
-		adapter.addVisionEntity(new VisionEntity<>(webDetection, "WEB_DETECTION"));
+		adapter.addVisionEntity(new VisionEntity(webDetection, "WEB_DETECTION"));
 
 	}
 }
