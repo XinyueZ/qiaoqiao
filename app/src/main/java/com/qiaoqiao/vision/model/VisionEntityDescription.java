@@ -8,7 +8,7 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.WebEntity;
 
 public final class VisionEntityDescription {
-	private final VisionEntity mVisionEntity;
+	private final @NonNull VisionEntity mVisionEntity;
 
 	VisionEntityDescription(@NonNull VisionEntity visionEntity) {
 		mVisionEntity = visionEntity;

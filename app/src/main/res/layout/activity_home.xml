@@ -52,8 +52,8 @@
             android:id="@+id/vision_fg"
             android:name="com.qiaoqiao.vision.ui.VisionListFragment"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="@dimen/larger"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right|end"/>
 
         <FrameLayout
             android:id="@+id/content_root_fl"

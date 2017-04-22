@@ -63,20 +63,23 @@
     <style name="VisionItemContainer">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_vertical|end|right</item>
+        <item name="android:gravity">end|right</item>
+        <item name="android:layout_gravity">end|right</item>
         <item name="android:padding">@dimen/larger</item>
     </style>
 
     <style name="VisionItemTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_vertical|end|right</item>
+        <item name="android:layout_gravity">end|right</item>
+        <item name="android:gravity">end|right</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
 
     <style name="VisionItemRoot">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end|right</item>
     </style>
 
 </resources>

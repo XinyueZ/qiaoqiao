@@ -1,25 +1,37 @@
 package com.qiaoqiao.vision.model;
 
 
-public final class VisionEntity {
-	private final Object mVision;
-	private final String mReadableName;
+import android.support.annotation.NonNull;
 
-	public VisionEntity(Object vision, String readableName) {
+import com.google.api.client.json.GenericJson;
+
+public final class VisionEntity {
+	private final @NonNull GenericJson mVision;
+	private final @NonNull String mReadableName;
+
+	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName) {
 		mVision = vision;
 		mReadableName = readableName;
 	}
 
 
-	Object getVision() {
+	@NonNull
+	GenericJson getVision() {
 		return mVision;
 	}
 
-	public String getReadableName() {
+	public @NonNull
+	String getReadableName() {
 		return mReadableName;
 	}
 
-	public VisionEntityDescription getDescription() {
+	public @NonNull
+	VisionEntityDescription getDescription() {
 		return new VisionEntityDescription(this);
+	}
+
+	@Override
+	public String toString() {
+		return getDescription().toString();
 	}
 }

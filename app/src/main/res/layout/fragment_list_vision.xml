@@ -14,7 +14,8 @@
         android:id="@+id/vision_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/larger"
+        android:background="@color/colorGrey80"
+        android:padding="@dimen/larger"/>
 
-    </android.support.v7.widget.RecyclerView>
 </layout>

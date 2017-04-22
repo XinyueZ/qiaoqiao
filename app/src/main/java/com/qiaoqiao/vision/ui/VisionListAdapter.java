@@ -38,7 +38,6 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				ItemVisionLandmarkBinding landmarkBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                               .inflate(ITEM_LAYOUT_LANDMARK, parent, false));
 				return new LandmarkViewHolder(landmarkBinding, mEntities, this);
-
 		}
 	}
 
@@ -51,19 +50,21 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		switch (getItemViewType(position)) {
 			case ITEM_TYPE_WEB:
 				WebViewHolder webViewHolder = (WebViewHolder) holder;
-				webViewHolder.mItemVisionWebBinding.visionTv.setText(entity.getDescription().getDescriptionText());
+				webViewHolder.mItemVisionWebBinding.visionTv.setText(entity.getDescription()
+				                                                           .getDescriptionText());
 				break;
 			case ITEM_TYPE_LANDMARK:
 				LandmarkViewHolder landmarkViewHolder = (LandmarkViewHolder) holder;
-				landmarkViewHolder.mItemVisionLandmarkBinding.visionTv.setText(entity.getDescription().getDescriptionText());
+				landmarkViewHolder.mItemVisionLandmarkBinding.visionTv.setText(entity.getDescription()
+				                                                                     .getDescriptionText());
 				break;
 
 		}
 		holder.mBinding.executePendingBindings();
 	}
 
-	public void addVisionEntity(@NonNull VisionEntity vision) {
-		mEntities.add(vision);
+	public void addVisionEntity(@NonNull VisionEntity entity) {
+		mEntities.push(entity);
 		//TODO Should update the position where we insert only.
 		notifyDataSetChanged();
 	}
