@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 def buildNumber = 'bld' + (System.env.BUILD_NUMBER ?: 'SNAPSHOT')
 android {
 

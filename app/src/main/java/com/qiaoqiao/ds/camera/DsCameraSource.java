@@ -20,7 +20,7 @@ public final class DsCameraSource extends AbstractDsSource {
 	}
 
 	@Override
-	public void onBytes(@NonNull byte[] bytes, @NonNull final LoadedCallback callback) {
+	public void onBytes(@NonNull final byte[] bytes, @NonNull final LoadedCallback callback) {
 		getService().getAnnotateImageResponse(Service.Base64EncodedImageBuilder.newBuilder(bytes), new Consumer<BatchAnnotateImagesResponse>() {
 			@Override
 			public void accept(BatchAnnotateImagesResponse response) throws Exception {
@@ -31,6 +31,7 @@ public final class DsCameraSource extends AbstractDsSource {
 					callback.onError(error);
 				} else {
 					callback.onVisionResponse(response);
+					callback.onSaveHistory(bytes, null, response);
 				}
 			}
 		});

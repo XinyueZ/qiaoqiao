@@ -31,6 +31,7 @@ public final class DsWebSource extends AbstractDsSource {
 					callback.onError(error);
 				} else {
 					callback.onVisionResponse(response);
+					callback.onSaveHistory(null, null, response);
 				}
 			}
 		});

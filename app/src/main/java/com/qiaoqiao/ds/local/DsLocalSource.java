@@ -7,7 +7,6 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.Service;
 import com.qiaoqiao.ds.AbstractDsSource;
-import com.qiaoqiao.utils.LL;
 
 import org.apache.commons.io.FileUtils;
 
@@ -28,7 +27,7 @@ public final class DsLocalSource extends AbstractDsSource {
 	@Override
 	public void onFile(@NonNull File file, @NonNull final LoadedCallback callback) {
 		try {
-			byte[] bytes = FileUtils.readFileToByteArray(file);
+			final byte[] bytes = FileUtils.readFileToByteArray(file);
 			if (bytes == null) {
 				throw new IOException("The bytes of file is NULL:" + file.getAbsolutePath());
 			}
@@ -42,6 +41,7 @@ public final class DsLocalSource extends AbstractDsSource {
 						callback.onError(error);
 					} else {
 						callback.onVisionResponse(response);
+						callback.onSaveHistory(bytes, null, response);
 					}
 				}
 			});
