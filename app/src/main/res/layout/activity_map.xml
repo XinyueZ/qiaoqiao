@@ -7,13 +7,24 @@
     <data>
 
         <variable
+            name="uiHelper"
+            type="com.qiaoqiao.utils.SystemUiHelper"/>
+
+        <variable
             name="activity"
             type="android.app.Activity"/>
     </data>
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:keepScreenOn="true">
+
+        <com.google.android.gms.maps.StreetViewPanoramaView
+            android:id="@+id/streetview"
+            android:layout_width="1dp"
+            android:layout_height="1dp"/>
 
         <fragment
             android:id="@+id/map"
@@ -87,5 +98,5 @@
                 app:rippleColor="@color/colorGrey"
                 app:srcCompat="@drawable/ic_direction"/>
         </LinearLayout>
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

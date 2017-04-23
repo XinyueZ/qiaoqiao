@@ -7,13 +7,19 @@
     <data>
 
         <variable
+            name="uiHelper"
+            type="com.qiaoqiao.utils.SystemUiHelper"/>
+
+        <variable
             name="activity"
             type="android.app.Activity"/>
     </data>
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:keepScreenOn="true">
 
         <fragment
             android:id="@+id/panorama"
@@ -25,9 +31,10 @@
             android:id="@+id/back_ibtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|left|start"             android:onClick="@{() -> activity.finish()}"
+            android:layout_gravity="top|left|start"
             android:layout_margin="@dimen/larger"
             android:background="@color/colorTransparent"
+            android:onClick="@{() -> activity.finish()}"
             app:srcCompat="@drawable/ic_back"/>
 
         <LinearLayout
@@ -77,5 +84,5 @@
                 app:rippleColor="@color/colorGrey"
                 app:srcCompat="@drawable/ic_direction"/>
         </LinearLayout>
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

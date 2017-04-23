@@ -16,6 +16,7 @@ import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.ActivityStreetviewBinding;
+import com.qiaoqiao.utils.SystemUiHelper;
 
 import static android.os.Bundle.EMPTY;
 
@@ -23,6 +24,7 @@ import static android.os.Bundle.EMPTY;
 public final class StreetViewActivity extends AppCompatActivity implements OnStreetViewPanoramaReadyCallback {
 	private static final int LAYOUT = R.layout.activity_streetview;
 	private static final String EXTRAS_LATLNG = StreetViewActivity.class.getName() + ".EXTRAS.latlng";
+	private @Nullable ActivityStreetviewBinding mBinding;
 
 	public static void showInstance(@NonNull Activity cxt, @NonNull LatLng latLng) {
 		Intent intent = new Intent(cxt, StreetViewActivity.class);
@@ -34,10 +36,22 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ActivityStreetviewBinding binding = DataBindingUtil.setContentView(this, LAYOUT);
-		binding.setActivity(this);
+		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
+		mBinding.setActivity(this);
+		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
+		uiHelper.hide();
+		mBinding.setUiHelper(uiHelper);
 		SupportStreetViewPanoramaFragment streetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getSupportFragmentManager().findFragmentById(R.id.panorama);
 		streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		if (mBinding != null) {
+			mBinding.getUiHelper()
+			        .hide();
+		}
+		super.onWindowFocusChanged(hasFocus);
 	}
 
 	private @Nullable StreetViewPanorama mStreetViewPanorama;
