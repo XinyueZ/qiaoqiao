@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 
-import com.qiaoqiao.bus.HistoryItemClickEvent;
+import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
 import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.history.ui.HistoryStackAdapter;

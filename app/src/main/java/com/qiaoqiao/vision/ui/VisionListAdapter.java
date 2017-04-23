@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.bus.EntityClickEvent;
+import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.databinding.ItemVisionLandmarkBinding;
 import com.qiaoqiao.databinding.ItemVisionWebBinding;
 import com.qiaoqiao.utils.LL;
@@ -18,6 +18,8 @@ import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.util.List;
 import java.util.Stack;
+
+import de.greenrobot.event.EventBus;
 
 public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdapter.AbstractVisionViewHolder> {
 	private static final int ITEM_LAYOUT_WEB = R.layout.item_vision_web;
@@ -58,6 +60,8 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				LandmarkViewHolder landmarkViewHolder = (LandmarkViewHolder) holder;
 				landmarkViewHolder.mItemVisionLandmarkBinding.visionTv.setText(entity.getDescription()
 				                                                                     .getDescriptionText());
+				landmarkViewHolder.mItemVisionLandmarkBinding.setVisionEntity(entity);
+				landmarkViewHolder.mItemVisionLandmarkBinding.setViewholder(landmarkViewHolder);
 				break;
 
 		}
@@ -91,7 +95,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 	static abstract class AbstractVisionViewHolder extends RecyclerView.ViewHolder {
 		private final @NonNull ViewDataBinding mBinding;
-		private final @NonNull EntityClickEvent mEntityClickEvent = new EntityClickEvent();
+		protected final @NonNull VisionEntityClickEvent mVisionEntityClickEvent = new VisionEntityClickEvent();
 		private final @NonNull List<VisionEntity> mEntities;
 		private final @NonNull VisionListAdapter mVisionListAdapter;
 
@@ -112,12 +116,18 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		}
 	}
 
-	private final static class LandmarkViewHolder extends AbstractVisionViewHolder {
+	public final static class LandmarkViewHolder extends AbstractVisionViewHolder {
 		private final @NonNull ItemVisionLandmarkBinding mItemVisionLandmarkBinding;
 
 		private LandmarkViewHolder(@NonNull ItemVisionLandmarkBinding binding, @NonNull List<VisionEntity> entries, @NonNull VisionListAdapter adapter) {
 			super(binding, entries, adapter);
 			mItemVisionLandmarkBinding = binding;
+		}
+
+		public void onLandmarkClicked(VisionEntity visionEntity) {
+			mVisionEntityClickEvent.setEntity(visionEntity);
+			EventBus.getDefault()
+			        .post(mVisionEntityClickEvent);
 		}
 	}
 }

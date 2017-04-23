@@ -1,4 +1,4 @@
-package com.qiaoqiao.bus;
+package com.qiaoqiao.ds.web.bus;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;

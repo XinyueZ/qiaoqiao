@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.bus.WebLinkInputEvent;
+import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
 import com.qiaoqiao.databinding.FragmentInputWebLinkBinding;
 
 import de.greenrobot.event.EventBus;

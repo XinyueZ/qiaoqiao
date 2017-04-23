@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 
 import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
-import com.qiaoqiao.bus.HistoryItemClickEvent;
+import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.databinding.ItemHistoryBinding;
 import com.qiaoqiao.ds.database.HistoryItem;
 

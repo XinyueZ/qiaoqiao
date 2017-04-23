@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
-import com.qiaoqiao.bus.WebLinkInputEvent;
+import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
 import com.qiaoqiao.history.DaggerHistoryComponent;

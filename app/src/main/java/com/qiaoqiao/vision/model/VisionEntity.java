@@ -35,12 +35,19 @@ public final class VisionEntity {
 		return new VisionEntityId(this);
 	}
 
+	public @NonNull
+	VisionEntityLocation getLocation() {
+		return new VisionEntityLocation(this);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("id: ")
 		             .append(getId().toString())
 		             .append('\n')
+		             .append("location:")
+		             .append(getLocation().toString())
 		             .append("Description: ")
 		             .append(getDescription().toString())
 		             .append('\n');

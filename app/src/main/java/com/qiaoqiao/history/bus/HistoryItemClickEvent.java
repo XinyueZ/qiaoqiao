@@ -1,4 +1,4 @@
-package com.qiaoqiao.bus;
+package com.qiaoqiao.history.bus;
 
 import com.qiaoqiao.ds.database.HistoryItem;
 
