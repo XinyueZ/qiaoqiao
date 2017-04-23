@@ -12,6 +12,8 @@
             <TextView
                 android:id="@+id/vision_tv"
                 style="@style/VisionItemTextView"
+                android:drawableEnd="@drawable/ic_location_pin"
+                android:drawableRight="@drawable/ic_location_pin"
                 tools:text="hello,world"/>
         </FrameLayout>
     </FrameLayout>
