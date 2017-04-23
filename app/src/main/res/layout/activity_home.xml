@@ -32,12 +32,25 @@
             app:facing="back"
             app:flash="auto"/>
 
-        <com.qiaoqiao.views.MainControlView
-            android:id="@+id/main_control"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_margin="@dimen/larger"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|center_horizontal">
+
+            <fragment
+                android:id="@+id/vision_fg"
+                android:name="com.qiaoqiao.vision.ui.VisionListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/main_control"/>
+
+            <com.qiaoqiao.views.MainControlView
+                android:id="@+id/main_control"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/larger"/>
+        </RelativeLayout>
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:id="@+id/loading_pb"
@@ -48,12 +61,6 @@
             android:indeterminate="true"
             android:visibility="gone"/>
 
-        <fragment
-            android:id="@+id/vision_fg"
-            android:name="com.qiaoqiao.vision.ui.VisionListFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|right|end"/>
 
         <FrameLayout
             android:id="@+id/content_root_fl"

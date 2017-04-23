@@ -14,7 +14,6 @@ import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
-import com.qiaoqiao.utils.DeviceUtils;
 import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.vision.model.VisionEntity;
 import com.qiaoqiao.vision.ui.VisionListAdapter;
@@ -43,10 +42,10 @@ public final class VisionManager implements VisionContract.Presenter {
 	public void start() {
 		final Context context = mBinding.getFragment()
 		                                .getContext();
-		final DeviceUtils.ScreenSize screenSize = DeviceUtils.getScreenSize(context);
-		mBinding.visionRv.getLayoutParams().width = (int) (screenSize.Width / 2f);
+//		final DeviceUtils.ScreenSize screenSize = DeviceUtils.getScreenSize(context);
+//		mBinding.visionRv.getLayoutParams().width = (int) (screenSize.Width / 2f);
 		mBinding.visionRv.setLayoutManager(new LinearLayoutManager(mBinding.getFragment()
-		                                                                   .getActivity(), LinearLayoutManager.VERTICAL, true));
+		                                                                   .getActivity(), LinearLayoutManager.VERTICAL, false));
 		mBinding.visionRv.setHasFixedSize(true);
 		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter());
 		final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);

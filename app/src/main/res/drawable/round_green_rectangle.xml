@@ -13,4 +13,9 @@
         android:endColor="#007c51"
         android:startColor="#00fdde">
     </gradient>
+    <padding
+        android:bottom="@dimen/small"
+        android:left="@dimen/medium"
+        android:right="@dimen/medium"
+        android:top="@dimen/small"/>
 </shape>
