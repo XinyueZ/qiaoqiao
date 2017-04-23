@@ -38,6 +38,7 @@ public final class HistoryManager implements HistoryContract.Presenter {
 				return;
 			}
 			mHistoryStackAdapter.notifyDataSetChanged();
+			mBinding.historyStv.setSelection(mHistoryStackAdapter.getCount() - 1);
 		}
 	};
 
