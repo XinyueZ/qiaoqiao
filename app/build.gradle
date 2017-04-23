@@ -143,6 +143,7 @@ dependencies {
         exclude module: 'httpclient'
     })
     compile group: "com.google.apis", name: "google-api-services-vision", version: "${vision}"
+    compile "com.google.android.gms:play-services:${playService}"
 }
 
 // Rename final apks
