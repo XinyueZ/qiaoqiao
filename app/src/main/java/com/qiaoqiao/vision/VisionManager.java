@@ -2,12 +2,13 @@ package com.qiaoqiao.vision;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.api.services.vision.v1.model.AnnotateImageResponse;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
@@ -15,6 +16,7 @@ import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
+import com.qiaoqiao.location.ui.MapActivity;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
 import com.qiaoqiao.vision.ui.VisionListAdapter;
@@ -37,11 +39,18 @@ public final class VisionManager implements VisionContract.Presenter {
 
 	/**
 	 * Handler for {@link VisionEntityClickEvent}.
+	 *
 	 * @param e Event {@link VisionEntityClickEvent}.
 	 */
 	@Subscribe
 	public void onEvent(VisionEntityClickEvent e) {
-		Snackbar.make(mBinding.getRoot(), e.getEntity().toString(), Snackbar.LENGTH_SHORT).show();
+		final LatLng latLng = e.getEntity()
+		                       .getLocation()
+		                       .toLatLng();
+		if (latLng != null) {
+			MapActivity.showInstance(mBinding.getFragment()
+			                                 .getActivity(), latLng);
+		}
 	}
 
 	//------------------------------------------------
@@ -72,7 +81,10 @@ public final class VisionManager implements VisionContract.Presenter {
 		mBinding.visionRv.setHasFixedSize(true);
 		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter());
 		final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
-		dividerItemDecoration.setDrawable(AppCompatResources.getDrawable(context, R.drawable.divider_drawable));
+		final Drawable divideDrawable = AppCompatResources.getDrawable(context, R.drawable.divider_drawable);
+		if (divideDrawable != null) {
+			dividerItemDecoration.setDrawable(divideDrawable);
+		}
 		mBinding.visionRv.addItemDecoration(dividerItemDecoration);
 
 	}

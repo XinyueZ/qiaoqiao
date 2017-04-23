@@ -19,7 +19,7 @@ public final class VisionEntityLocation {
 
 
 	public @Nullable
-	LatLng getLocation() {
+	LatLng toLatLng() {
 		if (TextUtils.equals(mVisionEntity.getReadableName(), "LANDMARK_DETECTION")) {
 			EntityAnnotation landmarkEntity = (EntityAnnotation) mVisionEntity.getVision();
 			final List<LocationInfo> locations = landmarkEntity.getLocations();
@@ -38,9 +38,9 @@ public final class VisionEntityLocation {
 	@Override
 	@Nullable
 	public String toString() {
-		if (getLocation() == null) {
+		if (toLatLng() == null) {
 			return "No location";
 		}
-		return getLocation().toString();
+		return toLatLng().toString();
 	}
 }

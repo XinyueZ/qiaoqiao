@@ -1,4 +1,4 @@
-package com.qiaoqiao.vision.ui;
+package com.qiaoqiao.location.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -17,7 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.widget.Toast;
 
-import com.google.api.services.vision.v1.model.LatLng;
+import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.R;
 
 import static android.text.TextUtils.isEmpty;
@@ -42,8 +42,8 @@ public final class RouteCalcClientPicker {
 	}
 
 	private static void startRouteCalc(@NonNull Activity activity, @NonNull LatLng latLng) {
-		String strLatitude = String.valueOf(latLng.getLatitude());
-		String strLongitude = String.valueOf(latLng.getLongitude());
+		String strLatitude = String.valueOf(latLng.latitude);
+		String strLongitude = String.valueOf(latLng.longitude);
 
 		String url = STATIC_MAP + strLatitude + "," + strLongitude;
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
