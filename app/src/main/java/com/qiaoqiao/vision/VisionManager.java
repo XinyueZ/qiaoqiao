@@ -23,8 +23,8 @@ import javax.inject.Inject;
 
 public final class VisionManager implements VisionContract.Presenter {
 	private final @NonNull FragmentListVisionBinding mBinding;
+	private final @NonNull VisionContract.View mView;
 	private VisionListAdapter mVisionListAdapter;
-	private @NonNull VisionContract.View mView;
 
 	@Inject
 	VisionManager(@NonNull FragmentListVisionBinding binding, @NonNull VisionContract.View view) {

@@ -20,7 +20,7 @@ public final class DsWebSource extends AbstractDsSource {
 	}
 
 	@Override
-	public void onUri(@NonNull Uri uri, @NonNull final LoadedCallback callback) {
+	public void onUri(@NonNull final Uri uri, @NonNull final LoadedCallback callback) {
 		getService().getAnnotateImageResponse(Service.UriImageBuilder.newBuilder(uri), new Consumer<BatchAnnotateImagesResponse>() {
 			@Override
 			public void accept(BatchAnnotateImagesResponse response) throws Exception {
@@ -31,7 +31,7 @@ public final class DsWebSource extends AbstractDsSource {
 					callback.onError(error);
 				} else {
 					callback.onVisionResponse(response);
-					callback.onSaveHistory(null, null, response);
+					callback.onSaveHistory(null, uri, response);
 				}
 			}
 		});

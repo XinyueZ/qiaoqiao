@@ -21,6 +21,9 @@ import com.qiaoqiao.app.App;
 import com.qiaoqiao.bus.WebLinkInputEvent;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
+import com.qiaoqiao.history.DaggerHistoryComponent;
+import com.qiaoqiao.history.HistoryModule;
+import com.qiaoqiao.history.ui.HistoryFragment;
 import com.qiaoqiao.home.DaggerHomeComponent;
 import com.qiaoqiao.home.Home;
 import com.qiaoqiao.home.HomeContract;
@@ -101,6 +104,11 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		                                      .visionModule(new VisionModule((VisionListFragment) getSupportFragmentManager().findFragmentById(R.id.vision_fg)))
 		                                      .build()
 		                                      .getVisionManager();
+		DaggerHistoryComponent.builder()
+		                      .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
+		                      .historyModule(new HistoryModule((HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.history_fg)))
+		                      .build()
+		                      .getHistoryManager();
 	}
 
 

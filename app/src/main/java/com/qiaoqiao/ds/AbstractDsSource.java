@@ -3,6 +3,7 @@ package com.qiaoqiao.ds;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -43,13 +44,15 @@ public abstract class AbstractDsSource {
 
 
 	public static abstract class LoadedCallback {
-		public void onSaveHistory(final byte[] byteArray, final String imageUri, @NonNull final BatchAnnotateImagesResponse response) {
+		public void onSaveHistory(@Nullable  final byte[] byteArray, @Nullable  final Uri imageUri, @NonNull final BatchAnnotateImagesResponse response) {
 			final Realm realm = Realm.getDefaultInstance();
 			realm.executeTransactionAsync(new Realm.Transaction() {
 				@Override
 				public void execute(Realm bgRealm) {
 					HistoryItem historyItem = bgRealm.createObject(HistoryItem.class);
-					historyItem.setImageUri(imageUri);
+					if (imageUri != null) {
+						historyItem.setImageUri(imageUri.toString());
+					}
 					historyItem.setByteArray(byteArray);
 					historyItem.setSavedTime(System.currentTimeMillis());
 					try {

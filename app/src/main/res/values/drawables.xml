@@ -5,4 +5,5 @@
     <item name="ic_from_local" type="drawable">@drawable/ic_from_local_compat</item>
     <item name="ic_location_pin" type="drawable">@drawable/ic_location_pin_compat</item>
     <item name="ic_web_link_open" type="drawable">@drawable/ic_web_link_open_compat</item>
+    <item name="ic_default_image" type="drawable">@drawable/ic_default_image_compat</item>
 </resources>

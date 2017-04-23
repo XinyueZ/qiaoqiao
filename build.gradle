@@ -30,7 +30,7 @@ ext {
     compileSdkVersion = Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
     minSdkVersion = Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
     targetSdkVersion = Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
-    supportLibraryVersion =  project.SUPPORT
+    supportLibraryVersion = project.SUPPORT
 
 
     bus = "3+"
@@ -59,4 +59,7 @@ ext {
     httpClientGson = "1.20.0"
     vision = "v1-rev352-1.22.0"
     apiClientAndroid = "1.20.0"
+
+    //Image-loader
+    imageLoader = "3.7.0"
 }
