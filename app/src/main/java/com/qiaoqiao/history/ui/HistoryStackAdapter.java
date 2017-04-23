@@ -3,6 +3,7 @@ package com.qiaoqiao.history.ui;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.widget.BaseAdapter;
 
 import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
+import com.qiaoqiao.bus.HistoryItemClickEvent;
 import com.qiaoqiao.databinding.ItemHistoryBinding;
 import com.qiaoqiao.ds.database.HistoryItem;
 
+import de.greenrobot.event.EventBus;
 import io.realm.RealmResults;
 
 public final class HistoryStackAdapter extends BaseAdapter {
@@ -74,11 +77,21 @@ public final class HistoryStackAdapter extends BaseAdapter {
 				     .into(holder.binding.historyItemIv);
 			}
 		}
+		holder.binding.setViewholder(holder);
+		holder.binding.setHistoryItem(historyItem);
 		holder.binding.executePendingBindings();
 		return view;
 	}
 
-	private final class ViewHolder {
-		ItemHistoryBinding binding;
+	public static final class ViewHolder {
+		private final HistoryItemClickEvent historyItemClickEvent = new HistoryItemClickEvent();
+		private ItemHistoryBinding binding;
+
+
+		public void onEntryClicked(@NonNull HistoryItem historyItem) {
+			historyItemClickEvent.setHistoryItem(historyItem);
+			EventBus.getDefault()
+			        .post(historyItemClickEvent);
+		}
 	}
 }

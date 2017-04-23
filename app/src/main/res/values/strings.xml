@@ -11,5 +11,4 @@
     <string name="no_map_app_title">Route unavailable</string>
     <string name="no_map_apps">Can not find route, checkout whether you have map-app on your device.</string>
 
-    <string name="page">%s page</string>
 </resources>

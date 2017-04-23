@@ -1,30 +1,43 @@
 package com.qiaoqiao.history;
 
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.AdapterView;
+import android.support.design.widget.Snackbar;
 
-import com.qiaoqiao.R;
+import com.qiaoqiao.bus.HistoryItemClickEvent;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
 import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.history.ui.HistoryStackAdapter;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
-public final class HistoryManager implements HistoryContract.Presenter,
-                                             AdapterView.OnItemSelectedListener {
+public final class HistoryManager implements HistoryContract.Presenter {
 	private final @NonNull FragmentHistoryBinding mBinding;
 	private final @NonNull HistoryContract.View mView;
 	private @Nullable RealmResults<HistoryItem> mResult;
 	private @Nullable HistoryStackAdapter mHistoryStackAdapter;
 
+	//------------------------------------------------
+	//Subscribes, event-handlers
+	//------------------------------------------------
+
+	/**
+	 * Handler for {@link HistoryItemClickEvent}.
+	 * @param e Event {@link HistoryItemClickEvent}.
+	 */
+	@Subscribe
+	public void onEvent(HistoryItemClickEvent e) {
+		Snackbar.make(mBinding.getRoot(), "HistoryItemClickEvent", Snackbar.LENGTH_SHORT).show();
+	}
+
+	//------------------------------------------------
 	@Inject
 	HistoryManager(@NonNull FragmentHistoryBinding binding, @NonNull HistoryContract.View view) {
 		mBinding = binding;
@@ -57,25 +70,16 @@ public final class HistoryManager implements HistoryContract.Presenter,
 		if (mResult != null) {
 			mResult.addChangeListener(mChangeListener);
 		}
-		mBinding.historyStv.setOnItemSelectedListener(this);
+		EventBus.getDefault()
+		        .register(this);
 	}
 
 	@Override
 	public void stop() {
+		EventBus.getDefault()
+		        .unregister(this);
 		if (mResult != null) {
 			mResult.removeChangeListener(mChangeListener);
 		}
-		mBinding.historyStv.setOnItemSelectedListener(null);
-	}
-
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		Context cxt = view.getContext();
-		mBinding.historyItemTv.setText(String.format(cxt.getString(R.string.page), String.valueOf(position + 1)));
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
-
 	}
 }
