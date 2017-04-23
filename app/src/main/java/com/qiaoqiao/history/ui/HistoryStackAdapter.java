@@ -53,9 +53,10 @@ public final class HistoryStackAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
+		Context cxt = holder.binding.getRoot()
+		                            .getContext();
 		if (historyItem.getByteArray() != null && historyItem.getByteArray().length > 0) {
-			Glide.with(holder.binding.getRoot()
-			                         .getContext())
+			Glide.with(cxt)
 			     .load(historyItem.getByteArray())
 			     .centerCrop()
 			     .placeholder(R.drawable.ic_default_image)
@@ -65,8 +66,7 @@ public final class HistoryStackAdapter extends BaseAdapter {
 			if (TextUtils.isEmpty(historyItem.getImageUri())) {
 				holder.binding.historyItemIv.setImageResource(R.drawable.ic_default_image);
 			} else {
-				Glide.with(holder.binding.getRoot()
-				                         .getContext())
+				Glide.with(cxt)
 				     .load(historyItem.getImageUri())
 				     .centerCrop()
 				     .placeholder(R.drawable.ic_default_image)
@@ -74,6 +74,7 @@ public final class HistoryStackAdapter extends BaseAdapter {
 				     .into(holder.binding.historyItemIv);
 			}
 		}
+		holder.binding.executePendingBindings();
 		return view;
 	}
 
