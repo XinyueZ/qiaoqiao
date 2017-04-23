@@ -70,6 +70,7 @@ public final class VisionManager implements VisionContract.Presenter {
 					final EntityAnnotation entityAnnotation = landmarkAnnotations.get(0);
 					if (entityAnnotation != null) {
 						addLandmarkEntity(entityAnnotation);
+						mBinding.visionRv.scrollToPosition(mVisionListAdapter.getItemCount() - 1);
 					}
 				}
 				final WebDetection webDetection = annotateImage.getWebDetection();
@@ -79,6 +80,7 @@ public final class VisionManager implements VisionContract.Presenter {
 						final WebEntity webEntity = webEntities.get(0);
 						if (webEntity != null) {
 							addWebEntity(webEntity);
+							mBinding.visionRv.scrollToPosition(mVisionListAdapter.getItemCount() - 1);
 						}
 					}
 				}
