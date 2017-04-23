@@ -19,7 +19,8 @@
             android:id="@+id/history_stv"
             android:layout_width="@dimen/history_item_size"
             android:layout_height="@dimen/history_item_size"
-            android:animateLayoutChanges="true"/>
+            android:animateLayoutChanges="true"
+            android:loopViews="true"/>
 
         <TextView
             android:id="@+id/history_item_tv"
