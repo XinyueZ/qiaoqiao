@@ -6,4 +6,9 @@
     <string name="permission_relation_to_read_external_storage_text">QiaoQiao App needs device permission to read your \"EXTERNAL STORAGE\", consider to grant this permission.</string>
     <string name="hint_link_image">Link to an image</string>
     <string name="error_can_not_find_file">Can not find file.</string>
+
+
+    <string name="no_map_app_title">Route unavailable</string>
+    <string name="no_map_apps">Can not find route, checkout whether you have map-app on your device.</string>
+
 </resources>

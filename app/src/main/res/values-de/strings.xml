@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_map_app_title">Route nicht möglich</string>
+    <string name="no_map_apps">Bitte laden Sie einen Browser oder einen Kartendienst aus dem App Store, um die Route anzuzeigen.</string>
+
+</resources>
