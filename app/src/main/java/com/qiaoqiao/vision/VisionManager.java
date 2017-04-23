@@ -14,7 +14,6 @@ import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
-import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.vision.model.VisionEntity;
 import com.qiaoqiao.vision.ui.VisionListAdapter;
 
@@ -90,12 +89,10 @@ public final class VisionManager implements VisionContract.Presenter {
 
 
 	private void addLandmarkEntity(@NonNull EntityAnnotation entityAnnotation) {
-		LL.d("addLandmarkEntity");
 		mVisionListAdapter.addVisionEntity(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION"));
 	}
 
 	private void addWebEntity(@NonNull WebEntity webEntity) {
-		LL.d("addWebEntity");
 		mVisionListAdapter.addVisionEntity(new VisionEntity(webEntity, "WEB_DETECTION"));
 
 	}

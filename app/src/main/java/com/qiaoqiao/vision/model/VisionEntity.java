@@ -30,8 +30,20 @@ public final class VisionEntity {
 		return new VisionEntityDescription(this);
 	}
 
+	public @NonNull
+	VisionEntityId getId() {
+		return new VisionEntityId(this);
+	}
+
 	@Override
 	public String toString() {
-		return getDescription().toString();
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("id: ")
+		             .append(getId().toString())
+		             .append('\n')
+		             .append("Description: ")
+		             .append(getDescription().toString())
+		             .append('\n');
+		return stringBuilder.toString();
 	}
 }

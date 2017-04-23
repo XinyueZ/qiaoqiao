@@ -13,6 +13,7 @@ import com.qiaoqiao.R;
 import com.qiaoqiao.bus.EntityClickEvent;
 import com.qiaoqiao.databinding.ItemVisionLandmarkBinding;
 import com.qiaoqiao.databinding.ItemVisionWebBinding;
+import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	}
 
 	public void addVisionEntity(@NonNull VisionEntity entity) {
+		LL.d(entity.toString());
 		mEntities.push(entity);
 		//TODO Should update the position where we insert only.
 		notifyDataSetChanged();
