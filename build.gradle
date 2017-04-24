@@ -59,9 +59,9 @@ ext {
     autoValue = "1.4"
     playService = "10.2.1"
     httpClientGson = "1.20.0"
-    translate = "0.15.0-beta"
-    vision = "v1-rev352-1.22.0"
     apiClientAndroid = "1.20.0"
+    vision = "v1-rev352-1.22.0"
+    translate = "v2-rev49-1.22.0"
 
     //Image-loader
     imageLoader = "3.7.0"

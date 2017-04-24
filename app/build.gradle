@@ -149,38 +149,34 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit-mock:${retrofit}"
     compile "com.squareup.retrofit2:converter-gson:${retrofit}"
 
-    compile "com.github.castorflex.smoothprogressbar:library:${smoothprogressbar}"
-
-    compile "commons-io:commons-io:${apacheIO}"
 
     //Google-service include vision-api
     compile("com.google.http-client:google-http-client-gson:${httpClientGson}", {
         exclude module: 'httpclient'
+        exclude group: 'org.json', module: 'json'
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-        exclude group: 'org.json', module: 'json'
 
     })
     compile("com.google.api-client:google-api-client-android:${apiClientAndroid}", {
         exclude module: 'httpclient'
+        exclude group: 'org.json', module: 'json'
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-        exclude group: 'org.json', module: 'json'
 
     })
     compile("com.google.apis:google-api-services-vision:${vision}", {
         exclude module: 'httpclient'
+        exclude group: 'org.json', module: 'json'
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-        exclude group: 'org.json', module: 'json'
 
     })
-    compile("com.google.cloud:google-cloud-translate:${translate}", {
+    compile("com.google.apis:google-api-services-translate:${translate}", {
         exclude module: 'httpclient'
+        exclude group: 'org.json', module: 'json'
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-        exclude group: 'org.json', module: 'json'
-        exclude group: 'com.google.guava' //vision api has used this library already.
 
     })
     //Play-service
@@ -190,6 +186,11 @@ dependencies {
     //Annotation-process
     provided "com.google.auto.value:auto-value:${autoValue}"
     annotationProcessor "com.google.auto.value:auto-value:${autoValue}"
+
+
+    //Others
+    compile "commons-io:commons-io:${apacheIO}"
+    compile "com.github.castorflex.smoothprogressbar:library:${smoothprogressbar}"
 }
 
 // Rename final apks
