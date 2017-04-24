@@ -98,5 +98,12 @@
                 app:rippleColor="@color/colorGrey"
                 app:srcCompat="@drawable/ic_direction"/>
         </LinearLayout>
+
+        <com.qiaoqiao.views.WeatherLayout
+            android:id="@+id/weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right|end"
+            android:layout_margin="@dimen/larger"/>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

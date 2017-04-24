@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.ActivityMapBinding;
 import com.qiaoqiao.utils.SystemUiHelper;
+import com.qiaoqiao.views.WeatherLayout;
 
 import static android.os.Bundle.EMPTY;
 
@@ -120,14 +121,15 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		googleMap.getUiSettings()
 		         .setMapToolbarEnabled(false);
 		if (mGoogleMap != null) {
-			moveToLocation(getIntent(), googleMap);
+			moveToLocation(getIntent(), googleMap, mBinding.weather);
 		}
 	}
 
-	private static void moveToLocation(@NonNull Intent intent, @NonNull GoogleMap googleMap) {
+	private static void moveToLocation(@NonNull Intent intent, @NonNull GoogleMap googleMap, @NonNull WeatherLayout weatherLayout) {
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
 		googleMap.addMarker(new MarkerOptions().position(latLng));
+		weatherLayout.setWeather(latLng);
 	}
 
 	public void onClickDirectionButton(View view) {
@@ -138,7 +140,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 
 	public void onClickLocationButton(View view) {
 		if (mGoogleMap != null) {
-			moveToLocation(getIntent(), mGoogleMap);
+			moveToLocation(getIntent(), mGoogleMap, mBinding.weather);
 		}
 	}
 

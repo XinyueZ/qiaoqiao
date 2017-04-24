@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.ActivityStreetviewBinding;
 import com.qiaoqiao.utils.SystemUiHelper;
+import com.qiaoqiao.views.WeatherLayout;
 
 import static android.os.Bundle.EMPTY;
 
@@ -107,13 +108,14 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 	public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
 		mStreetViewPanorama = streetViewPanorama;
 		if (mStreetViewPanorama != null) {
-			moveToLocation(getIntent(), mStreetViewPanorama);
+			moveToLocation(getIntent(), mStreetViewPanorama, mBinding.weather);
 		}
 	}
 
-	private static void moveToLocation(@NonNull Intent intent, @NonNull StreetViewPanorama streetViewPanorama) {
+	private static void moveToLocation(@NonNull Intent intent, @NonNull StreetViewPanorama streetViewPanorama, @NonNull  WeatherLayout weatherLayout) {
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		streetViewPanorama.setPosition(latLng);
+		weatherLayout.setWeather(latLng);
 	}
 
 	public void onClickDirectionButton(View view) {
@@ -125,7 +127,7 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 
 	public void onClickLocationButton(View view) {
 		if (mStreetViewPanorama != null) {
-			moveToLocation(getIntent(), mStreetViewPanorama);
+			moveToLocation(getIntent(), mStreetViewPanorama, mBinding.weather);
 		}
 	}
 
