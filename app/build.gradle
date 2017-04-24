@@ -4,8 +4,8 @@ def buildNumber = 'bld' + (System.env.BUILD_NUMBER ?: 'SNAPSHOT')
 android {
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     configurations {
@@ -49,11 +49,29 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 
     lintOptions {
         htmlReport false
         abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'com/google/cloud/project.properties'
+        exclude 'META-INF/io.netty.versions.properties'
+    }
+
+
+    dexOptions {
+        preDexLibraries true
+        javaMaxHeapSize project.JAVA_MAX_HEAP_SIZE
     }
 }
 
@@ -135,15 +153,43 @@ dependencies {
 
     compile "commons-io:commons-io:${apacheIO}"
 
-    //Google Service include vision-api
-    compile("com.google.api-client:google-api-client-android:${apiClientAndroid}", {
-        exclude module: 'httpclient'
-    })
+    //Google-service include vision-api
     compile("com.google.http-client:google-http-client-gson:${httpClientGson}", {
         exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'org.json', module: 'json'
+
     })
-    compile group: "com.google.apis", name: "google-api-services-vision", version: "${vision}"
-    compile "com.google.android.gms:play-services:${playService}"
+    compile("com.google.api-client:google-api-client-android:${apiClientAndroid}", {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'org.json', module: 'json'
+
+    })
+    compile("com.google.apis:google-api-services-vision:${vision}", {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'org.json', module: 'json'
+
+    })
+    compile("com.google.cloud:google-cloud-translate:${translate}", {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'org.json', module: 'json'
+        exclude group: 'com.google.guava' //vision api has used this library already.
+
+    })
+    //Play-service
+    compile("com.google.android.gms:play-services-maps:${playService}") {
+        force = true
+    }
+    //Annotation-process
+    provided "com.google.auto.value:auto-value:${autoValue}"
+    annotationProcessor "com.google.auto.value:auto-value:${autoValue}"
 }
 
 // Rename final apks

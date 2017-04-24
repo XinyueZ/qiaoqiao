@@ -56,8 +56,10 @@ ext {
     apacheIO = "2.4"
 
     //Google Service
-    playService = "10.2.0"
+    autoValue = "1.4"
+    playService = "10.2.1"
     httpClientGson = "1.20.0"
+    translate = "0.15.0-beta"
     vision = "v1-rev352-1.22.0"
     apiClientAndroid = "1.20.0"
 
