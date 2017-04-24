@@ -57,7 +57,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="2">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/streetview_fab"
@@ -72,18 +72,7 @@
                 app:rippleColor="@color/colorGrey"
                 app:srcCompat="@drawable/ic_streetview"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/location_fab"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/larger"
-                android:layout_weight="1"
-                android:onClick="onClickLocationButton"
-                app:backgroundTint="@color/colorTeal"
-                app:fabSize="normal"
-                app:rippleColor="@color/colorGrey"
-                app:srcCompat="@drawable/ic_location_pin"/>
+
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/direction_fab"

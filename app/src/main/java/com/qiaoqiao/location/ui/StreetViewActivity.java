@@ -25,7 +25,7 @@ import static android.os.Bundle.EMPTY;
 public final class StreetViewActivity extends AppCompatActivity implements OnStreetViewPanoramaReadyCallback {
 	private static final int LAYOUT = R.layout.activity_streetview;
 	private static final String EXTRAS_LATLNG = StreetViewActivity.class.getName() + ".EXTRAS.latlng";
-	private @Nullable ActivityStreetviewBinding mBinding;
+	private ActivityStreetviewBinding mBinding;
 	private @Nullable SupportStreetViewPanoramaFragment mStreetViewPanoramaFragment;
 
 	public static void showInstance(@NonNull Activity cxt, @NonNull LatLng latLng) {
@@ -48,6 +48,13 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 		mStreetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (mStreetViewPanoramaFragment != null) {
+			mStreetViewPanoramaFragment.onSaveInstanceState(outState);
+		}
+	}
 
 	@Override
 	protected void onPause() {
@@ -112,7 +119,7 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 		}
 	}
 
-	private static void moveToLocation(@NonNull Intent intent, @NonNull StreetViewPanorama streetViewPanorama, @NonNull  WeatherLayout weatherLayout) {
+	private static void moveToLocation(@NonNull Intent intent, @NonNull StreetViewPanorama streetViewPanorama, @NonNull WeatherLayout weatherLayout) {
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		streetViewPanorama.setPosition(latLng);
 		weatherLayout.setWeather(latLng);

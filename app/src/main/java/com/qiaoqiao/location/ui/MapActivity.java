@@ -33,7 +33,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
                                                                     GoogleMap.OnMapClickListener {
 	private static final int LAYOUT = R.layout.activity_map;
 	private static final String EXTRAS_LATLNG = MapActivity.class.getName() + ".EXTRAS.latlng";
-	private @Nullable ActivityMapBinding mBinding;
+	private ActivityMapBinding mBinding;
 	private @Nullable SupportMapFragment mSupportMapFragment;
 
 	public static void showInstance(@NonNull Activity cxt, @NonNull LatLng latLng) {
@@ -56,6 +56,16 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		mBinding.streetview.getStreetViewPanoramaAsync(this);
 		mSupportMapFragment.onCreate(savedInstanceState);
 		mSupportMapFragment.onStart();
+		mBinding.streetview.onCreate(savedInstanceState);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (mSupportMapFragment != null) {
+			mSupportMapFragment.onSaveInstanceState(outState);
+		}
+		mBinding.streetview.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -64,6 +74,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		if (mSupportMapFragment != null) {
 			mSupportMapFragment.onPause();
 		}
+		mBinding.streetview.onPause();
 	}
 
 	@Override
@@ -72,6 +83,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		if (mSupportMapFragment != null) {
 			mSupportMapFragment.onResume();
 		}
+		mBinding.streetview.onResume();
 	}
 
 	@Override
@@ -100,6 +112,11 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 				e.printStackTrace();
 			}
 		}
+		try {
+			mBinding.streetview.onDestroy();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -127,7 +144,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 
 	private static void moveToLocation(@NonNull Intent intent, @NonNull GoogleMap googleMap, @NonNull WeatherLayout weatherLayout) {
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
-		googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+		googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 		googleMap.addMarker(new MarkerOptions().position(latLng));
 		weatherLayout.setWeather(latLng);
 	}
@@ -138,11 +155,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		RouteCalcClientPicker.show(this, latLng);
 	}
 
-	public void onClickLocationButton(View view) {
-		if (mGoogleMap != null) {
-			moveToLocation(getIntent(), mGoogleMap, mBinding.weather);
-		}
-	}
+
 
 	public void onClickStreetViewButton(View view) {
 		final Intent intent = getIntent();
@@ -161,6 +174,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 	@Override
 	public void onStreetViewPanoramaChange(StreetViewPanoramaLocation streetViewPanoramaLocation) {
 		if (streetViewPanoramaLocation != null && streetViewPanoramaLocation.links != null) {
+			mBinding.streetviewFab.setVisibility(View.VISIBLE);
 			return;
 		}
 		if (mBinding != null) {
