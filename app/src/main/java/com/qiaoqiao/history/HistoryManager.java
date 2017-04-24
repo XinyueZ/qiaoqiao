@@ -4,10 +4,11 @@ package com.qiaoqiao.history;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.view.View;
 
-import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
 import com.qiaoqiao.ds.database.HistoryItem;
+import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.history.ui.HistoryStackAdapter;
 
 import javax.inject.Inject;
@@ -30,11 +31,13 @@ public final class HistoryManager implements HistoryContract.Presenter {
 
 	/**
 	 * Handler for {@link HistoryItemClickEvent}.
+	 *
 	 * @param e Event {@link HistoryItemClickEvent}.
 	 */
 	@Subscribe
 	public void onEvent(HistoryItemClickEvent e) {
-		Snackbar.make(mBinding.getRoot(), "HistoryItemClickEvent", Snackbar.LENGTH_SHORT).show();
+		Snackbar.make(mBinding.getRoot(), "HistoryItemClickEvent", Snackbar.LENGTH_SHORT)
+		        .show();
 	}
 
 	//------------------------------------------------
@@ -51,12 +54,15 @@ public final class HistoryManager implements HistoryContract.Presenter {
 
 	private final RealmChangeListener<RealmResults<HistoryItem>> mChangeListener = new RealmChangeListener<RealmResults<HistoryItem>>() {
 		@Override
-		public void onChange(RealmResults<HistoryItem> historyItem) {
+		public void onChange(RealmResults<HistoryItem> historyItemList) {
 			if (mHistoryStackAdapter == null) {
 				return;
 			}
 			mHistoryStackAdapter.notifyDataSetChanged();
 			mBinding.historyStv.setSelection(mHistoryStackAdapter.getCount() - 1);
+			mBinding.historyItemTv.setVisibility(historyItemList.size() > 0 ?
+			                                     View.VISIBLE :
+			                                     View.GONE);
 		}
 	};
 

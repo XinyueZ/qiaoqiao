@@ -84,7 +84,11 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 	protected void onDestroy() {
 		super.onDestroy();
 		if (mStreetViewPanoramaFragment != null) {
-			mStreetViewPanoramaFragment.onDestroy();
+			try {
+				mStreetViewPanoramaFragment.onDestroy();
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

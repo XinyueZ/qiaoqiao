@@ -93,7 +93,11 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 	protected void onDestroy() {
 		super.onDestroy();
 		if (mSupportMapFragment != null) {
-			mSupportMapFragment.onDestroy();
+			try {
+				mSupportMapFragment.onDestroy();
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
