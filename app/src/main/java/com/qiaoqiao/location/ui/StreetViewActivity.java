@@ -25,6 +25,7 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 	private static final int LAYOUT = R.layout.activity_streetview;
 	private static final String EXTRAS_LATLNG = StreetViewActivity.class.getName() + ".EXTRAS.latlng";
 	private @Nullable ActivityStreetviewBinding mBinding;
+	private @Nullable SupportStreetViewPanoramaFragment mStreetViewPanoramaFragment;
 
 	public static void showInstance(@NonNull Activity cxt, @NonNull LatLng latLng) {
 		Intent intent = new Intent(cxt, StreetViewActivity.class);
@@ -41,8 +42,50 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
 		uiHelper.hide();
 		mBinding.setUiHelper(uiHelper);
-		SupportStreetViewPanoramaFragment streetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getSupportFragmentManager().findFragmentById(R.id.panorama);
-		streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
+		mStreetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getSupportFragmentManager().findFragmentById(R.id.panorama);
+		mStreetViewPanoramaFragment.onCreate(savedInstanceState);
+		mStreetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
+	}
+
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mStreetViewPanoramaFragment != null) {
+			mStreetViewPanoramaFragment.onPause();
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (mStreetViewPanoramaFragment != null) {
+			mStreetViewPanoramaFragment.onResume();
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (mStreetViewPanoramaFragment != null) {
+			mStreetViewPanoramaFragment.onStart();
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if (mStreetViewPanoramaFragment != null) {
+			mStreetViewPanoramaFragment.onStop();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mStreetViewPanoramaFragment != null) {
+			mStreetViewPanoramaFragment.onDestroy();
+		}
 	}
 
 	@Override

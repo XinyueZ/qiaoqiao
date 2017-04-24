@@ -33,6 +33,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 	private static final int LAYOUT = R.layout.activity_map;
 	private static final String EXTRAS_LATLNG = MapActivity.class.getName() + ".EXTRAS.latlng";
 	private @Nullable ActivityMapBinding mBinding;
+	private @Nullable SupportMapFragment mSupportMapFragment;
 
 	public static void showInstance(@NonNull Activity cxt, @NonNull LatLng latLng) {
 		Intent intent = new Intent(cxt, MapActivity.class);
@@ -49,10 +50,51 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
 		uiHelper.hide();
 		mBinding.setUiHelper(uiHelper);
-		SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-		supportMapFragment.getMapAsync(this);
-
+		mSupportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+		mSupportMapFragment.getMapAsync(this);
 		mBinding.streetview.getStreetViewPanoramaAsync(this);
+		mSupportMapFragment.onCreate(savedInstanceState);
+		mSupportMapFragment.onStart();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mSupportMapFragment != null) {
+			mSupportMapFragment.onPause();
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (mSupportMapFragment != null) {
+			mSupportMapFragment.onResume();
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (mSupportMapFragment != null) {
+			mSupportMapFragment.onStart();
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if (mSupportMapFragment != null) {
+			mSupportMapFragment.onStop();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mSupportMapFragment != null) {
+			mSupportMapFragment.onDestroy();
+		}
 	}
 
 	@Override
