@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
-import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
 import com.qiaoqiao.databinding.HomeBinding;
+import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
 import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
 import com.qiaoqiao.history.DaggerHistoryComponent;
 import com.qiaoqiao.history.HistoryModule;
@@ -109,6 +109,8 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		                      .historyModule(new HistoryModule((HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.history_fg)))
 		                      .build()
 		                      .getHistoryManager();
+
+		binding.testBtn.setOnClickListener(v -> mPresenter.testWiki());
 	}
 
 

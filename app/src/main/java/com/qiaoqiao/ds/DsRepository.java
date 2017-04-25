@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Service;
+import com.qiaoqiao.backend.WikipediaAPIs;
 
 import java.io.File;
 
@@ -28,15 +29,27 @@ import javax.inject.Singleton;
 
 @Singleton
 public final class DsRepository extends AbstractDsSource {
-	private final AbstractDsSource mWebDs;
-	private final AbstractDsSource mLocalDs;
-	private final AbstractDsSource mCameraDs;
+	private @NonNull  final AbstractDsSource mWebDs;
+	private @NonNull  final AbstractDsSource mLocalDs;
+	private @NonNull  final AbstractDsSource mCameraDs;
+	private @NonNull final AbstractDsSource mWikipediaRemoteDs;
 
-	DsRepository(@NonNull Service service, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs) {
-		super(service);
+	DsRepository(@NonNull Service service,
+	             @NonNull WikipediaAPIs wikipediaAPIs,
+	             @Web AbstractDsSource webDs,
+	             @Local AbstractDsSource localDs,
+	             @Camera AbstractDsSource cameraDs,
+	             @Wikipedia AbstractDsSource wikipediaRemoteDs) {
+		super(service, wikipediaAPIs);
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;
+		mWikipediaRemoteDs = wikipediaRemoteDs;
+	}
+
+	@Override
+	public void onKnowledgeQuery(@NonNull String keyword, @NonNull LoadedCallback callback) {
+		mWikipediaRemoteDs.onKnowledgeQuery(keyword, callback);
 	}
 
 	@Override

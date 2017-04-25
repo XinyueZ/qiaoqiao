@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.Service;
+import com.qiaoqiao.backend.WikipediaAPIs;
+import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.utils.LL;
 
@@ -21,17 +23,30 @@ import java.util.Set;
 import io.realm.Realm;
 
 public abstract class AbstractDsSource {
-	private @NonNull final Service mService;
+	private Service mService;
+	private WikipediaAPIs mWikipediaAPIs;
 
 	public AbstractDsSource(@NonNull Service service) {
 		mService = service;
 	}
 
-	@NonNull
+	public AbstractDsSource(@NonNull WikipediaAPIs wikipediaAPIs) {
+		mWikipediaAPIs = wikipediaAPIs;
+	}
+
+
+	public AbstractDsSource(@NonNull Service service, @NonNull WikipediaAPIs wikipediaAPIs) {
+		mService = service;
+		mWikipediaAPIs = wikipediaAPIs;
+	}
+
 	protected Service getService() {
 		return mService;
 	}
 
+	protected WikipediaAPIs getWikipediaAPIs() {
+		return mWikipediaAPIs;
+	}
 
 	public void onBytes(@NonNull byte[] bytes, @NonNull LoadedCallback callback) {
 	}
@@ -42,36 +57,27 @@ public abstract class AbstractDsSource {
 	public void onUri(@NonNull Uri uri, @NonNull LoadedCallback callback) {
 	}
 
+	public void onKnowledgeQuery(@NonNull String keyword, @NonNull LoadedCallback callback) {
+
+	}
+
 
 	public static abstract class LoadedCallback {
 		public void onSaveHistory(@Nullable  final byte[] byteArray, @Nullable  final Uri imageUri, @NonNull final BatchAnnotateImagesResponse response) {
 			final Realm realm = Realm.getDefaultInstance();
-			realm.executeTransactionAsync(new Realm.Transaction() {
-				@Override
-				public void execute(Realm bgRealm) {
-					HistoryItem historyItem = bgRealm.createObject(HistoryItem.class);
-					if (imageUri != null) {
-						historyItem.setImageUri(imageUri.toString());
-					}
-					historyItem.setByteArray(byteArray);
-					historyItem.setSavedTime(System.currentTimeMillis());
-					try {
-						historyItem.setJsonText(response.toPrettyString());
-					} catch (IOException e) {
-						LL.d("Saved history fail.");
-					}
+			realm.executeTransactionAsync(bgRealm -> {
+				HistoryItem historyItem = bgRealm.createObject(HistoryItem.class);
+				if (imageUri != null) {
+					historyItem.setImageUri(imageUri.toString());
 				}
-			}, new Realm.Transaction.OnSuccess() {
-				@Override
-				public void onSuccess() {
-					LL.d("Saved history successfully.");
-				}
-			}, new Realm.Transaction.OnError() {
-				@Override
-				public void onError(Throwable error) {
+				historyItem.setByteArray(byteArray);
+				historyItem.setSavedTime(System.currentTimeMillis());
+				try {
+					historyItem.setJsonText(response.toPrettyString());
+				} catch (IOException e) {
 					LL.d("Saved history fail.");
 				}
-			});
+			}, () -> LL.d("Saved history successfully."), error -> LL.d("Saved history fail."));
 		}
 
 		public void onVisionResponse(BatchAnnotateImagesResponse response) {
@@ -85,6 +91,10 @@ public abstract class AbstractDsSource {
 			} catch (IOException e) {
 				LL.d("response is available but IO problem: " + e.toString());
 			}
+		}
+
+		public void onKnowledgeResponse(WikiResult result) {
+			LL.d("response of wiki: " + result.toString());
 		}
 
 		public void onError(@NonNull Status status) {

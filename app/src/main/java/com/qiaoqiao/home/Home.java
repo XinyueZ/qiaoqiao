@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
@@ -17,11 +16,11 @@ import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.R;
+import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.databinding.HomeBinding;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsRepository;
 import com.qiaoqiao.utils.LL;
-import com.qiaoqiao.views.MainControlView;
 
 import java.io.File;
 
@@ -43,32 +42,23 @@ public final class Home implements HomeContract.Presenter {
 
 	@Inject
 	void onInjected() {
-		mHomeBinding.mainControl.setOnFromLocalClickedListener(new MainControlView.OnFromLocalClickedListener() {
-			@Override
-			public void onClick(View v) {
-				mHomeView.showLoadFromLocal();
-				mHomeBinding.getUiHelper()
-				            .hide();
+		mHomeBinding.mainControl.setOnFromLocalClickedListener(v -> {
+			mHomeView.showLoadFromLocal();
+			mHomeBinding.getUiHelper()
+			            .hide();
 //				mHomeBinding.loadingPb.setVisibility(View.VISIBLE);
-			}
 		});
-		mHomeBinding.mainControl.setOnCaptureClickedListener(new MainControlView.OnCaptureClickedListener() {
-			@Override
-			public void onClick(View v) {
-				capturePhoto();
-				mHomeBinding.getUiHelper()
-				            .hide();
+		mHomeBinding.mainControl.setOnCaptureClickedListener(v -> {
+			capturePhoto();
+			mHomeBinding.getUiHelper()
+			            .hide();
 //				mHomeBinding.loadingPb.setVisibility(View.VISIBLE);
-			}
 		});
-		mHomeBinding.mainControl.setOnFromWebClickedListener(new MainControlView.OnFromWebClickedListener() {
-			@Override
-			public void onClick(View v) {
-				mHomeView.showInputFromWeb();
-				mHomeBinding.getUiHelper()
-				            .hide();
+		mHomeBinding.mainControl.setOnFromWebClickedListener(v -> {
+			mHomeView.showInputFromWeb();
+			mHomeBinding.getUiHelper()
+			            .hide();
 //				mHomeBinding.loadingPb.setVisibility(View.VISIBLE);
-			}
 		});
 
 		mHomeView.setPresenter(this);
@@ -234,5 +224,14 @@ public final class Home implements HomeContract.Presenter {
 				cursor.close();
 			}
 		}
+	}
+
+	public void testWiki() {
+		mDsRepository.onKnowledgeQuery("上海", new AbstractDsSource.LoadedCallback() {
+			@Override
+			public void onKnowledgeResponse(WikiResult result) {
+				super.onKnowledgeResponse(result);
+			}
+		});
 	}
 }
