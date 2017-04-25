@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.qiaoqiao.databinding.LayoutMainControlBinding;
 
@@ -43,45 +44,49 @@ public final class MainControlView extends FrameLayout {
 	}
 
 	public void startCaptureProgressBar() {
-		animateProgressBar(mBinding.captureFbPb.getDrawable());
+		animateProgressBar(mBinding.captureFbPb);
 		mBinding.captureFb.setEnabled(false);
 	}
 
 	public void stopCaptureProgressBar() {
-		stopAnimateProgressBar(mBinding.captureFbPb.getDrawable());
+		stopAnimateProgressBar(mBinding.captureFbPb);
 		mBinding.captureFb.setEnabled(true);
 	}
 
 	public void startLocalProgressBar() {
-		animateProgressBar(mBinding.fromLocalFbPb.getDrawable());
+		animateProgressBar(mBinding.fromLocalFbPb);
 		mBinding.fromLocalFb.setEnabled(false);
 	}
 
 	public void stopLocalProgressBar() {
-		stopAnimateProgressBar(mBinding.fromLocalFbPb.getDrawable());
+		stopAnimateProgressBar(mBinding.fromLocalFbPb);
 		mBinding.fromLocalFb.setEnabled(true);
 	}
 
 	public void startWebProgressBar() {
-		animateProgressBar(mBinding.fromWebFbPb.getDrawable());
+		animateProgressBar(mBinding.fromWebFbPb);
 		mBinding.fromWebFb.setEnabled(false);
 	}
 
 	public void stopWebProgressBar() {
-		stopAnimateProgressBar(mBinding.fromWebFbPb.getDrawable());
+		stopAnimateProgressBar(mBinding.fromWebFbPb);
 		mBinding.fromWebFb.setEnabled(true);
 	}
 
-	private void animateProgressBar(Drawable drawable) {
+	private void animateProgressBar(ImageView view) {
+		final Drawable drawable = view.getDrawable();
 		if (drawable instanceof Animatable) {
 			((Animatable) drawable).start();
 		}
+		view.setVisibility(VISIBLE);
 	}
 
-	private void stopAnimateProgressBar(Drawable drawable) {
+	private void stopAnimateProgressBar(ImageView view) {
+		final Drawable drawable = view.getDrawable();
 		if (drawable instanceof Animatable) {
 			((Animatable) drawable).stop();
 		}
+		view.setVisibility(INVISIBLE);
 	}
 
 	public void setOnFromLocalClickedListener(@Nullable OnFromLocalClickedListener l) {
