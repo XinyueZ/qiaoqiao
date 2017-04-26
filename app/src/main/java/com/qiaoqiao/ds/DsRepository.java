@@ -19,8 +19,7 @@ package com.qiaoqiao.ds;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.backend.Service;
-import com.qiaoqiao.backend.WikipediaAPIs;
+import com.qiaoqiao.backend.Google;
 
 import java.io.File;
 
@@ -34,13 +33,13 @@ public final class DsRepository extends AbstractDsSource {
 	private @NonNull  final AbstractDsSource mCameraDs;
 	private @NonNull final AbstractDsSource mWikipediaRemoteDs;
 
-	DsRepository(@NonNull Service service,
-	             @NonNull WikipediaAPIs wikipediaAPIs,
+	DsRepository(@NonNull Google google,
+	             @NonNull com.qiaoqiao.backend.Wikipedia wikipedia,
 	             @Web AbstractDsSource webDs,
 	             @Local AbstractDsSource localDs,
 	             @Camera AbstractDsSource cameraDs,
-	             @Wikipedia AbstractDsSource wikipediaRemoteDs) {
-		super(service, wikipediaAPIs);
+	             @Knowledge AbstractDsSource wikipediaRemoteDs) {
+		super(google, wikipedia);
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;

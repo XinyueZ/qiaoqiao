@@ -33,14 +33,14 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public final class Service {
+public final class Google {
 	private static final int MAX_DIMENSION = 1200;
 	private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
 	private static final String ANDROID_PACKAGE_HEADER = "X-Android-Package";
 	private @NonNull final Key mKey;
 	private @NonNull final Context mContext;
 
-	Service(@NonNull Context context, @NonNull Key key) {
+	Google(@NonNull Context context, @NonNull Key key) {
 		mContext = context;
 		mKey = key;
 	}

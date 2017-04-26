@@ -28,6 +28,12 @@ android {
 
         testInstrumentationRunner project.TEST_RUNNER
         vectorDrawables.useSupportLibrary = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
 
 

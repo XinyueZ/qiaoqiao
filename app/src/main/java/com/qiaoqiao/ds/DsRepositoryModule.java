@@ -2,8 +2,8 @@ package com.qiaoqiao.ds;
 
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.backend.Service;
-import com.qiaoqiao.backend.WikipediaAPIs;
+import com.qiaoqiao.backend.Google;
+import com.qiaoqiao.backend.Wikipedia;
 import com.qiaoqiao.ds.camera.DsCameraSource;
 import com.qiaoqiao.ds.local.DsLocalSource;
 import com.qiaoqiao.ds.web.DsWebSource;
@@ -20,37 +20,37 @@ final class DsRepositoryModule {
 	@Singleton
 	@Web
 	@Provides
-	AbstractDsSource provideWebDataSource(@NonNull Service service) {
-		return new DsWebSource(service);
+	AbstractDsSource provideWebDataSource(@NonNull Google google) {
+		return new DsWebSource(google);
 	}
 
 
 	@Singleton
 	@Local
 	@Provides
-	AbstractDsSource provideLocalDataSource(@NonNull Service service) {
-		return new DsLocalSource(service);
+	AbstractDsSource provideLocalDataSource(@NonNull Google google) {
+		return new DsLocalSource(google);
 	}
 
 
 	@Singleton
 	@Camera
 	@Provides
-	AbstractDsSource provideCameraDataSource(@NonNull Service service) {
-		return new DsCameraSource(service);
+	AbstractDsSource provideCameraDataSource(@NonNull Google google) {
+		return new DsCameraSource(google);
 	}
 
 
 	@Singleton
-	@Wikipedia
+	@Knowledge
 	@Provides
-	AbstractDsSource provideWikipediaDataSource(@NonNull WikipediaAPIs wikipediaAPIs) {
-		return new DsWikipediaRemoteSource(wikipediaAPIs);
+	AbstractDsSource provideWikipediaDataSource(@NonNull com.qiaoqiao.backend.Wikipedia wikipedia) {
+		return new DsWikipediaRemoteSource(wikipedia);
 	}
 
 	@Singleton
 	@Provides
-	DsRepository provideRepository(@NonNull Service service, @NonNull WikipediaAPIs wikipediaAPIs, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs, @Wikipedia AbstractDsSource wikipediaRemoteDs) {
-		return new DsRepository(service, wikipediaAPIs, webDs, localDs, cameraDs, wikipediaRemoteDs);
+	DsRepository provideRepository(@NonNull Google google, @NonNull Wikipedia wikipedia, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs, @Knowledge AbstractDsSource wikipediaRemoteDs) {
+		return new DsRepository(google, wikipedia, webDs, localDs, cameraDs, wikipediaRemoteDs);
 	}
 }

@@ -8,8 +8,8 @@ import android.text.TextUtils;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
-import com.qiaoqiao.backend.Service;
-import com.qiaoqiao.backend.WikipediaAPIs;
+import com.qiaoqiao.backend.*;
+import com.qiaoqiao.backend.Wikipedia;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.utils.LL;
@@ -23,29 +23,29 @@ import java.util.Set;
 import io.realm.Realm;
 
 public abstract class AbstractDsSource {
-	private Service mService;
-	private WikipediaAPIs mWikipediaAPIs;
+	private Google mGoogle;
+	private com.qiaoqiao.backend.Wikipedia mWikipedia;
 
-	public AbstractDsSource(@NonNull Service service) {
-		mService = service;
+	public AbstractDsSource(@NonNull Google google) {
+		mGoogle = google;
 	}
 
-	public AbstractDsSource(@NonNull WikipediaAPIs wikipediaAPIs) {
-		mWikipediaAPIs = wikipediaAPIs;
+	public AbstractDsSource(@NonNull Wikipedia wikipedia) {
+		mWikipedia = wikipedia;
 	}
 
 
-	public AbstractDsSource(@NonNull Service service, @NonNull WikipediaAPIs wikipediaAPIs) {
-		mService = service;
-		mWikipediaAPIs = wikipediaAPIs;
+	public AbstractDsSource(@NonNull Google google, @NonNull Wikipedia wikipedia) {
+		mGoogle = google;
+		mWikipedia = wikipedia;
 	}
 
-	protected Service getService() {
-		return mService;
+	protected Google getGoogle() {
+		return mGoogle;
 	}
 
-	protected WikipediaAPIs getWikipediaAPIs() {
-		return mWikipediaAPIs;
+	protected Wikipedia getWikipedia() {
+		return mWikipedia;
 	}
 
 	public void onBytes(@NonNull byte[] bytes, @NonNull LoadedCallback callback) {

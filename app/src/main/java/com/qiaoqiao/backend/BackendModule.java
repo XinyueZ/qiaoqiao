@@ -22,17 +22,17 @@ public final class BackendModule {
 	}
 
 	@Provides
-	Service provideService(@NonNull Context cxt, @NonNull Key key) {
-		return new Service(cxt, key);
+	Google provideGoogle(@NonNull Context cxt, @NonNull Key key) {
+		return new Google(cxt, key);
 	}
 
 	@Provides
-	WikipediaAPIs provideWikipediaAPIs() {
+	Wikipedia provideWikipedia() {
 		Retrofit r = new Retrofit.Builder().baseUrl(String.format("https://%s.wikipedia.org/", mLanguage))
 		                                   .addConverterFactory(GsonConverterFactory.create())
 		                                   .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 		                                   .build();
-		return r.create(WikipediaAPIs.class);
+		return r.create(Wikipedia.class);
 	}
 
 }

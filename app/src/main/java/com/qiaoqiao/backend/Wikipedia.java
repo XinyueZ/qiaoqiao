@@ -6,7 +6,7 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface WikipediaAPIs {
+public interface Wikipedia {
 	@GET("w/api.php")
 	Observable<WikiResult> getResult(@Query("action") String action,
 	                                 @Query("format") String format,

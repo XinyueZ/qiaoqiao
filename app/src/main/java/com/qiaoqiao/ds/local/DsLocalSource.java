@@ -4,7 +4,7 @@ package com.qiaoqiao.ds.local;
 import android.support.annotation.NonNull;
 
 import com.google.api.services.vision.v1.model.Status;
-import com.qiaoqiao.backend.Service;
+import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.ds.AbstractDsSource;
 
 import org.apache.commons.io.FileUtils;
@@ -17,8 +17,8 @@ import javax.inject.Singleton;
 @Singleton
 public final class DsLocalSource extends AbstractDsSource {
 
-	public DsLocalSource(@NonNull Service service) {
-		super(service);
+	public DsLocalSource(@NonNull Google google) {
+		super(google);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public final class DsLocalSource extends AbstractDsSource {
 			if (bytes == null) {
 				throw new IOException("The bytes of file is NULL:" + file.getAbsolutePath());
 			}
-			getService().getAnnotateImageResponse(Service.Base64EncodedImageBuilder.newBuilder(bytes), response -> {
+			getGoogle().getAnnotateImageResponse(Google.Base64EncodedImageBuilder.newBuilder(bytes), response -> {
 				Status error = response.getResponses()
 				                       .get(0)
 				                       .getError();
