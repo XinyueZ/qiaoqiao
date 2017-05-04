@@ -28,9 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public final class BackendModule {
 
-	private @NonNull String mLanguage;
-	  static final Gson GSON = new GsonBuilder().registerTypeAdapter(Pages.class, new PageAdapter())
-	                                                  .create();
+	private @NonNull final String mLanguage;
+	static final Gson GSON = new GsonBuilder().registerTypeAdapter(Pages.class, new PageAdapter())
+	                                          .create();
 
 	public BackendModule(@NonNull String language) {
 		mLanguage = language;
@@ -58,8 +58,8 @@ final class PageAdapter implements JsonDeserializer<Pages> {
 	public Pages deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		List<Page> pages = new ArrayList<>();
 		final Set<Map.Entry<String, JsonElement>> entrySet = json.getAsJsonObject()
-		                                                        .entrySet();
-		for(Map.Entry<String, JsonElement> entry : entrySet){
+		                                                         .entrySet();
+		for (Map.Entry<String, JsonElement> entry : entrySet) {
 			Page page = BackendModule.GSON.fromJson(entry.getValue(), Page.class);
 			pages.add(page);
 		}
