@@ -1,17 +1,19 @@
 package com.qiaoqiao.backend.model.wikipedia;
 
+import java.util.List;
+
 public final class Pages {
-	private Object mObject;
+	private List<Page> mList;
 
-	public Pages(Object object) {
-		mObject = object;
+	public Pages(List<Page> list) {
+		mList = list;
 	}
 
-	public Object getObject() {
-		return mObject;
+	public List<Page> getList() {
+		return mList;
 	}
 
-	public void setObject(Object object) {
-		mObject = object;
+	public void setList(List<Page> list) {
+		mList = list;
 	}
 }
