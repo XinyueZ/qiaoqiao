@@ -80,8 +80,6 @@
             android:padding="@dimen/larger"/>
 
 
-        <Button android:id="@+id/test_btn"
-            android:layout_width="wrap_content" android:text="TEST WIKI"  android:layout_gravity="center"
-            android:layout_height="wrap_content"/>
+
     </FrameLayout>
 </layout>

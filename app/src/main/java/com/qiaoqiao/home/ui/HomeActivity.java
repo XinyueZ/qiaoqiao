@@ -110,7 +110,6 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		                      .build()
 		                      .getHistoryManager();
 
-		binding.testBtn.setOnClickListener(v -> mPresenter.testWiki());
 	}
 
 

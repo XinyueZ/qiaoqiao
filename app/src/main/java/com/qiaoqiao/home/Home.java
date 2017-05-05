@@ -226,12 +226,12 @@ public final class Home implements HomeContract.Presenter {
 		}
 	}
 
-	public void testWiki() {
-		mDsRepository.onKnowledgeQuery("上海", new AbstractDsSource.LoadedCallback() {
-			@Override
-			public void onKnowledgeResponse(WikiResult result) {
-				super.onKnowledgeResponse(result);
-			}
-		});
-	}
+//	public void testWiki() {
+//		mDsRepository.onKnowledgeQuery("上海", new AbstractDsSource.LoadedCallback() {
+//			@Override
+//			public void onKnowledgeResponse(WikiResult result) {
+//				super.onKnowledgeResponse(result);
+//			}
+//		});
+//	}
 }
