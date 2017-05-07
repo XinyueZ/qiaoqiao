@@ -174,13 +174,6 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
 
     })
-    compile("com.google.apis:google-api-services-translate:${translate}", {
-        exclude module: 'httpclient'
-        exclude group: 'org.json', module: 'json'
-        exclude group: 'org.apache.httpcomponents'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-
-    })
     //Play-service
     compile("com.google.android.gms:play-services-maps:${playService}") {
         force = true
