@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.databinding.ItemVisionLandmarkBinding;
 import com.qiaoqiao.databinding.ItemVisionWebBinding;
 import com.qiaoqiao.utils.LL;
+import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.util.List;
@@ -55,6 +55,8 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				WebViewHolder webViewHolder = (WebViewHolder) holder;
 				webViewHolder.mItemVisionWebBinding.visionTv.setText(entity.getDescription()
 				                                                           .getDescriptionText());
+				webViewHolder.mItemVisionWebBinding.setVisionEntity(entity);
+				webViewHolder.mItemVisionWebBinding.setViewholder(webViewHolder);
 				break;
 			case ITEM_TYPE_LANDMARK:
 				LandmarkViewHolder landmarkViewHolder = (LandmarkViewHolder) holder;
@@ -95,7 +97,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 	static abstract class AbstractVisionViewHolder extends RecyclerView.ViewHolder {
 		private final @NonNull ViewDataBinding mBinding;
-		protected final @NonNull VisionEntityClickEvent mVisionEntityClickEvent = new VisionEntityClickEvent();
+		final @NonNull VisionEntityClickEvent mVisionEntityClickEvent = new VisionEntityClickEvent();
 		private final @NonNull List<VisionEntity> mEntities;
 		private final @NonNull VisionListAdapter mVisionListAdapter;
 
@@ -107,12 +109,18 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		}
 	}
 
-	private final static class WebViewHolder extends AbstractVisionViewHolder {
+	public final static class WebViewHolder extends AbstractVisionViewHolder {
 		private final @NonNull ItemVisionWebBinding mItemVisionWebBinding;
 
 		private WebViewHolder(@NonNull ItemVisionWebBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter) {
 			super(binding, entities, adapter);
 			mItemVisionWebBinding = binding;
+		}
+
+		public void onWebLinkClicked(VisionEntity visionEntity) {
+			mVisionEntityClickEvent.setEntity(visionEntity);
+			EventBus.getDefault()
+			        .post(mVisionEntityClickEvent);
 		}
 	}
 

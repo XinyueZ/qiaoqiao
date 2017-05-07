@@ -3,9 +3,11 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="visionEntity"
             type="com.qiaoqiao.vision.model.VisionEntity"/>
+
         <variable
             name="viewholder"
             type="com.qiaoqiao.vision.ui.VisionListAdapter.LandmarkViewHolder"/>

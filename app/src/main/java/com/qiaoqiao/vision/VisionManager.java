@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.api.services.vision.v1.model.AnnotateImageResponse;
@@ -15,7 +17,11 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.R;
+import com.qiaoqiao.backend.model.translate.Data;
+import com.qiaoqiao.backend.model.translate.TranslateTextResponseTranslation;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
+import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.ds.DsRepository;
 import com.qiaoqiao.location.ui.MapActivity;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
@@ -32,6 +38,7 @@ public final class VisionManager implements VisionContract.Presenter {
 	private final @NonNull FragmentListVisionBinding mBinding;
 	private final @NonNull VisionContract.View mView;
 	private VisionListAdapter mVisionListAdapter;
+	private final @NonNull DsRepository mDsRepository;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -44,12 +51,27 @@ public final class VisionManager implements VisionContract.Presenter {
 	 */
 	@Subscribe
 	public void onEvent(VisionEntityClickEvent e) {
-		final LatLng latLng = e.getEntity()
-		                       .getLocation()
-		                       .toLatLng();
-		if (latLng != null) {
+		final VisionEntity entity = e.getEntity();
+		final LatLng latLng = entity.getLocation()
+		                            .toLatLng();
+		if (TextUtils.equals("LANDMARK_DETECTION", entity.getReadableName()) && latLng != null) {
 			MapActivity.showInstance(mBinding.getFragment()
 			                                 .getActivity(), latLng);
+			return;
+		}
+		final String descriptionText = entity.getDescription()
+		                                     .getDescriptionText();
+		if (TextUtils.equals("WEB_DETECTION", entity.getReadableName()) && !TextUtils.isEmpty(descriptionText)) {
+			mDsRepository.onTranslate(descriptionText, new AbstractDsSource.LoadedCallback() {
+				@Override
+				public void onTranslateData(@NonNull Data translateData) {
+					super.onTranslateData(translateData);
+					final TranslateTextResponseTranslation[] translations = translateData.getTranslations()
+					                                                                     .getTranslations();
+					final TranslateTextResponseTranslation translation = translations[0];
+					Toast.makeText(mBinding.getFragment().getContext(), translation.getTranslatedText(), Toast.LENGTH_LONG).show();
+				}
+			});
 		}
 	}
 
@@ -57,9 +79,10 @@ public final class VisionManager implements VisionContract.Presenter {
 
 
 	@Inject
-	VisionManager(@NonNull FragmentListVisionBinding binding, @NonNull VisionContract.View view) {
+	VisionManager(@NonNull FragmentListVisionBinding binding, @NonNull VisionContract.View view, @NonNull DsRepository dsRepository) {
 		mBinding = binding;
 		mView = view;
+		mDsRepository = dsRepository;
 	}
 
 	@Inject

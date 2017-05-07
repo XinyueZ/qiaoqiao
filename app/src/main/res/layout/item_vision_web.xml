@@ -2,6 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="visionEntity"
+            type="com.qiaoqiao.vision.model.VisionEntity"/>
+
+        <variable
+            name="viewholder"
+            type="com.qiaoqiao.vision.ui.VisionListAdapter.WebViewHolder"/>
+    </data>
+
     <FrameLayout
         style="@style/VisionItemRoot">
 
@@ -14,6 +25,7 @@
                 style="@style/VisionItemTextView"
                 android:drawableEnd="@drawable/ic_web_link_open"
                 android:drawableRight="@drawable/ic_web_link_open"
+                android:onClick="@{() -> viewholder.onWebLinkClicked(visionEntity)}"
                 tools:text="hello,world"/>
         </FrameLayout>
     </FrameLayout>

@@ -20,10 +20,15 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Google;
+import com.qiaoqiao.keymanager.Key;
 
 import java.io.File;
+import java.util.Locale;
 
 import javax.inject.Singleton;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 @Singleton
@@ -31,15 +36,18 @@ public final class DsRepository extends AbstractDsSource {
 	private @NonNull  final AbstractDsSource mWebDs;
 	private @NonNull  final AbstractDsSource mLocalDs;
 	private @NonNull  final AbstractDsSource mCameraDs;
-	private @NonNull final AbstractDsSource mWikipediaRemoteDs;
+	private @NonNull  final AbstractDsSource mWikipediaRemoteDs;
+	private @NonNull  final Key mKey;
 
-	DsRepository(@NonNull Google google,
+	DsRepository(@NonNull Key key,
+	             @NonNull Google google,
 	             @NonNull com.qiaoqiao.backend.Wikipedia wikipedia,
 	             @Web AbstractDsSource webDs,
 	             @Local AbstractDsSource localDs,
 	             @Camera AbstractDsSource cameraDs,
 	             @Knowledge AbstractDsSource wikipediaRemoteDs) {
 		super(google, wikipedia);
+		mKey = key;
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;
@@ -64,5 +72,18 @@ public final class DsRepository extends AbstractDsSource {
 	@Override
 	public void onUri(@NonNull Uri uri, @NonNull LoadedCallback callback) {
 		mWebDs.onUri(uri, callback);
+	}
+
+	@Override
+	public void onTranslate(@NonNull String q, @NonNull LoadedCallback callback) {
+		getGoogle().getTranslateService()
+		           .translate(q,
+		                      Locale.getDefault()
+		                            .getLanguage(),
+		                      "text",
+		                      mKey.toString())
+		           .subscribeOn(Schedulers.io())
+		           .observeOn(AndroidSchedulers.mainThread())
+		           .subscribe(response -> callback.onTranslateData(response.getData()));
 	}
 }

@@ -8,6 +8,7 @@ import com.qiaoqiao.ds.camera.DsCameraSource;
 import com.qiaoqiao.ds.local.DsLocalSource;
 import com.qiaoqiao.ds.web.DsWebSource;
 import com.qiaoqiao.ds.wikipedia.DsWikipediaRemoteSource;
+import com.qiaoqiao.keymanager.Key;
 
 import javax.inject.Singleton;
 
@@ -50,7 +51,7 @@ final class DsRepositoryModule {
 
 	@Singleton
 	@Provides
-	DsRepository provideRepository(@NonNull Google google, @NonNull Wikipedia wikipedia, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs, @Knowledge AbstractDsSource wikipediaRemoteDs) {
-		return new DsRepository(google, wikipedia, webDs, localDs, cameraDs, wikipediaRemoteDs);
+	DsRepository provideRepository(@NonNull Key key, @NonNull Google google, @NonNull Wikipedia wikipedia, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs, @Knowledge AbstractDsSource wikipediaRemoteDs) {
+		return new DsRepository(key, google, wikipedia, webDs, localDs, cameraDs, wikipediaRemoteDs);
 	}
 }
