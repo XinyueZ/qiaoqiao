@@ -18,8 +18,10 @@ package com.qiaoqiao.app.mvp;
 
 import android.support.annotation.NonNull;
 
-public interface BaseView<T> {
+public interface BaseView<T, B> {
 
 	void setPresenter(@NonNull T presenter);
+
+	B getBinding() ;
 
 }

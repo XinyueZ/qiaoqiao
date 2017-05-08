@@ -5,4 +5,6 @@
     <dimen name="small">5dp</dimen>
     <dimen name="mini">1dp</dimen>
     <dimen name="history_item_size">100dp</dimen>
+    <dimen name="detail_backdrop_height">256dp</dimen>
+    <dimen name="card_margin">@dimen/larger</dimen>
 </resources>

@@ -14,11 +14,21 @@
  * limitations under the License.
  */
 
-package com.qiaoqiao.app.mvp;
-
-public interface BasePresenter {
-
-	void begin();
+package com.qiaoqiao.detail;
 
 
+import com.qiaoqiao.app.mvp.BasePresenter;
+import com.qiaoqiao.app.mvp.BaseView;
+import com.qiaoqiao.databinding.FragmentDetailBinding;
+
+public interface DetailContract {
+
+	interface View extends BaseView<DetailPresenter, FragmentDetailBinding> {
+		FragmentDetailBinding getBinding();
+	}
+
+	interface Presenter extends BasePresenter {
+
+		void end();
+	}
 }

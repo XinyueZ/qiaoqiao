@@ -29,7 +29,7 @@ import com.qiaoqiao.databinding.FragmentListVisionBinding;
  */
 public interface VisionContract {
 
-	interface View extends BaseView<VisionManager> {
+	interface View extends BaseView<VisionManager, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
 	}
 

@@ -31,7 +31,7 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mPresenter.start();
+		mPresenter.begin();
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.qiaoqiao.databinding.FragmentHistoryBinding;
 import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.history.ui.HistoryStackAdapter;
@@ -20,7 +19,6 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public final class HistoryManager implements HistoryContract.Presenter {
-	private final @NonNull FragmentHistoryBinding mBinding;
 	private final @NonNull HistoryContract.View mView;
 	private @Nullable RealmResults<HistoryItem> mResult;
 	private @Nullable HistoryStackAdapter mHistoryStackAdapter;
@@ -36,14 +34,14 @@ public final class HistoryManager implements HistoryContract.Presenter {
 	 */
 	@Subscribe
 	public void onEvent(HistoryItemClickEvent e) {
-		Snackbar.make(mBinding.getRoot(), "HistoryItemClickEvent", Snackbar.LENGTH_SHORT)
+		Snackbar.make(mView.getBinding()
+		                   .getRoot(), "HistoryItemClickEvent", Snackbar.LENGTH_SHORT)
 		        .show();
 	}
 
 	//------------------------------------------------
 	@Inject
-	HistoryManager(@NonNull FragmentHistoryBinding binding, @NonNull HistoryContract.View view) {
-		mBinding = binding;
+	HistoryManager(@NonNull HistoryContract.View view) {
 		mView = view;
 	}
 
@@ -59,20 +57,21 @@ public final class HistoryManager implements HistoryContract.Presenter {
 				return;
 			}
 			mHistoryStackAdapter.notifyDataSetChanged();
-			mBinding.historyStv.setSelection(mHistoryStackAdapter.getCount() - 1);
-			mBinding.historyItemTv.setVisibility(historyItemList.size() > 0 ?
-			                                     View.VISIBLE :
-			                                     View.GONE);
+			mView.getBinding().historyStv.setSelection(mHistoryStackAdapter.getCount() - 1);
+			mView.getBinding().historyItemTv.setVisibility(historyItemList.size() > 0 ?
+			                                               View.VISIBLE :
+			                                               View.GONE);
 		}
 	};
 
 	@Override
-	public void start() {
+	public void begin() {
 		mResult = Realm.getDefaultInstance()
 		               .where(HistoryItem.class)
 		               .findAllAsync();
-		mBinding.historyStv.setAdapter(mHistoryStackAdapter = new HistoryStackAdapter(mBinding.getFragment()
-		                                                                                      .getContext(), mResult));
+		mView.getBinding().historyStv.setAdapter(mHistoryStackAdapter = new HistoryStackAdapter(mView.getBinding()
+		                                                                                             .getFragment()
+		                                                                                             .getContext(), mResult));
 		if (mResult != null) {
 			mResult.addChangeListener(mChangeListener);
 		}

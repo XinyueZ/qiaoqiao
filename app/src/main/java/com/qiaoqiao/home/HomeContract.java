@@ -24,13 +24,14 @@ import android.support.annotation.NonNull;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
+import com.qiaoqiao.databinding.HomeBinding;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 public interface HomeContract {
 
-	interface View extends BaseView<Home> {
+	interface View extends BaseView<Home, HomeBinding> {
 		void showLoadFromLocal();
 
 		void showInputFromWeb();
@@ -38,6 +39,8 @@ public interface HomeContract {
 		void showError(@NonNull android.view.View view, @NonNull String errorMessage);
 
 		void addResponseToScreen(@NonNull  BatchAnnotateImagesResponse response);
+
+		HomeBinding getBinding() ;
 	}
 
 	interface Presenter extends BasePresenter {

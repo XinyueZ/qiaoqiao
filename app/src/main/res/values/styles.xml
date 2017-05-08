@@ -1,5 +1,23 @@
 <resources>
 
+    <style name="AppBarToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+        <item name="android:textColorPrimaryInverse">@color/colorWhite</item>
+    </style>
+
+    <style name="AppBar">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:elevation">12dp</item>
+        <item name="android:popupTheme">@style/AppBarToolbarTheme</item>
+        <item name="popupTheme">@style/AppBarToolbarTheme</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="background">@color/colorPrimary</item>
+        <item name="elevation">12dp</item>
+
+    </style>
 
     <style name="GradientProgressBar" parent="SmoothProgressBar">
         <item name="spb_stroke_separator_length">0dp</item>
@@ -85,6 +103,15 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical|end|right</item>
+    </style>
+
+
+    <style name="Widget.CardContent" parent="android:Widget">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:orientation">vertical</item>
     </style>
 
 </resources>

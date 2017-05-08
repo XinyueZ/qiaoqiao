@@ -3,8 +3,6 @@ package com.qiaoqiao.vision;
 
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.databinding.FragmentListVisionBinding;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -16,10 +14,6 @@ public final class VisionModule {
 		mView = view;
 	}
 
-	@Provides
-	FragmentListVisionBinding provideFragmentListVisionBinding() {
-		return mView.getBinding();
-	}
 
 	@Provides
 	VisionContract.View provideVisionContractView() {

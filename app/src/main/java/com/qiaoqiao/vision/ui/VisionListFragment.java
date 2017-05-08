@@ -31,7 +31,7 @@ public final class VisionListFragment extends Fragment implements VisionContract
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mPresenter.start();
+		mPresenter.begin();
 	}
 
 	@Override

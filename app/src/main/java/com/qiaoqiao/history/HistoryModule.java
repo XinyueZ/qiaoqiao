@@ -16,10 +16,6 @@ public final class HistoryModule {
 		mView = view;
 	}
 
-	@Provides
-	FragmentHistoryBinding provideFragmentListVisionBinding() {
-		return mView.getBinding();
-	}
 
 	@Provides
 	HistoryContract.View provideHistoryContractView() {

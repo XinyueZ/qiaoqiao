@@ -53,8 +53,9 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	private static final int LAYOUT = R.layout.activity_home;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
-	@Inject Home mPresenter;
 	private VisionManager mVisionManager;
+	private HomeBinding mBinding;
+	@Inject Home mPresenter;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -90,13 +91,13 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		super.onCreate(savedInstanceState);
 		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
 		uiHelper.hide();
-		HomeBinding binding = DataBindingUtil.setContentView(this, LAYOUT);
-		binding.setUiHelper(uiHelper);
-		binding.setDecorView((ViewGroup) getWindow().getDecorView());
+		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
+		mBinding.setUiHelper(uiHelper);
+		mBinding.setDecorView((ViewGroup) getWindow().getDecorView());
 
 		DaggerHomeComponent.builder()
 		                   .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
-		                   .homeModule(new HomeModule(this, binding))
+		                   .homeModule(new HomeModule(this))
 		                   .build()
 		                   .injectHome(this);
 		mVisionManager = DaggerVisionComponent.builder()
@@ -139,7 +140,7 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		EventBus.getDefault()
 		        .register(this);
 		super.onResume();
-		mPresenter.start();
+		mPresenter.begin();
 	}
 
 	@Override
@@ -243,5 +244,10 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		if (mVisionManager != null) {
 			mVisionManager.addResponseToScreen(response);
 		}
+	}
+
+	@Override
+	public HomeBinding getBinding() {
+		return mBinding;
 	}
 }
