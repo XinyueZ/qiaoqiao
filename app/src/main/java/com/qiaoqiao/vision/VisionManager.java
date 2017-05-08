@@ -66,8 +66,7 @@ public final class VisionManager implements VisionContract.Presenter {
 				@Override
 				public void onTranslateData(@NonNull Data translateData) {
 					super.onTranslateData(translateData);
-					final TranslateTextResponseTranslation[] translations = translateData.getTranslations()
-					                                                                     .getTranslations();
+					final TranslateTextResponseTranslation[] translations = translateData.getTranslations();
 					final TranslateTextResponseTranslation translation = translations[0];
 					Toast.makeText(mBinding.getFragment().getContext(), translation.getTranslatedText(), Toast.LENGTH_LONG).show();
 				}

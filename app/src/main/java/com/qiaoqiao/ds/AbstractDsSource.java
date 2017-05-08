@@ -123,8 +123,7 @@ public abstract class AbstractDsSource {
 		}
 
 		public void onTranslateData(@NonNull Data translateData) {
-			LL.d("size of responses of cloud translate: " + translateData.getTranslations()
-			                                                    .getTranslations().length);
+			LL.d("size of responses of cloud translate: " + translateData.getTranslations().length);
 		}
 	}
 }

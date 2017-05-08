@@ -26,20 +26,13 @@ import com.qiaoqiao.utils.LL;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.security.cert.CertificateException;
 import java.util.ArrayList;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.POST;
@@ -205,50 +198,13 @@ public final class Google {
 
 
 	public interface TranslateService {
-		@POST("/")
+		@POST("v2/")
 		Observable<com.qiaoqiao.backend.model.translate.Response> translate(@Query("q") String q, @Query("target") String target, @Query("format") String format, @Query("key") String key);
 	}
 
-
-	private static OkHttpClient getUnsafeOkHttpClient() {
-		try {
-			// Create a trust manager that does not validate certificate chains
-			final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-				@Override
-				public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-				}
-
-				@Override
-				public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-				}
-
-				@Override
-				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-					return new java.security.cert.X509Certificate[] {};
-				}
-			} };
-
-			// Install the all-trusting trust manager
-			final SSLContext sslContext = SSLContext.getInstance("SSL");
-			sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-			// Create an ssl socket factory with our all-trusting manager
-			final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-			OkHttpClient.Builder builder = new OkHttpClient.Builder();
-			builder.sslSocketFactory(sslSocketFactory);
-			builder.hostnameVerifier((hostname, session) -> true);
-
-			return builder.build();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-
 	public TranslateService getTranslateService() {
 
-		Retrofit r = new Retrofit.Builder().baseUrl("https://translation.googleapis.com/language/translate/v2/")
-		                                   .client(getUnsafeOkHttpClient())
+		Retrofit r = new Retrofit.Builder().baseUrl("https://translation.googleapis.com/language/translate/")
 		                                   .addConverterFactory(GsonConverterFactory.create())
 		                                   .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 		                                   .build();

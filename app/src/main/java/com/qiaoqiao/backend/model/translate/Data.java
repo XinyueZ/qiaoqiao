@@ -2,18 +2,17 @@ package com.qiaoqiao.backend.model.translate;
 
 
 public final class Data {
-	private TranslateTextResponseList translations;
+	private TranslateTextResponseTranslation[] translations;
 
-	public Data(TranslateTextResponseList translations) {
+	public Data(TranslateTextResponseTranslation[] translations) {
 		this.translations = translations;
 	}
 
-
-	public TranslateTextResponseList getTranslations() {
+	public TranslateTextResponseTranslation[] getTranslations() {
 		return translations;
 	}
 
-	public void setTranslations(TranslateTextResponseList translations) {
+	public void setTranslations(TranslateTextResponseTranslation[] translations) {
 		this.translations = translations;
 	}
 }
