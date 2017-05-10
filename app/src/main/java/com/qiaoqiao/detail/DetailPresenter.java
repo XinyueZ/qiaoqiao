@@ -61,11 +61,11 @@ public final class DetailPresenter implements DetailContract.Presenter {
 				                .getOriginal()
 				                .getSource());
 
-				mView.getBinding().titleTv.setText(result.getQuery()
-				                                         .getPages()
-				                                         .getList()
-				                                         .get(0)
-				                                         .getTitle());
+				mView.getBinding().collapsingToolbar.setTitle(result.getQuery()
+				                                                    .getPages()
+				                                                    .getList()
+				                                                    .get(0)
+				                                                    .getTitle());
 				mView.getBinding().contentTv.setText(result.getQuery()
 				                                           .getPages()
 				                                           .getList()

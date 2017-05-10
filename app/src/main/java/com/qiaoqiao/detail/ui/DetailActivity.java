@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
@@ -42,5 +43,15 @@ public final class DetailActivity extends AppCompatActivity {
 		                     .detailModule(new DetailModule((DetailContract.View) getSupportFragmentManager().findFragmentById(R.id.detail_fg), getIntent().getStringExtra(EXTRAS_KEYWORD)))
 		                     .build()
 		                     .injectDetail(this);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				supportFinishAfterTransition();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
