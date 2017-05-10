@@ -50,7 +50,7 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 				if (translation == null) {
 					return;
 				}
-				getWikipedia().getResult1("query", "json", "extracts|pageimages", "original|name", true, true, 1, "titles", translation.getTranslatedText())
+				getWikipedia().getResult1("query", "json", "extracts|pageimages", "original|name|thumbnail", true, true, 1, "titles", translation.getTranslatedText())
 				              .subscribeOn(Schedulers.io())
 				              .observeOn(AndroidSchedulers.mainThread())
 				              .subscribe(result -> {
@@ -61,7 +61,7 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 						              callback.onKnowledgeResponse(result);
 					              } else {
 						              getWikipedia().getResult2(
-								              "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&piprop=original|name&explaintext=&exintro=&exlimit=1&redirects" +
+								              "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&piprop=original|name|thumbnail&explaintext=&exintro=&exlimit=1&redirects" +
 										              "=titles&titles=" + keyword)
 						                            .subscribeOn(Schedulers.io())
 						                            .observeOn(AndroidSchedulers.mainThread())

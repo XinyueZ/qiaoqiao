@@ -13,13 +13,13 @@ public final class Page {
 	@SerializedName("extract")
 	private String mExtract;
 	@SerializedName("thumbnail")
-	private Thumbnail mThumbnail;
+	private Image mThumbnail;
 	@SerializedName("original")
-	private Original mOriginal;
+	private Image mOriginal;
 	@SerializedName("pageimage")
 	private String mPageImage;
 
-	public Page(int pageId, int ns, String title, String extract, Thumbnail thumbnail, Original original, String pageImage) {
+	public Page(int pageId, int ns, String title, String extract, Image thumbnail, Image original, String pageImage) {
 		mPageId = pageId;
 		mNs = ns;
 		mTitle = title;
@@ -62,19 +62,19 @@ public final class Page {
 		mExtract = extract;
 	}
 
-	public Thumbnail getThumbnail() {
+	public Image getThumbnail() {
 		return mThumbnail;
 	}
 
-	public void setThumbnail(Thumbnail thumbnail) {
+	public void setThumbnail(Image thumbnail) {
 		mThumbnail = thumbnail;
 	}
 
-	public Original getOriginal() {
+	public Image getOriginal() {
 		return mOriginal;
 	}
 
-	public void setOriginal(Original original) {
+	public void setOriginal(Image original) {
 		mOriginal = original;
 	}
 

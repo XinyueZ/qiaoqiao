@@ -3,7 +3,7 @@ package com.qiaoqiao.backend.model.wikipedia;
 
 import com.google.gson.annotations.SerializedName;
 
-public final class Original {
+public final class Image {
 	@SerializedName("source")
 	private String mSource;
 	@SerializedName("width")
@@ -12,7 +12,7 @@ public final class Original {
 	private int mHeight;
 
 
-	public Original(String source, int width, int height) {
+	public Image(String source, int width, int height) {
 		this.mSource = source;
 		this.mWidth = width;
 		this.mHeight = height;

@@ -13,6 +13,7 @@ import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentDetailBinding;
 import com.qiaoqiao.detail.DetailContract;
 import com.qiaoqiao.detail.DetailPresenter;
+import com.qiaoqiao.utils.DeviceUtils;
 
 public final class DetailFragment extends Fragment implements DetailContract.View {
 	private static final int LAYOUT = R.layout.fragment_detail;
@@ -25,6 +26,12 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		mBinding = DataBindingUtil.inflate(inflater, LAYOUT, container, false);
 		mBinding.setFragment(this);
 		return mBinding.getRoot();
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(getContext()).Height / 2;
 	}
 
 	@Override
