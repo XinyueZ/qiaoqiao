@@ -11,7 +11,7 @@
         <item name="colorControlActivated">@color/colorTeal</item>
         <item name="colorControlHighlight">@color/colorCyan</item>
 
-        <item name="android:windowBackground">@color/colorGrey</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme"/>

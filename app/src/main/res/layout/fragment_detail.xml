@@ -79,8 +79,9 @@
                         android:id="@+id/content_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        tools:text="TEST TEST TEST TEST ....."/>
+                        android:lineSpacingExtra="5.5dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        tools:text="TEST TEST TEST TESTTEST TEST TEST TESTTEST TEST TEST TESTTEST TEST TEST TESTTEST TEST TEST TESTTEST TEST TEST TESTTEST TEST TEST TEST ....."/>
 
                 </android.support.v7.widget.CardView>
             </LinearLayout>

@@ -12,8 +12,6 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:popupTheme">@style/AppBarToolbarTheme</item>
         <item name="popupTheme">@style/AppBarToolbarTheme</item>
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="background">@color/colorPrimary</item>
 
     </style>
 
@@ -106,9 +104,9 @@
 
 
     <style name="BoxCardView">
-        <item name="contentPadding">10dp</item>
-        <item name="cardElevation">5dp</item>
-        <item name="cardMaxElevation">8dp</item>
+        <item name="contentPadding">@dimen/larger</item>
+        <item name="cardElevation">@dimen/medium</item>
+        <item name="cardMaxElevation">@dimen/medium</item>
         <item name="cardUseCompatPadding">true</item>
         <item name="cardCornerRadius">1dp</item>
     </style>
