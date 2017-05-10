@@ -10,7 +10,6 @@ import com.bumptech.glide.request.target.Target;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsRepository;
-import com.qiaoqiao.utils.LL;
 
 import javax.inject.Inject;
 
@@ -33,7 +32,6 @@ public final class DetailPresenter implements DetailContract.Presenter {
 
 	@Override
 	public void begin() {
-		LL.d("DetailPresenter: begin()");
 		showDetail(mKeyword);
 	}
 
@@ -71,6 +69,7 @@ public final class DetailPresenter implements DetailContract.Presenter {
 				                                           .getList()
 				                                           .get(0)
 				                                           .getExtract());
+				mView.toggleLoaded();
 			}
 		});
 	}

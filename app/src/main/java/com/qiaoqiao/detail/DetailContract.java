@@ -25,6 +25,7 @@ public interface DetailContract {
 
 	interface View extends BaseView<DetailPresenter, FragmentDetailBinding> {
 		FragmentDetailBinding getBinding();
+		void toggleLoaded();
 	}
 
 	interface Presenter extends BasePresenter {

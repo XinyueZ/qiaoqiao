@@ -64,4 +64,9 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		super.onStop();
 		mPresenter.end();
 	}
+
+	@Override
+	public void toggleLoaded() {
+		mBinding.layoutLoading.getRoot().setVisibility(View.GONE);
+	}
 }
