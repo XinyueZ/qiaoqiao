@@ -2,6 +2,7 @@ package com.qiaoqiao.backend;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,7 +45,7 @@ public final class BackendModule {
 	@Provides
 	Wikipedia provideWikipedia() {
 
-		Retrofit r = new Retrofit.Builder().baseUrl(String.format("https://%s.wikipedia.org/", mLanguage))
+		Retrofit r = new Retrofit.Builder().baseUrl(String.format("https://%s.wikipedia.org/w/api.php/", mLanguage))
 		                                   .addConverterFactory(GsonConverterFactory.create(GSON))
 		                                   .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 		                                   .build();
@@ -60,8 +61,10 @@ final class PageAdapter implements JsonDeserializer<Pages> {
 		final Set<Map.Entry<String, JsonElement>> entrySet = json.getAsJsonObject()
 		                                                         .entrySet();
 		for (Map.Entry<String, JsonElement> entry : entrySet) {
-			Page page = BackendModule.GSON.fromJson(entry.getValue(), Page.class);
-			pages.add(page);
+			if (!TextUtils.equals(entry.getKey(), "-1")) {
+				Page page = BackendModule.GSON.fromJson(entry.getValue(), Page.class);
+				pages.add(page);
+			}
 		}
 		return new Pages(pages);
 	}

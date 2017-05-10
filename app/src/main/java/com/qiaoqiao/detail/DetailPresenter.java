@@ -2,10 +2,9 @@ package com.qiaoqiao.detail;
 
 
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
-import com.qiaoqiao.backend.model.translate.Data;
-import com.qiaoqiao.backend.model.translate.TranslateTextResponseTranslation;
+import com.bumptech.glide.Glide;
+import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsRepository;
 
@@ -30,22 +29,44 @@ public final class DetailPresenter implements DetailContract.Presenter {
 
 	@Override
 	public void begin() {
-		mDsRepository.onTranslate(mKeyword, new AbstractDsSource.LoadedCallback() {
-			@Override
-			public void onTranslateData(@NonNull Data translateData) {
-				super.onTranslateData(translateData);
-				final TranslateTextResponseTranslation[] translations = translateData.getTranslations();
-				final TranslateTextResponseTranslation translation = translations[0];
-				Toast.makeText(mView.getBinding()
-				                    .getFragment()
-				                    .getContext(), translation.getTranslatedText(), Toast.LENGTH_LONG)
-				     .show();
-			}
-		});
+		showDetail(mKeyword);
 	}
 
 	@Override
 	public void end() {
 		//Still not impl.
+	}
+
+
+	private void showDetail(String text) {
+		mDsRepository.onKnowledgeQuery(text, new AbstractDsSource.LoadedCallback() {
+			@Override
+			public void onKnowledgeResponse(WikiResult result) {
+				super.onKnowledgeResponse(result);
+				Glide.with(mView.getBinding()
+				                .getFragment()
+				                .getContext())
+				     .load(result.getQuery()
+				                 .getPages()
+				                 .getList()
+				                 .get(0)
+				                 .getOriginal()
+				                 .getSource())
+				     .centerCrop()
+				     .crossFade()
+				     .into(mView.getBinding().detailIv);
+
+				mView.getBinding().titleTv.setText(result.getQuery()
+				                                         .getPages()
+				                                         .getList()
+				                                         .get(0)
+				                                         .getTitle());
+				mView.getBinding().contentTv.setText(result.getQuery()
+				                                           .getPages()
+				                                           .getList()
+				                                           .get(0)
+				                                           .getExtract());
+			}
+		});
 	}
 }

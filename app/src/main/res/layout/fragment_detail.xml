@@ -38,7 +38,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
-                    android:id="@+id/backdrop"
+                    android:id="@+id/detail_iv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
@@ -76,15 +76,17 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/title_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Info"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                            tools:text="Info"/>
 
                         <TextView
+                            android:id="@+id/content_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TEST TEST TEST TEST ....."/>
+                            tools:text="TEST TEST TEST TEST ....."/>
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>

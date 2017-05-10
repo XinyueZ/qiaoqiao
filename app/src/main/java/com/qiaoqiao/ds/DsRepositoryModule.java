@@ -45,13 +45,18 @@ final class DsRepositoryModule {
 	@Singleton
 	@Knowledge
 	@Provides
-	AbstractDsSource provideWikipediaDataSource(@NonNull com.qiaoqiao.backend.Wikipedia wikipedia) {
-		return new DsWikipediaRemoteSource(wikipedia);
+	AbstractDsSource provideWikipediaDataSource(@NonNull Key key, @NonNull Google google, @NonNull com.qiaoqiao.backend.Wikipedia wikipedia) {
+		return new DsWikipediaRemoteSource(key, google, wikipedia);
 	}
 
 	@Singleton
 	@Provides
-	DsRepository provideRepository(@NonNull Key key, @NonNull Google google, @NonNull Wikipedia wikipedia, @Web AbstractDsSource webDs, @Local AbstractDsSource localDs, @Camera AbstractDsSource cameraDs, @Knowledge AbstractDsSource wikipediaRemoteDs) {
-		return new DsRepository(key, google, wikipedia, webDs, localDs, cameraDs, wikipediaRemoteDs);
+	DsRepository provideRepository(@NonNull Google google,
+	                               @NonNull Wikipedia wikipedia,
+	                               @Web AbstractDsSource webDs,
+	                               @Local AbstractDsSource localDs,
+	                               @Camera AbstractDsSource cameraDs,
+	                               @Knowledge AbstractDsSource wikipediaRemoteDs) {
+		return new DsRepository(google, wikipedia, webDs, localDs, cameraDs, wikipediaRemoteDs);
 	}
 }
