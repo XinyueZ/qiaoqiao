@@ -64,6 +64,4 @@ ext {
     //Image-loader
     imageLoader = "3.7.0"
 
-    //wiki
-    jwiki = "1.3.0"
 }

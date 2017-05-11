@@ -50,6 +50,8 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 				if (translation == null) {
 					return;
 				}
+
+
 				getWikipedia().getResult1("query", "json", "extracts|pageimages", "original|name|thumbnail", true, "wiki", 1, "titles", translation.getTranslatedText())
 				              .subscribeOn(Schedulers.io())
 				              .observeOn(AndroidSchedulers.mainThread())
