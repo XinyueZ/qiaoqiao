@@ -13,7 +13,6 @@ public interface Wikipedia {
 	                                 @Query("format") String format,
 	                                 @Query("prop") String prop,
 	                                 @Query("piprop") String piprop,
-	                                 @Query("exintro") boolean exintro,
 	                                 @Query("explaintext") boolean explaintext,
 	                                 @Query("exlimit") int exlimit,
 	                                 @Query("redirects") String redirects,
