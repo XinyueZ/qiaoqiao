@@ -94,5 +94,15 @@
             android:fitsSystemWindows="true"
             android:indeterminate="true"/>
 
+
+        <ImageView
+            android:id="@+id/preview_iv"
+            android:layout_width="@dimen/img_preview"
+            android:layout_height="@dimen/img_preview"
+            android:layout_gravity="bottom|right|end"
+            android:layout_margin="@dimen/larger"
+            android:elevation="@dimen/medium"
+            android:visibility="gone"/>
+
     </android.support.design.widget.CoordinatorLayout>
 </layout>
