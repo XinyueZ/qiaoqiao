@@ -104,6 +104,10 @@
 
 
     <style name="BoxCardView">
+        <item name="android:layout_marginStart">@dimen/medium</item>
+        <item name="android:layout_marginEnd">@dimen/medium</item>
+        <item name="android:layout_marginLeft">@dimen/medium</item>
+        <item name="android:layout_marginRight">@dimen/medium</item>
         <item name="contentPadding">@dimen/larger</item>
         <item name="cardElevation">@dimen/medium</item>
         <item name="cardMaxElevation">@dimen/medium</item>

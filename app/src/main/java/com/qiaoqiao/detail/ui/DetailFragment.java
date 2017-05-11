@@ -1,6 +1,5 @@
 package com.qiaoqiao.detail.ui;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,8 +23,6 @@ import com.qiaoqiao.detail.DetailContract;
 import com.qiaoqiao.detail.DetailPresenter;
 import com.qiaoqiao.utils.DeviceUtils;
 
-import java.lang.ref.WeakReference;
-
 public final class DetailFragment extends Fragment implements DetailContract.View {
 	private static final int LAYOUT = R.layout.fragment_detail;
 	private DetailPresenter mPresenter;
@@ -43,6 +40,8 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(getContext()).Height / 2;
+		mBinding.content.getSettings()
+		                .setDefaultTextEncodingName("utf-8");
 	}
 
 	@Override
@@ -84,39 +83,16 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	@Override
 	public void showImage(@NonNull String previewUrl, @NonNull final String url) {
-		final WeakReference<Context> cxt = new WeakReference<>(getContext());
 		Glide.with(getContext())
-		     .load(previewUrl)
+		     .load(url)
+		     .crossFade()
 		     .centerCrop()
 		     .diskCacheStrategy(DiskCacheStrategy.ALL)
 		     .skipMemoryCache(false)
 		     .listener(new RequestListener<String, GlideDrawable>() {
 			     @Override
 			     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-				     if (cxt.get() == null) {
-					     return false;
-				     }
-				     Glide.with(cxt.get())
-				          .load(url)
-				          .crossFade()
-				          .centerCrop()
-				          .diskCacheStrategy(DiskCacheStrategy.ALL)
-				          .skipMemoryCache(false)
-				          .listener(new RequestListener<String, GlideDrawable>() {
-					          @Override
-					          public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-						          mBinding.loadingPb.setVisibility(View.GONE);
-						          return false;
-					          }
-
-					          @Override
-					          public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-						          Snackbar.make(mBinding.getRoot(), R.string.no_image, Toast.LENGTH_SHORT)
-						                  .show();
-						          return true;
-					          }
-				          })
-				          .into(mBinding.detailIv);
+				     mBinding.loadingPb.setVisibility(View.GONE);
 				     return false;
 			     }
 
@@ -133,6 +109,6 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void setText(@NonNull String title, @NonNull String content) {
 		mBinding.collapsingToolbar.setTitle(title);
-		mBinding.contentTv.setText(content);
+		mBinding.content.loadData(content, "text/html; charset=utf-8", "utf-8");
 	}
 }
