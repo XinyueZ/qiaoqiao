@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.home.ui.HomeActivity;
+import com.qiaoqiao.utils.SystemUiHelper;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public final class SplashActivity extends AppCompatActivity implements EasyPermi
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
+		uiHelper.hide();
 		super.onCreate(savedInstanceState);
 		DataBindingUtil.setContentView(this, LAYOUT);
 		requirePermissions();

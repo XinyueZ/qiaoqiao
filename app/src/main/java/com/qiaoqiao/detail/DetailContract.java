@@ -17,6 +17,8 @@
 package com.qiaoqiao.detail;
 
 
+import android.support.annotation.NonNull;
+
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
 import com.qiaoqiao.databinding.FragmentDetailBinding;
@@ -26,6 +28,8 @@ public interface DetailContract {
 	interface View extends BaseView<DetailPresenter, FragmentDetailBinding> {
 		FragmentDetailBinding getBinding();
 		void toggleLoaded();
+		void showImage(@NonNull String previewUrl, @NonNull final String url);
+		void setText(@NonNull String title, @NonNull String content);
 	}
 
 	interface Presenter extends BasePresenter {

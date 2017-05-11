@@ -88,9 +88,9 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
 		uiHelper.hide();
+		super.onCreate(savedInstanceState);
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		mBinding.setUiHelper(uiHelper);
 		mBinding.setDecorView((ViewGroup) getWindow().getDecorView());
@@ -116,7 +116,10 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
-		mPresenter.changeFocus();
+		if (mBinding != null) {
+			mBinding.getUiHelper()
+			        .hide();
+		}
 		super.onWindowFocusChanged(hasFocus);
 	}
 

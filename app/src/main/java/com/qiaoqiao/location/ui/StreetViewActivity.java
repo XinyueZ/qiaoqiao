@@ -37,11 +37,11 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
+		uiHelper.hide();
 		super.onCreate(savedInstanceState);
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		mBinding.setActivity(this);
-		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
-		uiHelper.hide();
 		mBinding.setUiHelper(uiHelper);
 		mStreetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getSupportFragmentManager().findFragmentById(R.id.panorama);
 		mStreetViewPanoramaFragment.onCreate(savedInstanceState);
@@ -129,12 +129,14 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 		final Intent intent = getIntent();
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		RouteCalcClientPicker.show(this, latLng);
+		mBinding.getUiHelper().hide();
 	}
 
 
 	public void onClickLocationButton(View view) {
 		if (mStreetViewPanorama != null) {
 			moveToLocation(getIntent(), mStreetViewPanorama, mBinding.weather);
+			mBinding.getUiHelper().hide();
 		}
 	}
 
@@ -142,6 +144,7 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 		final Intent intent = getIntent();
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		MapActivity.showInstance(this, latLng);
+		mBinding.getUiHelper().hide();
 	}
 
 

@@ -16,7 +16,7 @@
             type="android.view.ViewGroup"/>
     </data>
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:id="@+id/home"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -62,15 +62,6 @@
                 android:layout_margin="@dimen/larger"/>
         </RelativeLayout>
 
-        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-            android:id="@+id/loading_pb"
-            style="@style/GradientProgressBar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/small"
-            android:layout_gravity="top|center_horizontal"
-            android:indeterminate="true"
-            android:visibility="gone"/>
-
 
         <FrameLayout
             android:id="@+id/content_root_fl"
@@ -80,6 +71,5 @@
             android:padding="@dimen/larger"/>
 
 
-
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

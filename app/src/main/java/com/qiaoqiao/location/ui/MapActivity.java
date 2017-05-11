@@ -45,11 +45,11 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
+		uiHelper.hide();
 		super.onCreate(savedInstanceState);
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		mBinding.setActivity(this);
-		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
-		uiHelper.hide();
 		mBinding.setUiHelper(uiHelper);
 		mSupportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 		mSupportMapFragment.getMapAsync(this);
@@ -153,14 +153,15 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		final Intent intent = getIntent();
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		RouteCalcClientPicker.show(this, latLng);
+		mBinding.getUiHelper().hide();
 	}
-
 
 
 	public void onClickStreetViewButton(View view) {
 		final Intent intent = getIntent();
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		StreetViewActivity.showInstance(this, latLng);
+		mBinding.getUiHelper().hide();
 	}
 
 	@Override
@@ -184,6 +185,6 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 
 	@Override
 	public void onMapClick(LatLng latLng) {
-
+		mBinding.getUiHelper().hide();
 	}
 }

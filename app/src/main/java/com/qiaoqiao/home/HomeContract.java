@@ -38,15 +38,14 @@ public interface HomeContract {
 
 		void showError(@NonNull android.view.View view, @NonNull String errorMessage);
 
-		void addResponseToScreen(@NonNull  BatchAnnotateImagesResponse response);
+		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
-		HomeBinding getBinding() ;
+		HomeBinding getBinding();
 	}
 
 	interface Presenter extends BasePresenter {
 		void stop();
 
-		void changeFocus();
 
 		void capturePhoto();
 

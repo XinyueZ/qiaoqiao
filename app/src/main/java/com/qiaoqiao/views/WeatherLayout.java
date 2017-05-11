@@ -17,12 +17,12 @@ import com.qiaoqiao.databinding.LayoutWeatherBinding;
 import com.qiaoqiao.views.model.weather.Weather;
 import com.qiaoqiao.views.model.weather.WeatherDetail;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -61,31 +61,34 @@ public final class WeatherLayout extends FrameLayout {
 	}
 
 	public WeatherLayout setWeather(double latitude, double longitude) {
+		WeakReference<Context> cxt = new WeakReference<>(getContext());
 		mService.getWeather(latitude,
 		                    longitude,
 		                    Locale.getDefault()
-		                          .getLanguage(), UNITS, APPID)
+		                          .getLanguage(),
+		                    UNITS,
+		                    APPID)
 		        .subscribeOn(Schedulers.io())
 		        .observeOn(AndroidSchedulers.mainThread())
-		        .subscribe(new Consumer<Weather>() {
-			        @Override
-			        public void accept(@NonNull Weather w) {
-				        setVisibility(View.VISIBLE);
-				        List<WeatherDetail> details = w.getDetails();
-				        if (details != null && details.size() > 0) {
-					        WeatherDetail weatherDetail = details.get(0);
-					        if (weatherDetail != null) {
-						        String weatherDesc = String.format("%s", getTemp(w));
-						        if (!TextUtils.isEmpty(weatherDesc)) {
-							        mLayoutWeatherBinding.weatherTv.setText(weatherDesc);
-						        }
-						        String url = !TextUtils.isEmpty(weatherDetail.getIcon()) ?
-						                     getWeatherIconUrl(weatherDetail.getIcon()) :
-						                     getWeatherIconUrl("50d");
-						        Glide.with(getContext())
-						             .load(url)
-						             .into(mLayoutWeatherBinding.weatherIconIv);
+		        .subscribe(w -> {
+			        if (cxt.get() == null) {
+				        return;
+			        }
+			        setVisibility(View.VISIBLE);
+			        List<WeatherDetail> details = w.getDetails();
+			        if (details != null && details.size() > 0) {
+				        WeatherDetail weatherDetail = details.get(0);
+				        if (weatherDetail != null) {
+					        String weatherDesc = String.format("%s", getTemp(w));
+					        if (!TextUtils.isEmpty(weatherDesc)) {
+						        mLayoutWeatherBinding.weatherTv.setText(weatherDesc);
 					        }
+					        String url = !TextUtils.isEmpty(weatherDetail.getIcon()) ?
+					                     getWeatherIconUrl(weatherDetail.getIcon()) :
+					                     getWeatherIconUrl("50d");
+					        Glide.with(cxt.get())
+					             .load(url)
+					             .into(mLayoutWeatherBinding.weatherIconIv);
 				        }
 			        }
 		        });

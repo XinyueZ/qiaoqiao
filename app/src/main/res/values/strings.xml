@@ -7,7 +7,7 @@
     <string name="hint_link_image">Link to an image</string>
     <string name="error_can_not_find_file">Can not find file.</string>
 
-
+    <string name="no_image">Image or photo of target can not be loaded.</string>
     <string name="no_map_app_title">Route unavailable</string>
     <string name="no_map_apps">Can not find route, checkout whether you have map-app on your device.</string>
 

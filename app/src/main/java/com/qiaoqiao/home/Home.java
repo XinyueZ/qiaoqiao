@@ -100,12 +100,6 @@ public final class Home implements HomeContract.Presenter {
 		mHomeView.getBinding().camera.stop();
 	}
 
-	@Override
-	public void changeFocus() {
-		mHomeView.getBinding()
-		         .getUiHelper()
-		         .hide();
-	}
 
 	@Override
 	public void capturePhoto() {
