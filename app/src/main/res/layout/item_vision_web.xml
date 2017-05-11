@@ -18,14 +18,14 @@
 
         <FrameLayout
             style="@style/VisionItemContainer"
-            android:background="@drawable/round_blue_rectangle">
+            android:onClick="@{() -> viewholder.onWebLinkClicked(visionEntity)}"
+            android:background="@drawable/selector_round_blue_rectangle_item_background">
 
             <TextView
                 android:id="@+id/vision_tv"
                 style="@style/VisionItemTextView"
                 android:drawableEnd="@drawable/ic_web_link_open"
                 android:drawableRight="@drawable/ic_web_link_open"
-                android:onClick="@{() -> viewholder.onWebLinkClicked(visionEntity)}"
                 tools:text="hello,world"/>
         </FrameLayout>
     </FrameLayout>

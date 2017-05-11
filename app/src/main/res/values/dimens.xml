@@ -7,4 +7,5 @@
     <dimen name="history_item_size">100dp</dimen>
     <dimen name="card_margin">@dimen/larger</dimen>
     <dimen name="img_preview">50dp</dimen>
+    <dimen name="radius">99dp</dimen>
 </resources>

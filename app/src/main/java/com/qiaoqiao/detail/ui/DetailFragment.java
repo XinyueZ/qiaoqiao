@@ -1,5 +1,6 @@
 package com.qiaoqiao.detail.ui;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,12 +25,15 @@ import com.qiaoqiao.detail.DetailContract;
 import com.qiaoqiao.detail.DetailPresenter;
 import com.qiaoqiao.utils.DeviceUtils;
 
+import java.lang.ref.WeakReference;
+
 public final class DetailFragment extends Fragment implements DetailContract.View,
                                                               AppBarLayout.OnOffsetChangedListener {
 	private static final int LAYOUT = R.layout.fragment_detail;
 	private DetailPresenter mPresenter;
 	private FragmentDetailBinding mBinding;
 	private String mScrollBackgroundUrl;
+	private WeakReference<Context> mContextWeakReference;
 
 	@Nullable
 	@Override
@@ -42,6 +46,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		mContextWeakReference = new WeakReference<>(getContext());
 		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(getContext()).Height / 2;
 		mBinding.content.getSettings()
 		                .setDefaultTextEncodingName("utf-8");
@@ -87,8 +92,11 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	@Override
 	public void showImage(@NonNull String previewUrl, @NonNull final String url) {
+		if (mContextWeakReference.get() == null) {
+			return;
+		}
 		mScrollBackgroundUrl = previewUrl;
-		Glide.with(getContext())
+		Glide.with(mContextWeakReference.get())
 		     .load(url)
 		     .crossFade()
 		     .centerCrop()
@@ -119,8 +127,11 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	@Override
 	public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+		if (mContextWeakReference.get() == null) {
+			return;
+		}
 		if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-			Glide.with(getContext())
+			Glide.with(mContextWeakReference.get())
 			     .load(mScrollBackgroundUrl)
 			     .crossFade()
 			     .centerCrop()

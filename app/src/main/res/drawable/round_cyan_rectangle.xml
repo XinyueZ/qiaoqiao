@@ -4,16 +4,14 @@
     <corners
         android:radius="@dimen/radius">
     </corners>
-    <stroke
-        android:width="@dimen/mini"
-        android:color="@color/colorGrey">
-    </stroke>
-    <solid
-        android:color="@color/colorTransparent">
-    </solid>
+    <gradient
+        android:endColor="@color/colorCyan"
+        android:startColor="@color/colorCyan">
+    </gradient>
+
     <padding
-        android:bottom="@dimen/mini"
+        android:bottom="@dimen/small"
         android:left="@dimen/medium"
         android:right="@dimen/medium"
-        android:top="@dimen/mini"/>
+        android:top="@dimen/small"/>
 </shape>

@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:foreground="@drawable/selector_transparent_item_background"
             android:onClick="@{() -> viewholder.onEntryClicked(historyItem)}"
             android:scaleType="centerCrop"/>
 

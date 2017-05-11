@@ -18,14 +18,14 @@
 
         <FrameLayout
             style="@style/VisionItemContainer"
-            android:background="@drawable/round_green_rectangle">
+            android:onClick="@{() -> viewholder.onLandmarkClicked(visionEntity)}"
+            android:background="@drawable/selector_round_green_rectangle_item_background">
 
             <TextView
                 android:id="@+id/vision_tv"
                 style="@style/VisionItemTextView"
                 android:drawableEnd="@drawable/ic_location_pin"
                 android:drawableRight="@drawable/ic_location_pin"
-                android:onClick="@{() -> viewholder.onLandmarkClicked(visionEntity)}"
                 tools:text="hello,world"/>
         </FrameLayout>
     </FrameLayout>
