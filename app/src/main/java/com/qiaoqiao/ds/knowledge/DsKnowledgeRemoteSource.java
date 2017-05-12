@@ -44,7 +44,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 
 	@Override
 	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull DsLoadedCallback callback) {
-		getWikipedia().getTitleResult(wikiQuery(langLink.getLanguage(), langLink.getQuery()))
+		getWikipedia().getResult(wikiQuery(langLink.getLanguage(), langLink.getQuery()))
 		              .subscribeOn(Schedulers.io())
 		              .observeOn(AndroidSchedulers.mainThread())
 		              .subscribe(callback::onKnowledgeResponse);
@@ -63,8 +63,8 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 				}
 
 
-				getWikipedia().getTitleResult(wikiQuery(Locale.getDefault()
-				                                              .getLanguage(), translation.getTranslatedText()))
+				getWikipedia().getResult(wikiQuery(Locale.getDefault()
+				                                         .getLanguage(), translation.getTranslatedText()))
 				              .subscribeOn(Schedulers.io())
 				              .observeOn(AndroidSchedulers.mainThread())
 				              .subscribe((WikiResult result) -> {
@@ -74,7 +74,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 					                        .size() > 0) {
 						              callback.onKnowledgeResponse(result);
 					              } else {
-						              getWikipedia().getTitleResult(wikiQuery("en", keyword))
+						              getWikipedia().getResult(wikiQuery("en", keyword))
 						                            .subscribeOn(Schedulers.io())
 						                            .observeOn(AndroidSchedulers.mainThread())
 						                            .subscribe(result1 -> {
