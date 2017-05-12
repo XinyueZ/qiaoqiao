@@ -39,4 +39,9 @@ public final class LangLink {
 	public void setQuery(String query) {
 		mQuery = query;
 	}
+
+	@Override
+	public String toString() {
+		return getAutonym();
+	}
 }

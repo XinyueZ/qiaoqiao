@@ -10,6 +10,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -20,6 +23,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.qiaoqiao.R;
+import com.qiaoqiao.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.databinding.FragmentDetailBinding;
 import com.qiaoqiao.detail.DetailContract;
 import com.qiaoqiao.detail.DetailPresenter;
@@ -34,13 +38,22 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	private FragmentDetailBinding mBinding;
 	private String mScrollBackgroundUrl;
 	private WeakReference<Context> mContextWeakReference;
+	private MenuItem mMultiLanguageMenuItem;
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		mBinding = DataBindingUtil.inflate(inflater, LAYOUT, container, false);
 		mBinding.setFragment(this);
+		setHasOptionsMenu(true);
 		return mBinding.getRoot();
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_detail, menu);
+		mMultiLanguageMenuItem = menu.findItem(R.id.multi_language_spinner);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
@@ -68,6 +81,17 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void setPresenter(@NonNull DetailPresenter presenter) {
 		mPresenter = presenter;
+	}
+
+	@Override
+	public void setMultiLanguage(@Nullable LangLink[] langLinks) {
+		if (langLinks == null || langLinks.length <= 0) {
+			return;
+		}
+		for (LangLink langLink : langLinks) {
+			mMultiLanguageMenuItem.getSubMenu()
+			                      .add(langLink.toString());
+		}
 	}
 
 	@Override

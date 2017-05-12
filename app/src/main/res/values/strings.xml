@@ -11,6 +11,6 @@
     <string name="no_map_app_title">Route unavailable</string>
     <string name="no_map_apps">Can not find route, checkout whether you have map-app on your device.</string>
 
-    <string name="temp_degree"  >%1$.0f °C</string>
-
+    <string name="temp_degree">%1$.0f °C</string>
+    <string name="action_multi_language">More language</string>
 </resources>

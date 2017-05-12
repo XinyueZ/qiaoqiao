@@ -1,7 +1,7 @@
 <resources>
 
     <style name="AppBarToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorGrey</item>
         <item name="android:textColorPrimary">@color/colorWhite</item>
         <item name="android:textColorPrimaryInverse">@color/colorWhite</item>
     </style>
