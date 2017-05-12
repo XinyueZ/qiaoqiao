@@ -140,9 +140,9 @@ public final class Google {
 						          // add the features we want
 						          annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
 							          add(new Feature().setType("WEB_DETECTION")
-							                           .setMaxResults(5));
+							                           .setMaxResults(10));
 							          add(new Feature().setType("LANDMARK_DETECTION")
-							                           .setMaxResults(5));
+							                           .setMaxResults(10));
 						          }});
 						          // Add the list of one thing to the request
 						          add(annotateImageRequest);
