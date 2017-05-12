@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -33,7 +35,8 @@ import com.qiaoqiao.utils.DeviceUtils;
 import java.lang.ref.WeakReference;
 
 public final class DetailFragment extends Fragment implements DetailContract.View,
-                                                              AppBarLayout.OnOffsetChangedListener {
+                                                              AppBarLayout.OnOffsetChangedListener,
+                                                              Palette.PaletteAsyncListener {
 	private static final int LAYOUT = R.layout.fragment_detail;
 	private DetailPresenter mPresenter;
 	private FragmentDetailBinding mBinding;
@@ -65,6 +68,12 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		mBinding.content.getSettings()
 		                .setDefaultTextEncodingName("utf-8");
 		mBinding.appbar.addOnOffsetChangedListener(this);
+	}
+
+	@Override
+	public void onDestroyView() {
+		mBinding.appbar.removeOnOffsetChangedListener(this);
+		super.onDestroyView();
 	}
 
 	@Override
@@ -129,6 +138,9 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 			     @Override
 			     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
 				     mBinding.loadingPb.setVisibility(View.GONE);
+				     Palette.Builder b = new Palette.Builder(((GlideBitmapDrawable) resource).getBitmap());
+				     b.maximumColorCount(1);
+				     b.generate(DetailFragment.this);
 				     return false;
 			     }
 
@@ -179,5 +191,22 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		} else {
 			mBinding.previewIv.setVisibility(View.GONE);
 		}
+	}
+
+	@Override
+	public void onGenerated(Palette palette) {
+		if (palette.getSwatches()
+		           .isEmpty()) {
+			return;
+		}
+		int textColor = palette.getSwatches()
+		                   .get(0)
+		                   .getBodyTextColor();
+		int barColor = palette.getSwatches()
+		                       .get(0).getRgb();
+		mBinding.collapsingToolbar.setExpandedTitleColor(textColor);
+		mBinding.collapsingToolbar.setCollapsedTitleTextColor(textColor);
+		mBinding.collapsingToolbar.setContentScrimColor(barColor);
+		mBinding.collapsingToolbar.setStatusBarScrimColor(barColor);
 	}
 }
