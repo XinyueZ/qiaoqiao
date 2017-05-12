@@ -8,5 +8,5 @@ import dagger.Component;
 @ActivityScoped
 @Component(dependencies = DsRepositoryComponent.class, modules = HistoryModule.class)
 public interface HistoryComponent {
-	HistoryManager getHistoryManager();
+	HistoryPresenter getHistoryManager();
 }

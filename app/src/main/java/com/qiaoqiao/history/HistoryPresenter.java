@@ -18,7 +18,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
-public final class HistoryManager implements HistoryContract.Presenter {
+public final class HistoryPresenter implements HistoryContract.Presenter {
 	private final @NonNull HistoryContract.View mView;
 	private @Nullable RealmResults<HistoryItem> mResult;
 	private @Nullable HistoryStackAdapter mHistoryStackAdapter;
@@ -41,7 +41,7 @@ public final class HistoryManager implements HistoryContract.Presenter {
 
 	//------------------------------------------------
 	@Inject
-	HistoryManager(@NonNull HistoryContract.View view) {
+	HistoryPresenter(@NonNull HistoryContract.View view) {
 		mView = view;
 	}
 

@@ -30,7 +30,7 @@ import com.qiaoqiao.history.HistoryModule;
 import com.qiaoqiao.history.ui.HistoryFragment;
 import com.qiaoqiao.utils.SystemUiHelper;
 import com.qiaoqiao.vision.DaggerVisionComponent;
-import com.qiaoqiao.vision.VisionManager;
+import com.qiaoqiao.vision.VisionPresenter;
 import com.qiaoqiao.vision.VisionModule;
 import com.qiaoqiao.vision.ui.VisionListFragment;
 
@@ -53,7 +53,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
-	private VisionManager mVisionManager;
+	private VisionPresenter mVisionPresenter;
 	private ActivityCameraBinding mBinding;
 	@Inject CameraPresenter mPresenter;
 
@@ -100,11 +100,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		                     .cameraModule(new CameraModule(this))
 		                     .build()
 		                     .injectCamera(this);
-		mVisionManager = DaggerVisionComponent.builder()
-		                                      .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
-		                                      .visionModule(new VisionModule((VisionListFragment) getSupportFragmentManager().findFragmentById(R.id.vision_fg)))
-		                                      .build()
-		                                      .getVisionManager();
+		mVisionPresenter = DaggerVisionComponent.builder()
+		                                        .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
+		                                        .visionModule(new VisionModule((VisionListFragment) getSupportFragmentManager().findFragmentById(R.id.vision_fg)))
+		                                        .build()
+		                                        .getVisionManager();
 		DaggerHistoryComponent.builder()
 		                      .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
 		                      .historyModule(new HistoryModule((HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.history_fg)))
@@ -244,8 +244,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
-		if (mVisionManager != null) {
-			mVisionManager.addResponseToScreen(response);
+		if (mVisionPresenter != null) {
+			mVisionPresenter.addResponseToScreen(response);
 		}
 	}
 

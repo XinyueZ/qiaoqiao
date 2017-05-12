@@ -26,7 +26,7 @@ import com.qiaoqiao.databinding.FragmentHistoryBinding;
  */
 public interface HistoryContract {
 
-	interface View extends BaseView<HistoryManager, FragmentHistoryBinding> {
+	interface View extends BaseView<HistoryPresenter, FragmentHistoryBinding> {
 		 FragmentHistoryBinding getBinding();
 	}
 

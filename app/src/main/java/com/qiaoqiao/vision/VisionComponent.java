@@ -8,5 +8,5 @@ import dagger.Component;
 @ActivityScoped
 @Component(dependencies = DsRepositoryComponent.class, modules = VisionModule.class)
 public interface VisionComponent {
-	VisionManager getVisionManager();
+	VisionPresenter getVisionManager();
 }

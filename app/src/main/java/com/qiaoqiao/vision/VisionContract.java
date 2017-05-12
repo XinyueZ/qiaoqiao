@@ -20,17 +20,28 @@ package com.qiaoqiao.vision;
 import android.support.annotation.NonNull;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
+import com.google.api.services.vision.v1.model.EntityAnnotation;
+import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
+import com.qiaoqiao.vision.model.VisionEntity;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 public interface VisionContract {
 
-	interface View extends BaseView<VisionManager, FragmentListVisionBinding> {
+	interface View extends BaseView<VisionPresenter, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
+
+		void showList();
+
+		void addLandmarkEntity(@NonNull EntityAnnotation entityAnnotation);
+
+		void addWebEntity(@NonNull WebEntity webEntity);
+
+		void showDetail(@NonNull VisionEntity entity);
 	}
 
 	interface Presenter extends BasePresenter {

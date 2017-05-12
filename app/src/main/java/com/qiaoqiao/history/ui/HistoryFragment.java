@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
 import com.qiaoqiao.history.HistoryContract;
-import com.qiaoqiao.history.HistoryManager;
+import com.qiaoqiao.history.HistoryPresenter;
 
 public final class HistoryFragment extends Fragment implements HistoryContract.View {
 	private static final int LAYOUT = R.layout.fragment_history;
@@ -41,7 +41,7 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	}
 
 	@Override
-	public void setPresenter(@NonNull HistoryManager presenter) {
+	public void setPresenter(@NonNull HistoryPresenter presenter) {
 		mPresenter = presenter;
 	}
 
