@@ -17,9 +17,14 @@
 package com.qiaoqiao.history;
 
 
+import android.support.annotation.NonNull;
+
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
+import com.qiaoqiao.ds.database.HistoryItem;
+
+import io.realm.RealmResults;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -27,7 +32,11 @@ import com.qiaoqiao.databinding.FragmentHistoryBinding;
 public interface HistoryContract {
 
 	interface View extends BaseView<HistoryPresenter, FragmentHistoryBinding> {
-		 FragmentHistoryBinding getBinding();
+		FragmentHistoryBinding getBinding();
+
+		void showList(@NonNull RealmResults<HistoryItem> results);
+
+		void updateList(@NonNull RealmResults<HistoryItem> historyItemList);
 	}
 
 	interface Presenter extends BasePresenter {

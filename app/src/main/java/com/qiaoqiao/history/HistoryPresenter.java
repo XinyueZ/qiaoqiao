@@ -4,11 +4,9 @@ package com.qiaoqiao.history;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 
 import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.history.bus.HistoryItemClickEvent;
-import com.qiaoqiao.history.ui.HistoryStackAdapter;
 
 import javax.inject.Inject;
 
@@ -21,7 +19,6 @@ import io.realm.RealmResults;
 public final class HistoryPresenter implements HistoryContract.Presenter {
 	private final @NonNull HistoryContract.View mView;
 	private @Nullable RealmResults<HistoryItem> mResult;
-	private @Nullable HistoryStackAdapter mHistoryStackAdapter;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -53,28 +50,17 @@ public final class HistoryPresenter implements HistoryContract.Presenter {
 	private final RealmChangeListener<RealmResults<HistoryItem>> mChangeListener = new RealmChangeListener<RealmResults<HistoryItem>>() {
 		@Override
 		public void onChange(RealmResults<HistoryItem> historyItemList) {
-			if (mHistoryStackAdapter == null) {
-				return;
-			}
-			mHistoryStackAdapter.notifyDataSetChanged();
-			mView.getBinding().historyStv.setSelection(mHistoryStackAdapter.getCount() - 1);
-			mView.getBinding().historyItemTv.setVisibility(historyItemList.size() > 0 ?
-			                                               View.VISIBLE :
-			                                               View.GONE);
+			mView.updateList(historyItemList);
 		}
 	};
 
 	@Override
 	public void begin() {
-		mResult = Realm.getDefaultInstance()
-		               .where(HistoryItem.class)
-		               .findAllAsync();
-		mView.getBinding().historyStv.setAdapter(mHistoryStackAdapter = new HistoryStackAdapter(mView.getBinding()
-		                                                                                             .getFragment()
-		                                                                                             .getContext(), mResult));
-		if (mResult != null) {
-			mResult.addChangeListener(mChangeListener);
-		}
+		final RealmResults<HistoryItem> results = Realm.getDefaultInstance()
+		                                                .where(HistoryItem.class)
+		                                                .findAllAsync();
+		mView.showList(results);
+		results.addChangeListener(mChangeListener);
 		EventBus.getDefault()
 		        .register(this);
 	}

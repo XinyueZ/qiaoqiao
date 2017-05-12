@@ -1,5 +1,6 @@
 package com.qiaoqiao.history.ui;
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,13 +12,18 @@ import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
+import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.history.HistoryContract;
 import com.qiaoqiao.history.HistoryPresenter;
+
+import io.realm.RealmResults;
 
 public final class HistoryFragment extends Fragment implements HistoryContract.View {
 	private static final int LAYOUT = R.layout.fragment_history;
 	private FragmentHistoryBinding mBinding;
 	private HistoryContract.Presenter mPresenter;
+
+	private @Nullable HistoryStackAdapter mHistoryStackAdapter;
 
 	@Nullable
 	@Override
@@ -48,5 +54,26 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	@Override
 	public FragmentHistoryBinding getBinding() {
 		return mBinding;
+	}
+
+	@Override
+	public void showList(@NonNull RealmResults<HistoryItem> results) {
+		Activity activity = getActivity();
+		if (activity == null) {
+			return;
+		}
+		mBinding.historyStv.setAdapter(mHistoryStackAdapter = new HistoryStackAdapter(activity, results));
+	}
+
+	@Override
+	public void updateList(@NonNull RealmResults<HistoryItem> historyItemList) {
+		if (mHistoryStackAdapter == null) {
+			return;
+		}
+		mHistoryStackAdapter.notifyDataSetChanged();
+		mBinding.historyStv.setSelection(mHistoryStackAdapter.getCount() - 1);
+		mBinding.historyItemTv.setVisibility(historyItemList.size() > 0 ?
+		                                     View.VISIBLE :
+		                                     View.GONE);
 	}
 }
