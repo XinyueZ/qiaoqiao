@@ -21,6 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
@@ -36,9 +37,25 @@ public interface CameraContract {
 
 		void showInputFromWeb();
 
-		void showError(@NonNull android.view.View view, @NonNull String errorMessage);
+		void showError(@NonNull String errorMessage);
 
 		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
+
+		void hideSystemUi();
+
+		void capturePhoto();
+
+		void openLink();
+
+		void openLocal();
+
+		void showMainControl();
+
+		void cameraBegin(@NonNull CameraView.Callback callback);
+
+		void cameraEnd(@NonNull CameraView.Callback callback);
+
+		void updateUIWhenGetPhoto();
 
 		ActivityCameraBinding getBinding();
 	}
@@ -46,8 +63,6 @@ public interface CameraContract {
 	interface Presenter extends BasePresenter {
 		void stop();
 
-
-		void capturePhoto();
 
 		void openLink(@NonNull Uri uri);
 
