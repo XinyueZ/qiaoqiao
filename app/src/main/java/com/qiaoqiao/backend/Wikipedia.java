@@ -8,8 +8,5 @@ import retrofit2.http.Url;
 
 public interface Wikipedia {
 	@GET
-	Observable<WikiResult> getResult1(@Url String url);
-
-	@GET
-	Observable<WikiResult> getResult2(@Url String url);
+	Observable<WikiResult> getTitleResult(@Url String url);
 }
