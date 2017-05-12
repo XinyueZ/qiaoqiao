@@ -18,8 +18,10 @@ public final class Page {
 	private Image mOriginal;
 	@SerializedName("pageimage")
 	private String mPageImage;
+	@SerializedName("langlinks")
+	private LangLink[] mLangLinks;
 
-	public Page(int pageId, int ns, String title, String extract, Image thumbnail, Image original, String pageImage) {
+	public Page(int pageId, int ns, String title, String extract, Image thumbnail, Image original, String pageImage, LangLink[] langLinks) {
 		mPageId = pageId;
 		mNs = ns;
 		mTitle = title;
@@ -27,6 +29,7 @@ public final class Page {
 		mThumbnail = thumbnail;
 		mOriginal = original;
 		mPageImage = pageImage;
+		mLangLinks = langLinks;
 	}
 
 
@@ -84,5 +87,13 @@ public final class Page {
 
 	public void setPageImage(String pageImage) {
 		mPageImage = pageImage;
+	}
+
+	public LangLink[] getLangLinks() {
+		return mLangLinks;
+	}
+
+	public void setLangLinks(LangLink[] langLinks) {
+		mLangLinks = langLinks;
 	}
 }

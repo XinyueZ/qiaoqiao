@@ -11,6 +11,7 @@ import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.Wikipedia;
 import com.qiaoqiao.backend.model.translate.Data;
+import com.qiaoqiao.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.utils.LL;
@@ -59,6 +60,10 @@ public abstract class AbstractDsSource {
 	}
 
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull LoadedCallback callback) {
+
+	}
+
+	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull LoadedCallback callback) {
 
 	}
 

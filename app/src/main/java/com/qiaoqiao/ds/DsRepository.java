@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Google;
+import com.qiaoqiao.backend.model.wikipedia.LangLink;
 
 import java.io.File;
 
@@ -49,6 +50,12 @@ public final class DsRepository extends AbstractDsSource {
 	@Override
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull LoadedCallback callback) {
 		mWikipediaRemoteDs.onKnowledgeQuery(keyword, callback);
+	}
+
+
+	@Override
+	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull LoadedCallback callback) {
+		mWikipediaRemoteDs.onKnowledgeQuery(langLink, callback);
 	}
 
 	@Override

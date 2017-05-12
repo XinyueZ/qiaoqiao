@@ -7,6 +7,8 @@ import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.Wikipedia;
 import com.qiaoqiao.backend.model.translate.Data;
 import com.qiaoqiao.backend.model.translate.TranslateTextResponseTranslation;
+import com.qiaoqiao.backend.model.wikipedia.LangLink;
+import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.keymanager.Key;
 
@@ -40,6 +42,14 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 	}
 
 	@Override
+	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull LoadedCallback callback) {
+		getWikipedia().getResult2(wikiQuery(langLink.getLanguage(), langLink.getQuery()))
+		              .subscribeOn(Schedulers.io())
+		              .observeOn(AndroidSchedulers.mainThread())
+		              .subscribe(callback::onKnowledgeResponse);
+	}
+
+	@Override
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull LoadedCallback callback) {
 		onTranslate(keyword, new AbstractDsSource.LoadedCallback() {
 			@Override
@@ -56,7 +66,7 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 				                                          .getLanguage(), translation.getTranslatedText()))
 				              .subscribeOn(Schedulers.io())
 				              .observeOn(AndroidSchedulers.mainThread())
-				              .subscribe(result -> {
+				              .subscribe((WikiResult result) -> {
 					              if (result.getQuery()
 					                        .getPages()
 					                        .getList()
@@ -66,7 +76,7 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 						              getWikipedia().getResult2(wikiQuery("en", keyword))
 						                            .subscribeOn(Schedulers.io())
 						                            .observeOn(AndroidSchedulers.mainThread())
-						                            .subscribe(result1 -> callback.onKnowledgeResponse(result1));
+						                            .subscribe(callback::onKnowledgeResponse);
 					              }
 				              });
 			}
