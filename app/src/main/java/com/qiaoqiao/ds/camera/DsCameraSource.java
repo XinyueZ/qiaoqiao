@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.ds.DsLoadedCallback;
 
 import javax.inject.Singleton;
 
@@ -17,7 +18,7 @@ public final class DsCameraSource extends AbstractDsSource {
 	}
 
 	@Override
-	public void onBytes(@NonNull final byte[] bytes, @NonNull final LoadedCallback callback) {
+	public void onBytes(@NonNull final byte[] bytes, @NonNull final DsLoadedCallback callback) {
 		getGoogle().getAnnotateImageResponse(Google.Base64EncodedImageBuilder.newBuilder(bytes), response -> {
 			Status error = response.getResponses()
 			                       .get(0)

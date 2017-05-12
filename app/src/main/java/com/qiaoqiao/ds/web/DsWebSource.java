@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.ds.DsLoadedCallback;
 
 import javax.inject.Singleton;
 
@@ -17,7 +18,7 @@ public final class DsWebSource extends AbstractDsSource {
 	}
 
 	@Override
-	public void onUri(@NonNull final Uri uri, @NonNull final LoadedCallback callback) {
+	public void onUri(@NonNull final Uri uri, @NonNull final DsLoadedCallback callback) {
 		getGoogle().getAnnotateImageResponse(Google.UriImageBuilder.newBuilder(uri), response -> {
 			Status error = response.getResponses()
 			                       .get(0)

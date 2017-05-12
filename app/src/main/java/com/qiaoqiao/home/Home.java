@@ -16,7 +16,7 @@ import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.R;
-import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.ds.DsLoadedCallback;
 import com.qiaoqiao.ds.DsRepository;
 import com.qiaoqiao.utils.LL;
 
@@ -114,7 +114,7 @@ public final class Home implements HomeContract.Presenter {
 				LL.e("The camera captured picture but the bytes is NULL.");
 				return;
 			}
-			mDsRepository.onBytes(data, new AbstractDsSource.LoadedCallback() {
+			mDsRepository.onBytes(data, new DsLoadedCallback() {
 				@Override
 				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
@@ -148,7 +148,7 @@ public final class Home implements HomeContract.Presenter {
 	@Override
 	public void openLink(@NonNull Uri uri) {
 		mHomeView.getBinding().mainControl.startWebProgressBar();
-		mDsRepository.onUri(uri, new AbstractDsSource.LoadedCallback() {
+		mDsRepository.onUri(uri, new DsLoadedCallback() {
 			@Override
 			public void onVisionResponse(BatchAnnotateImagesResponse response) {
 				super.onVisionResponse(response);
@@ -189,7 +189,7 @@ public final class Home implements HomeContract.Presenter {
 				mHomeView.showError(mHomeView.getBinding().home, cxt.getString(R.string.error_can_not_find_file));
 				return;
 			}
-			mDsRepository.onFile(new File(cursor.getString(columnIndex)), new AbstractDsSource.LoadedCallback() {
+			mDsRepository.onFile(new File(cursor.getString(columnIndex)), new DsLoadedCallback() {
 				@Override
 				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);

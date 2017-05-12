@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.ds.DsLoadedCallback;
 
 import org.apache.commons.io.FileUtils;
 
@@ -22,7 +23,7 @@ public final class DsLocalSource extends AbstractDsSource {
 	}
 
 	@Override
-	public void onFile(@NonNull File file, @NonNull final LoadedCallback callback) {
+	public void onFile(@NonNull File file, @NonNull final DsLoadedCallback callback) {
 		try {
 			final byte[] bytes = FileUtils.readFileToByteArray(file);
 			if (bytes == null) {

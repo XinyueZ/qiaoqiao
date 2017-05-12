@@ -48,33 +48,33 @@ public final class DsRepository extends AbstractDsSource {
 	}
 
 	@Override
-	public void onKnowledgeQuery(@NonNull String keyword, @NonNull LoadedCallback callback) {
+	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {
 		mWikipediaRemoteDs.onKnowledgeQuery(keyword, callback);
 	}
 
 
 	@Override
-	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull LoadedCallback callback) {
+	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull DsLoadedCallback callback) {
 		mWikipediaRemoteDs.onKnowledgeQuery(langLink, callback);
 	}
 
 	@Override
-	public void onBytes(@NonNull byte[] bytes, @NonNull LoadedCallback callback) {
+	public void onBytes(@NonNull byte[] bytes, @NonNull DsLoadedCallback callback) {
 		mCameraDs.onBytes(bytes, callback);
 	}
 
 	@Override
-	public void onFile(@NonNull File file, @NonNull LoadedCallback callback) {
+	public void onFile(@NonNull File file, @NonNull DsLoadedCallback callback) {
 		mLocalDs.onFile(file, callback);
 	}
 
 	@Override
-	public void onUri(@NonNull Uri uri, @NonNull LoadedCallback callback) {
+	public void onUri(@NonNull Uri uri, @NonNull DsLoadedCallback callback) {
 		mWebDs.onUri(uri, callback);
 	}
 
 	@Override
-	public void onTranslate(@NonNull String q, @NonNull LoadedCallback callback) {
+	public void onTranslate(@NonNull String q, @NonNull DsLoadedCallback callback) {
 		mWikipediaRemoteDs.onKnowledgeQuery(q, callback);
 	}
 }

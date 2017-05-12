@@ -7,7 +7,7 @@ import com.qiaoqiao.backend.Wikipedia;
 import com.qiaoqiao.ds.camera.DsCameraSource;
 import com.qiaoqiao.ds.local.DsLocalSource;
 import com.qiaoqiao.ds.web.DsWebSource;
-import com.qiaoqiao.ds.wikipedia.DsWikipediaRemoteSource;
+import com.qiaoqiao.ds.knowledge.DsKnowledgeRemoteSource;
 import com.qiaoqiao.keymanager.Key;
 
 import javax.inject.Singleton;
@@ -46,7 +46,7 @@ final class DsRepositoryModule {
 	@Knowledge
 	@Provides
 	AbstractDsSource provideWikipediaDataSource(@NonNull Key key, @NonNull Google google, @NonNull com.qiaoqiao.backend.Wikipedia wikipedia) {
-		return new DsWikipediaRemoteSource(key, google, wikipedia);
+		return new DsKnowledgeRemoteSource(key, google, wikipedia);
 	}
 
 	@Singleton

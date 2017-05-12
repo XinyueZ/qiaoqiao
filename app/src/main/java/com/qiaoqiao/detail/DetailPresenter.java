@@ -4,7 +4,7 @@ package com.qiaoqiao.detail;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
-import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.ds.DsLoadedCallback;
 import com.qiaoqiao.ds.DsRepository;
 
 import javax.inject.Inject;
@@ -38,7 +38,7 @@ public final class DetailPresenter implements DetailContract.Presenter {
 
 
 	private void loadDetail(String text) {
-		mDsRepository.onKnowledgeQuery(text, new AbstractDsSource.LoadedCallback() {
+		mDsRepository.onKnowledgeQuery(text, new DsLoadedCallback() {
 			@Override
 			public void onKnowledgeResponse(WikiResult result) {
 				super.onKnowledgeResponse(result);

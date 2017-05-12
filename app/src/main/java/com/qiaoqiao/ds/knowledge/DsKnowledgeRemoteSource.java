@@ -1,4 +1,4 @@
-package com.qiaoqiao.ds.wikipedia;
+package com.qiaoqiao.ds.knowledge;
 
 
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import com.qiaoqiao.backend.model.translate.TranslateTextResponseTranslation;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.AbstractDsSource;
+import com.qiaoqiao.ds.DsLoadedCallback;
 import com.qiaoqiao.keymanager.Key;
 
 import java.util.Locale;
@@ -20,16 +21,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @Singleton
-public final class DsWikipediaRemoteSource extends AbstractDsSource {
+public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 	private @NonNull  final Key mKey;
 
-	public DsWikipediaRemoteSource(@NonNull Key key, @NonNull Google google, @NonNull Wikipedia wikipedia) {
+	public DsKnowledgeRemoteSource(@NonNull Key key, @NonNull Google google, @NonNull Wikipedia wikipedia) {
 		super(google, wikipedia);
 		mKey = key;
 	}
 
 	@Override
-	public void onTranslate(@NonNull String q, @NonNull LoadedCallback callback) {
+	public void onTranslate(@NonNull String q, @NonNull DsLoadedCallback callback) {
 		getGoogle().getTranslateService()
 		           .translate(q,
 		                      Locale.getDefault()
@@ -42,7 +43,7 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 	}
 
 	@Override
-	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull LoadedCallback callback) {
+	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull DsLoadedCallback callback) {
 		getWikipedia().getResult2(wikiQuery(langLink.getLanguage(), langLink.getQuery()))
 		              .subscribeOn(Schedulers.io())
 		              .observeOn(AndroidSchedulers.mainThread())
@@ -50,8 +51,8 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 	}
 
 	@Override
-	public void onKnowledgeQuery(@NonNull String keyword, @NonNull LoadedCallback callback) {
-		onTranslate(keyword, new AbstractDsSource.LoadedCallback() {
+	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {
+		onTranslate(keyword, new DsLoadedCallback() {
 			@Override
 			public void onTranslateData(@NonNull Data translateData) {
 				super.onTranslateData(translateData);
