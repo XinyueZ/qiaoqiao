@@ -58,6 +58,9 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		super.onActivityCreated(savedInstanceState);
 		final AppCompatActivity activity = (AppCompatActivity) getActivity();
 		activity.setSupportActionBar(mBinding.toolbar);
+		if (activity.getSupportActionBar() == null) {
+			return;
+		}
 		activity.getSupportActionBar()
 		        .setDisplayHomeAsUpEnabled(true);
 	}
