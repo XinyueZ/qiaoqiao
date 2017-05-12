@@ -1,4 +1,4 @@
-package com.qiaoqiao.home;
+package com.qiaoqiao.camera;
 
 
 import android.content.Context;
@@ -26,12 +26,12 @@ import javax.inject.Inject;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 
-public final class Home implements HomeContract.Presenter {
-	private final @NonNull HomeContract.View mHomeView;
+public final class CameraPresenter implements CameraContract.Presenter {
+	private final @NonNull CameraContract.View mHomeView;
 	private final @NonNull DsRepository mDsRepository;
 
 	@Inject
-	Home(@NonNull HomeContract.View homeView, @NonNull DsRepository dsRepository) {
+	CameraPresenter(@NonNull CameraContract.View homeView, @NonNull DsRepository dsRepository) {
 		mHomeView = homeView;
 		mDsRepository = dsRepository;
 	}

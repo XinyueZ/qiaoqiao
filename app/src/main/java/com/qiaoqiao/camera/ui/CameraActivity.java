@@ -1,4 +1,4 @@
-package com.qiaoqiao.home.ui;
+package com.qiaoqiao.camera.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,16 +18,16 @@ import android.view.ViewGroup;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
-import com.qiaoqiao.databinding.HomeBinding;
+import com.qiaoqiao.camera.CameraContract;
+import com.qiaoqiao.camera.CameraModule;
+import com.qiaoqiao.camera.CameraPresenter;
+import com.qiaoqiao.camera.DaggerCameraComponent;
+import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
 import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
 import com.qiaoqiao.history.DaggerHistoryComponent;
 import com.qiaoqiao.history.HistoryModule;
 import com.qiaoqiao.history.ui.HistoryFragment;
-import com.qiaoqiao.home.DaggerHomeComponent;
-import com.qiaoqiao.home.Home;
-import com.qiaoqiao.home.HomeContract;
-import com.qiaoqiao.home.HomeModule;
 import com.qiaoqiao.utils.SystemUiHelper;
 import com.qiaoqiao.vision.DaggerVisionComponent;
 import com.qiaoqiao.vision.VisionManager;
@@ -47,15 +47,15 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.os.Bundle.EMPTY;
 
-public final class HomeActivity extends AppCompatActivity implements HomeContract.View,
-                                                                     View.OnClickListener,
-                                                                     EasyPermissions.PermissionCallbacks {
-	private static final int LAYOUT = R.layout.activity_home;
+public final class CameraActivity extends AppCompatActivity implements CameraContract.View,
+                                                                       View.OnClickListener,
+                                                                       EasyPermissions.PermissionCallbacks {
+	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
 	private VisionManager mVisionManager;
-	private HomeBinding mBinding;
-	@Inject Home mPresenter;
+	private ActivityCameraBinding mBinding;
+	@Inject CameraPresenter mPresenter;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -75,12 +75,12 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	//------------------------------------------------
 
 	/**
-	 * Show single instance of {@link HomeActivity}
+	 * Show single instance of {@link CameraActivity}
 	 *
 	 * @param cxt {@link Activity}.
 	 */
 	public static void showInstance(@NonNull Activity cxt) {
-		Intent intent = new Intent(cxt, HomeActivity.class);
+		Intent intent = new Intent(cxt, CameraActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		ActivityCompat.startActivity(cxt, intent, EMPTY);
 	}
@@ -95,11 +95,11 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 		mBinding.setUiHelper(uiHelper);
 		mBinding.setDecorView((ViewGroup) getWindow().getDecorView());
 
-		DaggerHomeComponent.builder()
-		                   .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
-		                   .homeModule(new HomeModule(this))
-		                   .build()
-		                   .injectHome(this);
+		DaggerCameraComponent.builder()
+		                     .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
+		                     .cameraModule(new CameraModule(this))
+		                     .build()
+		                     .injectCamera(this);
 		mVisionManager = DaggerVisionComponent.builder()
 		                                      .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
 		                                      .visionModule(new VisionModule((VisionListFragment) getSupportFragmentManager().findFragmentById(R.id.vision_fg)))
@@ -155,7 +155,7 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	}
 
 	@Override
-	public void setPresenter(@NonNull Home presenter) {
+	public void setPresenter(@NonNull CameraPresenter presenter) {
 		mPresenter = presenter;
 	}
 
@@ -250,7 +250,7 @@ public final class HomeActivity extends AppCompatActivity implements HomeContrac
 	}
 
 	@Override
-	public HomeBinding getBinding() {
+	public ActivityCameraBinding getBinding() {
 		return mBinding;
 	}
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.qiaoqiao.home;
+package com.qiaoqiao.camera;
 
 
 import android.content.Context;
@@ -24,14 +24,14 @@ import android.support.annotation.NonNull;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
-import com.qiaoqiao.databinding.HomeBinding;
+import com.qiaoqiao.databinding.ActivityCameraBinding;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface HomeContract {
+public interface CameraContract {
 
-	interface View extends BaseView<Home, HomeBinding> {
+	interface View extends BaseView<CameraPresenter, ActivityCameraBinding> {
 		void showLoadFromLocal();
 
 		void showInputFromWeb();
@@ -40,7 +40,7 @@ public interface HomeContract {
 
 		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
-		HomeBinding getBinding();
+		ActivityCameraBinding getBinding();
 	}
 
 	interface Presenter extends BasePresenter {

@@ -38,7 +38,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
                                                               AppBarLayout.OnOffsetChangedListener,
                                                               Palette.PaletteAsyncListener {
 	private static final int LAYOUT = R.layout.fragment_detail;
-	private DetailPresenter mPresenter;
+	private DetailContract.Presenter mPresenter;
 	private FragmentDetailBinding mBinding;
 	private WeakReference<Context> mContextWeakReference;
 	private MenuItem mMultiLanguageMenuItem;

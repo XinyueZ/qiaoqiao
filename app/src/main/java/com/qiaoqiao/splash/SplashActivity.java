@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.home.ui.HomeActivity;
+import com.qiaoqiao.camera.ui.CameraActivity;
 import com.qiaoqiao.utils.SystemUiHelper;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public final class SplashActivity extends AppCompatActivity implements EasyPermi
 	}
 
 	private void goToHome() {
-		HomeActivity.showInstance(this);
+		CameraActivity.showInstance(this);
 		finish();
 	}
 
