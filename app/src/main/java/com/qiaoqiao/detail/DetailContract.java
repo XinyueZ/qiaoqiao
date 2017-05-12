@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
+import com.qiaoqiao.backend.model.wikipedia.Image;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.databinding.FragmentDetailBinding;
 
@@ -30,7 +31,7 @@ public interface DetailContract {
 	interface View extends BaseView<DetailPresenter, FragmentDetailBinding> {
 		FragmentDetailBinding getBinding();
 		void toggleLoaded();
-		void showImage(@NonNull String previewUrl, @NonNull final String url);
+		void showImage(@Nullable Image preview, @Nullable Image  photo);
 		void setText(@NonNull String title, @NonNull String content);
 		void setMultiLanguage(@Nullable LangLink[] langLinks);
 	}
@@ -38,5 +39,7 @@ public interface DetailContract {
 	interface Presenter extends BasePresenter {
 
 		void end();
+
+		void loadDetail(LangLink langLink);
 	}
 }

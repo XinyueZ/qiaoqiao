@@ -43,6 +43,13 @@ public final class DetailActivity extends AppCompatActivity {
 		                     .detailModule(new DetailModule((DetailContract.View) getSupportFragmentManager().findFragmentById(R.id.detail_fg), getIntent().getStringExtra(EXTRAS_KEYWORD)))
 		                     .build()
 		                     .injectDetail(this);
+		mPresenter.begin();
+	}
+
+	@Override
+	protected void onDestroy() {
+		mPresenter.end();
+		super.onDestroy();
 	}
 
 	@Override

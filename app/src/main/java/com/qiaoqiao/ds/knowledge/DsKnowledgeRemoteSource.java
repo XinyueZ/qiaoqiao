@@ -77,7 +77,14 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 						              getWikipedia().getResult2(wikiQuery("en", keyword))
 						                            .subscribeOn(Schedulers.io())
 						                            .observeOn(AndroidSchedulers.mainThread())
-						                            .subscribe(callback::onKnowledgeResponse);
+						                            .subscribe(result1 -> {
+							                            if (result1.getQuery()
+							                                       .getPages()
+							                                       .getList()
+							                                       .size() > 0) {
+								                            callback.onKnowledgeResponse(result1);
+							                            }
+						                            });
 					              }
 				              });
 			}

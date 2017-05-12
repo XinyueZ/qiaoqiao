@@ -3,6 +3,7 @@ package com.qiaoqiao.detail;
 
 import android.support.annotation.NonNull;
 
+import com.qiaoqiao.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.DsLoadedCallback;
 import com.qiaoqiao.ds.DsRepository;
@@ -37,6 +38,43 @@ public final class DetailPresenter implements DetailContract.Presenter {
 	}
 
 
+	@Override
+	public void loadDetail(LangLink langLink) {
+		mDsRepository.onKnowledgeQuery(langLink, new DsLoadedCallback() {
+			@Override
+			public void onKnowledgeResponse(WikiResult result) {
+				super.onKnowledgeResponse(result);
+				mView.setMultiLanguage(result.getQuery()
+				                             .getPages()
+				                             .getList()
+				                             .get(0)
+				                             .getLangLinks());
+				mView.showImage(result.getQuery()
+				                      .getPages()
+				                      .getList()
+				                      .get(0)
+				                      .getThumbnail(),
+				                result.getQuery()
+				                      .getPages()
+				                      .getList()
+				                      .get(0)
+				                      .getOriginal());
+				mView.setText(result.getQuery()
+				                    .getPages()
+				                    .getList()
+				                    .get(0)
+				                    .getTitle(),
+				              result.getQuery()
+				                    .getPages()
+				                    .getList()
+				                    .get(0)
+				                    .getExtract());
+				mView.toggleLoaded();
+			}
+		});
+	}
+
+
 	private void loadDetail(String text) {
 		mDsRepository.onKnowledgeQuery(text, new DsLoadedCallback() {
 			@Override
@@ -51,14 +89,12 @@ public final class DetailPresenter implements DetailContract.Presenter {
 				                      .getPages()
 				                      .getList()
 				                      .get(0)
-				                      .getThumbnail()
-				                      .getSource(),
+				                      .getThumbnail(),
 				                result.getQuery()
 				                      .getPages()
 				                      .getList()
 				                      .get(0)
-				                      .getOriginal()
-				                      .getSource());
+				                      .getOriginal());
 				mView.setText(result.getQuery()
 				                    .getPages()
 				                    .getList()

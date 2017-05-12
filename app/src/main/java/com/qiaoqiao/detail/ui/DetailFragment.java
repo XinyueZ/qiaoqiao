@@ -23,6 +23,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.qiaoqiao.R;
+import com.qiaoqiao.backend.model.wikipedia.Image;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.databinding.FragmentDetailBinding;
 import com.qiaoqiao.detail.DetailContract;
@@ -36,9 +37,9 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	private static final int LAYOUT = R.layout.fragment_detail;
 	private DetailPresenter mPresenter;
 	private FragmentDetailBinding mBinding;
-	private String mScrollBackgroundUrl;
 	private WeakReference<Context> mContextWeakReference;
 	private MenuItem mMultiLanguageMenuItem;
+	private @Nullable Image mPreviewImage;
 
 	@Nullable
 	@Override
@@ -90,7 +91,11 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		}
 		for (LangLink langLink : langLinks) {
 			mMultiLanguageMenuItem.getSubMenu()
-			                      .add(langLink.toString());
+			                      .add(langLink.toString())
+			                      .setOnMenuItemClickListener(item -> {
+				                      mPresenter.loadDetail(langLink);
+				                      return true;
+			                      });
 		}
 	}
 
@@ -99,17 +104,6 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		return mBinding;
 	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		mPresenter.begin();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		mPresenter.end();
-	}
 
 	@Override
 	public void toggleLoaded() {
@@ -118,13 +112,15 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	}
 
 	@Override
-	public void showImage(@NonNull String previewUrl, @NonNull final String url) {
-		if (mContextWeakReference.get() == null) {
+	public void showImage(@Nullable Image preview, @Nullable Image photo) {
+		if (mContextWeakReference.get() == null || photo == null) {
 			return;
 		}
-		mScrollBackgroundUrl = previewUrl;
+
+		mPreviewImage = preview;
+		mBinding.loadingPb.setVisibility(View.VISIBLE);
 		Glide.with(mContextWeakReference.get())
-		     .load(url)
+		     .load(photo.getSource())
 		     .crossFade()
 		     .centerCrop()
 		     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -146,6 +142,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		     .into(mBinding.detailIv);
 	}
 
+
 	@Override
 	public void setText(@NonNull String title, @NonNull String content) {
 		mBinding.collapsingToolbar.setTitle(title);
@@ -154,12 +151,12 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	@Override
 	public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-		if (mContextWeakReference.get() == null) {
+		if (mContextWeakReference.get() == null || mPreviewImage == null) {
 			return;
 		}
 		if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
 			Glide.with(mContextWeakReference.get())
-			     .load(mScrollBackgroundUrl)
+			     .load(mPreviewImage.getSource())
 			     .crossFade()
 			     .centerCrop()
 			     .diskCacheStrategy(DiskCacheStrategy.ALL)
