@@ -47,6 +47,6 @@ public interface VisionContract {
 	interface Presenter extends BasePresenter {
 		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
-		void stop();
+
 	}
 }

@@ -57,7 +57,7 @@ public final class VisionPresenter implements VisionContract.Presenter {
 	}
 
 	@Override
-	public void stop() {
+	public void end() {
 		EventBus.getDefault()
 		        .unregister(this);
 	}

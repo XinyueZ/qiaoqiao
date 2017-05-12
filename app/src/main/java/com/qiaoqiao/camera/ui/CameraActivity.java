@@ -28,11 +28,10 @@ import com.qiaoqiao.camera.DaggerCameraComponent;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
 import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
-import com.qiaoqiao.history.DaggerHistoryComponent;
 import com.qiaoqiao.history.HistoryModule;
+import com.qiaoqiao.history.HistoryPresenter;
 import com.qiaoqiao.history.ui.HistoryFragment;
 import com.qiaoqiao.utils.SystemUiHelper;
-import com.qiaoqiao.vision.DaggerVisionComponent;
 import com.qiaoqiao.vision.VisionModule;
 import com.qiaoqiao.vision.VisionPresenter;
 import com.qiaoqiao.vision.ui.VisionListFragment;
@@ -57,9 +56,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
-	private VisionPresenter mVisionPresenter;
 	private ActivityCameraBinding mBinding;
-	@Inject CameraPresenter mPresenter;
+
+	@Inject CameraPresenter mCameraPresenter;
+	@Inject VisionPresenter mVisionPresenter;
+	@Inject HistoryPresenter mHistoryPresenter;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -72,7 +73,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	 */
 	@Subscribe
 	public void onEvent(WebLinkInputEvent e) {
-		mPresenter.openLink(e.getUri());
+		mCameraPresenter.openLink(e.getUri());
 		getSupportFragmentManager().popBackStack();
 	}
 
@@ -102,18 +103,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		DaggerCameraComponent.builder()
 		                     .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
 		                     .cameraModule(new CameraModule(this))
+		                     .historyModule(new HistoryModule((HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.history_fg)))
+		                     .visionModule(new VisionModule((VisionListFragment) getSupportFragmentManager().findFragmentById(R.id.vision_fg)))
 		                     .build()
-		                     .injectCamera(this);
-		mVisionPresenter = DaggerVisionComponent.builder()
-		                                        .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
-		                                        .visionModule(new VisionModule((VisionListFragment) getSupportFragmentManager().findFragmentById(R.id.vision_fg)))
-		                                        .build()
-		                                        .getVisionManager();
-		DaggerHistoryComponent.builder()
-		                      .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
-		                      .historyModule(new HistoryModule((HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.history_fg)))
-		                      .build()
-		                      .getHistoryManager();
+		                     .doInject(this);
 
 	}
 
@@ -147,20 +140,24 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		EventBus.getDefault()
 		        .register(this);
 		super.onResume();
-		mPresenter.begin();
+		mCameraPresenter.begin();
+		mVisionPresenter.begin();
+		mHistoryPresenter.begin();
 	}
 
 	@Override
 	protected void onPause() {
 		EventBus.getDefault()
 		        .unregister(this);
-		mPresenter.stop();
+		mCameraPresenter.end();
+		mVisionPresenter.end();
+		mHistoryPresenter.end();
 		super.onPause();
 	}
 
 	@Override
 	public void setPresenter(@NonNull CameraPresenter presenter) {
-		mPresenter = presenter;
+		mCameraPresenter = presenter;
 	}
 
 	@Override
@@ -171,7 +168,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 					super.onActivityResult(requestCode, resultCode, data);
 					return;
 				}
-				mPresenter.openLocal(getApplicationContext(), data.getData());
+				mCameraPresenter.openLocal(getApplicationContext(), data.getData());
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -243,9 +240,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
-		if (mVisionPresenter != null) {
-			mVisionPresenter.addResponseToScreen(response);
-		}
+		mVisionPresenter.addResponseToScreen(response);
 	}
 
 	@Override

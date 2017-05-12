@@ -20,5 +20,6 @@ public interface BasePresenter {
 
 	void begin();
 
+	void end();
 
 }

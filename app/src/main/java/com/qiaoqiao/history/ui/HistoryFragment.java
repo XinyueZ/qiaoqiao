@@ -35,18 +35,6 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 
 
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mPresenter.begin();
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		mPresenter.stop();
-	}
-
-	@Override
 	public void setPresenter(@NonNull HistoryPresenter presenter) {
 		mPresenter = presenter;
 	}

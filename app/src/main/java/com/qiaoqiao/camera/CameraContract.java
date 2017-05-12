@@ -61,7 +61,6 @@ public interface CameraContract {
 	}
 
 	interface Presenter extends BasePresenter {
-		void stop();
 
 
 		void openLink(@NonNull Uri uri);

@@ -53,7 +53,7 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	}
 
 	@Override
-	public void stop() {
+	public void end() {
 		mView.cameraEnd(mCameraCallback);
 	}
 

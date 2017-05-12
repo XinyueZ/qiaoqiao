@@ -56,17 +56,17 @@ public final class HistoryPresenter implements HistoryContract.Presenter {
 
 	@Override
 	public void begin() {
-		final RealmResults<HistoryItem> results = Realm.getDefaultInstance()
-		                                                .where(HistoryItem.class)
-		                                                .findAllAsync();
-		mView.showList(results);
-		results.addChangeListener(mChangeListener);
+		mResult = Realm.getDefaultInstance()
+		               .where(HistoryItem.class)
+		               .findAllAsync();
+		mView.showList(mResult);
+		mResult.addChangeListener(mChangeListener);
 		EventBus.getDefault()
 		        .register(this);
 	}
 
 	@Override
-	public void stop() {
+	public void end() {
 		EventBus.getDefault()
 		        .unregister(this);
 		if (mResult != null) {

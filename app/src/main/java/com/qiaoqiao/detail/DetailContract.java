@@ -38,7 +38,6 @@ public interface DetailContract {
 
 	interface Presenter extends BasePresenter {
 
-		void end();
 
 		void loadDetail(LangLink langLink);
 	}
