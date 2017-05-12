@@ -108,8 +108,19 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		                     .build()
 		                     .doInject(this);
 
+
+		mCameraPresenter.begin();
+		mVisionPresenter.begin();
+		mHistoryPresenter.begin();
 	}
 
+	@Override
+	protected void onDestroy() {
+		mCameraPresenter.end();
+		mVisionPresenter.end();
+		mHistoryPresenter.end();
+		super.onDestroy();
+	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
@@ -140,18 +151,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		EventBus.getDefault()
 		        .register(this);
 		super.onResume();
-		mCameraPresenter.begin();
-		mVisionPresenter.begin();
-		mHistoryPresenter.begin();
 	}
 
 	@Override
 	protected void onPause() {
 		EventBus.getDefault()
 		        .unregister(this);
-		mCameraPresenter.end();
-		mVisionPresenter.end();
-		mHistoryPresenter.end();
 		super.onPause();
 	}
 

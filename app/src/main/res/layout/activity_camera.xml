@@ -34,8 +34,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:fitsSystemWindows="true"
-            android:layout_gravity="bottom|center_horizontal">
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/larger"
+            android:layout_marginEnd="@dimen/larger"
+            android:layout_marginLeft="@dimen/larger"
+            android:layout_marginRight="@dimen/larger"
+            android:layout_marginStart="@dimen/larger"
+            android:fitsSystemWindows="true">
 
             <fragment
                 android:id="@+id/vision_fg"
