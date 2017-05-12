@@ -52,7 +52,8 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 				}
 
 
-				getWikipedia().getResult1("query", "json", "extracts|pageimages", "original|name|thumbnail", 1, "titles", translation.getTranslatedText())
+				getWikipedia().getResult1(wikiQuery(Locale.getDefault()
+				                                          .getLanguage(), translation.getTranslatedText()))
 				              .subscribeOn(Schedulers.io())
 				              .observeOn(AndroidSchedulers.mainThread())
 				              .subscribe(result -> {
@@ -62,8 +63,7 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 					                        .size() > 0) {
 						              callback.onKnowledgeResponse(result);
 					              } else {
-						              getWikipedia().getResult2("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&piprop=original|name|thumbnail" +
-								                                        "&exlimit=1&redirects" + "=titles&titles=" + keyword)
+						              getWikipedia().getResult2(wikiQuery("en", keyword))
 						                            .subscribeOn(Schedulers.io())
 						                            .observeOn(AndroidSchedulers.mainThread())
 						                            .subscribe(result1 -> callback.onKnowledgeResponse(result1));
@@ -75,4 +75,19 @@ public final class DsWikipediaRemoteSource extends AbstractDsSource {
 
 	}
 
+	private @NonNull
+	String wikiQuery(@NonNull String lang, @NonNull String keyword) {
+		return wikiHost(lang) + wikiQuery(keyword);
+	}
+
+	private @NonNull
+	String wikiHost(@NonNull String lang) {
+		return String.format("https://%s.wikipedia.org", lang);
+	}
+
+	private @NonNull
+	String wikiQuery(@NonNull String keyword) {
+		return "/w/api.php?format=json&action=query&prop=extracts|pageimages|langlinks&llprop=autonym&lldir=descending&lllimit=500&piprop=original|name|thumbnail&exlimit=1&redirects=titles&titles="
+				+ keyword;
+	}
 }
