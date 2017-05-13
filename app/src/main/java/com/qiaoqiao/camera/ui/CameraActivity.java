@@ -4,18 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -31,7 +28,7 @@ import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
 import com.qiaoqiao.history.HistoryModule;
 import com.qiaoqiao.history.HistoryPresenter;
 import com.qiaoqiao.history.ui.HistoryFragment;
-import com.qiaoqiao.utils.SystemUiHelper;
+import com.qiaoqiao.utils.DeviceUtils;
 import com.qiaoqiao.vision.VisionModule;
 import com.qiaoqiao.vision.VisionPresenter;
 import com.qiaoqiao.vision.ui.VisionListFragment;
@@ -47,7 +44,6 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.os.Bundle.EMPTY;
 
 public final class CameraActivity extends AppCompatActivity implements CameraContract.View,
@@ -93,13 +89,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
-		uiHelper.hide();
 		super.onCreate(savedInstanceState);
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
-		mBinding.setUiHelper(uiHelper);
-		mBinding.setDecorView((ViewGroup) getWindow().getDecorView());
-
+		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(this).Height / 2;
+		setSupportActionBar(mBinding.toolbar);
+		final ActionBar supportActionBar = getSupportActionBar();
+		if (supportActionBar != null) {
+			supportActionBar.setHomeButtonEnabled(true);
+		}
 		DaggerCameraComponent.builder()
 		                     .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
 		                     .cameraModule(new CameraModule(this))
@@ -122,14 +119,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		super.onDestroy();
 	}
 
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		if (mBinding != null) {
-			mBinding.getUiHelper()
-			        .hide();
-		}
-		super.onWindowFocusChanged(hasFocus);
-	}
 
 	@SuppressLint("RestrictedApi")
 	@Override
@@ -180,7 +169,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void showError(@NonNull String errorMessage) {
-		mSnackbar = Snackbar.make(mBinding.home, errorMessage, Snackbar.LENGTH_LONG)
+		mSnackbar = Snackbar.make(mBinding.root, errorMessage, Snackbar.LENGTH_LONG)
 		                    .setAction(android.R.string.ok, this);
 		mSnackbar.show();
 	}
@@ -254,12 +243,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	@Override
-	public void hideSystemUi() {
-		mBinding.getUiHelper()
-		        .hide();
-	}
-
-	@Override
 	public void capturePhoto() {
 		mBinding.mainControl.startCaptureProgressBar();
 		mBinding.camera.takePicture();
@@ -275,31 +258,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.mainControl.startLocalProgressBar();
 	}
 
-	@Override
-	public void showMainControl() {
-		mBinding.getDecorView()
-		        .getViewTreeObserver()
-		        .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			        @Override
-			        public void onGlobalLayout() {
-				        final ViewGroup decorView = mBinding.getDecorView();
-				        if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
-					        decorView.getViewTreeObserver()
-					                 .removeOnGlobalLayoutListener(this);
-				        } else {
-					        decorView.getViewTreeObserver()
-					                 .removeGlobalOnLayoutListener(this);
-				        }
-				        Rect rect = new Rect();
-				        decorView.getWindowVisibleDisplayFrame(rect);
-				        mBinding.home.setPadding(0, rect.top, 0, 0);
-			        }
-		        });
-		int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-		if (resourceId > 0) {
-			((ViewGroup.MarginLayoutParams) mBinding.mainControl.getLayoutParams()).bottomMargin = getResources().getDimensionPixelSize(resourceId);
-		}
-	}
 
 	@Override
 	public void cameraBegin(@NonNull CameraView.Callback callback) {

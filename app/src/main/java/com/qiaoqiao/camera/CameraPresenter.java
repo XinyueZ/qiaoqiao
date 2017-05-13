@@ -34,22 +34,18 @@ public final class CameraPresenter implements CameraContract.Presenter {
 		mView.setPresenter(this);
 		mView.getBinding().mainControl.setOnFromLocalClickedListener(v -> {
 			mView.showLoadFromLocal();
-			mView.hideSystemUi();
 		});
 		mView.getBinding().mainControl.setOnCaptureClickedListener(v -> {
 			mView.capturePhoto();
-			mView.hideSystemUi();
 		});
 		mView.getBinding().mainControl.setOnFromWebClickedListener(v -> {
 			mView.showInputFromWeb();
-			mView.hideSystemUi();
 		});
 	}
 
 	@Override
 	public void begin() {
 		mView.cameraBegin(mCameraCallback);
-		mView.showMainControl();
 	}
 
 	@Override

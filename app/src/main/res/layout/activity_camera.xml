@@ -6,67 +6,82 @@
     tools:context="com.qiaoqiao.camera.ui.CameraActivity">
 
     <data>
-
-        <variable
-            name="uiHelper"
-            type="com.qiaoqiao.utils.SystemUiHelper"/>
-
-        <variable
-            name="decorView"
-            type="android.view.ViewGroup"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/home"
+        android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:keepScreenOn="true">
 
-        <com.google.android.cameraview.CameraView
-            android:id="@+id/camera"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:keepScreenOn="true"
-            app:aspectRatio="4:3"
-            app:autoFocus="true"
-            app:facing="back"
-            app:flash="auto"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginEnd="@dimen/larger"
-            android:layout_marginLeft="@dimen/larger"
-            android:layout_marginRight="@dimen/larger"
-            android:layout_marginStart="@dimen/larger"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true">
 
-            <fragment
-                android:id="@+id/vision_fg"
-                android:name="com.qiaoqiao.vision.ui.VisionListFragment"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/main_control"/>
+                android:fitsSystemWindows="true"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleGravity="start|bottom|left"
+                app:expandedTitleMarginEnd="@dimen/larger"
+                app:expandedTitleMarginStart="@dimen/larger"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:toolbarId="@+id/toolbar">
+
+                <com.google.android.cameraview.CameraView
+                    android:id="@+id/camera"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:fitsSystemWindows="true"
+                    app:aspectRatio="4:3"
+                    app:autoFocus="true"
+                    app:facing="back"
+                    app:flash="auto"/>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    style="@style/AppBar"
+                    app:layout_collapseMode="pin"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
 
 
-            <fragment
-                android:id="@+id/history_fg"
-                android:name="com.qiaoqiao.history.ui.HistoryFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"/>
+        </android.support.design.widget.AppBarLayout>
 
-            <com.qiaoqiao.views.MainControlView
-                android:id="@+id/main_control"
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="@dimen/larger"/>
-        </RelativeLayout>
+                android:layout_height="match_parent">
 
+                <fragment
+                    android:id="@+id/vision_fg"
+                    android:name="com.qiaoqiao.vision.ui.VisionListFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+                <fragment
+                    android:id="@+id/history_fg"
+                    android:name="com.qiaoqiao.history.ui.HistoryFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|start|top"
+                    />
+
+            </FrameLayout>
+        </android.support.v4.widget.NestedScrollView>
 
         <FrameLayout
             android:id="@+id/content_root_fl"
@@ -74,6 +89,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="@dimen/larger"/>
+
+
+        <com.qiaoqiao.views.MainControlView
+            android:id="@+id/main_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/larger"
+            app:layout_behavior="com.qiaoqiao.camera.ui.BottomNavigationBehavior"/>
 
 
     </android.support.design.widget.CoordinatorLayout>

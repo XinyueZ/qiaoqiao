@@ -41,15 +41,12 @@ public interface CameraContract {
 
 		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
-		void hideSystemUi();
-
 		void capturePhoto();
 
 		void openLink();
 
 		void openLocal();
 
-		void showMainControl();
 
 		void cameraBegin(@NonNull CameraView.Callback callback);
 

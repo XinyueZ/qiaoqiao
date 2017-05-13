@@ -35,7 +35,8 @@
                 app:expandedTitleMarginEnd="@dimen/larger"
                 app:expandedTitleMarginStart="@dimen/larger"
                 app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:toolbarId="@+id/toolbar">
 
                 <ImageView
                     android:id="@+id/detail_iv"
