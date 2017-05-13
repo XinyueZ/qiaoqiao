@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
 import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.databinding.ItemHistoryBinding;
-import com.qiaoqiao.ds.database.HistoryItem;
+import com.qiaoqiao.ds.history.HistoryItem;
 
 import de.greenrobot.event.EventBus;
 import io.realm.RealmResults;
