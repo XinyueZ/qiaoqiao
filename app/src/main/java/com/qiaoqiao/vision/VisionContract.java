@@ -35,7 +35,7 @@ public interface VisionContract {
 	interface View extends BaseView<VisionPresenter, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
 
-		void showList();
+
 
 		void addLandmarkEntity(@NonNull EntityAnnotation entityAnnotation);
 
@@ -46,7 +46,6 @@ public interface VisionContract {
 
 	interface Presenter extends BasePresenter {
 		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
-
 
 	}
 }

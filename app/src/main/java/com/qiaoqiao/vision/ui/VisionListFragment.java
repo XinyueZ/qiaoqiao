@@ -1,6 +1,7 @@
 package com.qiaoqiao.vision.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -33,6 +34,10 @@ public final class VisionListFragment extends Fragment implements VisionContract
 
 	private VisionListAdapter mVisionListAdapter;
 
+	public static VisionListFragment newInstance(@NonNull Context cxt) {
+		return (VisionListFragment) VisionListFragment.instantiate(cxt, VisionListFragment.class.getName());
+	}
+
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,18 +46,15 @@ public final class VisionListFragment extends Fragment implements VisionContract
 		return mBinding.getRoot();
 	}
 
-
 	@Override
-	public void showList() {
-		Activity activity = getActivity();
-		if (activity == null) {
-			return;
-		}
-		mBinding.visionRv.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		mBinding.visionRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		mBinding.visionRv.setHasFixedSize(true);
 		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter());
-		final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(activity, DividerItemDecoration.VERTICAL);
-		final Drawable divideDrawable = AppCompatResources.getDrawable(activity, R.drawable.divider_drawable);
+		final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+		final Drawable divideDrawable = AppCompatResources.getDrawable(getActivity(), R.drawable.divider_drawable);
 		if (divideDrawable != null) {
 			dividerItemDecoration.setDrawable(divideDrawable);
 		}

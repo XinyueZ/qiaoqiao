@@ -4,8 +4,9 @@
     <dimen name="medium">10dp</dimen>
     <dimen name="small">5dp</dimen>
     <dimen name="mini">1dp</dimen>
-    <dimen name="history_item_size">100dp</dimen>
     <dimen name="card_margin">@dimen/larger</dimen>
     <dimen name="img_preview">50dp</dimen>
     <dimen name="radius">99dp</dimen>
+    <dimen name="touch_raise">6dp</dimen>
+    <dimen name="z_card">2dp</dimen>
 </resources>

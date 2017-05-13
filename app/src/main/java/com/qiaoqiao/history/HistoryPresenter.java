@@ -37,6 +37,8 @@ public final class HistoryPresenter implements HistoryContract.Presenter {
 	}
 
 	//------------------------------------------------
+
+
 	@Inject
 	HistoryPresenter(@NonNull HistoryContract.View view) {
 		mView = view;
@@ -56,11 +58,6 @@ public final class HistoryPresenter implements HistoryContract.Presenter {
 
 	@Override
 	public void begin() {
-		mResult = Realm.getDefaultInstance()
-		               .where(HistoryItem.class)
-		               .findAllAsync();
-		mView.showList(mResult);
-		mResult.addChangeListener(mChangeListener);
 		EventBus.getDefault()
 		        .register(this);
 	}
@@ -72,5 +69,14 @@ public final class HistoryPresenter implements HistoryContract.Presenter {
 		if (mResult != null) {
 			mResult.removeChangeListener(mChangeListener);
 		}
+	}
+
+	@Override
+	public void onViewReady() {
+		mResult = Realm.getDefaultInstance()
+		               .where(HistoryItem.class)
+		               .findAllAsync();
+		mView.showList(mResult);
+		mResult.addChangeListener(mChangeListener);
 	}
 }

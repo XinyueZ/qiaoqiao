@@ -1,11 +1,12 @@
 package com.qiaoqiao.history.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,11 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	private FragmentHistoryBinding mBinding;
 	private HistoryContract.Presenter mPresenter;
 
-	private @Nullable HistoryStackAdapter mHistoryStackAdapter;
+	private @Nullable HistoryListAdapter mHistoryListAdapter;
+
+	public static HistoryFragment newInstance(@NonNull Context cxt) {
+		return (HistoryFragment) HistoryFragment.instantiate(cxt, HistoryFragment.class.getName());
+	}
 
 	@Nullable
 	@Override
@@ -31,6 +36,13 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 		mBinding = DataBindingUtil.inflate(inflater, LAYOUT, container, false);
 		mBinding.setFragment(this);
 		return mBinding.getRoot();
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		mBinding.historyRv.setLayoutManager(new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.num_columns)));
+		mPresenter.onViewReady();
 	}
 
 
@@ -46,22 +58,17 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 
 	@Override
 	public void showList(@NonNull RealmResults<HistoryItem> results) {
-		Activity activity = getActivity();
-		if (activity == null) {
-			return;
-		}
-		mBinding.historyStv.setAdapter(mHistoryStackAdapter = new HistoryStackAdapter(activity, results));
+		mBinding.historyRv.setAdapter(mHistoryListAdapter = new HistoryListAdapter(results));
 	}
 
 	@Override
 	public void updateList(@NonNull RealmResults<HistoryItem> historyItemList) {
-		if (mHistoryStackAdapter == null) {
+		if (mHistoryListAdapter == null) {
 			return;
 		}
-		mHistoryStackAdapter.notifyDataSetChanged();
-		mBinding.historyStv.setSelection(mHistoryStackAdapter.getCount() - 1);
-		mBinding.historyItemTv.setVisibility(historyItemList.size() > 0 ?
-		                                     View.VISIBLE :
-		                                     View.GONE);
+		mHistoryListAdapter.notifyDataSetChanged();
+		mBinding.historyRv.setVisibility(historyItemList.size() > 0 ?
+		                                 View.VISIBLE :
+		                                 View.GONE);
 	}
 }

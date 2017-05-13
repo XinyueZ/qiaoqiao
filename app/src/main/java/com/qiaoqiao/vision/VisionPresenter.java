@@ -53,7 +53,6 @@ public final class VisionPresenter implements VisionContract.Presenter {
 		EventBus.getDefault()
 		        .register(this);
 
-		mView.showList();
 	}
 
 	@Override

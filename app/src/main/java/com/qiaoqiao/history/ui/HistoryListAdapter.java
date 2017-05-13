@@ -4,38 +4,34 @@ package com.qiaoqiao.history.ui;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
-import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.databinding.ItemHistoryBinding;
 import com.qiaoqiao.ds.history.HistoryItem;
+import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 
 import de.greenrobot.event.EventBus;
 import io.realm.RealmResults;
 
-public final class HistoryStackAdapter extends BaseAdapter {
+public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.ViewHolder> {
 	private static final int ITEM_LAYOUT = R.layout.item_history;
 	private final RealmResults<HistoryItem> mList;
-	private final LayoutInflater mLayoutInflater;
 
-	public HistoryStackAdapter(Context context, RealmResults<HistoryItem> mList) {
+	HistoryListAdapter(RealmResults<HistoryItem> mList) {
 		this.mList = mList;
-		this.mLayoutInflater = LayoutInflater.from(context);
 	}
 
 	@Override
-	public int getCount() {
+	public int getItemCount() {
 		return mList.size();
 	}
 
-	@Override
-	public HistoryItem getItem(int pos) {
+	private HistoryItem getItem(int pos) {
 		return mList.get(pos);
 	}
 
@@ -45,17 +41,14 @@ public final class HistoryStackAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int pos, View view, ViewGroup parent) {
-		ViewHolder holder;
-		HistoryItem historyItem = mList.get(pos);
-		if (view == null) {
-			holder = new ViewHolder();
-			holder.binding = DataBindingUtil.inflate(mLayoutInflater, ITEM_LAYOUT, parent, false);
-			view = holder.binding.getRoot();
-			view.setTag(holder);
-		} else {
-			holder = (ViewHolder) view.getTag();
-		}
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		Context cxt = parent.getContext();
+		return new ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(cxt), ITEM_LAYOUT, parent, false));
+	}
+
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		HistoryItem historyItem = getItem(position);
 		Context cxt = holder.binding.getRoot()
 		                            .getContext();
 		if (historyItem.getByteArray() != null && historyItem.getByteArray().length > 0) {
@@ -80,13 +73,17 @@ public final class HistoryStackAdapter extends BaseAdapter {
 		holder.binding.setViewholder(holder);
 		holder.binding.setHistoryItem(historyItem);
 		holder.binding.executePendingBindings();
-		return view;
 	}
 
-	public static final class ViewHolder {
+
+	public static final class ViewHolder extends RecyclerView.ViewHolder {
 		private final HistoryItemClickEvent historyItemClickEvent = new HistoryItemClickEvent();
 		private ItemHistoryBinding binding;
 
+		ViewHolder(ItemHistoryBinding binding) {
+			super(binding.getRoot());
+			this.binding = binding;
+		}
 
 		public void onEntryClicked(@NonNull HistoryItem historyItem) {
 			historyItemClickEvent.setHistoryItem(historyItem);

@@ -9,21 +9,23 @@
 
         <variable
             name="viewholder"
-            type="com.qiaoqiao.history.ui.HistoryStackAdapter.ViewHolder"/>
+            type="com.qiaoqiao.history.ui.HistoryListAdapter.ViewHolder"/>
     </data>
 
     <FrameLayout
-        android:layout_width="@dimen/history_item_size"
-        android:layout_height="@dimen/history_item_size"
-        android:background="@color/colorBlack80">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBlack80"
+        android:elevation="@dimen/z_card"
+        android:foreground="@drawable/selector_transparent_item_background"
+        android:onClick="@{() -> viewholder.onEntryClicked(historyItem)}"
+        android:stateListAnimator="@animator/raise">
 
         <ImageView
             android:id="@+id/history_item_iv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:foreground="@drawable/selector_transparent_item_background"
-            android:onClick="@{() -> viewholder.onEntryClicked(historyItem)}"
             android:scaleType="centerCrop"/>
 
     </FrameLayout>

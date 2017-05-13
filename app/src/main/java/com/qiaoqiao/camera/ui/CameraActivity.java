@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,10 +26,12 @@ import com.qiaoqiao.camera.DaggerCameraComponent;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
 import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
+import com.qiaoqiao.history.HistoryContract;
 import com.qiaoqiao.history.HistoryModule;
 import com.qiaoqiao.history.HistoryPresenter;
 import com.qiaoqiao.history.ui.HistoryFragment;
 import com.qiaoqiao.utils.DeviceUtils;
+import com.qiaoqiao.vision.VisionContract;
 import com.qiaoqiao.vision.VisionModule;
 import com.qiaoqiao.vision.VisionPresenter;
 import com.qiaoqiao.vision.ui.VisionListFragment;
@@ -86,26 +89,38 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		ActivityCompat.startActivity(cxt, intent, EMPTY);
 	}
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
+		setupAppBar();
+		VisionListFragment visionFragment = VisionListFragment.newInstance(this);
+		HistoryFragment historyFragment = HistoryFragment.newInstance(this);
+		setupViewPager(visionFragment, historyFragment);
+		injectAll(visionFragment, historyFragment);
+		presentersBegin();
+	}
+
+	private void setupAppBar() {
 		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(this).Height / 2;
 		setSupportActionBar(mBinding.toolbar);
 		final ActionBar supportActionBar = getSupportActionBar();
 		if (supportActionBar != null) {
 			supportActionBar.setHomeButtonEnabled(true);
 		}
+	}
+
+	private void injectAll(@NonNull VisionContract.View visionView, @NonNull HistoryContract.View historyView) {
 		DaggerCameraComponent.builder()
 		                     .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
 		                     .cameraModule(new CameraModule(this))
-		                     .historyModule(new HistoryModule((HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.history_fg)))
-		                     .visionModule(new VisionModule((VisionListFragment) getSupportFragmentManager().findFragmentById(R.id.vision_fg)))
+		                     .historyModule(new HistoryModule(historyView))
+		                     .visionModule(new VisionModule(visionView))
 		                     .build()
 		                     .doInject(this);
+	}
 
-
+	private void presentersBegin() {
 		mCameraPresenter.begin();
 		mVisionPresenter.begin();
 		mHistoryPresenter.begin();
@@ -113,10 +128,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onDestroy() {
+		presentersEnd();
+		super.onDestroy();
+	}
+
+	private void presentersEnd() {
 		mCameraPresenter.end();
 		mVisionPresenter.end();
 		mHistoryPresenter.end();
-		super.onDestroy();
 	}
 
 
@@ -276,5 +295,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.mainControl.stopCaptureProgressBar();
 		mBinding.mainControl.stopLocalProgressBar();
 		mBinding.mainControl.stopWebProgressBar();
+	}
+
+	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment historyFragment) {
+		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+		adapter.addFragment(visionFragment, "Vision");
+		adapter.addFragment(historyFragment, "History");
+		mBinding.viewpager.setAdapter(adapter);
+
+		mBinding.tabs.setupWithViewPager(mBinding.viewpager);
 	}
 }
