@@ -2,6 +2,7 @@ package com.qiaoqiao.detail.ui;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -64,9 +68,30 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		mContextWeakReference = new WeakReference<>(getContext());
-		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(getContext()).Height / 2;
+		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(getContext()).Height * 0.618f);
 		mBinding.content.getSettings()
 		                .setDefaultTextEncodingName("utf-8");
+		mBinding.content.setWebViewClient(new WebViewClient(){
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+					view.loadUrl(request.getUrl().toString());
+				}
+				return super.shouldOverrideUrlLoading(view, request);
+			}
+
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				view.loadUrl(url);
+				return super.shouldOverrideUrlLoading(view, url);
+			}
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				toggleLoaded();
+				super.onPageFinished(view, url);
+			}
+		});
 		mBinding.appbar.addOnOffsetChangedListener(this);
 	}
 
@@ -114,8 +139,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	}
 
 
-	@Override
-	public void toggleLoaded() {
+	private void toggleLoaded() {
 		mBinding.layoutLoading.getRoot()
 		                      .setVisibility(View.GONE);
 	}

@@ -103,15 +103,16 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void setupAppBar() {
-		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height / 0.618f);
+		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height * 0.618f);
 		setSupportActionBar(mBinding.toolbar);
+		int titleColor = ResourcesCompat.getColor(getResources(), R.color.colorWhite, null);
 		final ActionBar supportActionBar = getSupportActionBar();
 		if (supportActionBar != null) {
 			supportActionBar.setHomeButtonEnabled(true);
 		}
-		int textColor = ResourcesCompat.getColor(getResources(), R.color.colorCyan, null);
-		mBinding.collapsingToolbar.setExpandedTitleColor(textColor);
-		mBinding.collapsingToolbar.setCollapsedTitleTextColor(textColor);
+		mBinding.toolbar.setTitleTextColor(titleColor);
+		mBinding.collapsingToolbar.setExpandedTitleColor(titleColor);
+		mBinding.collapsingToolbar.setCollapsedTitleTextColor(titleColor);
 	}
 
 	private void injectAll(@NonNull VisionContract.View visionView, @NonNull HistoryContract.View historyView) {

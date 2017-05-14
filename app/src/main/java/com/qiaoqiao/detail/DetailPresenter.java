@@ -69,7 +69,6 @@ public final class DetailPresenter implements DetailContract.Presenter {
 				                    .getList()
 				                    .get(0)
 				                    .getExtract());
-				mView.toggleLoaded();
 			}
 		});
 	}
@@ -105,7 +104,6 @@ public final class DetailPresenter implements DetailContract.Presenter {
 				                    .getList()
 				                    .get(0)
 				                    .getExtract());
-				mView.toggleLoaded();
 			}
 		});
 	}
