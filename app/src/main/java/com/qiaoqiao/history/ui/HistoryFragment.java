@@ -41,7 +41,6 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mBinding.historyRv.setLayoutManager(new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.num_columns)));
 		mPresenter.onViewReady();
 	}
 
@@ -58,7 +57,10 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 
 	@Override
 	public void showList(@NonNull RealmResults<HistoryItem> results) {
-		mBinding.historyRv.setAdapter(mHistoryListAdapter = new HistoryListAdapter(results, getResources().getInteger(R.integer.num_columns)));
+		final int columns = getResources().getInteger(R.integer.num_columns);
+		final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
+		mBinding.historyRv.setLayoutManager(layoutManager);
+		mBinding.historyRv.setAdapter(mHistoryListAdapter = new HistoryListAdapter(results, columns));
 	}
 
 	@Override

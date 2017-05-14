@@ -34,7 +34,7 @@
                 app:expandedTitleGravity="start|bottom|left"
                 app:expandedTitleMarginEnd="@dimen/larger"
                 app:expandedTitleMarginStart="@dimen/larger"
-                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
 

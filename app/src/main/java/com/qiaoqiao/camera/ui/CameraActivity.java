@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -102,12 +103,15 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void setupAppBar() {
-		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(this).Height / 2;
+		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height / 0.618f);
 		setSupportActionBar(mBinding.toolbar);
 		final ActionBar supportActionBar = getSupportActionBar();
 		if (supportActionBar != null) {
 			supportActionBar.setHomeButtonEnabled(true);
 		}
+		int textColor = ResourcesCompat.getColor(getResources(), R.color.colorCyan, null);
+		mBinding.collapsingToolbar.setExpandedTitleColor(textColor);
+		mBinding.collapsingToolbar.setCollapsedTitleTextColor(textColor);
 	}
 
 	private void injectAll(@NonNull VisionContract.View visionView, @NonNull HistoryContract.View historyView) {

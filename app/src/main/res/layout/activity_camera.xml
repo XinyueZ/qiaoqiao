@@ -31,7 +31,7 @@
                 app:expandedTitleGravity="start|bottom|left"
                 app:expandedTitleMarginEnd="@dimen/larger"
                 app:expandedTitleMarginStart="@dimen/larger"
-                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
 
@@ -44,12 +44,22 @@
                     app:aspectRatio="4:3"
                     app:autoFocus="true"
                     app:facing="back"
-                    app:flash="auto"/>
+                    app:flash="auto"
+                    app:layout_collapseMode="parallax"/>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     style="@style/AppBar"
                     app:layout_collapseMode="pin"/>
+
+
+                <com.qiaoqiao.views.MainControlView
+                    android:id="@+id/main_control"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="@dimen/larger"
+                    app:layout_collapseMode="parallax"/>
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -80,15 +90,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="@dimen/larger"/>
-
-
-        <com.qiaoqiao.views.MainControlView
-            android:id="@+id/main_control"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="@dimen/larger"
-            app:layout_behavior="com.qiaoqiao.camera.ui.BottomNavigationBehavior"/>
 
 
     </android.support.design.widget.CoordinatorLayout>
