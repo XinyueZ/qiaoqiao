@@ -13,4 +13,6 @@
 
     <string name="temp_degree">%1$.0f °C</string>
     <string name="action_multi_language">More language</string>
+
+    <string name="demo_web">https://static1.gensler.com/uploads/hero_element/2066/thumb_desktop/thumbs/hero_exp_shanghai-tower_tall-bldgs_1500x750.jpg</string>
 </resources>

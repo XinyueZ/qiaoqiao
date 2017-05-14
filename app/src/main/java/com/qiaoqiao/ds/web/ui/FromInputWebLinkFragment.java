@@ -32,7 +32,7 @@ public final class FromInputWebLinkFragment extends Fragment implements View.OnC
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		mBinding = DataBindingUtil.inflate(inflater, LAYOUT, container, false);
-		mBinding.uriTv.setText("https://upload.wikimedia.org/wikipedia/commons/d/d4/Hradschin_Prag.jpg");
+		mBinding.uriTv.setText(R.string.demo_web);
 		mBinding.takeUriBtn.setOnClickListener(this);
 		return mBinding.getRoot();
 	}
