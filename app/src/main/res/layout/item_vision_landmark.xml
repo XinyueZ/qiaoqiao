@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <data class="LandmarkViewBinding">
 
         <variable
             name="visionEntity"
@@ -18,7 +18,7 @@
 
         <FrameLayout
             style="@style/VisionItemContainer"
-            android:onClick="@{() -> viewholder.onLandmarkClicked(visionEntity)}"
+            android:onClick="@{() -> viewholder.onClicked(visionEntity)}"
             android:background="@drawable/selector_round_green_rectangle_item_background">
 
             <TextView

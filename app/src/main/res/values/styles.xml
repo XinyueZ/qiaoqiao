@@ -96,6 +96,10 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
 
+    <style name="VisionItemTextViewCell" parent="VisionItemTextView">
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
     <style name="VisionItemRoot">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

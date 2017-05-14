@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.databinding.ItemVisionLandmarkBinding;
-import com.qiaoqiao.databinding.ItemVisionWebBinding;
+import com.qiaoqiao.databinding.LandmarkCellViewBinding;
+import com.qiaoqiao.databinding.LandmarkViewBinding;
+import com.qiaoqiao.databinding.WebCellViewBinding;
+import com.qiaoqiao.databinding.WebViewBinding;
 import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
@@ -24,8 +26,12 @@ import de.greenrobot.event.EventBus;
 public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdapter.AbstractVisionViewHolder> {
 	private static final int ITEM_LAYOUT_WEB = R.layout.item_vision_web;
 	private static final int ITEM_LAYOUT_LANDMARK = R.layout.item_vision_landmark;
+	private static final int ITEM_LAYOUT_WEB_CELL = R.layout.item_vision_web_cell;
+	private static final int ITEM_LAYOUT_LANDMARK_CELL = R.layout.item_vision_landmark_cell;
 	private static final int ITEM_TYPE_WEB = 0x91;
 	private static final int ITEM_TYPE_LANDMARK = 0x92;
+	private static final int ITEM_TYPE_WEB_CELL = 0x93;
+	private static final int ITEM_TYPE_LANDMARK_CELL = 0x94;
 	private @NonNull final Stack<VisionEntity> mEntities = new Stack<>();
 
 	@Override
@@ -33,14 +39,22 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		Context cxt = parent.getContext();
 		switch (viewType) {
 			case ITEM_TYPE_WEB:
-				ItemVisionWebBinding webBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
-				                                                                     .inflate(ITEM_LAYOUT_WEB, parent, false));
+				WebViewBinding webBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
+				                                                               .inflate(ITEM_LAYOUT_WEB, parent, false));
 				return new WebViewHolder(webBinding, mEntities, this);
 			case ITEM_TYPE_LANDMARK:
-			default:
-				ItemVisionLandmarkBinding landmarkBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
-				                                                                               .inflate(ITEM_LAYOUT_LANDMARK, parent, false));
+				LandmarkViewBinding landmarkBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
+				                                                                         .inflate(ITEM_LAYOUT_LANDMARK, parent, false));
 				return new LandmarkViewHolder(landmarkBinding, mEntities, this);
+			case ITEM_TYPE_WEB_CELL:
+				WebCellViewBinding webCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
+				                                                               .inflate(ITEM_LAYOUT_WEB_CELL, parent, false));
+				return new WebCellViewHolder(webCellBinding, mEntities, this);
+			case ITEM_TYPE_LANDMARK_CELL:
+			default:
+				LandmarkCellViewBinding landmarkCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
+				                                                                         .inflate(ITEM_LAYOUT_LANDMARK_CELL, parent, false));
+				return new LandmarkCellViewHolder(landmarkCellBinding, mEntities, this);
 		}
 	}
 
@@ -64,6 +78,20 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				                                                                     .getDescriptionText());
 				landmarkViewHolder.mItemVisionLandmarkBinding.setVisionEntity(entity);
 				landmarkViewHolder.mItemVisionLandmarkBinding.setViewholder(landmarkViewHolder);
+				break;
+			case ITEM_TYPE_WEB_CELL:
+				WebCellViewHolder webCellViewHolder = (WebCellViewHolder) holder;
+				webCellViewHolder.mItemWebCellBinding.visionTv.setText(entity.getDescription()
+				                                                             .getDescriptionText());
+				webCellViewHolder.mItemWebCellBinding.setVisionEntity(entity);
+				webCellViewHolder.mItemWebCellBinding.setViewholder(webCellViewHolder);
+				break;
+			case ITEM_TYPE_LANDMARK_CELL:
+				LandmarkCellViewHolder landmarkCellViewHolder = (LandmarkCellViewHolder) holder;
+				landmarkCellViewHolder.mItemLandmarkCellBinding.visionTv.setText(entity.getDescription()
+				                                                                       .getDescriptionText());
+				landmarkCellViewHolder.mItemLandmarkCellBinding.setVisionEntity(entity);
+				landmarkCellViewHolder.mItemLandmarkCellBinding.setViewholder(landmarkCellViewHolder);
 				break;
 
 		}
@@ -107,35 +135,48 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 			mBinding = binding;
 			mVisionListAdapter = adapter;
 		}
-	}
 
-	public final static class WebViewHolder extends AbstractVisionViewHolder {
-		private final @NonNull ItemVisionWebBinding mItemVisionWebBinding;
-
-		private WebViewHolder(@NonNull ItemVisionWebBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter) {
-			super(binding, entities, adapter);
-			mItemVisionWebBinding = binding;
-		}
-
-		public void onWebLinkClicked(VisionEntity visionEntity) {
+		public void onClicked(VisionEntity visionEntity) {
 			mVisionEntityClickEvent.setEntity(visionEntity);
 			EventBus.getDefault()
 			        .post(mVisionEntityClickEvent);
+		}
+	}
+
+	public final static class WebViewHolder extends AbstractVisionViewHolder {
+		private final @NonNull WebViewBinding mItemVisionWebBinding;
+
+		private WebViewHolder(@NonNull WebViewBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter) {
+			super(binding, entities, adapter);
+			mItemVisionWebBinding = binding;
 		}
 	}
 
 	public final static class LandmarkViewHolder extends AbstractVisionViewHolder {
-		private final @NonNull ItemVisionLandmarkBinding mItemVisionLandmarkBinding;
+		private final @NonNull LandmarkViewBinding mItemVisionLandmarkBinding;
 
-		private LandmarkViewHolder(@NonNull ItemVisionLandmarkBinding binding, @NonNull List<VisionEntity> entries, @NonNull VisionListAdapter adapter) {
+		private LandmarkViewHolder(@NonNull LandmarkViewBinding binding, @NonNull List<VisionEntity> entries, @NonNull VisionListAdapter adapter) {
 			super(binding, entries, adapter);
 			mItemVisionLandmarkBinding = binding;
 		}
+	}
 
-		public void onLandmarkClicked(VisionEntity visionEntity) {
-			mVisionEntityClickEvent.setEntity(visionEntity);
-			EventBus.getDefault()
-			        .post(mVisionEntityClickEvent);
+
+	public final static class WebCellViewHolder extends AbstractVisionViewHolder {
+		private final @NonNull WebCellViewBinding mItemWebCellBinding;
+
+		private WebCellViewHolder(@NonNull WebCellViewBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter) {
+			super(binding, entities, adapter);
+			mItemWebCellBinding = binding;
+		}
+	}
+
+	public final static class LandmarkCellViewHolder extends AbstractVisionViewHolder {
+		private final @NonNull LandmarkCellViewBinding mItemLandmarkCellBinding;
+
+		private LandmarkCellViewHolder(@NonNull LandmarkCellViewBinding binding, @NonNull List<VisionEntity> entries, @NonNull VisionListAdapter adapter) {
+			super(binding, entries, adapter);
+			mItemLandmarkCellBinding = binding;
 		}
 	}
 }
