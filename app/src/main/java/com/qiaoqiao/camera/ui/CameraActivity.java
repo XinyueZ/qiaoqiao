@@ -303,8 +303,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment historyFragment) {
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-		adapter.addFragment(visionFragment, "Vision");
-		adapter.addFragment(historyFragment, "History");
+		adapter.addFragment(visionFragment, getString(R.string.tab_vision));
+		adapter.addFragment(historyFragment, getString(R.string.tab_history));
 		mBinding.viewpager.setAdapter(adapter);
 
 		mBinding.tabs.setupWithViewPager(mBinding.viewpager);
