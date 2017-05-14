@@ -3,8 +3,7 @@
         android:color="@color/colorYellow"
         android:constantSize="false"
         android:enterFadeDuration="@android:integer/config_shortAnimTime"
-        android:exitFadeDuration="@android:integer/config_shortAnimTime"
-        android:radius="@dimen/radius">
+        android:exitFadeDuration="@android:integer/config_shortAnimTime" >
     <item android:id="@android:id/mask">
         <color android:color="@android:color/white"/>
     </item>

@@ -111,8 +111,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			supportActionBar.setHomeButtonEnabled(true);
 		}
 		mBinding.toolbar.setTitleTextColor(titleColor);
-		mBinding.collapsingToolbar.setExpandedTitleColor(titleColor);
-		mBinding.collapsingToolbar.setCollapsedTitleTextColor(titleColor);
 	}
 
 	private void injectAll(@NonNull VisionContract.View visionView, @NonNull HistoryContract.View historyView) {

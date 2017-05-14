@@ -3,11 +3,11 @@
           android:constantSize="true"
           android:enterFadeDuration="@android:integer/config_shortAnimTime"
           android:exitFadeDuration="@android:integer/config_shortAnimTime">
-    <item android:drawable="@color/colorCyan"
+    <item android:drawable="@color/colorYellow"
           android:state_selected="true"/>
-    <item android:drawable="@color/colorCyan"
+    <item android:drawable="@color/colorYellow"
           android:state_focused="true"/>
-    <item android:drawable="@color/colorCyan"
+    <item android:drawable="@color/colorYellow"
           android:state_pressed="true"/>
     <item android:drawable="@android:color/transparent"/> <!-- default -->
 </selector>
