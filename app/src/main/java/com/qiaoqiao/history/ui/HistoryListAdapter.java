@@ -46,7 +46,7 @@ public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAd
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		Context cxt = parent.getContext();
-		int size = DeviceUtils.getScreenSize(cxt).Width / 2;
+		int size = DeviceUtils.getScreenSize(cxt).Width / mColumns;
 		return new ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(cxt), ITEM_LAYOUT, parent, false), size);
 	}
 
@@ -55,10 +55,8 @@ public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAd
 		HistoryItem historyItem = getItem(position);
 		Context cxt = holder.binding.getRoot()
 		                            .getContext();
-		holder.binding.getRoot()
-		              .getLayoutParams().width = holder.size;
-		holder.binding.getRoot()
-		              .getLayoutParams().height = holder.size;
+		holder.binding.historyItemIv.getLayoutParams().width = holder.size;
+		holder.binding.historyItemIv.getLayoutParams().height = holder.size;
 		if (historyItem.getByteArray() != null && historyItem.getByteArray().length > 0) {
 			Glide.with(cxt)
 			     .load(historyItem.getByteArray())

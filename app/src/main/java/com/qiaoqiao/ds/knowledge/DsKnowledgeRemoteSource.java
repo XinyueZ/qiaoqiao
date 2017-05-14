@@ -108,4 +108,10 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 		return "/w/api.php?format=json&action=query&prop=extracts|pageimages|langlinks&llprop=autonym&lldir=descending&lllimit=500&piprop=original|name|thumbnail&exlimit=1&redirects=titles&titles="
 				+ keyword;
 	}
+
+	private @NonNull
+	String wikiImage(@NonNull String keyword) {
+		return "/w/api.php?format=json&action=query&prop=pageimages&piprop=original|name&redirects=titles&titles="
+				+ keyword;
+	}
 }
