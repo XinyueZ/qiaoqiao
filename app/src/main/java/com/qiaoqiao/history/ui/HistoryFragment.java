@@ -58,7 +58,7 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 
 	@Override
 	public void showList(@NonNull RealmResults<HistoryItem> results) {
-		mBinding.historyRv.setAdapter(mHistoryListAdapter = new HistoryListAdapter(results));
+		mBinding.historyRv.setAdapter(mHistoryListAdapter = new HistoryListAdapter(results, getResources().getInteger(R.integer.num_columns)));
 	}
 
 	@Override

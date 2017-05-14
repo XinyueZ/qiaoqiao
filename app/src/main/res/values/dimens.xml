@@ -9,4 +9,5 @@
     <dimen name="radius">99dp</dimen>
     <dimen name="touch_raise">6dp</dimen>
     <dimen name="z_card">2dp</dimen>
+    <dimen name="grid_icon_with_padding">140dp</dimen> <!-- 24dp icon + 2 * @dimen/spacing_normal -->
 </resources>

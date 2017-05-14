@@ -14,16 +14,19 @@ import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.ItemHistoryBinding;
 import com.qiaoqiao.ds.history.HistoryItem;
 import com.qiaoqiao.history.bus.HistoryItemClickEvent;
+import com.qiaoqiao.utils.DeviceUtils;
 
 import de.greenrobot.event.EventBus;
 import io.realm.RealmResults;
 
 public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.ViewHolder> {
 	private static final int ITEM_LAYOUT = R.layout.item_history;
-	private final RealmResults<HistoryItem> mList;
+	private final @NonNull RealmResults<HistoryItem> mList;
+	private final int mColumns;
 
-	HistoryListAdapter(RealmResults<HistoryItem> mList) {
+	HistoryListAdapter(@NonNull RealmResults<HistoryItem> mList, int columns) {
 		this.mList = mList;
+		mColumns = columns;
 	}
 
 	@Override
@@ -43,7 +46,8 @@ public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAd
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		Context cxt = parent.getContext();
-		return new ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(cxt), ITEM_LAYOUT, parent, false));
+		int size = DeviceUtils.getScreenSize(cxt).Width / 2;
+		return new ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(cxt), ITEM_LAYOUT, parent, false), size);
 	}
 
 	@Override
@@ -51,6 +55,10 @@ public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAd
 		HistoryItem historyItem = getItem(position);
 		Context cxt = holder.binding.getRoot()
 		                            .getContext();
+		holder.binding.getRoot()
+		              .getLayoutParams().width = holder.size;
+		holder.binding.getRoot()
+		              .getLayoutParams().height = holder.size;
 		if (historyItem.getByteArray() != null && historyItem.getByteArray().length > 0) {
 			Glide.with(cxt)
 			     .load(historyItem.getByteArray())
@@ -79,10 +87,12 @@ public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAd
 	public static final class ViewHolder extends RecyclerView.ViewHolder {
 		private final HistoryItemClickEvent historyItemClickEvent = new HistoryItemClickEvent();
 		private ItemHistoryBinding binding;
+		private int size;
 
-		ViewHolder(ItemHistoryBinding binding) {
+		ViewHolder(ItemHistoryBinding binding, int size) {
 			super(binding.getRoot());
 			this.binding = binding;
+			this.size = size;
 		}
 
 		public void onEntryClicked(@NonNull HistoryItem historyItem) {
