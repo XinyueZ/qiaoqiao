@@ -13,6 +13,7 @@ import com.qiaoqiao.backend.model.wikipedia.Page;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsLoadedCallback;
+import com.qiaoqiao.ds.annotation.DsScope;
 import com.qiaoqiao.keymanager.Key;
 import com.qiaoqiao.vision.model.VisionEntity;
 
@@ -20,13 +21,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Singleton;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 
-@Singleton
+@DsScope
 public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 	private @NonNull  final Key mKey;
 

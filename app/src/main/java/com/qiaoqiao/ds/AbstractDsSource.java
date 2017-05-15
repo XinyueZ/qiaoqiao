@@ -22,16 +22,16 @@ public abstract class AbstractDsSource {
 	}
 
 
-	public AbstractDsSource(@NonNull Google google) {
+	protected AbstractDsSource(@NonNull Google google) {
 		mGoogle = google;
 	}
 
-	public AbstractDsSource(@NonNull Wikipedia wikipedia) {
+	protected AbstractDsSource(@NonNull Wikipedia wikipedia) {
 		mWikipedia = wikipedia;
 	}
 
 
-	public AbstractDsSource(@NonNull Google google, @NonNull Wikipedia wikipedia) {
+	protected AbstractDsSource(@NonNull Google google, @NonNull Wikipedia wikipedia) {
 		mGoogle = google;
 		mWikipedia = wikipedia;
 	}

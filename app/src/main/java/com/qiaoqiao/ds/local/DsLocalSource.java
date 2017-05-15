@@ -7,15 +7,14 @@ import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsLoadedCallback;
+import com.qiaoqiao.ds.annotation.DsScope;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 
-import javax.inject.Singleton;
-
-@Singleton
+@DsScope
 public final class DsLocalSource extends AbstractDsSource {
 
 	public DsLocalSource(@NonNull Google google) {

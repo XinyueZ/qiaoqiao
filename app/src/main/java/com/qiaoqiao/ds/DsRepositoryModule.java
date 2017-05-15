@@ -6,6 +6,7 @@ import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.Wikipedia;
 import com.qiaoqiao.ds.annotation.Camera;
 import com.qiaoqiao.ds.annotation.Database;
+import com.qiaoqiao.ds.annotation.DsScope;
 import com.qiaoqiao.ds.annotation.Knowledge;
 import com.qiaoqiao.ds.annotation.Local;
 import com.qiaoqiao.ds.annotation.Web;
@@ -16,15 +17,13 @@ import com.qiaoqiao.ds.local.DsLocalSource;
 import com.qiaoqiao.ds.web.DsWebSource;
 import com.qiaoqiao.keymanager.Key;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
 
 @Module
 final class DsRepositoryModule {
-	@Singleton
+	@DsScope
 	@Web
 	@Provides
 	AbstractDsSource provideWebDataSource(@NonNull Google google) {
@@ -32,7 +31,7 @@ final class DsRepositoryModule {
 	}
 
 
-	@Singleton
+	@DsScope
 	@Local
 	@Provides
 	AbstractDsSource provideLocalDataSource(@NonNull Google google) {
@@ -40,7 +39,7 @@ final class DsRepositoryModule {
 	}
 
 
-	@Singleton
+	@DsScope
 	@Camera
 	@Provides
 	AbstractDsSource provideCameraDataSource(@NonNull Google google) {
@@ -48,7 +47,7 @@ final class DsRepositoryModule {
 	}
 
 
-	@Singleton
+	@DsScope
 	@Knowledge
 	@Provides
 	AbstractDsSource provideWikipediaDataSource(@NonNull Key key, @NonNull Google google, @NonNull com.qiaoqiao.backend.Wikipedia wikipedia) {
@@ -56,14 +55,14 @@ final class DsRepositoryModule {
 	}
 
 
-	@Singleton
+	@DsScope
 	@Database
 	@Provides
 	AbstractDsSource provideDatabaseDataSource() {
 		return new DsDatabaseSource();
 	}
 
-	@Singleton
+	@DsScope
 	@Provides
 	DsRepository provideRepository(@NonNull Google google,
 	                               @NonNull Wikipedia wikipedia,

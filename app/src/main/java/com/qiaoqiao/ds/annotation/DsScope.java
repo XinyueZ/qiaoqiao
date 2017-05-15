@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qiaoqiao.vision;
+package com.qiaoqiao.ds.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.inject.Qualifier;
+import javax.inject.Scope;
 
-@Qualifier
+@Scope
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Single {
+public @interface DsScope {
 
 }

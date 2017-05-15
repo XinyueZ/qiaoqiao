@@ -23,6 +23,7 @@ import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.ds.annotation.Camera;
 import com.qiaoqiao.ds.annotation.Database;
+import com.qiaoqiao.ds.annotation.DsScope;
 import com.qiaoqiao.ds.annotation.Knowledge;
 import com.qiaoqiao.ds.annotation.Local;
 import com.qiaoqiao.ds.annotation.Web;
@@ -32,10 +33,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.inject.Singleton;
 
-
-@Singleton
+@DsScope
 public final class DsRepository extends AbstractDsSource {
 	private @NonNull  final AbstractDsSource mWebDs;
 	private @NonNull  final AbstractDsSource mLocalDs;

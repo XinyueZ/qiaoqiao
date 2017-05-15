@@ -3,14 +3,13 @@ package com.qiaoqiao.ds;
 
 import com.qiaoqiao.app.AppModule;
 import com.qiaoqiao.backend.BackendModule;
+import com.qiaoqiao.ds.annotation.DsScope;
 import com.qiaoqiao.keymanager.KeyManagerModule;
-
-import javax.inject.Singleton;
 
 import dagger.Component;
 
 
-@Singleton
+@DsScope
 @Component(modules = { DsRepositoryModule.class,
                        BackendModule.class,
                        KeyManagerModule.class,

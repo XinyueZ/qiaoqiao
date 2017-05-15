@@ -7,10 +7,9 @@ import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsLoadedCallback;
+import com.qiaoqiao.ds.annotation.DsScope;
 
-import javax.inject.Singleton;
-
-@Singleton
+@DsScope
 public final class DsCameraSource extends AbstractDsSource {
 
 	public DsCameraSource(@NonNull Google google) {

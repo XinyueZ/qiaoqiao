@@ -4,6 +4,8 @@ package com.qiaoqiao.vision;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.camera.annotation.CameraScoped;
+import com.qiaoqiao.vision.annotation.More;
+import com.qiaoqiao.vision.annotation.Single;
 
 import dagger.Module;
 import dagger.Provides;
