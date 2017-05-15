@@ -102,7 +102,7 @@
 
     <style name="VisionItemMapViewCell" parent="VisionItemTextView">
         <item name="android:layout_gravity">bottom|right|end</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorBlack</item>
     </style>
 
     <style name="VisionItemRoot">
