@@ -8,7 +8,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
-import com.qiaoqiao.vision.annotation.Single;
+import com.qiaoqiao.vision.annotation.target.Single;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 
 import java.util.List;

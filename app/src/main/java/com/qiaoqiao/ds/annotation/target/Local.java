@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qiaoqiao.ds.annotation;
+package com.qiaoqiao.ds.annotation.target;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -24,6 +24,6 @@ import javax.inject.Qualifier;
 @Qualifier
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Camera {
+public @interface Local {
 
 }

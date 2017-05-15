@@ -21,12 +21,12 @@ import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
-import com.qiaoqiao.ds.annotation.Camera;
-import com.qiaoqiao.ds.annotation.Database;
+import com.qiaoqiao.ds.annotation.target.Camera;
+import com.qiaoqiao.ds.annotation.target.Database;
 import com.qiaoqiao.ds.annotation.DsScope;
-import com.qiaoqiao.ds.annotation.Knowledge;
-import com.qiaoqiao.ds.annotation.Local;
-import com.qiaoqiao.ds.annotation.Web;
+import com.qiaoqiao.ds.annotation.target.Knowledge;
+import com.qiaoqiao.ds.annotation.target.Local;
+import com.qiaoqiao.ds.annotation.target.Web;
 import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.io.File;
