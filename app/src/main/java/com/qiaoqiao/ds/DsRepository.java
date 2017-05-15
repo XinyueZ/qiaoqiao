@@ -21,8 +21,11 @@ import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
+import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -32,30 +35,35 @@ public final class DsRepository extends AbstractDsSource {
 	private @NonNull  final AbstractDsSource mWebDs;
 	private @NonNull  final AbstractDsSource mLocalDs;
 	private @NonNull  final AbstractDsSource mCameraDs;
-	private @NonNull  final AbstractDsSource mWikipediaRemoteDs;
+	private @NonNull  final AbstractDsSource mKnowledgeRemoteDs;
 
 	DsRepository(@NonNull Google google,
 	             @NonNull com.qiaoqiao.backend.Wikipedia wikipedia,
 	             @Web AbstractDsSource webDs,
 	             @Local AbstractDsSource localDs,
 	             @Camera AbstractDsSource cameraDs,
-	             @Knowledge AbstractDsSource wikipediaRemoteDs) {
+	             @Knowledge AbstractDsSource knowledgeRemoteDs) {
 		super(google, wikipedia);
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;
-		mWikipediaRemoteDs = wikipediaRemoteDs;
+		mKnowledgeRemoteDs = knowledgeRemoteDs;
 	}
 
 	@Override
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {
-		mWikipediaRemoteDs.onKnowledgeQuery(keyword, callback);
+		mKnowledgeRemoteDs.onKnowledgeQuery(keyword, callback);
 	}
 
 
 	@Override
 	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull DsLoadedCallback callback) {
-		mWikipediaRemoteDs.onKnowledgeQuery(langLink, callback);
+		mKnowledgeRemoteDs.onKnowledgeQuery(langLink, callback);
+	}
+
+	@Override
+	public void onKnowledgeQuery(@NonNull List<VisionEntity> list) throws IOException {
+		mKnowledgeRemoteDs.onKnowledgeQuery(list);
 	}
 
 	@Override
@@ -75,6 +83,6 @@ public final class DsRepository extends AbstractDsSource {
 
 	@Override
 	public void onTranslate(@NonNull String q, @NonNull DsLoadedCallback callback) {
-		mWikipediaRemoteDs.onKnowledgeQuery(q, callback);
+		mKnowledgeRemoteDs.onKnowledgeQuery(q, callback);
 	}
 }

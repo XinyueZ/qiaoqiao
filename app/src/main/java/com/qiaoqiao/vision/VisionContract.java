@@ -25,6 +25,8 @@ import com.qiaoqiao.app.mvp.BaseView;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
 import com.qiaoqiao.vision.model.VisionEntity;
 
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -56,6 +58,10 @@ public interface VisionContract {
 		public void end() {
 			EventBus.getDefault()
 			        .unregister(this);
+		}
+
+		public void waitForImageUri(@NonNull List<VisionEntity> list) {
+
 		}
 	}
 }

@@ -33,6 +33,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.POST;
@@ -140,9 +141,9 @@ public final class Google {
 						          // add the features we want
 						          annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
 							          add(new Feature().setType("WEB_DETECTION")
-							                           .setMaxResults(10));
+							                           .setMaxResults(5));
 							          add(new Feature().setType("LANDMARK_DETECTION")
-							                           .setMaxResults(10));
+							                           .setMaxResults(5));
 						          }});
 						          // Add the list of one thing to the request
 						          add(annotateImageRequest);
@@ -200,6 +201,10 @@ public final class Google {
 	public interface TranslateService {
 		@POST("v2/")
 		Observable<com.qiaoqiao.backend.model.translate.Response> translate(@Query("q") String q, @Query("target") String target, @Query("format") String format, @Query("key") String key);
+
+		@POST("v2/")
+		Call<com.qiaoqiao.backend.model.translate.Response> getTranslator(@Query("q") String q, @Query("target") String target, @Query("format") String format, @Query("key") String key);
+
 	}
 
 	public TranslateService getTranslateService() {

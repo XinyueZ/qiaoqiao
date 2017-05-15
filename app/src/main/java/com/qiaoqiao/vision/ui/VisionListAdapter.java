@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.LandmarkCellViewBinding;
 import com.qiaoqiao.databinding.LandmarkViewBinding;
@@ -76,6 +78,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		if (holder == null) {
 			return;
 		}
+		Context cxt = holder.itemView.getContext();
 		VisionEntity entity = mEntities.get(position);
 		switch (getItemViewType(position)) {
 			case ITEM_TYPE_WEB:
@@ -101,6 +104,8 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 				webCellViewHolder.mItemWebCellBinding.visionIv.getLayoutParams().width = webCellViewHolder.mSize;
 				webCellViewHolder.mItemWebCellBinding.visionIv.getLayoutParams().height = webCellViewHolder.mSize;
+
+				loadImage(cxt, entity, webCellViewHolder.mItemWebCellBinding.visionIv);
 				break;
 			case ITEM_TYPE_LANDMARK_CELL:
 				LandmarkCellViewHolder landmarkCellViewHolder = (LandmarkCellViewHolder) holder;
@@ -111,10 +116,23 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 				landmarkCellViewHolder.mItemLandmarkCellBinding.visionIv.getLayoutParams().width = landmarkCellViewHolder.mSize;
 				landmarkCellViewHolder.mItemLandmarkCellBinding.visionIv.getLayoutParams().height = landmarkCellViewHolder.mSize;
+
+				loadImage(cxt, entity, landmarkCellViewHolder.mItemLandmarkCellBinding.visionIv);
 				break;
 
 		}
 		holder.mBinding.executePendingBindings();
+	}
+
+	private static void loadImage(Context cxt, VisionEntity entity, ImageView imageView) {
+		if ( entity.getImageUri() !=null) {
+			Glide.with(cxt)
+			     .load( entity.getImageUri())
+			     .centerCrop()
+			     .placeholder(R.drawable.ic_default_image)
+			     .crossFade()
+			     .into(imageView);
+		}
 	}
 
 	public void addVisionEntity(@NonNull VisionEntity entity) {

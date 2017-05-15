@@ -1,6 +1,7 @@
 package com.qiaoqiao.ds.knowledge;
 
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Google;
@@ -8,17 +9,22 @@ import com.qiaoqiao.backend.Wikipedia;
 import com.qiaoqiao.backend.model.translate.Data;
 import com.qiaoqiao.backend.model.translate.TranslateTextResponseTranslation;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
+import com.qiaoqiao.backend.model.wikipedia.Page;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsLoadedCallback;
 import com.qiaoqiao.keymanager.Key;
+import com.qiaoqiao.vision.model.VisionEntity;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Singleton;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
 
 @Singleton
 public final class DsKnowledgeRemoteSource extends AbstractDsSource {
@@ -93,6 +99,52 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 
 	}
 
+	@Override
+	public void onKnowledgeQuery(@NonNull List<VisionEntity> list) throws IOException {
+		for (VisionEntity entity : list) {
+			final Call<com.qiaoqiao.backend.model.translate.Response> translator = getGoogle().getTranslateService()
+			                                                                                  .getTranslator(entity.getDescription()
+			                                                                                                       .getDescriptionText(),
+			                                                                                                 Locale.getDefault()
+			                                                                                                       .getLanguage(),
+			                                                                                                 "text",
+			                                                                                                 mKey.toString());
+			final TranslateTextResponseTranslation[] translations = translator.execute()
+			                                                                  .body()
+			                                                                  .getData()
+			                                                                  .getTranslations();
+			final TranslateTextResponseTranslation translation = translations[0];
+			if (translation == null) {
+				return;
+			}
+			Call<WikiResult> wiki = getWikipedia().getWiki(wikiImage(Locale.getDefault()
+			                                                               .getLanguage(), translation.getTranslatedText()));
+			List<Page> listWikiRes = wiki.execute()
+			                             .body()
+			                             .getQuery()
+			                             .getPages()
+			                             .getList();
+			if (listWikiRes.size() > 0) {
+				entity.setImageUri(Uri.parse(listWikiRes.get(0)
+				                                        .getOriginal()
+				                                        .getSource()));
+			} else {
+				wiki = getWikipedia().getWiki(wikiImage("en", translation.getTranslatedText()));
+				listWikiRes = wiki.execute()
+				                  .body()
+				                  .getQuery()
+				                  .getPages()
+				                  .getList();
+				if (listWikiRes.size() > 0) {
+					entity.setImageUri(Uri.parse(listWikiRes.get(0)
+					                                        .getOriginal()
+					                                        .getSource()));
+				}
+			}
+		}
+	}
+
+
 	private @NonNull
 	String wikiQuery(@NonNull String lang, @NonNull String keyword) {
 		return wikiHost(lang) + wikiQuery(keyword);
@@ -110,8 +162,13 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 	}
 
 	private @NonNull
+	String wikiImage(@NonNull String lang, @NonNull String keyword) {
+		return wikiHost(lang) + wikiQuery(keyword);
+	}
+
+
+	private @NonNull
 	String wikiImage(@NonNull String keyword) {
-		return "/w/api.php?format=json&action=query&prop=pageimages&piprop=original|name&redirects=titles&titles="
-				+ keyword;
+		return "/w/api.php?format=json&action=query&prop=pageimages&piprop=original&pilimit=1&redirects=titles&titles=" + keyword;
 	}
 }
