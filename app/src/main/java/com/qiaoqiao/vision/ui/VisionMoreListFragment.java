@@ -51,6 +51,7 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
 		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter(columns));
+		mPresenter.loadRecent();
 	}
 
 

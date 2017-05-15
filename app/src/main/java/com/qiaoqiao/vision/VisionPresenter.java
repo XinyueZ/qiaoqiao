@@ -8,6 +8,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
+import com.qiaoqiao.ds.DsRepository;
 import com.qiaoqiao.vision.annotation.target.Single;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 
@@ -19,6 +20,7 @@ import de.greenrobot.event.Subscribe;
 
 public final class VisionPresenter extends VisionContract.Presenter {
 	private final @NonNull VisionContract.View<EntityAnnotation, WebEntity> mView;
+
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -35,11 +37,13 @@ public final class VisionPresenter extends VisionContract.Presenter {
 
 	}
 
+
 	//------------------------------------------------
 
 
 	@Inject
-	VisionPresenter(@NonNull @Single VisionContract.View view) {
+	VisionPresenter(@NonNull @Single VisionContract.View view, @NonNull DsRepository dsRepository) {
+		super(dsRepository);
 		mView = view;
 	}
 

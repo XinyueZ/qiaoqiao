@@ -22,7 +22,6 @@ import de.greenrobot.event.Subscribe;
 
 public final class MoreVisionPresenter extends VisionContract.Presenter {
 	private final @NonNull VisionContract.View<List<EntityAnnotation>, List<WebEntity>> mView;
-	private final @NonNull DsRepository mDsRepository;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -43,9 +42,9 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 
 
 	@Inject
-	MoreVisionPresenter(@NonNull @More VisionContract.View view, @NonNull DsRepository dsRepository) {
+	MoreVisionPresenter(@NonNull @More VisionContract.View  view, @NonNull DsRepository dsRepository) {
+		super(dsRepository);
 		mView = view;
-		mDsRepository = dsRepository;
 	}
 
 	@Inject

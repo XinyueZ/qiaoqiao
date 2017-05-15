@@ -23,6 +23,8 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
+import com.qiaoqiao.ds.DsLoadedCallback;
+import com.qiaoqiao.ds.DsRepository;
 import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.util.List;
@@ -51,6 +53,12 @@ public interface VisionContract {
 	abstract class Presenter implements BasePresenter {
 		protected abstract void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
+		protected final @NonNull DsRepository mDsRepository;
+
+		public Presenter(@NonNull DsRepository dsRepository) {
+			mDsRepository = dsRepository;
+		}
+
 		@Override
 		public void begin() {
 			EventBus.getDefault()
@@ -69,5 +77,15 @@ public interface VisionContract {
 		}
 
 		public abstract void setRefreshing(boolean refresh);
+
+		public final void loadRecent() {
+			mDsRepository.onRecentRequest(new DsLoadedCallback() {
+				@Override
+				public void onVisionResponse(BatchAnnotateImagesResponse response) {
+					super.onVisionResponse(response);
+					addResponseToScreen(response);
+				}
+			});
+		}
 	}
 }
