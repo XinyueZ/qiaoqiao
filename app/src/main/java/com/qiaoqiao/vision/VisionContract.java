@@ -20,32 +20,42 @@ package com.qiaoqiao.vision;
 import android.support.annotation.NonNull;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
-import com.google.api.services.vision.v1.model.EntityAnnotation;
-import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
 import com.qiaoqiao.vision.model.VisionEntity;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 public interface VisionContract {
 
-	interface View extends BaseView<VisionPresenter, FragmentListVisionBinding> {
+	interface View<T, S> extends BaseView<Presenter, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
 
+		void addLandmarkEntity(@NonNull T t);
 
-
-		void addLandmarkEntity(@NonNull EntityAnnotation entityAnnotation);
-
-		void addWebEntity(@NonNull WebEntity webEntity);
+		void addWebEntity(@NonNull S s);
 
 		void showDetail(@NonNull VisionEntity entity);
 	}
 
-	interface Presenter extends BasePresenter {
-		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
+	abstract class Presenter implements BasePresenter {
+		protected abstract void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
+		@Override
+		public void begin() {
+			EventBus.getDefault()
+			        .register(this);
+
+		}
+
+		@Override
+		public void end() {
+			EventBus.getDefault()
+			        .unregister(this);
+		}
 	}
 }

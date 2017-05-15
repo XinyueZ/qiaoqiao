@@ -18,8 +18,8 @@ import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import de.greenrobot.event.EventBus;
 
@@ -32,7 +32,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	private static final int ITEM_TYPE_LANDMARK = 0x92;
 	private static final int ITEM_TYPE_WEB_CELL = 0x93;
 	private static final int ITEM_TYPE_LANDMARK_CELL = 0x94;
-	private @NonNull final Stack<VisionEntity> mEntities = new Stack<>();
+	private @NonNull final List<VisionEntity> mEntities = new ArrayList<>();
 
 	@Override
 	public AbstractVisionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -100,7 +100,13 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 	public void addVisionEntity(@NonNull VisionEntity entity) {
 		LL.d(entity.toString());
-		mEntities.push(entity);
+		mEntities.add(entity);
+		//TODO Should update the position where we insert only.
+		notifyDataSetChanged();
+	}
+
+	public void addVisionEntityList(@NonNull List<VisionEntity> entityList) {
+		mEntities.addAll(entityList);
 		//TODO Should update the position where we insert only.
 		notifyDataSetChanged();
 	}

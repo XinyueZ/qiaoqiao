@@ -8,12 +8,22 @@ import com.google.api.client.json.GenericJson;
 public final class VisionEntity {
 	private final @NonNull GenericJson mVision;
 	private final @NonNull String mReadableName;
+	private boolean mInCell;
 
 	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName) {
 		mVision = vision;
 		mReadableName = readableName;
 	}
 
+	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName, boolean inCell) {
+		mVision = vision;
+		mReadableName = readableName;
+		mInCell = inCell;
+	}
+
+	public boolean isInCell() {
+		return mInCell;
+	}
 
 	@NonNull
 	GenericJson getVision() {

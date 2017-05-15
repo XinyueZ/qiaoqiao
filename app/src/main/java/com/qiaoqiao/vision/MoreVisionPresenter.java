@@ -16,8 +16,8 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.Subscribe;
 
-public final class VisionPresenter extends VisionContract.Presenter {
-	private final @NonNull VisionContract.View<EntityAnnotation, WebEntity> mView;
+public final class MoreVisionPresenter extends VisionContract.Presenter {
+	private final @NonNull VisionContract.View<List<EntityAnnotation>, List<WebEntity>> mView;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -38,7 +38,7 @@ public final class VisionPresenter extends VisionContract.Presenter {
 
 
 	@Inject
-	VisionPresenter(@NonNull VisionContract.View view) {
+	MoreVisionPresenter(@NonNull VisionContract.View view) {
 		mView = view;
 	}
 
@@ -56,19 +56,14 @@ public final class VisionPresenter extends VisionContract.Presenter {
 			if (annotateImage != null) {
 				final List<EntityAnnotation> landmarkAnnotations = annotateImage.getLandmarkAnnotations();
 				if (landmarkAnnotations != null && landmarkAnnotations.size() > 0) {
-					final EntityAnnotation entityAnnotation = landmarkAnnotations.get(0);
-					if (entityAnnotation != null) {
-						mView.addLandmarkEntity(entityAnnotation);
-					}
+					mView.addLandmarkEntity(landmarkAnnotations);
+
 				}
 				final WebDetection webDetection = annotateImage.getWebDetection();
 				if (webDetection != null) {
 					final List<WebEntity> webEntities = webDetection.getWebEntities();
 					if (webEntities != null && webEntities.size() > 0) {
-						final WebEntity webEntity = webEntities.get(0);
-						if (webEntity != null) {
-							mView.addWebEntity(webEntity);
-						}
+						mView.addWebEntity(webEntities);
 					}
 				}
 			}
