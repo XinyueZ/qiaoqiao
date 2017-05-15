@@ -125,9 +125,9 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	}
 
 	private static void loadImage(Context cxt, VisionEntity entity, ImageView imageView) {
-		if ( entity.getImageUri() !=null) {
+		if (entity.getImageUri() != null) {
 			Glide.with(cxt)
-			     .load( entity.getImageUri())
+			     .load(entity.getImageUri())
 			     .centerCrop()
 			     .placeholder(R.drawable.ic_default_image)
 			     .crossFade()

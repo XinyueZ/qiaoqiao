@@ -61,10 +61,19 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 			          for (EntityAnnotation entityAnnotation : entityAnnotationList1) {
 				          add(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION", true));
 			          }
-			          mPresenter.waitForImageUri(this);
 		          }}))
 		          .observeOn(AndroidSchedulers.mainThread())
-		          .subscribe(list -> mVisionListAdapter.addVisionEntityList(list));
+		          .subscribe(list -> {
+			          mVisionListAdapter.addVisionEntityList(list);
+			          Observable.just(list)
+			                    .subscribeOn(Schedulers.newThread())
+			                    .map(visionEntities -> {
+				                    mPresenter.waitForImageUri(visionEntities);
+				                    return visionEntities;
+			                    })
+			                    .observeOn(AndroidSchedulers.mainThread())
+			                    .subscribe(list1 -> mVisionListAdapter.notifyDataSetChanged());
+		          });
 
 	}
 
@@ -76,11 +85,20 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 		          .flatMap((Function<List<WebEntity>, Observable<List<VisionEntity>>>) entityAnnotationList -> Observable.just(new ArrayList<VisionEntity>() {{
 			          for (WebEntity entityAnnotation : entityAnnotationList) {
 				          add(new VisionEntity(entityAnnotation, "WEB_DETECTION", true));
-				          mPresenter.waitForImageUri(this);
 			          }
 		          }}))
 		          .observeOn(AndroidSchedulers.mainThread())
-		          .subscribe(list -> mVisionListAdapter.addVisionEntityList(list));
+		          .subscribe(list -> {
+			          mVisionListAdapter.addVisionEntityList(list);
+			          Observable.just(list)
+			                    .subscribeOn(Schedulers.newThread())
+			                    .map(visionEntities -> {
+				                    mPresenter.waitForImageUri(visionEntities);
+				                    return visionEntities;
+			                    })
+			                    .observeOn(AndroidSchedulers.mainThread())
+			                    .subscribe(list1 -> mVisionListAdapter.notifyDataSetChanged());
+		          });
 	}
 
 	@Override
