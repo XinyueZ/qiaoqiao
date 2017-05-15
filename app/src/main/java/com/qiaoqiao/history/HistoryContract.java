@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
-import com.qiaoqiao.ds.history.HistoryItem;
+import com.qiaoqiao.database.HistoryItem;
 
 import io.realm.RealmResults;
 

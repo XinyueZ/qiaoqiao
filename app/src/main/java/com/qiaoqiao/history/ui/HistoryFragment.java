@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
-import com.qiaoqiao.ds.history.HistoryItem;
+import com.qiaoqiao.database.HistoryItem;
 import com.qiaoqiao.history.HistoryContract;
 import com.qiaoqiao.history.HistoryPresenter;
 

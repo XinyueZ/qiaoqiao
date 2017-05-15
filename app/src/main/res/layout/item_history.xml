@@ -5,7 +5,7 @@
 
         <variable
             name="historyItem"
-            type="com.qiaoqiao.ds.history.HistoryItem"/>
+            type="com.qiaoqiao.database.HistoryItem"/>
 
         <variable
             name="viewholder"

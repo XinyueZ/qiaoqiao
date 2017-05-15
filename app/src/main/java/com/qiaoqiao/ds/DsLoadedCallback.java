@@ -9,7 +9,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.backend.model.translate.Data;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
-import com.qiaoqiao.ds.history.HistoryItem;
+import com.qiaoqiao.database.HistoryItem;
 import com.qiaoqiao.utils.LL;
 
 import java.io.IOException;
