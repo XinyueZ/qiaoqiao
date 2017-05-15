@@ -46,7 +46,7 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
+		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
 		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter(columns));
@@ -86,7 +86,10 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 				                    return visionEntities;
 			                    })
 			                    .observeOn(AndroidSchedulers.mainThread())
-			                    .subscribe(list1 -> mVisionListAdapter.notifyDataSetChanged());
+			                    .subscribe(list1 -> {
+				                    mVisionListAdapter.notifyDataSetChanged();
+				                    setRefreshing(false);
+			                    });
 		          });
 	}
 
@@ -109,5 +112,11 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	@Override
 	public void clean() {
 		mVisionListAdapter.clean();
+	}
+
+	@Override
+	public void setRefreshing(boolean refresh) {
+		mBinding.loadingPb.setEnabled(refresh);
+		mBinding.loadingPb.setRefreshing(refresh);
 	}
 }

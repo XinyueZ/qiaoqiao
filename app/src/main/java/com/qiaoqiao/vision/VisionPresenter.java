@@ -74,4 +74,9 @@ public final class VisionPresenter extends VisionContract.Presenter {
 			}
 		}
 	}
+
+	@Override
+	public void setRefreshing(boolean refresh) {
+		mView.setRefreshing(refresh);
+	}
 }

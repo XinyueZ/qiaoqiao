@@ -47,12 +47,13 @@ public interface CameraContract {
 
 		void openLocal();
 
-
 		void cameraBegin(@NonNull CameraView.Callback callback);
 
 		void cameraEnd(@NonNull CameraView.Callback callback);
 
-		void updateUIWhenGetPhoto();
+		void updateWhenResponse();
+
+		void updateWhenRequest();
 
 		ActivityCameraBinding getBinding();
 	}

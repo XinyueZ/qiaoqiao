@@ -44,6 +44,8 @@ public interface VisionContract {
 		void showDetail(@NonNull VisionEntity entity);
 
 		void clean();
+
+		void setRefreshing(boolean refresh);
 	}
 
 	abstract class Presenter implements BasePresenter {
@@ -65,5 +67,7 @@ public interface VisionContract {
 		public void waitForImageUri(@NonNull List<VisionEntity> list) {
 
 		}
+
+		public abstract void setRefreshing(boolean refresh);
 	}
 }

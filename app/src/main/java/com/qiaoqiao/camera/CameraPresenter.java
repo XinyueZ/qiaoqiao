@@ -61,24 +61,25 @@ public final class CameraPresenter implements CameraContract.Presenter {
 				LL.e("The camera captured picture but the bytes is NULL.");
 				return;
 			}
+			mView.updateWhenRequest();
 			mDsRepository.onBytes(data, new DsLoadedCallback() {
 				@Override
 				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
 					mView.addResponseToScreen(response);
-					mView.updateUIWhenGetPhoto();
+					mView.updateWhenResponse();
 				}
 
 				@Override
 				public void onError(@NonNull Status status) {
 					super.onError(status);
-					mView.updateUIWhenGetPhoto();
+					mView.updateWhenResponse();
 				}
 
 				@Override
 				public void onException(@NonNull Exception e) {
 					super.onException(e);
-					mView.updateUIWhenGetPhoto();
+					mView.updateWhenResponse();
 				}
 			});
 		}
@@ -95,25 +96,26 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	@Override
 	public void openLink(@NonNull Uri uri) {
 		mView.openLink();
+		mView.updateWhenRequest();
 		mDsRepository.onUri(uri, new DsLoadedCallback() {
 			@Override
 			public void onVisionResponse(BatchAnnotateImagesResponse response) {
 				super.onVisionResponse(response);
 				mView.addResponseToScreen(response);
-				mView.updateUIWhenGetPhoto();
+				mView.updateWhenResponse();
 			}
 
 			@Override
 			public void onError(@NonNull Status status) {
 				super.onError(status);
-				mView.updateUIWhenGetPhoto();
+				mView.updateWhenResponse();
 			}
 
 			@Override
 			public void onException(@NonNull Exception e) {
 				super.onException(e);
 				mView.showError(e.toString());
-				mView.updateUIWhenGetPhoto();
+				mView.updateWhenResponse();
 			}
 		});
 	}
@@ -136,30 +138,31 @@ public final class CameraPresenter implements CameraContract.Presenter {
 				mView.showError(cxt.getString(R.string.error_can_not_find_file));
 				return;
 			}
+			mView.updateWhenRequest();
 			mDsRepository.onFile(new File(cursor.getString(columnIndex)), new DsLoadedCallback() {
 				@Override
 				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
 					mView.addResponseToScreen(response);
-					mView.updateUIWhenGetPhoto();
+					mView.updateWhenResponse();
 				}
 
 				@Override
 				public void onError(@NonNull Status status) {
 					super.onError(status);
-					mView.updateUIWhenGetPhoto();
+					mView.updateWhenResponse();
 				}
 
 				@Override
 				public void onException(@NonNull Exception e) {
 					super.onException(e);
 					mView.showError(e.toString());
-					mView.updateUIWhenGetPhoto();
+					mView.updateWhenResponse();
 				}
 			});
 		} catch (Exception e) {
 			mView.showError(cxt.getString(R.string.error_can_not_find_file));
-			mView.updateUIWhenGetPhoto();
+			mView.updateWhenResponse();
 		} finally {
 			if (cursor != null) {
 				cursor.close();

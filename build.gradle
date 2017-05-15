@@ -42,7 +42,6 @@ ext {
     easypermissions = "0.3.1"
     multidexVersion = "1.0.1"
     rxandroidAdapter = "1.0.0"
-    smoothprogressbar = "1.0.0"
     appCompatVersion = project.SUPPORT
 
     //Test libs
@@ -59,7 +58,7 @@ ext {
     playService = "10.2.1"
     httpClientGson = "1.20.0"
     apiClientAndroid = "1.20.0"
-    vision = "v1-rev354-1.22.0"
+    vision = "v1-rev355-1.22.0"
 
     //Image-loader
     imageLoader = "3.7.0"

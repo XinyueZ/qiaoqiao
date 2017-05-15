@@ -1,6 +1,7 @@
 package com.qiaoqiao.detail.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,15 +68,20 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		int actionBarHeight = calcActionBarHeight(getContext());
+		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
+		mBinding.loadingPb.setProgressViewEndTarget(true, actionBarHeight * 2);
+		mBinding.loadingPb.setProgressViewOffset(false, 0, actionBarHeight * 2);
 		mContextWeakReference = new WeakReference<>(getContext());
 		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(getContext()).Height * 0.618f);
 		mBinding.content.getSettings()
 		                .setDefaultTextEncodingName("utf-8");
-		mBinding.content.setWebViewClient(new WebViewClient(){
+		mBinding.content.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-					view.loadUrl(request.getUrl().toString());
+					view.loadUrl(request.getUrl()
+					                    .toString());
 				}
 				return super.shouldOverrideUrlLoading(view, request);
 			}
@@ -151,7 +157,8 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		}
 
 		mPreviewImage = preview;
-		mBinding.loadingPb.setVisibility(View.VISIBLE);
+		mBinding.loadingPb.setRefreshing(true);
+		mBinding.loadingPb.setEnabled(true);
 		Glide.with(mContextWeakReference.get())
 		     .load(photo.getSource())
 		     .crossFade()
@@ -161,7 +168,8 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		     .listener(new RequestListener<String, GlideDrawable>() {
 			     @Override
 			     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-				     mBinding.loadingPb.setVisibility(View.GONE);
+				     mBinding.loadingPb.setRefreshing(false);
+				     mBinding.loadingPb.setEnabled(false);
 				     Palette.Builder b = new Palette.Builder(((GlideBitmapDrawable) resource).getBitmap());
 				     b.maximumColorCount(1);
 				     b.generate(DetailFragment.this);
@@ -224,13 +232,25 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 			return;
 		}
 		int textColor = palette.getSwatches()
-		                   .get(0)
-		                   .getBodyTextColor();
+		                       .get(0)
+		                       .getBodyTextColor();
 		int barColor = palette.getSwatches()
-		                       .get(0).getRgb();
+		                      .get(0)
+		                      .getRgb();
 		mBinding.collapsingToolbar.setExpandedTitleColor(textColor);
 		mBinding.collapsingToolbar.setCollapsedTitleTextColor(textColor);
 		mBinding.collapsingToolbar.setContentScrimColor(barColor);
 		mBinding.collapsingToolbar.setStatusBarScrimColor(barColor);
+	}
+
+	private static int calcActionBarHeight(Context cxt) {
+		int[] abSzAttr;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			abSzAttr = new int[] { android.R.attr.actionBarSize };
+		} else {
+			abSzAttr = new int[] { R.attr.actionBarSize };
+		}
+		TypedArray a = cxt.obtainStyledAttributes(abSzAttr);
+		return a.getDimensionPixelSize(0, -1);
 	}
 }

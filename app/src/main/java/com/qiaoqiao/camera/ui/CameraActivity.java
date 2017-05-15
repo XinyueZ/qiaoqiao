@@ -303,7 +303,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	@Override
-	public void updateUIWhenGetPhoto() {
+	public void updateWhenResponse() {
 		mBinding.mainControl.stopCaptureProgressBar();
 		mBinding.mainControl.stopLocalProgressBar();
 		mBinding.mainControl.stopWebProgressBar();
@@ -317,5 +317,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.viewpager.setAdapter(adapter);
 		mBinding.viewpager.setOffscreenPageLimit(2);
 		mBinding.tabs.setupWithViewPager(mBinding.viewpager);
+	}
+
+	@Override
+	public void updateWhenRequest() {
+		mVisionPresenter.setRefreshing(true);
+		mMoreVisionPresenter.setRefreshing(true);
 	}
 }

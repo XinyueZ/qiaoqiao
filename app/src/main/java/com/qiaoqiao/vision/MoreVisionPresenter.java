@@ -87,4 +87,9 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 	public void clean() {
 		mView.clean();
 	}
+
+	@Override
+	public void setRefreshing(boolean refresh) {
+		mView.setRefreshing(refresh);
+	}
 }

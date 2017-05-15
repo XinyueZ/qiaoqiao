@@ -42,7 +42,7 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
+		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
 		mBinding.visionRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		mBinding.visionRv.setHasFixedSize(true);
 		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter());
@@ -59,6 +59,7 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	public void addLandmarkEntity(@NonNull EntityAnnotation entityAnnotation) {
 		mVisionListAdapter.addVisionEntity(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION"));
 		mBinding.visionRv.scrollToPosition(mVisionListAdapter.getItemCount() - 1);
+		setRefreshing(false);
 	}
 
 
@@ -66,6 +67,7 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	public void addWebEntity(@NonNull WebEntity webEntity) {
 		mVisionListAdapter.addVisionEntity(new VisionEntity(webEntity, "WEB_DETECTION"));
 		mBinding.visionRv.scrollToPosition(mVisionListAdapter.getItemCount() - 1);
+		setRefreshing(false);
 	}
 
 	@Override
@@ -86,5 +88,11 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	@Override
 	public void clean() {
 		mVisionListAdapter.clean();
+	}
+
+	@Override
+	public void setRefreshing(boolean refresh) {
+		mBinding.loadingPb.setEnabled(refresh);
+		mBinding.loadingPb.setRefreshing(refresh);
 	}
 }

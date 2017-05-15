@@ -10,11 +10,18 @@
             type="android.support.v4.app.Fragment"/>
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/vision_rv"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/loading_pb"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="1dp"
-        android:padding="@dimen/larger"/>
+        android:padding="@dimen/larger">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/vision_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </layout>
