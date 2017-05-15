@@ -236,7 +236,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public void onPermissionsDenied(int i, List<String> list) {
 		if (!hasPermissions()) {
 			new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-			                                   .setNegativeButton(getString(R.string.exit_app), (dialogInterface, i1) -> supportFinishAfterTransition())
 			                                   .build()
 			                                   .show();
 		} else {
