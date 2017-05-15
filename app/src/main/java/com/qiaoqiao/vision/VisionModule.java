@@ -3,6 +3,8 @@ package com.qiaoqiao.vision;
 
 import android.support.annotation.NonNull;
 
+import com.qiaoqiao.camera.annotation.CameraScoped;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -18,6 +20,7 @@ public final class VisionModule {
 
 
 	@Single
+	@CameraScoped
 	@Provides
 	VisionContract.View provideVisionContractView() {
 		return mVisionView;
@@ -25,6 +28,7 @@ public final class VisionModule {
 
 
 	@More
+	@CameraScoped
 	@Provides
 	VisionContract.View provideMoreVisionContractView() {
 		return mMoreVisionView;

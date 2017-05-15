@@ -21,6 +21,11 @@ import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
+import com.qiaoqiao.ds.annotation.Camera;
+import com.qiaoqiao.ds.annotation.Database;
+import com.qiaoqiao.ds.annotation.Knowledge;
+import com.qiaoqiao.ds.annotation.Local;
+import com.qiaoqiao.ds.annotation.Web;
 import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.io.File;
@@ -36,18 +41,21 @@ public final class DsRepository extends AbstractDsSource {
 	private @NonNull  final AbstractDsSource mLocalDs;
 	private @NonNull  final AbstractDsSource mCameraDs;
 	private @NonNull  final AbstractDsSource mKnowledgeRemoteDs;
+	private @NonNull  final AbstractDsSource mDatabaseDs;
 
 	DsRepository(@NonNull Google google,
 	             @NonNull com.qiaoqiao.backend.Wikipedia wikipedia,
 	             @Web AbstractDsSource webDs,
 	             @Local AbstractDsSource localDs,
 	             @Camera AbstractDsSource cameraDs,
-	             @Knowledge AbstractDsSource knowledgeRemoteDs) {
+	             @Knowledge AbstractDsSource knowledgeRemoteDs,
+	             @Database AbstractDsSource databaseDs) {
 		super(google, wikipedia);
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;
 		mKnowledgeRemoteDs = knowledgeRemoteDs;
+		mDatabaseDs = databaseDs;
 	}
 
 	@Override
@@ -84,5 +92,10 @@ public final class DsRepository extends AbstractDsSource {
 	@Override
 	public void onTranslate(@NonNull String q, @NonNull DsLoadedCallback callback) {
 		mKnowledgeRemoteDs.onKnowledgeQuery(q, callback);
+	}
+
+	@Override
+	public void onRecentRequest(@NonNull DsLoadedCallback callback) {
+		mDatabaseDs.onRecentRequest(callback);
 	}
 }

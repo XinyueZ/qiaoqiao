@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
+import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
-import com.qiaoqiao.database.HistoryItem;
 import com.qiaoqiao.history.HistoryContract;
 import com.qiaoqiao.history.HistoryPresenter;
+
+import java.util.List;
 
 import io.realm.RealmResults;
 
@@ -56,7 +58,7 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	}
 
 	@Override
-	public void showList(@NonNull RealmResults<HistoryItem> results) {
+	public void showList(@NonNull List<HistoryItem> results) {
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		mBinding.historyRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
 		mBinding.historyRv.setAdapter(mHistoryListAdapter = new HistoryListAdapter(results, columns));

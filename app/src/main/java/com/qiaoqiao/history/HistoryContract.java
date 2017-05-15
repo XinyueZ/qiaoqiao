@@ -21,8 +21,10 @@ import android.support.annotation.NonNull;
 
 import com.qiaoqiao.app.mvp.BasePresenter;
 import com.qiaoqiao.app.mvp.BaseView;
+import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
-import com.qiaoqiao.database.HistoryItem;
+
+import java.util.List;
 
 import io.realm.RealmResults;
 
@@ -34,7 +36,7 @@ public interface HistoryContract {
 	interface View extends BaseView<HistoryPresenter, FragmentHistoryBinding> {
 		FragmentHistoryBinding getBinding();
 
-		void showList(@NonNull RealmResults<HistoryItem> results);
+		void showList(@NonNull List<HistoryItem> results);
 
 		void updateList(@NonNull RealmResults<HistoryItem> historyItemList);
 	}

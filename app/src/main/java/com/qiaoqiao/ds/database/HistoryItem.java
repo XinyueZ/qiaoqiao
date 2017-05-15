@@ -1,4 +1,4 @@
-package com.qiaoqiao.database;
+package com.qiaoqiao.ds.database;
 
 
 import io.realm.RealmObject;

@@ -1,6 +1,6 @@
 package com.qiaoqiao.history.bus;
 
-import com.qiaoqiao.database.HistoryItem;
+import com.qiaoqiao.ds.database.HistoryItem;
 
 public final class HistoryItemClickEvent {
 	private HistoryItem mHistoryItem;

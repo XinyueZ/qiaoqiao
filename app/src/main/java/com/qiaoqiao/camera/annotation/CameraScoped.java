@@ -1,4 +1,4 @@
-package com.qiaoqiao.app;
+package com.qiaoqiao.camera.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -9,5 +9,5 @@ import javax.inject.Scope;
 @Documented
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ActivityScoped {
+public @interface CameraScoped {
 }

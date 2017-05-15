@@ -17,6 +17,11 @@ public abstract class AbstractDsSource {
 	private Google mGoogle;
 	private com.qiaoqiao.backend.Wikipedia mWikipedia;
 
+	protected AbstractDsSource() {
+
+	}
+
+
 	public AbstractDsSource(@NonNull Google google) {
 		mGoogle = google;
 	}
@@ -56,7 +61,7 @@ public abstract class AbstractDsSource {
 
 	}
 
-	public void onKnowledgeQuery(@NonNull List<VisionEntity> list ) throws IOException {
+	public void onKnowledgeQuery(@NonNull List<VisionEntity> list) throws IOException {
 
 	}
 
@@ -64,5 +69,7 @@ public abstract class AbstractDsSource {
 
 	}
 
+	public void onRecentRequest(@NonNull DsLoadedCallback callback) {
 
+	}
 }

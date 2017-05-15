@@ -11,20 +11,21 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
+import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.databinding.ItemHistoryBinding;
-import com.qiaoqiao.database.HistoryItem;
 import com.qiaoqiao.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.utils.DeviceUtils;
 
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
-import io.realm.RealmResults;
 
 public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.ViewHolder> {
 	private static final int ITEM_LAYOUT = R.layout.item_history;
-	private final @NonNull RealmResults<HistoryItem> mList;
+	private final @NonNull List<HistoryItem> mList;
 	private final int mColumns;
 
-	HistoryListAdapter(@NonNull RealmResults<HistoryItem> mList, int columns) {
+	HistoryListAdapter(@NonNull List<HistoryItem> mList, int columns) {
 		this.mList = mList;
 		mColumns = columns;
 	}

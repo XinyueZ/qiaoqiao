@@ -86,14 +86,15 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:elevation="5dp"
                 app:tabBackground="@drawable/selector_primary_item_background"
                 app:tabIndicatorColor="@color/colorAccent"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
-                android:elevation="1dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:elevation="1dp"/>
         </LinearLayout>
 
 
