@@ -63,18 +63,7 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 			          }
 		          }}))
 		          .observeOn(AndroidSchedulers.mainThread())
-		          .subscribe(list -> {
-			          mVisionListAdapter.addVisionEntityList(list);
-			          Observable.just(list)
-			                    .subscribeOn(Schedulers.newThread())
-			                    .map(visionEntities -> {
-				                    mPresenter.waitForImageUri(visionEntities);
-				                    return visionEntities;
-			                    })
-			                    .observeOn(AndroidSchedulers.mainThread())
-			                    .subscribe(list1 -> mVisionListAdapter.notifyDataSetChanged());
-		          });
-
+		          .subscribe(list -> mVisionListAdapter.addVisionEntityList(list));
 	}
 
 
