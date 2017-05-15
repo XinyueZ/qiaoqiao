@@ -60,6 +60,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private @Nullable Snackbar mSnackbar;
 	private ActivityCameraBinding mBinding;
 
+
+	private static final int RC_PERMISSIONS = 123;
+
 	@Inject CameraPresenter mCameraPresenter;
 	@Inject VisionPresenter mVisionPresenter;
 	@Inject MoreVisionPresenter mMoreVisionPresenter;
@@ -211,9 +214,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 
-	private static final int RC_PERMISSIONS = 123;
-
-
 	@SuppressLint("InlinedApi")
 	@AfterPermissionGranted(RC_PERMISSIONS)
 	private void requirePermissions() {
@@ -262,8 +262,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
+		mBinding.appbar.setExpanded(false);
 		mVisionPresenter.addResponseToScreen(response);
-
 		mMoreVisionPresenter.clean();
 		mMoreVisionPresenter.addResponseToScreen(response);
 	}
