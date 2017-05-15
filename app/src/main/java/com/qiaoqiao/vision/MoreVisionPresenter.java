@@ -38,7 +38,7 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 
 
 	@Inject
-	MoreVisionPresenter(@NonNull VisionContract.View view) {
+	MoreVisionPresenter(@NonNull @More VisionContract.View view) {
 		mView = view;
 	}
 

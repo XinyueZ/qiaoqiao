@@ -14,6 +14,7 @@ import com.qiaoqiao.databinding.LandmarkCellViewBinding;
 import com.qiaoqiao.databinding.LandmarkViewBinding;
 import com.qiaoqiao.databinding.WebCellViewBinding;
 import com.qiaoqiao.databinding.WebViewBinding;
+import com.qiaoqiao.utils.DeviceUtils;
 import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
@@ -32,11 +33,23 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	private static final int ITEM_TYPE_LANDMARK = 0x92;
 	private static final int ITEM_TYPE_WEB_CELL = 0x93;
 	private static final int ITEM_TYPE_LANDMARK_CELL = 0x94;
+	private int mColumns;
 	private @NonNull final List<VisionEntity> mEntities = new ArrayList<>();
+
+	public VisionListAdapter(int columns) {
+		mColumns = columns;
+	}
+
+	public VisionListAdapter() {
+	}
 
 	@Override
 	public AbstractVisionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		Context cxt = parent.getContext();
+		int size = 0;
+		if (mColumns > 0) {
+			size = DeviceUtils.getScreenSize(cxt).Width / mColumns;
+		}
 		switch (viewType) {
 			case ITEM_TYPE_WEB:
 				WebViewBinding webBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
@@ -48,13 +61,13 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				return new LandmarkViewHolder(landmarkBinding, mEntities, this);
 			case ITEM_TYPE_WEB_CELL:
 				WebCellViewBinding webCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
-				                                                               .inflate(ITEM_LAYOUT_WEB_CELL, parent, false));
-				return new WebCellViewHolder(webCellBinding, mEntities, this);
+				                                                                       .inflate(ITEM_LAYOUT_WEB_CELL, parent, false));
+				return new WebCellViewHolder(webCellBinding, mEntities, this, size);
 			case ITEM_TYPE_LANDMARK_CELL:
 			default:
 				LandmarkCellViewBinding landmarkCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
-				                                                                         .inflate(ITEM_LAYOUT_LANDMARK_CELL, parent, false));
-				return new LandmarkCellViewHolder(landmarkCellBinding, mEntities, this);
+				                                                                                 .inflate(ITEM_LAYOUT_LANDMARK_CELL, parent, false));
+				return new LandmarkCellViewHolder(landmarkCellBinding, mEntities, this, size);
 		}
 	}
 
@@ -85,6 +98,9 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				                                                             .getDescriptionText());
 				webCellViewHolder.mItemWebCellBinding.setVisionEntity(entity);
 				webCellViewHolder.mItemWebCellBinding.setViewholder(webCellViewHolder);
+
+				webCellViewHolder.mItemWebCellBinding.visionIv.getLayoutParams().width = webCellViewHolder.mSize;
+				webCellViewHolder.mItemWebCellBinding.visionIv.getLayoutParams().height = webCellViewHolder.mSize;
 				break;
 			case ITEM_TYPE_LANDMARK_CELL:
 				LandmarkCellViewHolder landmarkCellViewHolder = (LandmarkCellViewHolder) holder;
@@ -92,6 +108,9 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				                                                                       .getDescriptionText());
 				landmarkCellViewHolder.mItemLandmarkCellBinding.setVisionEntity(entity);
 				landmarkCellViewHolder.mItemLandmarkCellBinding.setViewholder(landmarkCellViewHolder);
+
+				landmarkCellViewHolder.mItemLandmarkCellBinding.visionIv.getLayoutParams().width = landmarkCellViewHolder.mSize;
+				landmarkCellViewHolder.mItemLandmarkCellBinding.visionIv.getLayoutParams().height = landmarkCellViewHolder.mSize;
 				break;
 
 		}
@@ -120,10 +139,14 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	public int getItemViewType(int position) {
 		VisionEntity entity = mEntities.get(position);
 		if (TextUtils.equals(entity.getReadableName(), "WEB_DETECTION")) {
-			return ITEM_TYPE_WEB;
+			return entity.isInCell() ?
+			       ITEM_TYPE_WEB_CELL :
+			       ITEM_TYPE_WEB;
 		}
 		if (TextUtils.equals(entity.getReadableName(), "LANDMARK_DETECTION")) {
-			return ITEM_TYPE_LANDMARK;
+			return entity.isInCell() ?
+			       ITEM_TYPE_LANDMARK_CELL :
+			       ITEM_TYPE_LANDMARK;
 		}
 		return super.getItemViewType(position);
 	}
@@ -170,19 +193,23 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 	public final static class WebCellViewHolder extends AbstractVisionViewHolder {
 		private final @NonNull WebCellViewBinding mItemWebCellBinding;
+		private int mSize;
 
-		private WebCellViewHolder(@NonNull WebCellViewBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter) {
+		private WebCellViewHolder(@NonNull WebCellViewBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter, int size) {
 			super(binding, entities, adapter);
 			mItemWebCellBinding = binding;
+			mSize = size;
 		}
 	}
 
 	public final static class LandmarkCellViewHolder extends AbstractVisionViewHolder {
 		private final @NonNull LandmarkCellViewBinding mItemLandmarkCellBinding;
+		private int mSize;
 
-		private LandmarkCellViewHolder(@NonNull LandmarkCellViewBinding binding, @NonNull List<VisionEntity> entries, @NonNull VisionListAdapter adapter) {
+		private LandmarkCellViewHolder(@NonNull LandmarkCellViewBinding binding, @NonNull List<VisionEntity> entries, @NonNull VisionListAdapter adapter, int size) {
 			super(binding, entries, adapter);
 			mItemLandmarkCellBinding = binding;
+			mSize = size;
 		}
 	}
 }

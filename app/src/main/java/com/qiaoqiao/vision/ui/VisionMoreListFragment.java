@@ -49,7 +49,7 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
-		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter());
+		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter(columns));
 	}
 
 
@@ -59,7 +59,7 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 		          .subscribeOn(Schedulers.newThread())
 		          .flatMap((Function<List<EntityAnnotation>, Observable<List<VisionEntity>>>) entityAnnotationList1 -> Observable.just(new ArrayList<VisionEntity>() {{
 			          for (EntityAnnotation entityAnnotation : entityAnnotationList1) {
-				          add(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION"));
+				          add(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION", true));
 			          }
 		          }}))
 		          .observeOn(AndroidSchedulers.mainThread())
@@ -74,7 +74,7 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 		          .subscribeOn(Schedulers.newThread())
 		          .flatMap((Function<List<WebEntity>, Observable<List<VisionEntity>>>) entityAnnotationList -> Observable.just(new ArrayList<VisionEntity>() {{
 			          for (WebEntity entityAnnotation : entityAnnotationList) {
-				          add(new VisionEntity(entityAnnotation, "WEB_DETECTION"));
+				          add(new VisionEntity(entityAnnotation, "WEB_DETECTION", true));
 			          }
 		          }}))
 		          .observeOn(AndroidSchedulers.mainThread())

@@ -32,10 +32,12 @@ import com.qiaoqiao.history.HistoryModule;
 import com.qiaoqiao.history.HistoryPresenter;
 import com.qiaoqiao.history.ui.HistoryFragment;
 import com.qiaoqiao.utils.DeviceUtils;
+import com.qiaoqiao.vision.MoreVisionPresenter;
 import com.qiaoqiao.vision.VisionContract;
 import com.qiaoqiao.vision.VisionModule;
 import com.qiaoqiao.vision.VisionPresenter;
 import com.qiaoqiao.vision.ui.VisionListFragment;
+import com.qiaoqiao.vision.ui.VisionMoreListFragment;
 
 import java.util.List;
 
@@ -60,6 +62,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Inject CameraPresenter mCameraPresenter;
 	@Inject VisionPresenter mVisionPresenter;
+	@Inject MoreVisionPresenter mMoreVisionPresenter;
 	@Inject HistoryPresenter mHistoryPresenter;
 
 	//------------------------------------------------
@@ -96,9 +99,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		setupAppBar();
 		VisionListFragment visionFragment = VisionListFragment.newInstance(this);
+		VisionMoreListFragment moreVisionFragment = VisionMoreListFragment.newInstance(this);
 		HistoryFragment historyFragment = HistoryFragment.newInstance(this);
-		setupViewPager(visionFragment, historyFragment);
-		injectAll(visionFragment, historyFragment);
+		setupViewPager(visionFragment, moreVisionFragment, historyFragment);
+		injectAll(visionFragment, moreVisionFragment, historyFragment);
 		presentersBegin();
 	}
 
@@ -113,12 +117,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.toolbar.setTitleTextColor(titleColor);
 	}
 
-	private void injectAll(@NonNull VisionContract.View visionView, @NonNull HistoryContract.View historyView) {
+	private void injectAll(@NonNull VisionContract.View visionView, @NonNull VisionContract.View moreVisionView, @NonNull HistoryContract.View historyView) {
 		DaggerCameraComponent.builder()
 		                     .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
 		                     .cameraModule(new CameraModule(this))
 		                     .historyModule(new HistoryModule(historyView))
-		                     .visionModule(new VisionModule(visionView))
+		                     .visionModule(new VisionModule(visionView, moreVisionView))
 		                     .build()
 		                     .doInject(this);
 	}
@@ -127,6 +131,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mCameraPresenter.begin();
 		mVisionPresenter.begin();
 		mHistoryPresenter.begin();
+		mMoreVisionPresenter.begin();
 	}
 
 	@Override
@@ -139,6 +144,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mCameraPresenter.end();
 		mVisionPresenter.end();
 		mHistoryPresenter.end();
+		mMoreVisionPresenter.end();
 	}
 
 
@@ -257,6 +263,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
 		mVisionPresenter.addResponseToScreen(response);
+		mMoreVisionPresenter.addResponseToScreen(response);
 	}
 
 	@Override
@@ -300,12 +307,13 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.mainControl.stopWebProgressBar();
 	}
 
-	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment historyFragment) {
+	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment moreVisionFragment, @NonNull Fragment historyFragment) {
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		adapter.addFragment(visionFragment, getString(R.string.tab_vision));
+		adapter.addFragment(moreVisionFragment, getString(R.string.tab_more));
 		adapter.addFragment(historyFragment, getString(R.string.tab_history));
 		mBinding.viewpager.setAdapter(adapter);
-
+		mBinding.viewpager.setOffscreenPageLimit(2);
 		mBinding.tabs.setupWithViewPager(mBinding.viewpager);
 	}
 }
