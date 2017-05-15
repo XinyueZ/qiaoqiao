@@ -52,6 +52,10 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	public VisionListAdapter() {
 	}
 
+	public void clean() {
+		mEntities.clear();
+	}
+
 	@Override
 	public AbstractVisionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		Context cxt = parent.getContext();

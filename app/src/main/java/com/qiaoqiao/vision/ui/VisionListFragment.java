@@ -82,4 +82,9 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	public void showDetail(@NonNull VisionEntity entity) {
 		openDetail(entity);
 	}
+
+	@Override
+	public void clean() {
+		mVisionListAdapter.clean();
+	}
 }

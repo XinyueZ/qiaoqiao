@@ -127,9 +127,19 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 			                             .getPages()
 			                             .getList();
 			if (listWikiRes.size() > 0) {
-				entity.setImageUri(Uri.parse(listWikiRes.get(0)
-				                                        .getOriginal()
-				                                        .getSource()));
+				if (listWikiRes.get(0)
+				               .getOriginal() != null) {
+					entity.setImageUri(Uri.parse(listWikiRes.get(0)
+					                                        .getOriginal()
+					                                        .getSource()));
+				} else {
+					if (listWikiRes.get(0)
+					               .getThumbnail() != null) {
+						entity.setImageUri(Uri.parse(listWikiRes.get(0)
+						                                        .getThumbnail()
+						                                        .getSource()));
+					}
+				}
 				continue;
 			}
 			//Translate to local language.
@@ -157,9 +167,19 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 			                  .getPages()
 			                  .getList();
 			if (listWikiRes.size() > 0) {
-				entity.setImageUri(Uri.parse(listWikiRes.get(0)
-				                                        .getOriginal()
-				                                        .getSource()));
+				if (listWikiRes.get(0)
+				               .getOriginal() != null) {
+					entity.setImageUri(Uri.parse(listWikiRes.get(0)
+					                                        .getOriginal()
+					                                        .getSource()));
+				} else {
+					if (listWikiRes.get(0)
+					               .getThumbnail() != null) {
+						entity.setImageUri(Uri.parse(listWikiRes.get(0)
+						                                        .getThumbnail()
+						                                        .getSource()));
+					}
+				}
 			} else {
 				//Only English wikipedia as fallback.
 				wiki = getWikipedia().getWiki(wikiImage("en",
@@ -171,9 +191,19 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 				                  .getPages()
 				                  .getList();
 				if (listWikiRes.size() > 0) {
-					entity.setImageUri(Uri.parse(listWikiRes.get(0)
-					                                        .getOriginal()
-					                                        .getSource()));
+					if (listWikiRes.get(0)
+					               .getOriginal() != null) {
+						entity.setImageUri(Uri.parse(listWikiRes.get(0)
+						                                        .getOriginal()
+						                                        .getSource()));
+					} else {
+						if (listWikiRes.get(0)
+						               .getThumbnail() != null) {
+							entity.setImageUri(Uri.parse(listWikiRes.get(0)
+							                                        .getThumbnail()
+							                                        .getSource()));
+						}
+					}
 				}
 			}
 		}
@@ -204,6 +234,6 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 
 	private @NonNull
 	String wikiImage(@NonNull String keyword) {
-		return "/w/api.php?format=json&action=query&prop=pageimages&piprop=original&pilimit=1&redirects=titles&titles=" + keyword;
+		return "/w/api.php?format=json&action=query&prop=pageimages&piprop=original|thumbnail&pilimit=1&redirects=titles&titles=" + keyword;
 	}
 }

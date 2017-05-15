@@ -42,6 +42,8 @@ public interface VisionContract {
 		void addWebEntity(@NonNull S s);
 
 		void showDetail(@NonNull VisionEntity entity);
+
+		void clean();
 	}
 
 	abstract class Presenter implements BasePresenter {

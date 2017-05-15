@@ -83,4 +83,8 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 			}
 		}
 	}
+
+	public void clean() {
+		mView.clean();
+	}
 }

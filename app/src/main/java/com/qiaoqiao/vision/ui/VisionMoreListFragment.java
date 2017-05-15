@@ -105,4 +105,9 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	public void showDetail(@NonNull VisionEntity entity) {
 		openDetail(entity);
 	}
+
+	@Override
+	public void clean() {
+		mVisionListAdapter.clean();
+	}
 }
