@@ -58,6 +58,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 
 	@Override
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {
+		//Translate to local language.
 		onTranslate(keyword, new DsLoadedCallback() {
 			@Override
 			public void onTranslateData(@NonNull Data translateData) {
@@ -68,7 +69,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 					return;
 				}
 
-
+				//Use local language to search something on wikipedia.
 				getWikipedia().getResult(wikiQuery(Locale.getDefault()
 				                                         .getLanguage(), translation.getTranslatedText()))
 				              .subscribeOn(Schedulers.io())
@@ -80,6 +81,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 					                        .size() > 0) {
 						              callback.onKnowledgeResponse(result);
 					              } else {
+						              //Only English wikipedia as fallback.
 						              getWikipedia().getResult(wikiQuery("en", keyword))
 						                            .subscribeOn(Schedulers.io())
 						                            .observeOn(AndroidSchedulers.mainThread())
@@ -102,6 +104,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 	@Override
 	public void onKnowledgeQuery(@NonNull List<VisionEntity> list) throws IOException {
 		for (VisionEntity entity : list) {
+			//Translate to local language.
 			final Call<com.qiaoqiao.backend.model.translate.Response> translator = getGoogle().getTranslateService()
 			                                                                                  .getTranslator(entity.getDescription()
 			                                                                                                       .getDescriptionText(),
@@ -117,6 +120,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 			if (translation == null) {
 				return;
 			}
+			//Use local language to search something on wikipedia.
 			Call<WikiResult> wiki = getWikipedia().getWiki(wikiImage(Locale.getDefault()
 			                                                               .getLanguage(), translation.getTranslatedText()));
 			List<Page> listWikiRes = wiki.execute()
@@ -129,6 +133,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 				                                        .getOriginal()
 				                                        .getSource()));
 			} else {
+				//Only English wikipedia as fallback.
 				wiki = getWikipedia().getWiki(wikiImage("en", translation.getTranslatedText()));
 				listWikiRes = wiki.execute()
 				                  .body()
@@ -163,7 +168,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 
 	private @NonNull
 	String wikiImage(@NonNull String lang, @NonNull String keyword) {
-		return wikiHost(lang) + wikiQuery(keyword);
+		return wikiHost(lang) + wikiImage(keyword);
 	}
 
 

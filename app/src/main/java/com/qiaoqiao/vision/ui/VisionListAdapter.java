@@ -3,6 +3,7 @@ package com.qiaoqiao.vision.ui;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -125,7 +126,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	}
 
 	private static void loadImage(Context cxt, VisionEntity entity, ImageView imageView) {
-		if (entity.getImageUri() != null) {
+		if (entity.getImageUri() != Uri.EMPTY) {
 			Glide.with(cxt)
 			     .load(entity.getImageUri())
 			     .centerCrop()

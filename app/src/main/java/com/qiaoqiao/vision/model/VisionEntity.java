@@ -3,14 +3,13 @@ package com.qiaoqiao.vision.model;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.api.client.json.GenericJson;
 
 public final class VisionEntity {
 	private final @NonNull GenericJson mVision;
 	private final @NonNull String mReadableName;
-	private @Nullable Uri mImageUri = null;
+	private @NonNull Uri mImageUri = Uri.EMPTY;
 	private boolean mInCell;
 
 	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName) {
@@ -53,18 +52,15 @@ public final class VisionEntity {
 		return new VisionEntityLocation(this);
 	}
 
-	public @Nullable
+	public @NonNull
 	Uri getImageUri() {
 		return mImageUri;
 	}
 
-	public void setImageUri(@NonNull  Uri imageUri) {
+	public void setImageUri(@NonNull Uri imageUri) {
 		mImageUri = imageUri;
 	}
 
-	public void setInCell(boolean inCell) {
-		mInCell = inCell;
-	}
 
 	@Override
 	public String toString() {
