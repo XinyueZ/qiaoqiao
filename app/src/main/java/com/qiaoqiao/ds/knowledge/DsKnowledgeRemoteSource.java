@@ -58,52 +58,80 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 
 	@Override
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {
-		//Translate to local language.
-		onTranslate(keyword, new DsLoadedCallback() {
-			@Override
-			public void onTranslateData(@NonNull Data translateData) {
-				super.onTranslateData(translateData);
-				final TranslateTextResponseTranslation[] translations = translateData.getTranslations();
-				final TranslateTextResponseTranslation translation = translations[0];
-				if (translation == null) {
-					return;
-				}
+		//Local language on local language wikipedia.
+		getWikipedia().getResult(wikiQuery(Locale.getDefault()
+		                                         .getLanguage(), keyword))
+		              .subscribeOn(Schedulers.io())
+		              .observeOn(AndroidSchedulers.mainThread())
+		              .subscribe(result1 -> {
+			              if (result1.getQuery()
+			                         .getPages()
+			                         .getList()
+			                         .size() > 0) {
+				              callback.onKnowledgeResponse(result1);
+			              } else {
+				              //Translate to local language.
+				              onTranslate(keyword, new DsLoadedCallback() {
+					              @Override
+					              public void onTranslateData(@NonNull Data translateData) {
+						              super.onTranslateData(translateData);
+						              final TranslateTextResponseTranslation[] translations = translateData.getTranslations();
+						              final TranslateTextResponseTranslation translation = translations[0];
+						              if (translation == null) {
+							              return;
+						              }
 
-				//Use local language to search something on wikipedia.
-				getWikipedia().getResult(wikiQuery(Locale.getDefault()
-				                                         .getLanguage(), translation.getTranslatedText()))
-				              .subscribeOn(Schedulers.io())
-				              .observeOn(AndroidSchedulers.mainThread())
-				              .subscribe((WikiResult result) -> {
-					              if (result.getQuery()
-					                        .getPages()
-					                        .getList()
-					                        .size() > 0) {
-						              callback.onKnowledgeResponse(result);
-					              } else {
-						              //Only English wikipedia as fallback.
-						              getWikipedia().getResult(wikiQuery("en", keyword))
+						              //Use local language to search something on wikipedia.
+						              getWikipedia().getResult(wikiQuery(Locale.getDefault()
+						                                                       .getLanguage(), translation.getTranslatedText()))
 						                            .subscribeOn(Schedulers.io())
 						                            .observeOn(AndroidSchedulers.mainThread())
-						                            .subscribe(result1 -> {
-							                            if (result1.getQuery()
-							                                       .getPages()
-							                                       .getList()
-							                                       .size() > 0) {
-								                            callback.onKnowledgeResponse(result1);
+						                            .subscribe((WikiResult result) -> {
+							                            if (result.getQuery()
+							                                      .getPages()
+							                                      .getList()
+							                                      .size() > 0) {
+								                            callback.onKnowledgeResponse(result);
+							                            } else {
+								                            //Only English wikipedia as fallback.
+								                            getWikipedia().getResult(wikiQuery("en", keyword))
+								                                          .subscribeOn(Schedulers.io())
+								                                          .observeOn(AndroidSchedulers.mainThread())
+								                                          .subscribe(result1 -> {
+									                                          if (result1.getQuery()
+									                                                     .getPages()
+									                                                     .getList()
+									                                                     .size() > 0) {
+										                                          callback.onKnowledgeResponse(result1);
+									                                          }
+								                                          });
 							                            }
 						                            });
 					              }
 				              });
-			}
-		});
-
-
+			              }
+		              });
 	}
 
 	@Override
 	public void onKnowledgeQuery(@NonNull List<VisionEntity> list) throws IOException {
 		for (VisionEntity entity : list) {
+			//Local language on local language wikipedia.
+			Call<WikiResult> wiki = getWikipedia().getWiki(wikiImage(Locale.getDefault()
+			                                                               .getLanguage(),
+			                                                         entity.getDescription()
+			                                                               .getDescriptionText()));
+			List<Page> listWikiRes = wiki.execute()
+			                             .body()
+			                             .getQuery()
+			                             .getPages()
+			                             .getList();
+			if (listWikiRes.size() > 0) {
+				entity.setImageUri(Uri.parse(listWikiRes.get(0)
+				                                        .getOriginal()
+				                                        .getSource()));
+				continue;
+			}
 			//Translate to local language.
 			final Call<com.qiaoqiao.backend.model.translate.Response> translator = getGoogle().getTranslateService()
 			                                                                                  .getTranslator(entity.getDescription()
@@ -121,20 +149,22 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 				return;
 			}
 			//Use local language to search something on wikipedia.
-			Call<WikiResult> wiki = getWikipedia().getWiki(wikiImage(Locale.getDefault()
-			                                                               .getLanguage(), translation.getTranslatedText()));
-			List<Page> listWikiRes = wiki.execute()
-			                             .body()
-			                             .getQuery()
-			                             .getPages()
-			                             .getList();
+			wiki = getWikipedia().getWiki(wikiImage(Locale.getDefault()
+			                                              .getLanguage(), translation.getTranslatedText()));
+			listWikiRes = wiki.execute()
+			                  .body()
+			                  .getQuery()
+			                  .getPages()
+			                  .getList();
 			if (listWikiRes.size() > 0) {
 				entity.setImageUri(Uri.parse(listWikiRes.get(0)
 				                                        .getOriginal()
 				                                        .getSource()));
 			} else {
 				//Only English wikipedia as fallback.
-				wiki = getWikipedia().getWiki(wikiImage("en", translation.getTranslatedText()));
+				wiki = getWikipedia().getWiki(wikiImage("en",
+				                                        entity.getDescription()
+				                                              .getDescriptionText()));
 				listWikiRes = wiki.execute()
 				                  .body()
 				                  .getQuery()
