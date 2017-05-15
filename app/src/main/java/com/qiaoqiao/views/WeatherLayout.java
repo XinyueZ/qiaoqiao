@@ -71,9 +71,6 @@ public final class WeatherLayout extends FrameLayout {
 		        .subscribeOn(Schedulers.io())
 		        .observeOn(AndroidSchedulers.mainThread())
 		        .subscribe(w -> {
-			        if (cxt.get() == null) {
-				        return;
-			        }
 			        setVisibility(View.VISIBLE);
 			        List<WeatherDetail> details = w.getDetails();
 			        if (details != null && details.size() > 0) {
@@ -86,9 +83,11 @@ public final class WeatherLayout extends FrameLayout {
 					        String url = !TextUtils.isEmpty(weatherDetail.getIcon()) ?
 					                     getWeatherIconUrl(weatherDetail.getIcon()) :
 					                     getWeatherIconUrl("50d");
-					        Glide.with(cxt.get())
-					             .load(url)
-					             .into(mLayoutWeatherBinding.weatherIconIv);
+					        if (cxt.get() != null) {
+						        Glide.with(cxt.get())
+						             .load(url)
+						             .into(mLayoutWeatherBinding.weatherIconIv);
+					        }
 				        }
 			        }
 		        });

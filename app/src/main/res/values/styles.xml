@@ -100,6 +100,11 @@
         <item name="android:layout_gravity">bottom|right|end</item>
     </style>
 
+    <style name="VisionItemMapViewCell" parent="VisionItemTextView">
+        <item name="android:layout_gravity">bottom|right|end</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="VisionItemRoot">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

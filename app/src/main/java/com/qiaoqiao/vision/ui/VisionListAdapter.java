@@ -243,7 +243,8 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		}
 	}
 
-	public final static class LandmarkCellViewHolder extends AbstractVisionViewHolder implements OnMapReadyCallback {
+	public final static class LandmarkCellViewHolder extends AbstractVisionViewHolder implements OnMapReadyCallback,
+	                                                                                             GoogleMap.OnMapClickListener {
 		private final @NonNull LandmarkCellViewBinding mItemLandmarkCellBinding;
 		private int mSize;
 		private @Nullable GoogleMap mGoogleMap;
@@ -267,6 +268,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 			googleMap.addMarker(new MarkerOptions().position(pin)
 			                                       .draggable(true));
 			googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pin, 16));
+			googleMap.setOnMapClickListener(this);
 		}
 
 		@Override
@@ -295,6 +297,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				mItemLandmarkCellBinding.itemMapview.onStop();
 				mItemLandmarkCellBinding.itemMapview.onDestroy();
 			}
+		}
+
+		@Override
+		public void onMapClick(LatLng latLng) {
+			onClicked(mEntities.get(getAdapterPosition()));
 		}
 	}
 }
