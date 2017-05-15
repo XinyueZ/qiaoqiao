@@ -42,6 +42,7 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		setRefreshing(false);
 		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
 		mBinding.visionRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		mBinding.visionRv.setHasFixedSize(true);

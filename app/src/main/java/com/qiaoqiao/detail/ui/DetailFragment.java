@@ -68,6 +68,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		setRefreshing(false);
 		int actionBarHeight = calcActionBarHeight(getContext());
 		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
 		mBinding.loadingPb.setProgressViewEndTarget(true, actionBarHeight * 2);
@@ -157,8 +158,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		}
 
 		mPreviewImage = preview;
-		mBinding.loadingPb.setRefreshing(true);
-		mBinding.loadingPb.setEnabled(true);
+		setRefreshing(true);
 		Glide.with(mContextWeakReference.get())
 		     .load(photo.getSource())
 		     .crossFade()
@@ -168,8 +168,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		     .listener(new RequestListener<String, GlideDrawable>() {
 			     @Override
 			     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-				     mBinding.loadingPb.setRefreshing(false);
-				     mBinding.loadingPb.setEnabled(false);
+				     setRefreshing(false);
 				     Palette.Builder b = new Palette.Builder(((GlideBitmapDrawable) resource).getBitmap());
 				     b.maximumColorCount(1);
 				     b.generate(DetailFragment.this);
@@ -245,12 +244,13 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	private static int calcActionBarHeight(Context cxt) {
 		int[] abSzAttr;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			abSzAttr = new int[] { android.R.attr.actionBarSize };
-		} else {
-			abSzAttr = new int[] { R.attr.actionBarSize };
-		}
+		abSzAttr = new int[] { android.R.attr.actionBarSize };
 		TypedArray a = cxt.obtainStyledAttributes(abSzAttr);
 		return a.getDimensionPixelSize(0, -1);
+	}
+
+	public void setRefreshing(boolean refresh) {
+		mBinding.loadingPb.setEnabled(refresh);
+		mBinding.loadingPb.setRefreshing(refresh);
 	}
 }

@@ -46,6 +46,7 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		setRefreshing(false);
 		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
