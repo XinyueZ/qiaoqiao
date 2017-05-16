@@ -259,7 +259,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
-		mBinding.appbar.setExpanded(false);
+		mBinding.appbar.setExpanded(false, true);
 		mVisionPresenter.addResponseToScreen(response);
 		mMoreVisionPresenter.clean();
 		mMoreVisionPresenter.addResponseToScreen(response);

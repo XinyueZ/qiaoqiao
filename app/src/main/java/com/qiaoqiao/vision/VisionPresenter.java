@@ -31,6 +31,7 @@ public final class VisionPresenter extends VisionContract.Presenter {
 	 *
 	 * @param e Event {@link VisionEntityClickEvent}.
 	 */
+	@SuppressWarnings("unused")
 	@Subscribe
 	public void onEvent(VisionEntityClickEvent e) {
 		mView.showDetail(e.getEntity(), e.getTransitionView());
@@ -59,23 +60,21 @@ public final class VisionPresenter extends VisionContract.Presenter {
 		if (annotates != null && annotates.size() > 0) {
 			final AnnotateImageResponse annotateImage = annotates.get(0);
 			if (annotateImage != null) {
+				EntityAnnotation entityAnnotation = null;
+				WebEntity webEntity = null;
 				final List<EntityAnnotation> landmarkAnnotations = annotateImage.getLandmarkAnnotations();
 				if (landmarkAnnotations != null && landmarkAnnotations.size() > 0) {
-					final EntityAnnotation entityAnnotation = landmarkAnnotations.get(0);
-					if (entityAnnotation != null) {
-						mView.addLandmarkEntity(entityAnnotation);
-					}
+					entityAnnotation = landmarkAnnotations.get(0);
+
 				}
 				final WebDetection webDetection = annotateImage.getWebDetection();
 				if (webDetection != null) {
 					final List<WebEntity> webEntities = webDetection.getWebEntities();
 					if (webEntities != null && webEntities.size() > 0) {
-						final WebEntity webEntity = webEntities.get(0);
-						if (webEntity != null) {
-							mView.addWebEntity(webEntity);
-						}
+						webEntity = webEntities.get(0);
 					}
 				}
+				mView.addEntity(entityAnnotation, webEntity);
 			}
 		}
 	}

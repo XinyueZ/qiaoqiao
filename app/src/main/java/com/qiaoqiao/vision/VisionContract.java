@@ -18,6 +18,7 @@ package com.qiaoqiao.vision;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.app.mvp.BasePresenter;
@@ -39,9 +40,8 @@ public interface VisionContract {
 	interface View<T, S> extends BaseView<Presenter, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
 
-		void addLandmarkEntity(@NonNull T t);
+		void addEntity(@Nullable T t, @Nullable S s);
 
-		void addWebEntity(@NonNull S s);
 
 		void showDetail(@NonNull VisionEntity entity, android.view.View transitionView);
 

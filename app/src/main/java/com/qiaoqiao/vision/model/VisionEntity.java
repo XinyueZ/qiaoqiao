@@ -68,8 +68,9 @@ public final class VisionEntity {
 		return mActivated;
 	}
 
-	public void setActivated(boolean activated) {
+	public VisionEntity setActivated(boolean activated) {
 		mActivated = activated;
+		return this;
 	}
 
 	@Override

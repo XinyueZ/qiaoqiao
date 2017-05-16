@@ -26,10 +26,10 @@ import com.qiaoqiao.databinding.LandmarkViewBinding;
 import com.qiaoqiao.databinding.WebCellViewBinding;
 import com.qiaoqiao.databinding.WebViewBinding;
 import com.qiaoqiao.utils.DeviceUtils;
-import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -69,20 +69,20 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 			case ITEM_TYPE_WEB:
 				WebViewBinding webBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                               .inflate(ITEM_LAYOUT_WEB, parent, false));
-				return new WebViewHolder(webBinding, mEntities, this);
+				return new WebViewHolder(webBinding, mEntities);
 			case ITEM_TYPE_LANDMARK:
 				LandmarkViewBinding landmarkBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                         .inflate(ITEM_LAYOUT_LANDMARK, parent, false));
-				return new LandmarkViewHolder(landmarkBinding, mEntities, this);
+				return new LandmarkViewHolder(landmarkBinding, mEntities);
 			case ITEM_TYPE_WEB_CELL:
 				WebCellViewBinding webCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                       .inflate(ITEM_LAYOUT_WEB_CELL, parent, false));
-				return new WebCellViewHolder(webCellBinding, mEntities, this, size);
+				return new WebCellViewHolder(webCellBinding, mEntities, size);
 			case ITEM_TYPE_LANDMARK_CELL:
 			default:
 				LandmarkCellViewBinding landmarkCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                                 .inflate(ITEM_LAYOUT_LANDMARK_CELL, parent, false));
-				return new LandmarkCellViewHolder(landmarkCellBinding, mEntities, this, size);
+				return new LandmarkCellViewHolder(landmarkCellBinding, mEntities, size);
 		}
 	}
 
@@ -101,16 +101,32 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	}
 
 
-	public void addVisionEntity(@NonNull VisionEntity entity) {
-		LL.d(entity.toString());
-		mEntities.add(0, entity);
-		//TODO Should update the position where we insert only.
+	void addVisionEntityArray(@NonNull VisionEntity... entities) {
+		for (VisionEntity e : mEntities) {
+			e.setActivated(false);
+		}
+		mEntities.addAll(0, Arrays.asList(entities));
 		notifyDataSetChanged();
+//		Observable.fromIterable(mEntities)
+//		          .subscribeOn(Schedulers.newThread())
+//		          .map((VisionEntity visionEntities) -> {
+//			          for (VisionEntity entity1 : visionEntities) {
+//				          entity1.setActivated(false);
+//			          }
+//			          return visionEntities;
+//		          })
+//		          .observeOn(AndroidSchedulers.mainThread())
+//		          .subscribe((VisionEntity list) -> {
+//			          mEntities.addAll(0, Arrays.asList(entities));
+//			          notifyDataSetChanged();
+//		          });
 	}
 
-	public void addVisionEntityList(@NonNull List<VisionEntity> entityList) {
-		mEntities.addAll(entityList);
-		//TODO Should update the position where we insert only.
+	void addVisionEntityList(@NonNull List<VisionEntity> entityList) {
+		for (VisionEntity e : mEntities) {
+			e.setActivated(false);
+		}
+		mEntities.addAll(0, entityList);
 		notifyDataSetChanged();
 	}
 
@@ -140,13 +156,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		private final @NonNull ViewDataBinding mBinding;
 		final @NonNull VisionEntityClickEvent mVisionEntityClickEvent = new VisionEntityClickEvent();
 		final @NonNull List<VisionEntity> mEntities;
-		private final @NonNull VisionListAdapter mVisionListAdapter;
 
-		private AbstractVisionViewHolder(@NonNull ViewDataBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter) {
+		private AbstractVisionViewHolder(@NonNull ViewDataBinding binding, @NonNull List<VisionEntity> entities) {
 			super(binding.getRoot());
 			mEntities = entities;
 			mBinding = binding;
-			mVisionListAdapter = adapter;
 		}
 
 		public void onClicked(VisionEntity visionEntity) {
@@ -171,8 +185,8 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	public final static class WebViewHolder extends AbstractVisionViewHolder {
 		private final @NonNull WebViewBinding mItemVisionWebBinding;
 
-		private WebViewHolder(@NonNull WebViewBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter) {
-			super(binding, entities, adapter);
+		private WebViewHolder(@NonNull WebViewBinding binding, @NonNull List<VisionEntity> entities) {
+			super(binding, entities);
 			mItemVisionWebBinding = binding;
 		}
 
@@ -183,6 +197,9 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 			                                             .getDescriptionText());
 			mItemVisionWebBinding.setVisionEntity(entity);
 			mItemVisionWebBinding.setViewholder(this);
+
+			itemView.setActivated(entity.isActivated());
+			itemView.setSelected(entity.isActivated());
 		}
 
 		@Override
@@ -199,8 +216,8 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	public final static class LandmarkViewHolder extends AbstractVisionViewHolder {
 		private final @NonNull LandmarkViewBinding mItemVisionLandmarkBinding;
 
-		private LandmarkViewHolder(@NonNull LandmarkViewBinding binding, @NonNull List<VisionEntity> entries, @NonNull VisionListAdapter adapter) {
-			super(binding, entries, adapter);
+		private LandmarkViewHolder(@NonNull LandmarkViewBinding binding, @NonNull List<VisionEntity> entries) {
+			super(binding, entries);
 			mItemVisionLandmarkBinding = binding;
 		}
 
@@ -211,6 +228,9 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 			                                                  .getDescriptionText());
 			mItemVisionLandmarkBinding.setVisionEntity(entity);
 			mItemVisionLandmarkBinding.setViewholder(this);
+
+			itemView.setActivated(entity.isActivated());
+			itemView.setSelected(entity.isActivated());
 		}
 
 		@Override
@@ -227,10 +247,10 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 	public final static class WebCellViewHolder extends AbstractVisionViewHolder {
 		private final @NonNull WebCellViewBinding mItemWebCellBinding;
-		private int mSize;
+		private final int mSize;
 
-		private WebCellViewHolder(@NonNull WebCellViewBinding binding, @NonNull List<VisionEntity> entities, @NonNull VisionListAdapter adapter, int size) {
-			super(binding, entities, adapter);
+		private WebCellViewHolder(@NonNull WebCellViewBinding binding, @NonNull List<VisionEntity> entities, int size) {
+			super(binding, entities);
 			mItemWebCellBinding = binding;
 			mSize = size;
 		}
@@ -275,11 +295,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	public final static class LandmarkCellViewHolder extends AbstractVisionViewHolder implements OnMapReadyCallback,
 	                                                                                             GoogleMap.OnMapClickListener {
 		private final @NonNull LandmarkCellViewBinding mItemLandmarkCellBinding;
-		private int mSize;
+		private final int mSize;
 		private @Nullable GoogleMap mGoogleMap;
 
-		private LandmarkCellViewHolder(@NonNull LandmarkCellViewBinding binding, @NonNull List<VisionEntity> entries, @NonNull VisionListAdapter adapter, int size) {
-			super(binding, entries, adapter);
+		private LandmarkCellViewHolder(@NonNull LandmarkCellViewBinding binding, @NonNull List<VisionEntity> entries, int size) {
+			super(binding, entries);
 			mItemLandmarkCellBinding = binding;
 			mSize = size;
 		}
@@ -295,9 +315,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				LatLng pin = mEntities.get(getAdapterPosition())
 				                      .getLocation()
 				                      .toLatLng();
-				googleMap.addMarker(new MarkerOptions().position(pin)
-				                                       .draggable(true));
-				googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pin, 16));
+				if (pin != null) {
+					googleMap.addMarker(new MarkerOptions().position(pin)
+					                                       .draggable(true));
+					googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pin, 16));
+				}
 			}
 			googleMap.setOnMapClickListener(this);
 		}

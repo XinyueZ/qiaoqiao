@@ -59,18 +59,19 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 
 
 	@Override
-	public void addLandmarkEntity(@NonNull EntityAnnotation entityAnnotation) {
-		mVisionListAdapter.addVisionEntity(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION"));
-		mBinding.visionRv.scrollToPosition(mVisionListAdapter.getItemCount() - 1);
+	public void addEntity(@Nullable EntityAnnotation entityAnnotation, @Nullable WebEntity webEntity) {
 		setRefreshing(false);
-	}
+		if (entityAnnotation == null && webEntity == null) {
+			return;
+		}
+		if (entityAnnotation == null) {
+			mVisionListAdapter.addVisionEntityArray(new VisionEntity(webEntity, "WEB_DETECTION").setActivated(true));
+		} else if (webEntity == null) {
+			mVisionListAdapter.addVisionEntityArray(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION").setActivated(true));
+		} else {
+			mVisionListAdapter.addVisionEntityArray(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION").setActivated(true), new VisionEntity(webEntity, "WEB_DETECTION").setActivated(true));
+		}
 
-
-	@Override
-	public void addWebEntity(@NonNull WebEntity webEntity) {
-		mVisionListAdapter.addVisionEntity(new VisionEntity(webEntity, "WEB_DETECTION"));
-		mBinding.visionRv.scrollToPosition(mVisionListAdapter.getItemCount() - 1);
-		setRefreshing(false);
 	}
 
 	@Override

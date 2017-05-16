@@ -9,7 +9,7 @@
         android:color="@color/colorGrey">
     </stroke>
     <solid
-        android:color="@color/colorTransparent">
+        android:color="@color/colorGrey">
     </solid>
     <padding
         android:bottom="@dimen/mini"

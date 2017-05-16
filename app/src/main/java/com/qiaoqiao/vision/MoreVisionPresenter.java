@@ -32,6 +32,7 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 	 *
 	 * @param e Event {@link VisionEntityClickEvent}.
 	 */
+	@SuppressWarnings("unused")
 	@Subscribe
 	public void onEvent(VisionEntityClickEvent e) {
 		mView.showDetail(e.getEntity(), e.getTransitionView());
@@ -42,7 +43,7 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 
 
 	@Inject
-	MoreVisionPresenter(@NonNull @More VisionContract.View  view, @NonNull DsRepository dsRepository) {
+	MoreVisionPresenter(@NonNull @More VisionContract.View view, @NonNull DsRepository dsRepository) {
 		super(dsRepository);
 		mView = view;
 	}
@@ -66,20 +67,16 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
 		final List<AnnotateImageResponse> annotates = response.getResponses();
 		if (annotates != null && annotates.size() > 0) {
+			List<EntityAnnotation> landmarkAnnotations;
+			List<WebEntity> webEntities = null;
 			final AnnotateImageResponse annotateImage = annotates.get(0);
 			if (annotateImage != null) {
-				final List<EntityAnnotation> landmarkAnnotations = annotateImage.getLandmarkAnnotations();
-				if (landmarkAnnotations != null && landmarkAnnotations.size() > 0) {
-					mView.addLandmarkEntity(landmarkAnnotations);
-
-				}
+				landmarkAnnotations = annotateImage.getLandmarkAnnotations();
 				final WebDetection webDetection = annotateImage.getWebDetection();
 				if (webDetection != null) {
-					final List<WebEntity> webEntities = webDetection.getWebEntities();
-					if (webEntities != null && webEntities.size() > 0) {
-						mView.addWebEntity(webEntities);
-					}
+					webEntities = webDetection.getWebEntities();
 				}
+				mView.addEntity(landmarkAnnotations, webEntities);
 			}
 		}
 	}

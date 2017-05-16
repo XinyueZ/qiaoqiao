@@ -55,8 +55,10 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	}
 
 
-	@Override
-	public void addLandmarkEntity(@NonNull List<EntityAnnotation> entityAnnotationList) {
+	private void addLandmarkEntity(@Nullable List<EntityAnnotation> entityAnnotationList) {
+		if (entityAnnotationList == null || entityAnnotationList.size() <= 0) {
+			return;
+		}
 		Observable.just(entityAnnotationList)
 		          .subscribeOn(Schedulers.newThread())
 		          .flatMap((Function<List<EntityAnnotation>, Observable<List<VisionEntity>>>) entityAnnotationList1 -> Observable.just(new ArrayList<VisionEntity>() {{
@@ -69,8 +71,11 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	}
 
 
-	@Override
-	public void addWebEntity(@NonNull List<WebEntity> webEntityList) {
+	private void addWebEntity(@Nullable List<WebEntity> webEntityList) {
+		if (webEntityList == null || webEntityList.size() <= 0) {
+			setRefreshing(false);
+			return;
+		}
 		Observable.just(webEntityList)
 		          .subscribeOn(Schedulers.newThread())
 		          .flatMap((Function<List<WebEntity>, Observable<List<VisionEntity>>>) entityAnnotationList -> Observable.just(new ArrayList<VisionEntity>() {{
@@ -93,6 +98,12 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 				                    setRefreshing(false);
 			                    });
 		          });
+	}
+
+	@Override
+	public void addEntity(@Nullable List<EntityAnnotation> entityAnnotations, @Nullable List<WebEntity> webEntities) {
+		addLandmarkEntity(entityAnnotations);
+		addWebEntity(webEntities);
 	}
 
 	@Override
