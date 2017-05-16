@@ -43,7 +43,7 @@ public interface VisionContract {
 
 		void addWebEntity(@NonNull S s);
 
-		void showDetail(@NonNull VisionEntity entity);
+		void showDetail(@NonNull VisionEntity entity, android.view.View transitionView);
 
 		void clean();
 
@@ -51,6 +51,7 @@ public interface VisionContract {
 	}
 
 	abstract class Presenter implements BasePresenter {
+
 		protected abstract void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
 		protected final @NonNull DsRepository mDsRepository;

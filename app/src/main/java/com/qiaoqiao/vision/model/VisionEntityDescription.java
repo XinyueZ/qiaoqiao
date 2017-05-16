@@ -1,7 +1,6 @@
 package com.qiaoqiao.vision.model;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.api.services.vision.v1.model.EntityAnnotation;
@@ -15,7 +14,7 @@ public final class VisionEntityDescription {
 	}
 
 
-	public @Nullable
+	public @NonNull
 	String getDescriptionText() {
 		if (TextUtils.equals(mVisionEntity.getReadableName(), "WEB_DETECTION")) {
 			WebEntity webEntity = (WebEntity) mVisionEntity.getVision();
@@ -25,11 +24,11 @@ public final class VisionEntityDescription {
 			EntityAnnotation landmarkEntity = (EntityAnnotation) mVisionEntity.getVision();
 			return landmarkEntity.getDescription();
 		}
-		return null;
+		return  "N/A" ;
 	}
 
 	@Override
-	@Nullable
+	@NonNull
 	public String toString() {
 		return getDescriptionText();
 	}

@@ -107,8 +107,8 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	}
 
 	@Override
-	public void showDetail(@NonNull VisionEntity entity) {
-		openDetail(entity);
+	public void showDetail(@NonNull VisionEntity entity, View transitionView) {
+		openDetail(entity, transitionView);
 	}
 
 	@Override

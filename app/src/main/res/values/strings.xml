@@ -18,4 +18,7 @@
     <string name="tab_more">More</string>
     <string name="tab_history">History</string>
     <string name="demo_web">https://static1.gensler.com/uploads/hero_element/2066/thumb_desktop/thumbs/hero_exp_shanghai-tower_tall-bldgs_1500x750.jpg</string>
+
+
+    <string name="transition_share_item_name">shareView</string>
 </resources>

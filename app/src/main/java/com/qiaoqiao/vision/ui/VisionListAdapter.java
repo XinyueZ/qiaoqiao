@@ -6,9 +6,11 @@ import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -149,9 +151,17 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 		public void onClicked(VisionEntity visionEntity) {
 			mVisionEntityClickEvent.setEntity(visionEntity);
+
+
+			ViewCompat.setTransitionName(getTransitionView(),
+			                             itemView.getContext()
+			                                     .getString(R.string.transition_share_item_name) + "-" + visionEntity.getDescription());
+			mVisionEntityClickEvent.setTransitionView(getTransitionView());
 			EventBus.getDefault()
 			        .post(mVisionEntityClickEvent);
 		}
+
+		abstract View getTransitionView();
 
 		abstract void onBindViewHolder();
 
@@ -179,6 +189,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		void onViewRecycled() {
 
 		}
+
+		@Override
+		View getTransitionView() {
+			return mItemVisionWebBinding.visionTv;
+		}
 	}
 
 	public final static class LandmarkViewHolder extends AbstractVisionViewHolder {
@@ -201,6 +216,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		@Override
 		void onViewRecycled() {
 
+		}
+
+		@Override
+		View getTransitionView() {
+			return mItemVisionLandmarkBinding.visionTv;
 		}
 	}
 
@@ -245,6 +265,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		void onViewRecycled() {
 
 		}
+
+		@Override
+		View getTransitionView() {
+			return mItemWebCellBinding.visionIv;
+		}
 	}
 
 	public final static class LandmarkCellViewHolder extends AbstractVisionViewHolder implements OnMapReadyCallback,
@@ -266,12 +291,14 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 			         .setMapToolbarEnabled(false);
 			googleMap.getUiSettings()
 			         .setScrollGesturesEnabled(false);
-			LatLng pin = mEntities.get(getAdapterPosition())
-			                      .getLocation()
-			                      .toLatLng();
-			googleMap.addMarker(new MarkerOptions().position(pin)
-			                                       .draggable(true));
-			googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pin, 16));
+			if (getAdapterPosition() >= 0 && getAdapterPosition() < mEntities.size()) {
+				LatLng pin = mEntities.get(getAdapterPosition())
+				                      .getLocation()
+				                      .toLatLng();
+				googleMap.addMarker(new MarkerOptions().position(pin)
+				                                       .draggable(true));
+				googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pin, 16));
+			}
 			googleMap.setOnMapClickListener(this);
 		}
 
@@ -306,6 +333,11 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 		@Override
 		public void onMapClick(LatLng latLng) {
 			onClicked(mEntities.get(getAdapterPosition()));
+		}
+
+		@Override
+		View getTransitionView() {
+			return mItemLandmarkCellBinding.itemMapview;
 		}
 	}
 }

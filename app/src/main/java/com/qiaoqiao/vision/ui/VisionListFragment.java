@@ -53,7 +53,6 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 			dividerItemDecoration.setDrawable(divideDrawable);
 		}
 		mBinding.visionRv.addItemDecoration(dividerItemDecoration);
-
 		mPresenter.loadRecent();
 	}
 
@@ -84,8 +83,8 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	}
 
 	@Override
-	public void showDetail(@NonNull VisionEntity entity) {
-		openDetail(entity);
+	public void showDetail(@NonNull VisionEntity entity, View transitionView) {
+		openDetail(entity, transitionView);
 	}
 
 	@Override

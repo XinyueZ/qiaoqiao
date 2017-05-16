@@ -34,7 +34,7 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 	 */
 	@Subscribe
 	public void onEvent(VisionEntityClickEvent e) {
-		mView.showDetail(e.getEntity());
+		mView.showDetail(e.getEntity(), e.getTransitionView());
 
 	}
 
