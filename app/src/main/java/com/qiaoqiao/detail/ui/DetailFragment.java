@@ -73,7 +73,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		toggleContentLoading();
 		setRefreshing(false);
 		int actionBarHeight = calcActionBarHeight(getContext());
-		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
+		mBinding.loadingPb.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
 		mBinding.loadingPb.setProgressViewEndTarget(true, actionBarHeight * 2);
 		mBinding.loadingPb.setProgressViewOffset(false, 0, actionBarHeight * 2);
 		mContextWeakReference = new WeakReference<>(getContext());

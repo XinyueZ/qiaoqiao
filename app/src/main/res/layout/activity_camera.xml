@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:elevation="5dp"
                 app:tabBackground="@drawable/selector_primary_item_background"
-                app:tabIndicatorColor="@color/colorAccent"/>
+                app:tabIndicatorColor="@color/colorPink"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"

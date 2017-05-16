@@ -13,7 +13,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/loading_pb"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:elevation="1dp"
         android:padding="@dimen/larger">
 
@@ -21,7 +21,7 @@
             android:id="@+id/vision_rv"
             android:scrollbarStyle="outsideOverlay"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             />
     </android.support.v4.widget.SwipeRefreshLayout>
 

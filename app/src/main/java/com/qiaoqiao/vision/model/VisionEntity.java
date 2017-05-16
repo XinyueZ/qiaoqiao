@@ -9,12 +9,15 @@ import com.google.api.client.json.GenericJson;
 public final class VisionEntity {
 	private final @NonNull GenericJson mVision;
 	private final @NonNull String mReadableName;
+	private boolean mActivated;
+
 	private @NonNull Uri mImageUri = Uri.EMPTY;
-	private boolean mInCell;
+	private final boolean mInCell;
 
 	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName) {
 		mVision = vision;
 		mReadableName = readableName;
+		mInCell = false;
 	}
 
 	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName, boolean inCell) {
@@ -61,6 +64,13 @@ public final class VisionEntity {
 		mImageUri = imageUri;
 	}
 
+	public boolean isActivated() {
+		return mActivated;
+	}
+
+	public void setActivated(boolean activated) {
+		mActivated = activated;
+	}
 
 	@Override
 	public String toString() {

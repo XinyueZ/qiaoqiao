@@ -14,19 +14,17 @@
     </data>
 
     <FrameLayout
-        style="@style/VisionItemRoot">
+        style="@style/VisionItemRoot"
+        android:background="@drawable/selector_round_blue_rectangle_item_background"
+        android:onClick="@{() -> viewholder.onClicked(visionEntity)}">
 
-        <FrameLayout
-            style="@style/VisionItemContainer"
-            android:onClick="@{() -> viewholder.onClicked(visionEntity)}"
-            android:background="@drawable/selector_round_blue_rectangle_item_background">
 
-            <TextView
-                android:id="@+id/vision_tv"
-                style="@style/VisionItemTextView"
-                android:drawableEnd="@drawable/ic_web_link_open"
-                android:drawableRight="@drawable/ic_web_link_open"
-                tools:text="hello,world"/>
-        </FrameLayout>
+        <TextView
+            android:id="@+id/vision_tv"
+            style="@style/VisionItemTextView"
+            android:drawableEnd="@drawable/ic_web_link_open"
+            android:drawableRight="@drawable/ic_web_link_open"
+            tools:text="hello,world"/>
+
     </FrameLayout>
 </layout>

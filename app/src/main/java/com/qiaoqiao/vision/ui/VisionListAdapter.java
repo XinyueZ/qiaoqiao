@@ -30,7 +30,7 @@ import com.qiaoqiao.utils.LL;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -45,7 +45,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	private static final int ITEM_TYPE_WEB_CELL = 0x93;
 	private static final int ITEM_TYPE_LANDMARK_CELL = 0x94;
 	private int mColumns;
-	private @NonNull final List<VisionEntity> mEntities = new ArrayList<>();
+	private @NonNull final List<VisionEntity> mEntities = new LinkedList<>();
 
 	public VisionListAdapter(int columns) {
 		mColumns = columns;
@@ -103,7 +103,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 	public void addVisionEntity(@NonNull VisionEntity entity) {
 		LL.d(entity.toString());
-		mEntities.add(entity);
+		mEntities.add(0, entity);
 		//TODO Should update the position where we insert only.
 		notifyDataSetChanged();
 	}

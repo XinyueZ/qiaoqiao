@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/colorTeal</color>
-    <color name="colorPrimaryDark">@color/colorTeal</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">@color/colorTealDark</color>
+    <color name="colorAccent">@color/colorTealLight</color>
     <color name="colorWhite">@android:color/white</color>
     <color name="colorBlack">@android:color/black</color>
     <color name="colorBlack80">#80000000</color>
@@ -13,14 +13,11 @@
     <color name="colorYellow">#FFEB3B</color>
     <color name="colorGreen">#4CAF50</color>
     <color name="colorRed">#F44336</color>
+    <color name="colorPink">#FF4081</color>
     <color name="colorTeal">#009688</color>
+    <color name="colorTealDark">#00675b</color>
+    <color name="colorTealLight">#52c7b8</color>
     <color name="colorBrown">#795548</color>
     <color name="colorCyan">#00BCD4</color>
 
-    <integer-array name="loading_colors">
-        <item>@color/colorGreen</item>
-        <item>@color/colorTeal</item>
-        <item>@color/colorCyan</item>
-        <item>@color/colorTeal</item>
-    </integer-array>
 </resources>

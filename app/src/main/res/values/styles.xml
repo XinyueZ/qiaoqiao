@@ -16,7 +16,6 @@
     </style>
 
 
-
     <style name="MainControlButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -67,24 +66,18 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="VisionItemContainer">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical|end|right</item>
-        <item name="android:layout_gravity">center_vertical|end|right</item>
-        <item name="android:padding">@dimen/larger</item>
-    </style>
 
     <style name="VisionItemTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:minLines">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:maxLines">1</item>
-        <item name="android:layout_gravity">center_vertical|end|right</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:singleLine">true</item>
-        <item name="android:gravity">center_vertical|end|right</item>
+        <item name="android:gravity">center</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:padding">@dimen/small</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
 
@@ -98,9 +91,10 @@
     </style>
 
     <style name="VisionItemRoot">
+        <item name="android:layout_margin">@dimen/medium</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical|end|right</item>
+        <item name="android:gravity">center</item>
     </style>
 
 
