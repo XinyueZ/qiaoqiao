@@ -100,7 +100,9 @@ public final class MainControlView extends FrameLayout {
 	public void setOnCaptureClickedListener(@Nullable OnCaptureClickedListener l) {
 		mBinding.captureFb.setOnClickListener(v -> {
 			mVibrator.vibrate(100);
-			l.onClick(v);
+			if (l != null) {
+				l.onClick(v);
+			}
 		});
 	}
 
