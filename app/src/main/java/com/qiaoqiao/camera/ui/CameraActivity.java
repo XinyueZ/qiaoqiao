@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -112,12 +111,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private void setupAppBar() {
 		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height * 0.618f);
 		setSupportActionBar(mBinding.toolbar);
-		int titleColor = ResourcesCompat.getColor(getResources(), R.color.colorWhite, null);
 		final ActionBar supportActionBar = getSupportActionBar();
 		if (supportActionBar != null) {
 			supportActionBar.setHomeButtonEnabled(true);
+			supportActionBar.setDisplayShowTitleEnabled(false);
 		}
-		mBinding.toolbar.setTitleTextColor(titleColor);
 	}
 
 	private void injectAll(@NonNull VisionContract.View visionView, @NonNull VisionContract.View moreVisionView, @NonNull HistoryContract.View historyView) {
@@ -306,6 +304,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.mainControl.stopCaptureProgressBar();
 		mBinding.mainControl.stopLocalProgressBar();
 		mBinding.mainControl.stopWebProgressBar();
+		mBinding.barTitleLoadingPb.stopShimmerAnimation();
 	}
 
 	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment moreVisionFragment, @NonNull Fragment historyFragment) {
@@ -322,5 +321,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public void updateWhenRequest() {
 		mVisionPresenter.setRefreshing(true);
 		mMoreVisionPresenter.setRefreshing(true);
+		mBinding.barTitleLoadingPb.startShimmerAnimation();
 	}
 }

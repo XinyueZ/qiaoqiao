@@ -51,7 +51,21 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     style="@style/AppBar"
-                    app:layout_collapseMode="pin"/>
+                    app:layout_collapseMode="pin">
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/bar_title_loading_pb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_name"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                            android:textColor="@color/colorYellow"/>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+                </android.support.v7.widget.Toolbar>
 
 
                 <com.qiaoqiao.views.MainControlView
