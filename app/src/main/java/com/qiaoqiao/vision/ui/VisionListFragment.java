@@ -45,9 +45,11 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 		setRefreshing(false);
 		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
 		final int columns = getResources().getInteger(R.integer.num_columns);
-		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
+		final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
+		mBinding.visionRv.setLayoutManager(layoutManager);
 		mBinding.visionRv.setHasFixedSize(true);
 		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter());
+		layoutManager.setReverseLayout(true);
 		final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
 		final Drawable divideDrawable = AppCompatResources.getDrawable(getActivity(), R.drawable.divider_drawable);
 		if (divideDrawable != null) {
