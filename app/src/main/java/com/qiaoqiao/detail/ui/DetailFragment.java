@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -102,10 +103,11 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		});
 		mBinding.appbar.addOnOffsetChangedListener(this);
 
-
-		ViewCompat.setTransitionName(mBinding.appbar,
-		                             getActivity().getIntent()
-		                                          .getStringExtra(getString(R.string.transition_share_item_name)));
+		final String transName = getActivity().getIntent()
+		                                      .getStringExtra(getString(R.string.transition_share_item_name));
+		if (!TextUtils.isEmpty(transName)) {
+			ViewCompat.setTransitionName(mBinding.appbar, transName);
+		}
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public  abstract class AbstractVisionFragment extends Fragment {
 		final LatLng latLng = entity.getLocation()
 		                            .toLatLng();
 		if (TextUtils.equals("LANDMARK_DETECTION", entity.getReadableName()) && latLng != null) {
-			MapActivity.showInstance(activity, latLng);
+			MapActivity.showInstance(activity, latLng, transitionView);
 			return;
 		}
 		final String descriptionText = entity.getDescription()

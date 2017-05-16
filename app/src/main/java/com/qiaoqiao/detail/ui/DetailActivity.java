@@ -19,7 +19,6 @@ import com.qiaoqiao.detail.DaggerDetailComponent;
 import com.qiaoqiao.detail.DetailContract;
 import com.qiaoqiao.detail.DetailModule;
 import com.qiaoqiao.detail.DetailPresenter;
-import com.qiaoqiao.utils.LL;
 
 import javax.inject.Inject;
 
@@ -32,7 +31,6 @@ public final class DetailActivity extends AppCompatActivity {
 
 	public static void showInstance(@NonNull Activity cxt, @NonNull String keyword, @NonNull View transitionView) {
 		String transitionSharedItemName = ViewCompat.getTransitionName(transitionView);
-		LL.d("showInstance for detail: " + transitionSharedItemName);
 		Intent intent = new Intent(cxt, DetailActivity.class);
 		intent.putExtra(EXTRAS_KEYWORD, keyword);
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,6 +46,18 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		ActivityCompat.startActivity(cxt, intent, EMPTY);
 	}
 
+
+	public static void showInstance(@NonNull Activity cxt, @NonNull LatLng latLng, @NonNull View transitionView) {
+		String transitionSharedItemName = ViewCompat.getTransitionName(transitionView);
+		Intent intent = new Intent(cxt, MapActivity.class);
+		intent.putExtra(EXTRAS_LATLNG, latLng);
+		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra(cxt.getString(R.string.transition_share_item_name), transitionSharedItemName);
+		ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(cxt, transitionView, transitionSharedItemName);
+		ActivityCompat.startActivity(cxt, intent, options.toBundle());
+	}
+
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
@@ -57,6 +72,11 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		mSupportMapFragment.onCreate(savedInstanceState);
 		mSupportMapFragment.onStart();
 		mBinding.streetview.onCreate(savedInstanceState);
+
+		final String transName = getIntent().getStringExtra(getString(R.string.transition_share_item_name));
+		if (!TextUtils.isEmpty(transName)) {
+			ViewCompat.setTransitionName(mBinding.root, transName);
+		}
 	}
 
 	@Override
@@ -153,7 +173,8 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		final Intent intent = getIntent();
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		RouteCalcClientPicker.show(this, latLng);
-		mBinding.getUiHelper().hide();
+		mBinding.getUiHelper()
+		        .hide();
 	}
 
 
@@ -161,7 +182,8 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 		final Intent intent = getIntent();
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		StreetViewActivity.showInstance(this, latLng);
-		mBinding.getUiHelper().hide();
+		mBinding.getUiHelper()
+		        .hide();
 	}
 
 	@Override
@@ -185,6 +207,7 @@ public final class MapActivity extends AppCompatActivity implements OnMapReadyCa
 
 	@Override
 	public void onMapClick(LatLng latLng) {
-		mBinding.getUiHelper().hide();
+		mBinding.getUiHelper()
+		        .hide();
 	}
 }

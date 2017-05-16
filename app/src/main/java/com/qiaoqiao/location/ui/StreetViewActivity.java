@@ -129,14 +129,16 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 		final Intent intent = getIntent();
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		RouteCalcClientPicker.show(this, latLng);
-		mBinding.getUiHelper().hide();
+		mBinding.getUiHelper()
+		        .hide();
 	}
 
 
 	public void onClickLocationButton(View view) {
 		if (mStreetViewPanorama != null) {
 			moveToLocation(getIntent(), mStreetViewPanorama, mBinding.weather);
-			mBinding.getUiHelper().hide();
+			mBinding.getUiHelper()
+			        .hide();
 		}
 	}
 
@@ -144,7 +146,8 @@ public final class StreetViewActivity extends AppCompatActivity implements OnStr
 		final Intent intent = getIntent();
 		LatLng latLng = intent.getParcelableExtra(EXTRAS_LATLNG);
 		MapActivity.showInstance(this, latLng);
-		mBinding.getUiHelper().hide();
+		mBinding.getUiHelper()
+		        .hide();
 	}
 
 
