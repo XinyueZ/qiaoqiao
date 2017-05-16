@@ -184,6 +184,7 @@ dependencies {
 
     //Others
     compile "commons-io:commons-io:${apacheIO}"
+    compile "com.facebook.shimmer:shimmer:${shimmer}"
 
 }
 

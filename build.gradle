@@ -63,4 +63,6 @@ ext {
     //Image-loader
     imageLoader = "3.7.0"
 
+    shimmer = "0.1.0@aar"
+
 }

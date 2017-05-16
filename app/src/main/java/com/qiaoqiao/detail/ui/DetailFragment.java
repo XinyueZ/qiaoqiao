@@ -70,6 +70,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		toggleContentLoading();
 		setRefreshing(false);
 		int actionBarHeight = calcActionBarHeight(getContext());
 		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
@@ -153,10 +154,14 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		return mBinding;
 	}
 
+	private void toggleContentLoading() {
+		mBinding.layoutLoading.loadingPb.startShimmerAnimation();
+	}
 
 	private void toggleLoaded() {
-		mBinding.layoutLoading.getRoot()
-		                      .setVisibility(View.GONE);
+		mBinding.layoutLoading.loadingPb.stopShimmerAnimation();
+		mBinding.layoutLoading.loadingPb
+				.setVisibility(View.GONE);
 	}
 
 	@Override
