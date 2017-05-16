@@ -144,6 +144,10 @@ public final class Google {
 							                           .setMaxResults(5));
 							          add(new Feature().setType("LANDMARK_DETECTION")
 							                           .setMaxResults(5));
+							          add(new Feature().setType("LOGO_DETECTION")
+							                           .setMaxResults(5));
+							          add(new Feature().setType("LABEL_DETECTION")
+							                           .setMaxResults(5));
 						          }});
 						          // Add the list of one thing to the request
 						          add(annotateImageRequest);

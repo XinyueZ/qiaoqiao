@@ -24,6 +24,14 @@ public final class VisionEntityDescription {
 			EntityAnnotation landmarkEntity = (EntityAnnotation) mVisionEntity.getVision();
 			return landmarkEntity.getDescription();
 		}
+		if (TextUtils.equals(mVisionEntity.getReadableName(), "LOGO_DETECTION")) {
+			EntityAnnotation logoEntity = (EntityAnnotation) mVisionEntity.getVision();
+			return logoEntity.getDescription();
+		}
+		if (TextUtils.equals(mVisionEntity.getReadableName(), "LABEL_DETECTION")) {
+			EntityAnnotation labelEntity = (EntityAnnotation) mVisionEntity.getVision();
+			return labelEntity.getDescription();
+		}
 		return  "N/A" ;
 	}
 

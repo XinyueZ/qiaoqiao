@@ -37,10 +37,10 @@ import de.greenrobot.event.EventBus;
  */
 public interface VisionContract {
 
-	interface View<T, S> extends BaseView<Presenter, FragmentListVisionBinding> {
+	interface View<T, S, P, Q> extends BaseView<Presenter, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
 
-		void addEntity(@Nullable T t, @Nullable S s);
+		void addEntities(@Nullable T t, @Nullable S s, @Nullable P p, @Nullable Q q);
 
 
 		void showDetail(@NonNull VisionEntity entity, android.view.View transitionView);

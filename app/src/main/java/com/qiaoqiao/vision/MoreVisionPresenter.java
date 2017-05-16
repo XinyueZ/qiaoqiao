@@ -21,7 +21,7 @@ import javax.inject.Inject;
 import de.greenrobot.event.Subscribe;
 
 public final class MoreVisionPresenter extends VisionContract.Presenter {
-	private final @NonNull VisionContract.View<List<EntityAnnotation>, List<WebEntity>> mView;
+	private final @NonNull VisionContract.View<List<EntityAnnotation>, List<EntityAnnotation>, List<EntityAnnotation>, List<WebEntity>> mView;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -67,16 +67,14 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
 		final List<AnnotateImageResponse> annotates = response.getResponses();
 		if (annotates != null && annotates.size() > 0) {
-			List<EntityAnnotation> landmarkAnnotations;
 			List<WebEntity> webEntities = null;
 			final AnnotateImageResponse annotateImage = annotates.get(0);
 			if (annotateImage != null) {
-				landmarkAnnotations = annotateImage.getLandmarkAnnotations();
 				final WebDetection webDetection = annotateImage.getWebDetection();
 				if (webDetection != null) {
 					webEntities = webDetection.getWebEntities();
 				}
-				mView.addEntity(landmarkAnnotations, webEntities);
+				mView.addEntities(annotateImage.getLandmarkAnnotations(), annotateImage.getLogoAnnotations(), annotateImage.getLabelAnnotations(), webEntities);
 			}
 		}
 	}

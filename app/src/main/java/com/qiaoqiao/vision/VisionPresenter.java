@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import de.greenrobot.event.Subscribe;
 
 public final class VisionPresenter extends VisionContract.Presenter {
-	private final @NonNull VisionContract.View<EntityAnnotation, WebEntity> mView;
+	private final @NonNull VisionContract.View<EntityAnnotation, EntityAnnotation, EntityAnnotation, WebEntity> mView;
 
 
 	//------------------------------------------------
@@ -60,12 +60,21 @@ public final class VisionPresenter extends VisionContract.Presenter {
 		if (annotates != null && annotates.size() > 0) {
 			final AnnotateImageResponse annotateImage = annotates.get(0);
 			if (annotateImage != null) {
-				EntityAnnotation entityAnnotation = null;
+				EntityAnnotation landAnnotation = null;
+				EntityAnnotation logoAnnotation = null;
+				EntityAnnotation labelAnnotation = null;
 				WebEntity webEntity = null;
 				final List<EntityAnnotation> landmarkAnnotations = annotateImage.getLandmarkAnnotations();
 				if (landmarkAnnotations != null && landmarkAnnotations.size() > 0) {
-					entityAnnotation = landmarkAnnotations.get(0);
-
+					landAnnotation = landmarkAnnotations.get(0);
+				}
+				final List<EntityAnnotation> logoAnnotations = annotateImage.getLogoAnnotations();
+				if (logoAnnotations != null && logoAnnotations.size() > 0) {
+					logoAnnotation = logoAnnotations.get(0);
+				}
+				final List<EntityAnnotation> labelAnnotations = annotateImage.getLabelAnnotations();
+				if (labelAnnotations != null && labelAnnotations.size() > 0) {
+					labelAnnotation = labelAnnotations.get(0);
 				}
 				final WebDetection webDetection = annotateImage.getWebDetection();
 				if (webDetection != null) {
@@ -74,7 +83,7 @@ public final class VisionPresenter extends VisionContract.Presenter {
 						webEntity = webEntities.get(0);
 					}
 				}
-				mView.addEntity(entityAnnotation, webEntity);
+				mView.addEntities(landAnnotation, logoAnnotation, labelAnnotation, webEntity);
 			}
 		}
 	}

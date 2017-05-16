@@ -29,7 +29,6 @@ import com.qiaoqiao.utils.DeviceUtils;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -101,27 +100,6 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	}
 
 
-	void addVisionEntityArray(@NonNull VisionEntity... entities) {
-		for (VisionEntity e : mEntities) {
-			e.setActivated(false);
-		}
-		mEntities.addAll(0, Arrays.asList(entities));
-		notifyDataSetChanged();
-//		Observable.fromIterable(mEntities)
-//		          .subscribeOn(Schedulers.newThread())
-//		          .map((VisionEntity visionEntities) -> {
-//			          for (VisionEntity entity1 : visionEntities) {
-//				          entity1.setActivated(false);
-//			          }
-//			          return visionEntities;
-//		          })
-//		          .observeOn(AndroidSchedulers.mainThread())
-//		          .subscribe((VisionEntity list) -> {
-//			          mEntities.addAll(0, Arrays.asList(entities));
-//			          notifyDataSetChanged();
-//		          });
-	}
-
 	void addVisionEntityList(@NonNull List<VisionEntity> entityList) {
 		for (VisionEntity e : mEntities) {
 			e.setActivated(false);
@@ -138,7 +116,8 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	@Override
 	public int getItemViewType(int position) {
 		VisionEntity entity = mEntities.get(position);
-		if (TextUtils.equals(entity.getReadableName(), "WEB_DETECTION")) {
+		if (TextUtils.equals(entity.getReadableName(), "WEB_DETECTION") || TextUtils.equals(entity.getReadableName(), "LOGO_DETECTION") || TextUtils.equals(entity.getReadableName(),
+		                                                                                                                                                    "LABEL_DETECTION")) {
 			return entity.isInCell() ?
 			       ITEM_TYPE_WEB_CELL :
 			       ITEM_TYPE_WEB;

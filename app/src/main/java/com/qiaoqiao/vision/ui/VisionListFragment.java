@@ -20,7 +20,10 @@ import com.qiaoqiao.databinding.FragmentListVisionBinding;
 import com.qiaoqiao.vision.VisionContract;
 import com.qiaoqiao.vision.model.VisionEntity;
 
-public final class VisionListFragment extends AbstractVisionFragment implements VisionContract.View<EntityAnnotation, WebEntity> {
+import java.util.ArrayList;
+import java.util.List;
+
+public final class VisionListFragment extends AbstractVisionFragment implements VisionContract.View<EntityAnnotation, EntityAnnotation, EntityAnnotation, WebEntity> {
 	private static final int LAYOUT = R.layout.fragment_list_vision;
 	private FragmentListVisionBinding mBinding;
 	private VisionContract.Presenter mPresenter;
@@ -59,19 +62,25 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 
 
 	@Override
-	public void addEntity(@Nullable EntityAnnotation entityAnnotation, @Nullable WebEntity webEntity) {
+	public void addEntities(@Nullable EntityAnnotation landmarkAnnotation, @Nullable EntityAnnotation logoAnnotation, @Nullable EntityAnnotation labelAnnotation, @Nullable WebEntity webEntity) {
 		setRefreshing(false);
-		if (entityAnnotation == null && webEntity == null) {
+		if (landmarkAnnotation == null && logoAnnotation == null && labelAnnotation == null && webEntity == null) {
 			return;
 		}
-		if (entityAnnotation == null) {
-			mVisionListAdapter.addVisionEntityArray(new VisionEntity(webEntity, "WEB_DETECTION").setActivated(true));
-		} else if (webEntity == null) {
-			mVisionListAdapter.addVisionEntityArray(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION").setActivated(true));
-		} else {
-			mVisionListAdapter.addVisionEntityArray(new VisionEntity(entityAnnotation, "LANDMARK_DETECTION").setActivated(true), new VisionEntity(webEntity, "WEB_DETECTION").setActivated(true));
+		List<VisionEntity> filterList = new ArrayList<>();
+		if (landmarkAnnotation != null) {
+			filterList.add(new VisionEntity(landmarkAnnotation, "LANDMARK_DETECTION").setActivated(true));
 		}
-
+		if (logoAnnotation != null) {
+			filterList.add(new VisionEntity(logoAnnotation, "LOGO_DETECTION").setActivated(true));
+		}
+		if (labelAnnotation != null) {
+			filterList.add(new VisionEntity(labelAnnotation, "LABEL_DETECTION").setActivated(true));
+		}
+		if (webEntity != null) {
+			filterList.add(new VisionEntity(webEntity, "WEB_DETECTION").setActivated(true));
+		}
+		mVisionListAdapter.addVisionEntityList(filterList);
 	}
 
 	@Override
