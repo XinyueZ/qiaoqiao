@@ -4,6 +4,7 @@ package com.qiaoqiao.views;
 import android.content.Context;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -15,6 +16,7 @@ import com.qiaoqiao.databinding.LayoutMainControlBinding;
 
 public final class MainControlView extends FrameLayout {
 	private LayoutMainControlBinding mBinding;
+	private Vibrator mVibrator;
 
 	public interface OnFromLocalClickedListener extends OnClickListener {}
 
@@ -41,6 +43,8 @@ public final class MainControlView extends FrameLayout {
 	private void init(@NonNull Context cxt) {
 		LayoutInflater inflater = LayoutInflater.from(cxt);
 		mBinding = LayoutMainControlBinding.inflate(inflater, this, true);
+
+		mVibrator = (Vibrator) cxt.getSystemService(Context.VIBRATOR_SERVICE);
 	}
 
 	public void startCaptureProgressBar() {
@@ -94,7 +98,10 @@ public final class MainControlView extends FrameLayout {
 	}
 
 	public void setOnCaptureClickedListener(@Nullable OnCaptureClickedListener l) {
-		mBinding.captureFb.setOnClickListener(l);
+		mBinding.captureFb.setOnClickListener(v -> {
+			mVibrator.vibrate(100);
+			l.onClick(v);
+		});
 	}
 
 	public void setOnFromWebClickedListener(@Nullable OnFromWebClickedListener l) {
