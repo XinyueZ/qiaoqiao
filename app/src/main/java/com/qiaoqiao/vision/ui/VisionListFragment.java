@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +44,8 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 		super.onViewCreated(view, savedInstanceState);
 		setRefreshing(false);
 		mBinding.loadingPb.setColorSchemeResources(R.color.colorGreen, R.color.colorTeal, R.color.colorCyan);
-		mBinding.visionRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+		final int columns = getResources().getInteger(R.integer.num_columns);
+		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
 		mBinding.visionRv.setHasFixedSize(true);
 		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter());
 		final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
