@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -50,12 +51,13 @@ import static android.os.Bundle.EMPTY;
 
 public final class CameraActivity extends AppCompatActivity implements CameraContract.View,
                                                                        View.OnClickListener,
-                                                                       EasyPermissions.PermissionCallbacks {
+                                                                       EasyPermissions.PermissionCallbacks,
+                                                                       AppBarLayout.OnOffsetChangedListener {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
 	private ActivityCameraBinding mBinding;
-
+	private boolean mOnBottom;
 
 	private static final int RC_PERMISSIONS = 123;
 
@@ -86,6 +88,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupViewPager(visionFragment, moreVisionFragment, historyFragment);
 		injectAll(visionFragment, moreVisionFragment, historyFragment);
 		presentersBegin();
+		mBinding.appbar.addOnOffsetChangedListener(this);
 	}
 
 	private void setupAppBar() {
@@ -117,6 +120,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onDestroy() {
+		mBinding.appbar.removeOnOffsetChangedListener(this);
 		presentersEnd();
 		super.onDestroy();
 	}
@@ -291,5 +295,21 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mVisionPresenter.setRefreshing(true);
 		mMoreVisionPresenter.setRefreshing(true);
 		mBinding.barTitleLoadingPb.startShimmerAnimation();
+	}
+
+	@Override
+	public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+		mOnBottom = (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange());
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mOnBottom) {
+			mBinding.viewpager.setCurrentItem(0, true);
+			mBinding.appbar.setExpanded(true, true);
+			return;
+		}
+
+		super.onBackPressed();
 	}
 }
