@@ -57,7 +57,9 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 			dividerItemDecoration.setDrawable(divideDrawable);
 		}
 		mBinding.visionRv.addItemDecoration(dividerItemDecoration);
-		mPresenter.loadRecent();
+		if (mPresenter != null) {
+			mPresenter.loadRecent();
+		}
 	}
 
 

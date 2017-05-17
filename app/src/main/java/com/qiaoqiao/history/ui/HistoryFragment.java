@@ -12,14 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
+import com.qiaoqiao.ds.database.HistoryItem;
 import com.qiaoqiao.history.HistoryContract;
 import com.qiaoqiao.history.HistoryPresenter;
 
 import java.util.List;
-
-import io.realm.RealmResults;
 
 public final class HistoryFragment extends Fragment implements HistoryContract.View {
 	private static final int LAYOUT = R.layout.fragment_history;
@@ -65,7 +63,7 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	}
 
 	@Override
-	public void updateList(@NonNull RealmResults<HistoryItem> historyItemList) {
+	public void updateList(@NonNull List<HistoryItem> historyItemList) {
 		if (mHistoryListAdapter == null) {
 			return;
 		}
