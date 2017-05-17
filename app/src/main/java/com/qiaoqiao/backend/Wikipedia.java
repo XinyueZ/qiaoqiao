@@ -3,16 +3,22 @@ package com.qiaoqiao.backend;
 import com.qiaoqiao.backend.model.wikipedia.WikiResult;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Url;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 public interface Wikipedia {
-	@GET
-	Observable<WikiResult> getResult(@Url String url);
+	final class WikiReqBody {
+		String language;
+		String keyword;
 
-	@GET
-	Call<WikiResult> getWiki(@Url String url);
+		public WikiReqBody(String language, String keyword) {
+			this.language = language;
+			this.keyword = keyword;
+		}
+	}
+
+	@POST("knowledge/documents/wikipedia")
+	Observable<WikiResult> getResult(@Body WikiReqBody body);
 
 
 }

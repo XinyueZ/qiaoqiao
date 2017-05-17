@@ -11,9 +11,7 @@ import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.ds.DsRepository;
 import com.qiaoqiao.vision.annotation.target.More;
 import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
-import com.qiaoqiao.vision.model.VisionEntity;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,15 +51,6 @@ public final class MoreVisionPresenter extends VisionContract.Presenter {
 		mView.setPresenter(this);
 	}
 
-
-	@Override
-	public void waitForImageUri(@NonNull List<VisionEntity> list) {
-		try {
-			mDsRepository.onKnowledgeQuery(list);
-		} catch (IOException e) {
-			//TODO Some Error-handling codes should be down here.
-		}
-	}
 
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {

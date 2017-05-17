@@ -38,8 +38,6 @@ import com.qiaoqiao.ds.DaggerDsRepositoryComponent;
 import com.qiaoqiao.ds.DsRepositoryComponent;
 import com.qiaoqiao.keymanager.KeyManagerModule;
 
-import java.util.Locale;
-
 import io.realm.Realm;
 
 
@@ -53,7 +51,7 @@ public final class App extends MultiDexApplication {
 		super.onCreate();
 		Realm.init(getApplicationContext());
 		mRepositoryComponent = DaggerDsRepositoryComponent.builder()
-		                                                  .backendModule(new BackendModule(Locale.getDefault().getLanguage()))
+		                                                  .backendModule(new BackendModule())
 		                                                  .keyManagerModule(new KeyManagerModule())
 		                                                  .appModule(new AppModule(this))
 		                                                  .build();

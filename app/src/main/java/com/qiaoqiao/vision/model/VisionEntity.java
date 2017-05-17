@@ -1,7 +1,6 @@
 package com.qiaoqiao.vision.model;
 
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.api.client.json.GenericJson;
@@ -11,7 +10,6 @@ public final class VisionEntity {
 	private final @NonNull String mReadableName;
 	private boolean mActivated;
 
-	private @NonNull Uri mImageUri = Uri.EMPTY;
 	private final boolean mInCell;
 
 	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName) {
@@ -55,14 +53,7 @@ public final class VisionEntity {
 		return new VisionEntityLocation(this);
 	}
 
-	public @NonNull
-	Uri getImageUri() {
-		return mImageUri;
-	}
 
-	public void setImageUri(@NonNull Uri imageUri) {
-		mImageUri = imageUri;
-	}
 
 	public boolean isActivated() {
 		return mActivated;

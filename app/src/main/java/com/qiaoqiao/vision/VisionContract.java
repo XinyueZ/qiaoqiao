@@ -28,8 +28,6 @@ import com.qiaoqiao.ds.DsLoadedCallback;
 import com.qiaoqiao.ds.DsRepository;
 import com.qiaoqiao.vision.model.VisionEntity;
 
-import java.util.List;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -73,9 +71,6 @@ public interface VisionContract {
 			        .unregister(this);
 		}
 
-		public void waitForImageUri(@NonNull List<VisionEntity> list) {
-
-		}
 
 		public abstract void setRefreshing(boolean refresh);
 

@@ -11,6 +11,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.qiaoqiao.R;
 import com.qiaoqiao.backend.model.wikipedia.Page;
 import com.qiaoqiao.backend.model.wikipedia.Pages;
 import com.qiaoqiao.keymanager.Key;
@@ -29,13 +30,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public final class BackendModule {
 
-	private @NonNull final String mLanguage;
 	static final Gson GSON = new GsonBuilder().registerTypeAdapter(Pages.class, new PageAdapter())
 	                                          .create();
 
-	public BackendModule(@NonNull String language) {
-		mLanguage = language;
-	}
 
 	@Provides
 	Google provideGoogle(@NonNull Context cxt, @NonNull Key key) {
@@ -43,9 +40,9 @@ public final class BackendModule {
 	}
 
 	@Provides
-	Wikipedia provideWikipedia() {
+	Wikipedia provideKnowledge(@NonNull Context cxt) {
 
-		Retrofit r = new Retrofit.Builder().baseUrl(String.format("https://%s.wikipedia.org/w/api.php/", mLanguage))
+		Retrofit r = new Retrofit.Builder().baseUrl(cxt.getString(R.string.base_url_knowledge))
 		                                   .addConverterFactory(GsonConverterFactory.create(GSON))
 		                                   .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 		                                   .build();

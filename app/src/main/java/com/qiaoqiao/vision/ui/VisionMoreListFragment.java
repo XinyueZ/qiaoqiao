@@ -20,11 +20,6 @@ import com.qiaoqiao.vision.model.VisionEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
-
 public final class VisionMoreListFragment extends AbstractVisionFragment implements VisionContract.View<List<EntityAnnotation>, List<EntityAnnotation>, List<EntityAnnotation>, List<WebEntity>> {
 	private static final int LAYOUT = R.layout.fragment_list_vision;
 	private FragmentListVisionBinding mBinding;
@@ -60,10 +55,13 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	                        @Nullable List<EntityAnnotation> logoAnnotations,
 	                        @Nullable List<EntityAnnotation> labelAnnotations,
 	                        @Nullable List<WebEntity> webEntities) {
-		addEntities(landmarkAnnotations, "LANDMARK_DETECTION", false);
-		addEntities(logoAnnotations, "LOGO_DETECTION", true);
-		addEntities(labelAnnotations, "LABEL_DETECTION", true);
-		addWebEntity(webEntities);
+		List<VisionEntity> output = new ArrayList<>();
+		addEntities(landmarkAnnotations, "LANDMARK_DETECTION", output);
+		addEntities(logoAnnotations, "LOGO_DETECTION", output);
+		addEntities(labelAnnotations, "LABEL_DETECTION", output);
+		addWebEntity(webEntities, output);
+
+		mVisionListAdapter.addVisionEntityList(output);
 		setRefreshing(false);
 	}
 
@@ -95,67 +93,24 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 	}
 
 
-	private void addEntities(@Nullable List<EntityAnnotation> entityAnnotationList, @NonNull String name, boolean loadImage) {
+	private void addEntities(@Nullable List<EntityAnnotation> entityAnnotationList, @NonNull String name, @NonNull List<VisionEntity> output) {
 		if (entityAnnotationList == null || entityAnnotationList.size() <= 0) {
 			return;
 		}
-		if (!loadImage) {
-			Observable.just(entityAnnotationList)
-			          .subscribeOn(Schedulers.newThread())
-			          .flatMap((Function<List<EntityAnnotation>, Observable<List<VisionEntity>>>) entityAnnotationList1 -> Observable.just(new ArrayList<VisionEntity>() {{
-				          for (EntityAnnotation entityAnnotation : entityAnnotationList1) {
-					          add(new VisionEntity(entityAnnotation, name, true));
-				          }
-			          }}))
-			          .observeOn(AndroidSchedulers.mainThread())
-			          .subscribe(list -> mVisionListAdapter.addVisionEntityList(list));
-		} else {
-			Observable.just(entityAnnotationList)
-			          .subscribeOn(Schedulers.newThread())
-			          .flatMap((Function<List<EntityAnnotation>, Observable<List<VisionEntity>>>) entityAnnotationList1 -> Observable.just(new ArrayList<VisionEntity>() {{
-				          for (EntityAnnotation entityAnnotation : entityAnnotationList1) {
-					          add(new VisionEntity(entityAnnotation, name, true));
-				          }
-			          }}))
-			          .observeOn(AndroidSchedulers.mainThread())
-			          .subscribe(list -> {
-				          mVisionListAdapter.addVisionEntityList(list);
-				          Observable.just(list)
-				                    .subscribeOn(Schedulers.newThread())
-				                    .map(visionEntities -> {
-					                    mPresenter.waitForImageUri(visionEntities);
-					                    return visionEntities;
-				                    })
-				                    .observeOn(AndroidSchedulers.mainThread())
-				                    .subscribe(list1 -> mVisionListAdapter.notifyDataSetChanged());
-			          });
+		for (EntityAnnotation entityAnnotation : entityAnnotationList) {
+			output.add(new VisionEntity(entityAnnotation, name, true));
 		}
+
 	}
 
 
-	private void addWebEntity(@Nullable List<WebEntity> webEntityList) {
+	private void addWebEntity(@Nullable List<WebEntity> webEntityList, @NonNull List<VisionEntity> output) {
 		if (webEntityList == null || webEntityList.size() <= 0) {
 			setRefreshing(false);
 			return;
 		}
-		Observable.just(webEntityList)
-		          .subscribeOn(Schedulers.newThread())
-		          .flatMap((Function<List<WebEntity>, Observable<List<VisionEntity>>>) entityAnnotationList -> Observable.just(new ArrayList<VisionEntity>() {{
-			          for (WebEntity entityAnnotation : entityAnnotationList) {
-				          add(new VisionEntity(entityAnnotation, "WEB_DETECTION", true));
-			          }
-		          }}))
-		          .observeOn(AndroidSchedulers.mainThread())
-		          .subscribe(list -> {
-			          mVisionListAdapter.addVisionEntityList(list);
-			          Observable.just(list)
-			                    .subscribeOn(Schedulers.newThread())
-			                    .map(visionEntities -> {
-				                    mPresenter.waitForImageUri(visionEntities);
-				                    return visionEntities;
-			                    })
-			                    .observeOn(AndroidSchedulers.mainThread())
-			                    .subscribe(list1 -> mVisionListAdapter.notifyDataSetChanged());
-		          });
+		for (WebEntity entityAnnotation : webEntityList) {
+			output.add(new VisionEntity(entityAnnotation, "WEB_DETECTION", true));
+		}
 	}
 }

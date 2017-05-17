@@ -3,7 +3,6 @@ package com.qiaoqiao.vision.ui;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
@@ -31,6 +30,7 @@ import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import de.greenrobot.event.EventBus;
 
@@ -236,14 +236,18 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 
 
 		private static void loadImage(Context cxt, VisionEntity entity, ImageView imageView) {
-			if (entity.getImageUri() != Uri.EMPTY) {
-				Glide.with(cxt)
-				     .load(entity.getImageUri())
-				     .centerCrop()
-				     .placeholder(R.drawable.ic_default_image)
-				     .crossFade()
-				     .into(imageView);
-			}
+			String baseUrl = cxt.getString(R.string.base_url_knowledge);
+			String imageUrl = String.format(baseUrl + "images/wikipedia?language=%s&keyword=%s",
+			                                Locale.getDefault()
+			                                      .getLanguage(),
+			                                entity.getDescription()
+			                                      .getDescriptionText());
+			Glide.with(cxt)
+			     .load(imageUrl)
+			     .centerCrop()
+			     .placeholder(R.drawable.ic_default_image)
+			     .crossFade()
+			     .into(imageView);
 		}
 
 		@Override

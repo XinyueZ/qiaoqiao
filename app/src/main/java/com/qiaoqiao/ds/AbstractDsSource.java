@@ -7,11 +7,8 @@ import android.support.annotation.NonNull;
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.Wikipedia;
 import com.qiaoqiao.backend.model.wikipedia.LangLink;
-import com.qiaoqiao.vision.model.VisionEntity;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 public abstract class AbstractDsSource {
 	private Google mGoogle;
@@ -61,9 +58,6 @@ public abstract class AbstractDsSource {
 
 	}
 
-	public void onKnowledgeQuery(@NonNull List<VisionEntity> list) throws IOException {
-
-	}
 
 	public void onTranslate(@NonNull String q, @NonNull DsLoadedCallback callback) {
 

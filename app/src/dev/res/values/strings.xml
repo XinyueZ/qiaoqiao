@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ViApp(DEV)</string>
     <string name="map">AIzaSyCSuFANZAk1waOgeoWeRfdWVNFgqp5Usy8</string>
+    <string name="base_url_knowledge">https://qiaoqiao-dev.appspot.com/knowledge/</string>
 </resources>
