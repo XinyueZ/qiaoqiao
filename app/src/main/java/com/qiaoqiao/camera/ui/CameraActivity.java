@@ -263,6 +263,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mVisionPresenter.addResponseToScreen(response);
 		mMoreVisionPresenter.clean();
 		mMoreVisionPresenter.addResponseToScreen(response);
+		mBinding.viewpager.setCurrentItem(0, true);
 	}
 
 	@Override
