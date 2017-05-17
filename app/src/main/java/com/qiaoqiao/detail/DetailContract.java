@@ -33,6 +33,8 @@ public interface DetailContract {
 		void showImage(@Nullable Image preview, @Nullable Image  photo);
 		void setText(@NonNull String title, @NonNull String content);
 		void setMultiLanguage(@Nullable LangLink[] langLinks);
+
+		void onError();
 	}
 
 	interface Presenter extends BasePresenter {

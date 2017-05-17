@@ -46,11 +46,15 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 		              .subscribeOn(Schedulers.io())
 		              .observeOn(AndroidSchedulers.mainThread())
 		              .subscribe(result1 -> {
-			              if (result1.getQuery()
-			                         .getPages()
-			                         .getList()
-			                         .size() > 0) {
-				              callback.onKnowledgeResponse(result1);
+			              try {
+				              if (result1.getQuery()
+				                         .getPages()
+				                         .getList()
+				                         .size() > 0) {
+					              callback.onKnowledgeResponse(result1);
+				              }
+			              } catch (Exception e) {
+				              callback.onException(e);
 			              }
 		              });
 	}
@@ -61,11 +65,15 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 		              .subscribeOn(Schedulers.io())
 		              .observeOn(AndroidSchedulers.mainThread())
 		              .subscribe(result1 -> {
-			              if (result1.getQuery()
-			                         .getPages()
-			                         .getList()
-			                         .size() > 0) {
-				              callback.onKnowledgeResponse(result1);
+			              try {
+				              if (result1.getQuery()
+				                         .getPages()
+				                         .getList()
+				                         .size() > 0) {
+					              callback.onKnowledgeResponse(result1);
+				              }
+			              } catch (Exception e) {
+				              callback.onException(e);
 			              }
 		              });
 	}

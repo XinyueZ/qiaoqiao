@@ -70,6 +70,12 @@ public final class DetailPresenter implements DetailContract.Presenter {
 				                    .get(0)
 				                    .getExtract());
 			}
+
+			@Override
+			public void onException(@NonNull Exception e) {
+				super.onException(e);
+				mView.onError();
+			}
 		});
 	}
 
@@ -104,6 +110,11 @@ public final class DetailPresenter implements DetailContract.Presenter {
 				                    .getList()
 				                    .get(0)
 				                    .getExtract());
+			}
+			@Override
+			public void onException(@NonNull Exception e) {
+				super.onException(e);
+				mView.onError();
 			}
 		});
 	}

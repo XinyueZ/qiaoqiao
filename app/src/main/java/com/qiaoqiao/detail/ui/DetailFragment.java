@@ -269,4 +269,9 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		mBinding.loadingPb.setEnabled(refresh);
 		mBinding.loadingPb.setRefreshing(refresh);
 	}
+
+	@Override
+	public void onError() {
+		Snackbar.make(mBinding.getRoot(), R.string.loading_detail_fail, Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok, v -> getActivity().supportFinishAfterTransition()).show();
+	}
 }

@@ -17,6 +17,8 @@ import com.qiaoqiao.databinding.LayoutMainControlBinding;
 public final class MainControlView extends FrameLayout {
 	private LayoutMainControlBinding mBinding;
 	private Vibrator mVibrator;
+	private static final int VIB_LNG = 50;
+
 
 	public interface OnFromLocalClickedListener extends OnClickListener {}
 
@@ -94,12 +96,17 @@ public final class MainControlView extends FrameLayout {
 	}
 
 	public void setOnFromLocalClickedListener(@Nullable OnFromLocalClickedListener l) {
-		mBinding.fromLocalFb.setOnClickListener(l);
+		mBinding.fromLocalFb.setOnClickListener(v -> {
+			mVibrator.vibrate(VIB_LNG);
+			if (l != null) {
+				l.onClick(v);
+			}
+		});
 	}
 
 	public void setOnCaptureClickedListener(@Nullable OnCaptureClickedListener l) {
 		mBinding.captureFb.setOnClickListener(v -> {
-			mVibrator.vibrate(100);
+			mVibrator.vibrate(VIB_LNG);
 			if (l != null) {
 				l.onClick(v);
 			}
@@ -107,6 +114,11 @@ public final class MainControlView extends FrameLayout {
 	}
 
 	public void setOnFromWebClickedListener(@Nullable OnFromWebClickedListener l) {
-		mBinding.fromWebFb.setOnClickListener(l);
+		mBinding.fromWebFb.setOnClickListener(v -> {
+			mVibrator.vibrate(VIB_LNG);
+			if (l != null) {
+				l.onClick(v);
+			}
+		});
 	}
 }

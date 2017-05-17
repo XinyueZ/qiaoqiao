@@ -21,4 +21,6 @@
 
 
     <string name="transition_share_item_name">shareView</string>
+
+    <string name="loading_detail_fail">Cannot load page, close this and try it later.</string>
 </resources>
