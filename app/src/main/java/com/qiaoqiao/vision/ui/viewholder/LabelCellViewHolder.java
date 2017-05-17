@@ -36,6 +36,7 @@ public final class LabelCellViewHolder extends AbstractVisionViewHolder {
 		     .load(imageUrl)
 		     .centerCrop()
 		     .placeholder(R.drawable.ic_default_image)
+		     .error(R.drawable.ic_default_image)
 		     .crossFade()
 		     .into(imageView);
 	}
@@ -44,7 +45,7 @@ public final class LabelCellViewHolder extends AbstractVisionViewHolder {
 	public void onBindViewHolder() {
 		VisionEntity entity = mEntities.get(getAdapterPosition());
 		mItemLabelCellBinding.visionTv.setText(entity.getDescription()
-		                                           .getDescriptionText());
+		                                             .getDescriptionText());
 		mItemLabelCellBinding.setVisionEntity(entity);
 		mItemLabelCellBinding.setViewholder(this);
 

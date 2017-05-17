@@ -36,6 +36,7 @@ public final class WebCellViewHolder extends AbstractVisionViewHolder {
 		     .load(imageUrl)
 		     .centerCrop()
 		     .placeholder(R.drawable.ic_default_image)
+		     .error(R.drawable.ic_default_image)
 		     .crossFade()
 		     .into(imageView);
 	}

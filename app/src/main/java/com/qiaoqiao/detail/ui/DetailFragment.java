@@ -160,8 +160,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	private void toggleLoaded() {
 		mBinding.layoutLoading.loadingPb.stopShimmerAnimation();
-		mBinding.layoutLoading.loadingPb
-				.setVisibility(View.GONE);
+		mBinding.layoutLoading.loadingPb.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -177,6 +176,8 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		     .crossFade()
 		     .centerCrop()
 		     .diskCacheStrategy(DiskCacheStrategy.ALL)
+		     .error(R.drawable.ic_default_image)
+		     .placeholder(R.drawable.ic_default_image)
 		     .skipMemoryCache(false)
 		     .listener(new RequestListener<String, GlideDrawable>() {
 			     @Override
@@ -217,6 +218,8 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 			     .centerCrop()
 			     .diskCacheStrategy(DiskCacheStrategy.ALL)
 			     .skipMemoryCache(false)
+			     .placeholder(R.drawable.ic_default_image)
+			     .error(R.drawable.ic_default_image)
 			     .listener(new RequestListener<String, GlideDrawable>() {
 				     @Override
 				     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {

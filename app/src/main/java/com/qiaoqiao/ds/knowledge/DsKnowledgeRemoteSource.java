@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.qiaoqiao.backend.Google;
 import com.qiaoqiao.backend.Wikipedia;
+import com.qiaoqiao.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.ds.AbstractDsSource;
 import com.qiaoqiao.ds.DsLoadedCallback;
 import com.qiaoqiao.ds.annotation.DsScope;
@@ -42,6 +43,21 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {
 		getWikipedia().getResult(new Wikipedia.WikiReqBody(Locale.getDefault()
 		                                                         .getLanguage(), keyword))
+		              .subscribeOn(Schedulers.io())
+		              .observeOn(AndroidSchedulers.mainThread())
+		              .subscribe(result1 -> {
+			              if (result1.getQuery()
+			                         .getPages()
+			                         .getList()
+			                         .size() > 0) {
+				              callback.onKnowledgeResponse(result1);
+			              }
+		              });
+	}
+
+	@Override
+	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull DsLoadedCallback callback) {
+		getWikipedia().getResult(new Wikipedia.WikiReqBody(langLink.getLanguage(), langLink.getQuery()))
 		              .subscribeOn(Schedulers.io())
 		              .observeOn(AndroidSchedulers.mainThread())
 		              .subscribe(result1 -> {

@@ -36,6 +36,7 @@ public final class LogoCellViewHolder extends AbstractVisionViewHolder {
 		     .load(imageUrl)
 		     .centerCrop()
 		     .placeholder(R.drawable.ic_default_image)
+		     .error(R.drawable.ic_default_image)
 		     .crossFade()
 		     .into(imageView);
 	}
@@ -44,7 +45,7 @@ public final class LogoCellViewHolder extends AbstractVisionViewHolder {
 	public void onBindViewHolder() {
 		VisionEntity entity = mEntities.get(getAdapterPosition());
 		mItemLogoCellBinding.visionTv.setText(entity.getDescription()
-		                                           .getDescriptionText());
+		                                            .getDescriptionText());
 		mItemLogoCellBinding.setVisionEntity(entity);
 		mItemLogoCellBinding.setViewholder(this);
 
