@@ -12,10 +12,12 @@ import com.qiaoqiao.detail.ui.DetailActivity;
 import com.qiaoqiao.location.ui.MapActivity;
 import com.qiaoqiao.vision.model.VisionEntity;
 
-public  abstract class AbstractVisionFragment extends Fragment {
+public abstract class AbstractVisionFragment extends Fragment {
 
 	protected void openDetail(@NonNull VisionEntity entity, @NonNull View transitionView) {
-		if(!getUserVisibleHint()) return;
+		if (!getUserVisibleHint()) {
+			return;
+		}
 		Activity activity = getActivity();
 		if (activity == null) {
 			return;
@@ -28,7 +30,10 @@ public  abstract class AbstractVisionFragment extends Fragment {
 		}
 		final String descriptionText = entity.getDescription()
 		                                     .getDescriptionText();
-		if (TextUtils.equals("WEB_DETECTION", entity.getReadableName()) && !TextUtils.isEmpty(descriptionText)) {
+		if ((TextUtils.equals("WEB_DETECTION", entity.getReadableName()) || TextUtils.equals("LOGO_DETECTION", entity.getReadableName()) || TextUtils.equals("LABEL_DETECTION",
+		                                                                                                                                                     entity.getReadableName())) && !TextUtils
+				.isEmpty(
+				descriptionText)) {
 			DetailActivity.showInstance(activity, descriptionText, transitionView);
 		}
 	}

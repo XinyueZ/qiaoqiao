@@ -10,7 +10,7 @@
 
         <variable
             name="viewholder"
-            type="com.qiaoqiao.vision.ui.VisionListAdapter.WebViewHolder"/>
+            type="com.qiaoqiao.vision.ui.viewholder.WebViewHolder"/>
     </data>
 
     <FrameLayout
@@ -22,8 +22,8 @@
         <TextView
             android:id="@+id/vision_tv"
             style="@style/VisionItemTextView"
-            android:drawableEnd="@drawable/ic_web_link_open"
-            android:drawableRight="@drawable/ic_web_link_open"
+            android:drawableEnd="@drawable/ic_knowledge_link_open"
+            android:drawableRight="@drawable/ic_knowledge_link_open"
             tools:text="hello,world"/>
 
     </FrameLayout>

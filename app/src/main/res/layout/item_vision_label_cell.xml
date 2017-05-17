@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="LandmarkCellViewBinding">
+    <data class="LabelCellViewBinding">
 
         <variable
             name="visionEntity"
@@ -11,7 +10,7 @@
 
         <variable
             name="viewholder"
-            type="com.qiaoqiao.vision.ui.viewholder.LandmarkCellViewHolder"/>
+            type="com.qiaoqiao.vision.ui.viewholder.LabelCellViewHolder"/>
     </data>
 
 
@@ -21,28 +20,25 @@
         android:background="@color/colorBlack80"
         android:elevation="@dimen/z_card"
         android:foreground="@drawable/selector_transparent_item_background"
+        android:onClick="@{() -> viewholder.onClicked(visionEntity)}"
         android:stateListAnimator="@animator/raise">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/item_mapview"
+        <ImageView
+            android:id="@+id/vision_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cameraZoom="16"
-            app:liteMode="true"
-            app:mapType="normal"
-            app:uiCompass="false"
-            app:uiRotateGestures="false"
-            app:uiScrollGestures="false"
-            app:uiTiltGestures="false"
-            app:uiZoomControls="false"
-            app:uiZoomGestures="false"/>
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_default_image"/>
 
         <TextView
             android:id="@+id/vision_tv"
-            style="@style/VisionItemMapViewCell"
-            android:drawableEnd="@drawable/ic_location_pin"
-            android:drawableRight="@drawable/ic_location_pin"
+            style="@style/VisionItemTextViewCell"
+            android:drawableEnd="@drawable/ic_knowledge_link_open"
+            android:drawableRight="@drawable/ic_knowledge_link_open"
             tools:text="hello,world"/>
 
     </FrameLayout>
+
+
 </layout>

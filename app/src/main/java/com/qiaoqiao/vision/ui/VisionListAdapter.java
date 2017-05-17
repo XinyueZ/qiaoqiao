@@ -2,47 +2,54 @@ package com.qiaoqiao.vision.ui;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.qiaoqiao.R;
+import com.qiaoqiao.databinding.LabelCellViewBinding;
+import com.qiaoqiao.databinding.LabelViewBinding;
 import com.qiaoqiao.databinding.LandmarkCellViewBinding;
 import com.qiaoqiao.databinding.LandmarkViewBinding;
+import com.qiaoqiao.databinding.LogoCellViewBinding;
+import com.qiaoqiao.databinding.LogoViewBinding;
 import com.qiaoqiao.databinding.WebCellViewBinding;
 import com.qiaoqiao.databinding.WebViewBinding;
 import com.qiaoqiao.utils.DeviceUtils;
-import com.qiaoqiao.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.vision.model.VisionEntity;
+import com.qiaoqiao.vision.ui.viewholder.AbstractVisionViewHolder;
+import com.qiaoqiao.vision.ui.viewholder.LabelCellViewHolder;
+import com.qiaoqiao.vision.ui.viewholder.LabelViewHolder;
+import com.qiaoqiao.vision.ui.viewholder.LandmarkCellViewHolder;
+import com.qiaoqiao.vision.ui.viewholder.LandmarkViewHolder;
+import com.qiaoqiao.vision.ui.viewholder.LogoCellViewHolder;
+import com.qiaoqiao.vision.ui.viewholder.LogoViewHolder;
+import com.qiaoqiao.vision.ui.viewholder.WebCellViewHolder;
+import com.qiaoqiao.vision.ui.viewholder.WebViewHolder;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
-import de.greenrobot.event.EventBus;
-
-public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdapter.AbstractVisionViewHolder> {
+public final class VisionListAdapter extends RecyclerView.Adapter<AbstractVisionViewHolder> {
 	private static final int ITEM_LAYOUT_WEB = R.layout.item_vision_web;
 	private static final int ITEM_LAYOUT_LANDMARK = R.layout.item_vision_landmark;
+	private static final int ITEM_LAYOUT_LOGO = R.layout.item_vision_logo;
+	private static final int ITEM_LAYOUT_LABEL = R.layout.item_vision_label;
 	private static final int ITEM_LAYOUT_WEB_CELL = R.layout.item_vision_web_cell;
 	private static final int ITEM_LAYOUT_LANDMARK_CELL = R.layout.item_vision_landmark_cell;
-	private static final int ITEM_TYPE_WEB = 0x91;
-	private static final int ITEM_TYPE_LANDMARK = 0x92;
-	private static final int ITEM_TYPE_WEB_CELL = 0x93;
-	private static final int ITEM_TYPE_LANDMARK_CELL = 0x94;
+	private static final int ITEM_LAYOUT_LOGO_CELL = R.layout.item_vision_logo_cell;
+	private static final int ITEM_LAYOUT_LABEL_CELL = R.layout.item_vision_label_cell;
+	private static final int ITEM_TYPE_WEB = 0x90;
+	private static final int ITEM_TYPE_LANDMARK = 0x91;
+	private static final int ITEM_TYPE_LOGO = 0x92;
+	private static final int ITEM_TYPE_LABEL = 0x93;
+	private static final int ITEM_TYPE_WEB_CELL = 0x94;
+	private static final int ITEM_TYPE_LANDMARK_CELL = 0x95;
+	private static final int ITEM_TYPE_LOGO_CELL = 0x96;
+	private static final int ITEM_TYPE_LABEL_CELL = 0x97;
+
 	private int mColumns;
 	private @NonNull final List<VisionEntity> mEntities = new LinkedList<>();
 
@@ -73,15 +80,32 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 				LandmarkViewBinding landmarkBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                         .inflate(ITEM_LAYOUT_LANDMARK, parent, false));
 				return new LandmarkViewHolder(landmarkBinding, mEntities);
+			case ITEM_TYPE_LOGO:
+				LogoViewBinding logoBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
+				                                                                 .inflate(ITEM_LAYOUT_LOGO, parent, false));
+				return new LogoViewHolder(logoBinding, mEntities);
+			case ITEM_TYPE_LABEL:
+				LabelViewBinding labelBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
+				                                                                   .inflate(ITEM_LAYOUT_LABEL, parent, false));
+				return new LabelViewHolder(labelBinding, mEntities);
 			case ITEM_TYPE_WEB_CELL:
 				WebCellViewBinding webCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                       .inflate(ITEM_LAYOUT_WEB_CELL, parent, false));
 				return new WebCellViewHolder(webCellBinding, mEntities, size);
 			case ITEM_TYPE_LANDMARK_CELL:
-			default:
+
 				LandmarkCellViewBinding landmarkCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                                 .inflate(ITEM_LAYOUT_LANDMARK_CELL, parent, false));
 				return new LandmarkCellViewHolder(landmarkCellBinding, mEntities, size);
+			case ITEM_TYPE_LOGO_CELL:
+				LogoCellViewBinding logoCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
+				                                                                         .inflate(ITEM_LAYOUT_LOGO_CELL, parent, false));
+				return new LogoCellViewHolder(logoCellBinding, mEntities, size);
+			case ITEM_TYPE_LABEL_CELL:
+			default:
+				LabelCellViewBinding labelCellBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
+				                                                                           .inflate(ITEM_LAYOUT_LABEL_CELL, parent, false));
+				return new LabelCellViewHolder(labelCellBinding, mEntities, size);
 		}
 	}
 
@@ -116,11 +140,20 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	@Override
 	public int getItemViewType(int position) {
 		VisionEntity entity = mEntities.get(position);
-		if (TextUtils.equals(entity.getReadableName(), "WEB_DETECTION") || TextUtils.equals(entity.getReadableName(), "LOGO_DETECTION") || TextUtils.equals(entity.getReadableName(),
-		                                                                                                                                                    "LABEL_DETECTION")) {
+		if (TextUtils.equals(entity.getReadableName(), "WEB_DETECTION") ) {
 			return entity.isInCell() ?
 			       ITEM_TYPE_WEB_CELL :
 			       ITEM_TYPE_WEB;
+		}
+		if (TextUtils.equals(entity.getReadableName(), "LOGO_DETECTION")) {
+			return entity.isInCell() ?
+			       ITEM_TYPE_LOGO_CELL :
+			       ITEM_TYPE_LOGO;
+		}
+		if (TextUtils.equals(entity.getReadableName(), "LABEL_DETECTION")) {
+			return entity.isInCell() ?
+			       ITEM_TYPE_LABEL_CELL :
+			       ITEM_TYPE_LABEL;
 		}
 		if (TextUtils.equals(entity.getReadableName(), "LANDMARK_DETECTION")) {
 			return entity.isInCell() ?
@@ -131,218 +164,4 @@ public final class VisionListAdapter extends RecyclerView.Adapter<VisionListAdap
 	}
 
 
-	static abstract class AbstractVisionViewHolder extends RecyclerView.ViewHolder {
-		private final @NonNull ViewDataBinding mBinding;
-		final @NonNull VisionEntityClickEvent mVisionEntityClickEvent = new VisionEntityClickEvent();
-		final @NonNull List<VisionEntity> mEntities;
-
-		private AbstractVisionViewHolder(@NonNull ViewDataBinding binding, @NonNull List<VisionEntity> entities) {
-			super(binding.getRoot());
-			mEntities = entities;
-			mBinding = binding;
-		}
-
-		public void onClicked(VisionEntity visionEntity) {
-			mVisionEntityClickEvent.setEntity(visionEntity);
-
-
-			ViewCompat.setTransitionName(getTransitionView(),
-			                             itemView.getContext()
-			                                     .getString(R.string.transition_share_item_name) + "-" + visionEntity.getDescription());
-			mVisionEntityClickEvent.setTransitionView(getTransitionView());
-			EventBus.getDefault()
-			        .post(mVisionEntityClickEvent);
-		}
-
-		abstract View getTransitionView();
-
-		abstract void onBindViewHolder();
-
-		abstract void onViewRecycled();
-	}
-
-	public final static class WebViewHolder extends AbstractVisionViewHolder {
-		private final @NonNull WebViewBinding mItemVisionWebBinding;
-
-		private WebViewHolder(@NonNull WebViewBinding binding, @NonNull List<VisionEntity> entities) {
-			super(binding, entities);
-			mItemVisionWebBinding = binding;
-		}
-
-		@Override
-		void onBindViewHolder() {
-			VisionEntity entity = mEntities.get(getAdapterPosition());
-			mItemVisionWebBinding.visionTv.setText(entity.getDescription()
-			                                             .getDescriptionText());
-			mItemVisionWebBinding.setVisionEntity(entity);
-			mItemVisionWebBinding.setViewholder(this);
-
-			itemView.setActivated(entity.isActivated());
-			itemView.setSelected(entity.isActivated());
-		}
-
-		@Override
-		void onViewRecycled() {
-
-		}
-
-		@Override
-		View getTransitionView() {
-			return mItemVisionWebBinding.visionTv;
-		}
-	}
-
-	public final static class LandmarkViewHolder extends AbstractVisionViewHolder {
-		private final @NonNull LandmarkViewBinding mItemVisionLandmarkBinding;
-
-		private LandmarkViewHolder(@NonNull LandmarkViewBinding binding, @NonNull List<VisionEntity> entries) {
-			super(binding, entries);
-			mItemVisionLandmarkBinding = binding;
-		}
-
-		@Override
-		void onBindViewHolder() {
-			VisionEntity entity = mEntities.get(getAdapterPosition());
-			mItemVisionLandmarkBinding.visionTv.setText(entity.getDescription()
-			                                                  .getDescriptionText());
-			mItemVisionLandmarkBinding.setVisionEntity(entity);
-			mItemVisionLandmarkBinding.setViewholder(this);
-
-			itemView.setActivated(entity.isActivated());
-			itemView.setSelected(entity.isActivated());
-		}
-
-		@Override
-		void onViewRecycled() {
-
-		}
-
-		@Override
-		View getTransitionView() {
-			return mItemVisionLandmarkBinding.visionTv;
-		}
-	}
-
-
-	public final static class WebCellViewHolder extends AbstractVisionViewHolder {
-		private final @NonNull WebCellViewBinding mItemWebCellBinding;
-		private final int mSize;
-
-		private WebCellViewHolder(@NonNull WebCellViewBinding binding, @NonNull List<VisionEntity> entities, int size) {
-			super(binding, entities);
-			mItemWebCellBinding = binding;
-			mSize = size;
-		}
-
-
-		private static void loadImage(Context cxt, VisionEntity entity, ImageView imageView) {
-			String baseUrl = cxt.getString(R.string.base_url_knowledge);
-			String imageUrl = String.format(baseUrl + "images/wikipedia?language=%s&keyword=%s",
-			                                Locale.getDefault()
-			                                      .getLanguage(),
-			                                entity.getDescription()
-			                                      .getDescriptionText());
-			Glide.with(cxt)
-			     .load(imageUrl)
-			     .centerCrop()
-			     .placeholder(R.drawable.ic_default_image)
-			     .crossFade()
-			     .into(imageView);
-		}
-
-		@Override
-		void onBindViewHolder() {
-			VisionEntity entity = mEntities.get(getAdapterPosition());
-			mItemWebCellBinding.visionTv.setText(entity.getDescription()
-			                                           .getDescriptionText());
-			mItemWebCellBinding.setVisionEntity(entity);
-			mItemWebCellBinding.setViewholder(this);
-
-			mItemWebCellBinding.visionIv.getLayoutParams().width = mSize;
-			mItemWebCellBinding.visionIv.getLayoutParams().height = mSize;
-
-			loadImage(itemView.getContext(), entity, mItemWebCellBinding.visionIv);
-		}
-
-		@Override
-		void onViewRecycled() {
-
-		}
-
-		@Override
-		View getTransitionView() {
-			return mItemWebCellBinding.visionIv;
-		}
-	}
-
-	public final static class LandmarkCellViewHolder extends AbstractVisionViewHolder implements OnMapReadyCallback,
-	                                                                                             GoogleMap.OnMapClickListener {
-		private final @NonNull LandmarkCellViewBinding mItemLandmarkCellBinding;
-		private final int mSize;
-		private @Nullable GoogleMap mGoogleMap;
-
-		private LandmarkCellViewHolder(@NonNull LandmarkCellViewBinding binding, @NonNull List<VisionEntity> entries, int size) {
-			super(binding, entries);
-			mItemLandmarkCellBinding = binding;
-			mSize = size;
-		}
-
-		@Override
-		public void onMapReady(GoogleMap googleMap) {
-			mGoogleMap = googleMap;
-			googleMap.getUiSettings()
-			         .setMapToolbarEnabled(false);
-			googleMap.getUiSettings()
-			         .setScrollGesturesEnabled(false);
-			if (getAdapterPosition() >= 0 && getAdapterPosition() < mEntities.size()) {
-				LatLng pin = mEntities.get(getAdapterPosition())
-				                      .getLocation()
-				                      .toLatLng();
-				if (pin != null) {
-					googleMap.addMarker(new MarkerOptions().position(pin)
-					                                       .draggable(true));
-					googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pin, 16));
-				}
-			}
-			googleMap.setOnMapClickListener(this);
-		}
-
-		@Override
-		void onBindViewHolder() {
-			VisionEntity entity = mEntities.get(getAdapterPosition());
-			mItemLandmarkCellBinding.visionTv.setText(entity.getDescription()
-			                                                .getDescriptionText());
-			mItemLandmarkCellBinding.setVisionEntity(entity);
-			mItemLandmarkCellBinding.setViewholder(this);
-
-			mItemLandmarkCellBinding.itemMapview.getLayoutParams().width = mSize;
-			mItemLandmarkCellBinding.itemMapview.getLayoutParams().height = mSize;
-			mItemLandmarkCellBinding.itemMapview.onCreate(null);
-			mItemLandmarkCellBinding.itemMapview.onStart();
-			mItemLandmarkCellBinding.itemMapview.onResume();
-			mItemLandmarkCellBinding.itemMapview.getMapAsync(this);
-		}
-
-		@Override
-		void onViewRecycled() {
-			if (mGoogleMap != null) {
-				mGoogleMap.clear();
-				mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
-
-				mItemLandmarkCellBinding.itemMapview.onPause();
-				mItemLandmarkCellBinding.itemMapview.onStop();
-				mItemLandmarkCellBinding.itemMapview.onDestroy();
-			}
-		}
-
-		@Override
-		public void onMapClick(LatLng latLng) {
-			onClicked(mEntities.get(getAdapterPosition()));
-		}
-
-		@Override
-		View getTransitionView() {
-			return mItemLandmarkCellBinding.itemMapview;
-		}
-	}
 }
