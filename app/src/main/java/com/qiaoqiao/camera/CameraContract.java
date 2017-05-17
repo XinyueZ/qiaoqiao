@@ -33,15 +33,15 @@ import com.qiaoqiao.databinding.ActivityCameraBinding;
 public interface CameraContract {
 
 	interface View extends BaseView<CameraPresenter, ActivityCameraBinding> {
-		void showLoadFromLocal();
+		void showLoadFromLocal(@NonNull android.view.View v);
 
-		void showInputFromWeb();
+		void showInputFromWeb(@NonNull android.view.View v);
 
 		void showError(@NonNull String errorMessage);
 
 		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
-		void capturePhoto();
+		void capturePhoto(@NonNull android.view.View v);
 
 		void openLink();
 

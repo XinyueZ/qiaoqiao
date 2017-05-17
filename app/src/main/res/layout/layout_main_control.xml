@@ -57,6 +57,7 @@
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/from_web_fb"
                 style="@style/MainControlButton"
+                android:transitionName="@string/transition_share_item_name"
                 app:backgroundTint="@color/colorBlueGrey"
                 app:fabSize="mini"
                 app:srcCompat="@drawable/ic_from_web"/>

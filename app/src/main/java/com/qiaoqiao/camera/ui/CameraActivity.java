@@ -24,8 +24,7 @@ import com.qiaoqiao.camera.CameraModule;
 import com.qiaoqiao.camera.CameraPresenter;
 import com.qiaoqiao.camera.DaggerCameraComponent;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
-import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
-import com.qiaoqiao.ds.web.ui.FromInputWebLinkFragment;
+import com.qiaoqiao.ds.web.ui.WebLinkActivity;
 import com.qiaoqiao.history.HistoryContract;
 import com.qiaoqiao.history.HistoryModule;
 import com.qiaoqiao.history.HistoryPresenter;
@@ -42,8 +41,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -66,23 +63,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject VisionPresenter mVisionPresenter;
 	@Inject MoreVisionPresenter mMoreVisionPresenter;
 	@Inject HistoryPresenter mHistoryPresenter;
-
-	//------------------------------------------------
-	//Subscribes, event-handlers
-	//------------------------------------------------
-
-	/**
-	 * Handler for {@link WebLinkInputEvent}.
-	 *
-	 * @param e Event {@link WebLinkInputEvent}.
-	 */
-	@Subscribe
-	public void onEvent(WebLinkInputEvent e) {
-		mCameraPresenter.openLink(e.getUri());
-		getSupportFragmentManager().popBackStack();
-	}
-
-	//------------------------------------------------
 
 	/**
 	 * Show single instance of {@link CameraActivity}
@@ -151,32 +131,15 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@SuppressLint("RestrictedApi")
 	@Override
-	public void showInputFromWeb() {
-		getSupportFragmentManager().beginTransaction()
-		                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-		                           .replace(R.id.content_root_fl, FromInputWebLinkFragment.newInstance(this))
-		                           .addToBackStack(null)
-		                           .commit();
+	public void showInputFromWeb(@NonNull android.view.View v) {
+		WebLinkActivity.showInstance(this, v);
 	}
 
 	@Override
-	public void showLoadFromLocal() {
+	public void showLoadFromLocal(@NonNull android.view.View v) {
 		requirePermissions();
 	}
 
-	@Override
-	protected void onResume() {
-		EventBus.getDefault()
-		        .register(this);
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		EventBus.getDefault()
-		        .unregister(this);
-		super.onPause();
-	}
 
 	@Override
 	public void setPresenter(@NonNull CameraPresenter presenter) {
@@ -186,6 +149,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
+			case WebLinkActivity.REQ:
+				if (data != null && data.getData() != null) {
+					mCameraPresenter.openLink(data.getData());
+				}
+				break;
 			case REQUEST_FILE_SELECTOR:
 				if (!(resultCode == Activity.RESULT_OK && data != null && data.getData() != null)) {
 					super.onActivityResult(requestCode, resultCode, data);
@@ -272,7 +240,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	@Override
-	public void capturePhoto() {
+	public void capturePhoto(@NonNull android.view.View v) {
 		mBinding.mainControl.startCaptureProgressBar();
 		mBinding.camera.takePicture();
 	}

@@ -1,6 +1,8 @@
 package com.qiaoqiao.ds.web.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,20 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.ds.web.bus.WebLinkInputEvent;
-import com.qiaoqiao.databinding.FragmentInputWebLinkBinding;
+import com.qiaoqiao.databinding.FragmentWebLinkBinding;
 
-import de.greenrobot.event.EventBus;
-
-public final class FromInputWebLinkFragment extends Fragment implements View.OnClickListener {
+public final class WebLinkFragment extends Fragment implements View.OnClickListener {
 	/**
 	 * Main layout for this component.
 	 */
-	private static final int LAYOUT = R.layout.fragment_input_web_link;
-	private FragmentInputWebLinkBinding mBinding;
+	private static final int LAYOUT = R.layout.fragment_web_link;
+	private FragmentWebLinkBinding mBinding;
 
-	public static FromInputWebLinkFragment newInstance(@NonNull Context cxt) {
-		return (FromInputWebLinkFragment) FromInputWebLinkFragment.instantiate(cxt, FromInputWebLinkFragment.class.getName());
+	public static WebLinkFragment newInstance(@NonNull Context cxt) {
+		return (WebLinkFragment) WebLinkFragment.instantiate(cxt, WebLinkFragment.class.getName());
 	}
 
 	@Nullable
@@ -40,7 +39,10 @@ public final class FromInputWebLinkFragment extends Fragment implements View.OnC
 
 	@Override
 	public void onClick(View v) {
-		EventBus.getDefault()
-		        .post(new WebLinkInputEvent(Uri.parse(mBinding.uriTv.getText().toString())));
+		Intent data = new Intent();
+		data.setData(Uri.parse(mBinding.uriTv.getText()
+		                                     .toString()));
+		getActivity().setResult(Activity.RESULT_OK, data);
+		getActivity().supportFinishAfterTransition();
 	}
 }

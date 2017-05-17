@@ -50,6 +50,11 @@
         <activity
             android:name=".detail.ui.DetailActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ds.web.ui.WebLinkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyle"/>
     </application>
 
 </manifest>

@@ -15,4 +15,20 @@
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme"/>
+
+    <style name="BaseDialogStyle" parent="AppBaseTheme">
+        <item name="android:windowBackground">@color/colorScrim</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">?android:colorAccent</item>
+        <item name="colorButtonNormal">@color/colorTeal</item>
+        <item name="colorControlHighlight">@color/colorTealLight</item>
+    </style>
+
+    <style name="DialogStyle" parent="BaseDialogStyle" />
 </resources>

@@ -4,6 +4,8 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:navigationBarColor">@color/colorTealDark</item>
 
 
         <item name="android:windowIsTranslucent">true</item>
@@ -27,6 +29,14 @@
     <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="CopyUrl" parent="BaseDialogStyle">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorTealDark</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
 </resources>
