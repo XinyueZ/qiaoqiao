@@ -17,7 +17,7 @@ public interface Wikipedia {
 		}
 	}
 
-	@POST("knowledge/documents/wikipedia")
+	@POST("documents/wikipedia")
 	Observable<WikiResult> getResult(@Body WikiReqBody body);
 
 
