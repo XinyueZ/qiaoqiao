@@ -3,6 +3,8 @@ package com.qiaoqiao.detail;
 
 import android.support.annotation.NonNull;
 
+import com.qiaoqiao.detail.annotation.DetailScoped;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -16,11 +18,13 @@ public final class DetailModule {
 		mKeyword = keyword;
 	}
 
+	@DetailScoped
 	@Provides
 	DetailContract.View provideDetailContractView() {
 		return mView;
 	}
 
+	@DetailScoped
 	@Provides
 	String provideKeyword() {
 		return mKeyword;

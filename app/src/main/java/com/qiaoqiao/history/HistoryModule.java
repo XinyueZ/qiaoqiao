@@ -3,7 +3,7 @@ package com.qiaoqiao.history;
 
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.databinding.FragmentHistoryBinding;
+import com.qiaoqiao.camera.annotation.CameraScoped;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,7 +16,7 @@ public final class HistoryModule {
 		mView = view;
 	}
 
-
+	@CameraScoped
 	@Provides
 	HistoryContract.View provideHistoryContractView() {
 		return mView;
