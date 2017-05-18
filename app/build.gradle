@@ -37,11 +37,15 @@ android {
         enabled = true
     }
 
+    flavorDimensions "development", "release"
+
     productFlavors {
         dev {
+            dimension "development"
             applicationId project.APP_DEV_APPLICATIONID
         }
         live {
+            dimension "release"
             applicationId project.APP_APPLICATIONID
         }
     }
@@ -189,10 +193,10 @@ dependencies {
 }
 
 // Rename final apks
-android.applicationVariants.all { variant ->
-    variant.outputs.each { output ->
-        output.outputFile = new File(
-                output.outputFile.parent, output.outputFile.name.replace("_Android", "")
-                .replace(".apk", "-${android.defaultConfig.versionName}${buildNumber}.apk"))
-    }
-}
+//android.applicationVariants.all { variant ->
+//    variant.outputs.each { output ->
+//        output.outputFile = new File(
+//                output.outputFile.parent, output.outputFile.name.replace("_Android", "")
+//                .replace(".apk", "-${android.defaultConfig.versionName}${buildNumber}.apk"))
+//    }
+//}
