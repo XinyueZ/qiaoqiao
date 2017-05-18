@@ -184,6 +184,9 @@ dependencies {
     compile("com.google.android.gms:play-services-maps:${playService}") {
         force = true
     }
+    compile("com.google.android.gms:play-services-awareness:${playService}") {
+        force = true
+    }
 
 
     //Others
