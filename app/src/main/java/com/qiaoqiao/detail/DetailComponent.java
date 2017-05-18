@@ -9,6 +9,6 @@ import dagger.Component;
 
 @DetailScoped
 @Component(dependencies = DsRepositoryComponent.class, modules = DetailModule.class)
-public  interface DetailComponent {
+public interface DetailComponent {
 	void injectDetail(DetailActivity activity);
 }

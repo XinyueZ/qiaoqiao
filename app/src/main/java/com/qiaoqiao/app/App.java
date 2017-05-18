@@ -52,17 +52,21 @@ import io.realm.Realm;
 
 
 public final class App extends MultiDexApplication {
-	public DsRepositoryComponent mRepositoryComponent;
+	private AppComponent mAppComponent;
+	private DsRepositoryComponent mRepositoryComponent;
 
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Realm.init(getApplicationContext());
+		mAppComponent = DaggerAppComponent.builder()
+		                                  .appModule(new AppModule(this))
+		                                  .build();
 		mRepositoryComponent = DaggerDsRepositoryComponent.builder()
+		                                                  .appComponent(mAppComponent)
 		                                                  .backendModule(new BackendModule())
 		                                                  .keyManagerModule(new KeyManagerModule())
-		                                                  .appModule(new AppModule(this))
 		                                                  .build();
 	}
 
@@ -70,8 +74,9 @@ public final class App extends MultiDexApplication {
 	public static void inject(@NonNull CameraActivity cameraActivity) {
 		final App application = (App) cameraActivity.getApplication();
 		DaggerCameraComponent.builder()
+		                     .appComponent(application.mAppComponent)
 		                     .dsRepositoryComponent(application.mRepositoryComponent)
-		                     .cameraModule(new CameraModule(application, cameraActivity))
+		                     .cameraModule(new CameraModule(cameraActivity))
 		                     .historyModule(new HistoryModule())
 		                     .visionModule(new VisionModule())
 		                     .awarenessModule(new AwarenessModule())
