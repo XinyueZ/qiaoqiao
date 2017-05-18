@@ -15,9 +15,6 @@ import android.view.View;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
-import com.qiaoqiao.detail.DaggerDetailComponent;
-import com.qiaoqiao.detail.DetailContract;
-import com.qiaoqiao.detail.DetailModule;
 import com.qiaoqiao.detail.DetailPresenter;
 
 import javax.inject.Inject;
@@ -43,11 +40,7 @@ public final class DetailActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DataBindingUtil.setContentView(this, LAYOUT);
-		DaggerDetailComponent.builder()
-		                     .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
-		                     .detailModule(new DetailModule((DetailContract.View) getSupportFragmentManager().findFragmentById(R.id.detail_fg), getIntent().getStringExtra(EXTRAS_KEYWORD)))
-		                     .build()
-		                     .injectDetail(this);
+		App.inject(this, getIntent().getStringExtra(EXTRAS_KEYWORD));
 		mPresenter.begin();
 	}
 

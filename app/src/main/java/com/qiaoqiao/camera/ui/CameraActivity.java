@@ -27,26 +27,20 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
-import com.qiaoqiao.awareness.AwarenessModule;
+import com.qiaoqiao.awareness.AwarenessContract;
 import com.qiaoqiao.awareness.AwarenessPresenter;
-import com.qiaoqiao.awareness.ui.SnapshotPlacesFragment;
 import com.qiaoqiao.camera.CameraContract;
-import com.qiaoqiao.camera.CameraModule;
 import com.qiaoqiao.camera.CameraPresenter;
-import com.qiaoqiao.camera.DaggerCameraComponent;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.ds.web.ui.WebLinkActivity;
 import com.qiaoqiao.history.HistoryContract;
-import com.qiaoqiao.history.HistoryModule;
 import com.qiaoqiao.history.HistoryPresenter;
-import com.qiaoqiao.history.ui.HistoryFragment;
 import com.qiaoqiao.utils.DeviceUtils;
 import com.qiaoqiao.vision.MoreVisionPresenter;
 import com.qiaoqiao.vision.VisionContract;
-import com.qiaoqiao.vision.VisionModule;
 import com.qiaoqiao.vision.VisionPresenter;
-import com.qiaoqiao.vision.ui.VisionListFragment;
-import com.qiaoqiao.vision.ui.VisionMoreListFragment;
+import com.qiaoqiao.vision.annotation.target.More;
+import com.qiaoqiao.vision.annotation.target.Single;
 
 import java.util.Arrays;
 import java.util.List;
@@ -79,6 +73,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject AwarenessPresenter mAwarenessPresenter;
 	@Inject MoreVisionPresenter mMoreVisionPresenter;
 
+	@Inject @Single VisionContract.View visionFragment;
+	@Inject @More VisionContract.View moreVisionFragment;
+	@Inject HistoryContract.View historyFragment;
+	@Inject AwarenessContract.View snapshotPlacesFragment;
+
 	/**
 	 * Show single instance of {@link CameraActivity}
 	 *
@@ -95,14 +94,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		super.onCreate(savedInstanceState);
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		setupAppBar();
-		VisionListFragment visionFragment = VisionListFragment.newInstance(this);
-		VisionMoreListFragment moreVisionFragment = VisionMoreListFragment.newInstance(this);
-		HistoryFragment historyFragment = HistoryFragment.newInstance(this);
-		SnapshotPlacesFragment snapshotPlacesFragment = SnapshotPlacesFragment.newInstance(this);
-		setupViewPager(visionFragment, moreVisionFragment, historyFragment);
-		injectAll(visionFragment, moreVisionFragment, historyFragment, snapshotPlacesFragment);
-		presentersBegin();
+		App.inject(this);
 		mBinding.appbar.addOnOffsetChangedListener(this);
+	}
+
+	@Inject
+	void onInjected() {
+		setupViewPager((Fragment) visionFragment, (Fragment) moreVisionFragment, (Fragment) historyFragment);
+		presentersBegin();
 	}
 
 	private void setupAppBar() {
@@ -115,19 +114,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		}
 	}
 
-	private void injectAll(@NonNull VisionContract.View visionView,
-	                       @NonNull VisionContract.View moreVisionView,
-	                       @NonNull HistoryContract.View historyView,
-	                       @NonNull SnapshotPlacesFragment snapshotPlacesFragment) {
-		DaggerCameraComponent.builder()
-		                     .dsRepositoryComponent(((App) getApplication()).getRepositoryComponent())
-		                     .cameraModule(new CameraModule(this))
-		                     .historyModule(new HistoryModule(historyView))
-		                     .visionModule(new VisionModule(visionView, moreVisionView))
-		                     .awarenessModule(new AwarenessModule(snapshotPlacesFragment))
-		                     .build()
-		                     .doInject(this);
-	}
 
 	private void presentersBegin() {
 		mCameraPresenter.begin();
@@ -341,6 +327,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
 	private void requireFineLocationPermission() {
 		if (EasyPermissions.hasPermissions(this, ACCESS_FINE_LOCATION)) {
+//			new GoogleApiClient.Builder(getApplication()).addApi(Awareness.API)
+//			                                            .addApi(Places.GEO_DATA_API)
+//			                                            .enableAutoManage(this, this)
+//			                                            .build();
 			Toast.makeText(this, "open place", Toast.LENGTH_SHORT)
 			     .show();
 		} else {

@@ -2,7 +2,9 @@ package com.qiaoqiao.detail;
 
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 
+import com.qiaoqiao.R;
 import com.qiaoqiao.detail.annotation.DetailScoped;
 
 import dagger.Module;
@@ -10,18 +12,18 @@ import dagger.Provides;
 
 @Module
 public final class DetailModule {
-	private final @NonNull DetailContract.View mView;
 	private final @NonNull String mKeyword;
+	private final @NonNull FragmentManager mFragmentManager;
 
-	public DetailModule(@NonNull DetailContract.View view, @NonNull String keyword) {
-		mView = view;
+	public DetailModule(@NonNull FragmentManager fragmentManager, @NonNull String keyword) {
+		mFragmentManager = fragmentManager;
 		mKeyword = keyword;
 	}
 
 	@DetailScoped
 	@Provides
 	DetailContract.View provideDetailContractView() {
-		return mView;
+		return (DetailContract.View) mFragmentManager.findFragmentById(R.id.detail_fg);
 	}
 
 	@DetailScoped

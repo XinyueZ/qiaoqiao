@@ -31,19 +31,28 @@
 
 package com.qiaoqiao.app;
 
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
+import com.qiaoqiao.awareness.AwarenessModule;
 import com.qiaoqiao.backend.BackendModule;
+import com.qiaoqiao.camera.CameraModule;
+import com.qiaoqiao.camera.DaggerCameraComponent;
+import com.qiaoqiao.camera.ui.CameraActivity;
+import com.qiaoqiao.detail.DaggerDetailComponent;
+import com.qiaoqiao.detail.DetailModule;
+import com.qiaoqiao.detail.ui.DetailActivity;
 import com.qiaoqiao.ds.DaggerDsRepositoryComponent;
 import com.qiaoqiao.ds.DsRepositoryComponent;
+import com.qiaoqiao.history.HistoryModule;
 import com.qiaoqiao.keymanager.KeyManagerModule;
+import com.qiaoqiao.vision.VisionModule;
 
 import io.realm.Realm;
 
 
 public final class App extends MultiDexApplication {
 	public DsRepositoryComponent mRepositoryComponent;
-
 
 
 	@Override
@@ -57,8 +66,26 @@ public final class App extends MultiDexApplication {
 		                                                  .build();
 	}
 
-	public DsRepositoryComponent getRepositoryComponent() {
-		return mRepositoryComponent;
+
+	public static void inject(@NonNull CameraActivity cameraActivity) {
+		final App application = (App) cameraActivity.getApplication();
+		DaggerCameraComponent.builder()
+		                     .dsRepositoryComponent(application.mRepositoryComponent)
+		                     .cameraModule(new CameraModule(application, cameraActivity))
+		                     .historyModule(new HistoryModule())
+		                     .visionModule(new VisionModule())
+		                     .awarenessModule(new AwarenessModule())
+		                     .build()
+		                     .doInject(cameraActivity);
+	}
+
+	public static void inject(@NonNull DetailActivity detailActivity, @NonNull String keyword) {
+		final App application = (App) detailActivity.getApplication();
+		DaggerDetailComponent.builder()
+		                     .dsRepositoryComponent(application.mRepositoryComponent)
+		                     .detailModule(new DetailModule(detailActivity.getSupportFragmentManager(), keyword))
+		                     .build()
+		                     .injectDetail(detailActivity);
 	}
 
 }

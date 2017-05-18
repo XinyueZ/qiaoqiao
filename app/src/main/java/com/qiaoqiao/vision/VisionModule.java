@@ -1,39 +1,36 @@
 package com.qiaoqiao.vision;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.camera.annotation.CameraScoped;
 import com.qiaoqiao.vision.annotation.target.More;
 import com.qiaoqiao.vision.annotation.target.Single;
+import com.qiaoqiao.vision.ui.VisionListFragment;
+import com.qiaoqiao.vision.ui.VisionMoreListFragment;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public final class VisionModule {
-	private final @NonNull VisionContract.View mVisionView;
-	private final @NonNull VisionContract.View mMoreVisionView;
-
-	public VisionModule(@NonNull VisionContract.View visionView, @NonNull VisionContract.View moreVisionView) {
-		mVisionView = visionView;
-		mMoreVisionView = moreVisionView;
-	}
 
 
 	@Single
 	@CameraScoped
 	@Provides
-	VisionContract.View provideVisionContractView() {
-		return mVisionView;
+	VisionContract.View provideVisionContractView(@NonNull Context cxt) {
+		return VisionListFragment.newInstance(cxt);
 	}
 
 
 	@More
 	@CameraScoped
 	@Provides
-	VisionContract.View provideMoreVisionContractView() {
-		return mMoreVisionView;
+	VisionContract.View provideMoreVisionContractView(@NonNull Context cxt) {
+		return VisionMoreListFragment.newInstance(cxt);
 	}
+
 
 }
