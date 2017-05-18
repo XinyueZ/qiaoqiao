@@ -2,6 +2,7 @@
 <resources>
     <item name="ic_map" type="drawable">@drawable/ic_map_compat</item>
     <item name="ic_back" type="drawable">@drawable/ic_back_compat</item>
+    <item name="ic_place" type="drawable">@drawable/ic_place_compat</item>
     <item name="ic_history" type="drawable">@drawable/ic_history_compat</item>
     <item name="ic_capture" type="drawable">@drawable/ic_capture_compat</item>
     <item name="ic_from_web" type="drawable">@drawable/ic_from_web_compat</item>

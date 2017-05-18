@@ -2,8 +2,10 @@
     <string name="app_name">ViApp</string>
     <string name="exit_app">Exit app</string>
     <string name="permission_setting">Set permission</string>
-    <string name="permission_relation_to_camera_text">QiaoQiao App needs device permission \"CAMERA\", consider to grant this permission.</string>
-    <string name="permission_relation_to_read_external_storage_text">QiaoQiao App needs device permission to read your \"EXTERNAL STORAGE\", consider to grant this permission.</string>
+    <string name="permission_relation_to_camera_text">ViApp needs device permission \"CAMERA\", consider to grant this permission.</string>
+    <string name="permission_relation_to_read_external_storage_text">ViApp needs device permission to read your \"READ_EXTERNAL_STORAGE\", consider to grant this permission.</string>
+    <string name="permission_relation_to_location_text">ViApp needs  \"ACCESS_FINE_LOCATION\" to find your places round you.</string>
+
     <string name="hint_link_image">Link to an image</string>
     <string name="error_can_not_find_file">Can not find file.</string>
 
@@ -12,6 +14,7 @@
     <string name="no_map_apps">Can not find route, checkout whether you have map-app on your device.</string>
 
     <string name="temp_degree">%1$.0f °C</string>
+    <string name="action_my_place">My Place</string>
     <string name="action_multi_language">More language</string>
 
     <string name="tab_vision">Vision</string>

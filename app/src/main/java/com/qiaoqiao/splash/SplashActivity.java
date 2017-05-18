@@ -32,7 +32,7 @@ public final class SplashActivity extends AppCompatActivity implements EasyPermi
 		uiHelper.hide();
 		super.onCreate(savedInstanceState);
 		DataBindingUtil.setContentView(this, LAYOUT);
-		requirePermissions();
+		requirePermission();
 	}
 
 	private void goToHome() {
@@ -45,8 +45,8 @@ public final class SplashActivity extends AppCompatActivity implements EasyPermi
 
 	@SuppressLint("InlinedApi")
 	@AfterPermissionGranted(RC_PERMISSIONS)
-	private void requirePermissions() {
-		if (hasPermissions()) {
+	private void requirePermission() {
+		if (hasPermission()) {
 			goToHome();
 		} else {
 			// Ask for one permission
@@ -56,14 +56,14 @@ public final class SplashActivity extends AppCompatActivity implements EasyPermi
 
 
 	@SuppressLint("InlinedApi")
-	private boolean hasPermissions() {
+	private boolean hasPermission() {
 		return EasyPermissions.hasPermissions(this, CAMERA);
 	}
 
 
 	@Override
 	public void onPermissionsDenied(int i, List<String> list) {
-		if (!hasPermissions()) {
+		if (!hasPermission()) {
 			new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
 			                                   .setNegativeButton(getString(R.string.exit_app), new DialogInterface.OnClickListener() {
 				                                   @Override

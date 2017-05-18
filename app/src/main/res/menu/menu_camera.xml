@@ -2,14 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_multi_language_spinner"
-        android:icon="@drawable/ic_translate"
-        android:title="@string/action_multi_language"
+        android:id="@+id/action_places"
+        android:icon="@drawable/ic_place"
+        android:title="@string/action_my_place"
         app:showAsAction="always">
 
-        <menu>
-
-        </menu>
 
     </item>
 </menu>

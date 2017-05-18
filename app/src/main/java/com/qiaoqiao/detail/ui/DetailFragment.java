@@ -63,7 +63,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.menu_detail, menu);
-		mMultiLanguageMenuItem = menu.findItem(R.id.multi_language_spinner);
+		mMultiLanguageMenuItem = menu.findItem(R.id.action_multi_language_spinner);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
