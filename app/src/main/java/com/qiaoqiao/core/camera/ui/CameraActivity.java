@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.cameraview.CameraView;
 import com.google.android.gms.common.ConnectionResult;
@@ -27,20 +26,20 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
-import com.qiaoqiao.core.camera.awareness.AwarenessContract;
-import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
 import com.qiaoqiao.core.camera.CameraContract;
 import com.qiaoqiao.core.camera.CameraPresenter;
-import com.qiaoqiao.databinding.ActivityCameraBinding;
-import com.qiaoqiao.repository.web.ui.WebLinkActivity;
+import com.qiaoqiao.core.camera.awareness.AwarenessContract;
+import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
 import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
-import com.qiaoqiao.utils.DeviceUtils;
 import com.qiaoqiao.core.camera.vision.MoreVisionPresenter;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.core.camera.vision.annotation.target.More;
 import com.qiaoqiao.core.camera.vision.annotation.target.Single;
+import com.qiaoqiao.databinding.ActivityCameraBinding;
+import com.qiaoqiao.repository.web.ui.WebLinkActivity;
+import com.qiaoqiao.utils.DeviceUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,10 +72,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject AwarenessPresenter mAwarenessPresenter;
 	@Inject MoreVisionPresenter mMoreVisionPresenter;
 
-	@Inject @Single VisionContract.View visionFragment;
+	@Inject @Single VisionContract.View mVisionFragment;
 	@Inject @More VisionContract.View moreVisionFragment;
-	@Inject HistoryContract.View historyFragment;
-	@Inject AwarenessContract.View snapshotPlacesFragment;
+	@Inject HistoryContract.View mHistoryFragment;
+	@Inject AwarenessContract.View mSnapshotPlacesFragment;
 
 	/**
 	 * Show single instance of {@link CameraActivity}
@@ -100,7 +99,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Inject
 	void onInjected() {
-		setupViewPager((Fragment) visionFragment, (Fragment) moreVisionFragment, (Fragment) historyFragment);
+		setupViewPager((Fragment) mVisionFragment, (Fragment) moreVisionFragment, (Fragment) mHistoryFragment);
 		presentersBegin();
 	}
 
@@ -193,6 +192,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private void openLocalDir() {
 		Intent openPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(openPhotoIntent, REQUEST_FILE_SELECTOR);
+	}
+
+	private void openPlaces() {
+		getSupportFragmentManager().beginTransaction()
+		                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+		                           .add(R.id.camera_container_fl, (Fragment) mSnapshotPlacesFragment)
+		                           .addToBackStack(null)
+		                           .commit();
 	}
 
 	@Override
@@ -327,12 +334,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
 	private void requireFineLocationPermission() {
 		if (EasyPermissions.hasPermissions(this, ACCESS_FINE_LOCATION)) {
-//			new GoogleApiClient.Builder(getApplication()).addApi(Awareness.API)
-//			                                            .addApi(Places.GEO_DATA_API)
-//			                                            .enableAutoManage(this, this)
-//			                                            .build();
-			Toast.makeText(this, "open place", Toast.LENGTH_SHORT)
-			     .show();
+			openPlaces();
 		} else {
 			// Ask for one permission
 			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_location_text), RC_FINE_LOCATION_PERMISSIONS, ACCESS_FINE_LOCATION);
@@ -347,11 +349,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			return;
 		}
 		if (list.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
-			Toast.makeText(this, "open place", Toast.LENGTH_SHORT)
-			     .show();
-
+			openPlaces();
 		}
 	}
+
 
 	@Override
 	public void onPermissionsDenied(int i, List<String> list) {
