@@ -3,13 +3,14 @@ package com.qiaoqiao.repository.knowledge;
 
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.repository.backend.Google;
-import com.qiaoqiao.repository.backend.Wikipedia;
-import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
+import com.google.android.gms.maps.model.LatLng;
+import com.qiaoqiao.app.Key;
 import com.qiaoqiao.repository.AbstractDsSource;
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.annotation.RepositoryScope;
-import com.qiaoqiao.app.Key;
+import com.qiaoqiao.repository.backend.Google;
+import com.qiaoqiao.repository.backend.Wikipedia;
+import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 
 import java.util.Locale;
 
@@ -77,4 +78,23 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 			              }
 		              });
 	}
+
+	@Override
+	public void onGeosearchQuery(@NonNull LatLng latLng, @NonNull DsLoadedCallback callback) {
+		getWikipedia().getGeosearch(new Wikipedia.WikiReqBody(Locale.getDefault()
+		                                                            .getLanguage(), String.format("%s|%s", latLng.latitude + "", latLng.longitude + "")))
+		              .subscribeOn(Schedulers.io())
+		              .observeOn(AndroidSchedulers.mainThread())
+		              .subscribe(result1 -> {
+			              try {
+				              if (result1.getQuery() != null && result1.getQuery()
+				                                                       .getGeosearches().length > 0) {
+					              callback.onGeosearchResponse(result1);
+				              }
+			              } catch (Exception e) {
+				              callback.onException(e);
+			              }
+		              });
+	}
+
 }

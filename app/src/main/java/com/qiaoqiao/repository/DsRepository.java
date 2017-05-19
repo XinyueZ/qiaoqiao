@@ -19,14 +19,15 @@ package com.qiaoqiao.repository;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.repository.backend.Google;
-import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
+import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.repository.annotation.RepositoryScope;
 import com.qiaoqiao.repository.annotation.target.Camera;
 import com.qiaoqiao.repository.annotation.target.Database;
 import com.qiaoqiao.repository.annotation.target.Knowledge;
 import com.qiaoqiao.repository.annotation.target.Local;
 import com.qiaoqiao.repository.annotation.target.Web;
+import com.qiaoqiao.repository.backend.Google;
+import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 
 import java.io.File;
 
@@ -53,6 +54,12 @@ public final class DsRepository extends AbstractDsSource {
 		mKnowledgeRemoteDs = knowledgeRemoteDs;
 		mDatabaseDs = databaseDs;
 	}
+
+	@Override
+	public void onGeosearchQuery(@NonNull LatLng latLng, @NonNull DsLoadedCallback callback) {
+		mKnowledgeRemoteDs.onGeosearchQuery(latLng, callback);
+	}
+
 
 	@Override
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {

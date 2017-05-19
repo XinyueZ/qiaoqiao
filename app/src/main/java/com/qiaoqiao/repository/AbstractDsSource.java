@@ -4,6 +4,7 @@ package com.qiaoqiao.repository;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.repository.backend.Google;
 import com.qiaoqiao.repository.backend.Wikipedia;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
@@ -55,6 +56,10 @@ public abstract class AbstractDsSource {
 	}
 
 	public void onKnowledgeQuery(@NonNull LangLink langLink, @NonNull DsLoadedCallback callback) {
+
+	}
+
+	public void onGeosearchQuery(@NonNull LatLng latLng, @NonNull DsLoadedCallback callback) {
 
 	}
 

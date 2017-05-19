@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 import com.qiaoqiao.repository.backend.model.translate.Data;
 import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.repository.database.HistoryItem;
@@ -52,6 +53,10 @@ public abstract class DsLoadedCallback {
 	}
 
 	public void onKnowledgeResponse(WikiResult result) {
+		LL.d("response of wiki: " + result.toString());
+	}
+
+	public void onGeosearchResponse(GeoResult result) {
 		LL.d("response of wiki: " + result.toString());
 	}
 

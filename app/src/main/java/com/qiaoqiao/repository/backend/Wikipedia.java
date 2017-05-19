@@ -2,6 +2,7 @@ package com.qiaoqiao.repository.backend;
 
 import android.support.annotation.NonNull;
 
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult;
 
 import io.reactivex.Observable;
@@ -22,5 +23,6 @@ public interface Wikipedia {
 	@POST("documents/wikipedia")
 	Observable<WikiResult> getResult(@Body WikiReqBody body);
 
-
+	@POST("geosearch/wikipedia")
+	Observable<GeoResult> getGeosearch(@Body WikiReqBody body);
 }
