@@ -29,7 +29,7 @@
             android:value="@string/map"/>
 
         <activity
-            android:name=".splash.SplashActivity"
+            android:name=".core.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -39,25 +39,25 @@
         </activity>
 
         <activity
-            android:name=".camera.ui.CameraActivity"
+            android:name=".core.camera.ui.CameraActivity"
             android:screenOrientation="portrait"/>
 
 
         <activity
-            android:name=".location.ui.MapActivity"
+            android:name=".core.location.ui.MapActivity"
             android:screenOrientation="portrait"/>
 
 
         <activity
-            android:name=".location.ui.StreetViewActivity"
+            android:name=".core.location.ui.StreetViewActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".detail.ui.DetailActivity"
+            android:name=".core.detail.ui.DetailActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ds.web.ui.WebLinkActivity"
+            android:name=".repository.web.ui.WebLinkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogStyle"/>
     </application>

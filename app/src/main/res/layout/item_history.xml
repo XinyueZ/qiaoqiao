@@ -5,11 +5,11 @@
 
         <variable
             name="historyItem"
-            type="com.qiaoqiao.ds.database.HistoryItem"/>
+            type="com.qiaoqiao.repository.database.HistoryItem"/>
 
         <variable
             name="viewholder"
-            type="com.qiaoqiao.history.ui.HistoryListAdapter.ViewHolder"/>
+            type="com.qiaoqiao.core.camera.history.ui.HistoryListAdapter.ViewHolder"/>
     </data>
 
     <FrameLayout

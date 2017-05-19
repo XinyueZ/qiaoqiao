@@ -34,19 +34,18 @@ package com.qiaoqiao.app;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
-import com.qiaoqiao.awareness.AwarenessModule;
-import com.qiaoqiao.backend.BackendModule;
-import com.qiaoqiao.camera.CameraModule;
-import com.qiaoqiao.camera.DaggerCameraComponent;
-import com.qiaoqiao.camera.ui.CameraActivity;
-import com.qiaoqiao.detail.DaggerDetailComponent;
-import com.qiaoqiao.detail.DetailModule;
-import com.qiaoqiao.detail.ui.DetailActivity;
-import com.qiaoqiao.ds.DaggerDsRepositoryComponent;
-import com.qiaoqiao.ds.DsRepositoryComponent;
-import com.qiaoqiao.history.HistoryModule;
-import com.qiaoqiao.keymanager.KeyManagerModule;
-import com.qiaoqiao.vision.VisionModule;
+import com.qiaoqiao.core.camera.CameraModule;
+import com.qiaoqiao.core.camera.DaggerCameraComponent;
+import com.qiaoqiao.core.camera.awareness.AwarenessModule;
+import com.qiaoqiao.core.camera.history.HistoryModule;
+import com.qiaoqiao.core.camera.ui.CameraActivity;
+import com.qiaoqiao.core.camera.vision.VisionModule;
+import com.qiaoqiao.core.detail.DaggerDetailComponent;
+import com.qiaoqiao.core.detail.DetailModule;
+import com.qiaoqiao.core.detail.ui.DetailActivity;
+import com.qiaoqiao.repository.DaggerDsRepositoryComponent;
+import com.qiaoqiao.repository.DsRepositoryComponent;
+import com.qiaoqiao.repository.backend.BackendModule;
 
 import io.realm.Realm;
 
@@ -66,7 +65,6 @@ public final class App extends MultiDexApplication {
 		mRepositoryComponent = DaggerDsRepositoryComponent.builder()
 		                                                  .appComponent(mAppComponent)
 		                                                  .backendModule(new BackendModule())
-		                                                  .keyManagerModule(new KeyManagerModule())
 		                                                  .build();
 	}
 

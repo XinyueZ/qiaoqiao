@@ -10,4 +10,6 @@ import dagger.Component;
 public interface AppComponent {
 
 	Context getContext();
+
+	Key getKey();
 }

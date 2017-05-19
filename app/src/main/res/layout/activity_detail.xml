@@ -2,11 +2,11 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".detail.ui.DetailActivity">
+    tools:context=".core.detail.ui.DetailActivity">
 
     <fragment
         android:id="@+id/detail_fg"
-        android:name="com.qiaoqiao.detail.ui.DetailFragment"
+        android:name="com.qiaoqiao.core.detail.ui.DetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </layout>

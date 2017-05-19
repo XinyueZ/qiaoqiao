@@ -6,11 +6,11 @@
 
         <variable
             name="visionEntity"
-            type="com.qiaoqiao.vision.model.VisionEntity"/>
+            type="com.qiaoqiao.core.camera.vision.model.VisionEntity"/>
 
         <variable
             name="viewholder"
-            type="com.qiaoqiao.vision.ui.viewholder.LogoViewHolder"/>
+            type="com.qiaoqiao.core.camera.vision.ui.viewholder.LogoViewHolder"/>
     </data>
 
     <FrameLayout
