@@ -21,6 +21,9 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
+import com.qiaoqiao.repository.DsLoadedCallback;
+import com.qiaoqiao.repository.DsRepository;
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 
 import java.lang.ref.WeakReference;
 
@@ -34,16 +37,19 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	private @Nullable GoogleApiClient mGoogleApiClient;
 	private @NonNull WeakReference<CameraActivity> mCameraActivityWeakReference;
 	private @NonNull LocationSettingsRequest.Builder mLocationSettingsRequestBuilder;
+	private @NonNull DsRepository mDsRepository;
 
 	@Inject
 	AwarenessPresenter(@NonNull CameraActivity cameraActivity,
 	                   @NonNull AwarenessContract.View view,
 	                   @NonNull GoogleApiClient.Builder googleApiClientBuilder,
-	                   @NonNull LocationSettingsRequest.Builder locationSettingsRequestBuilder) {
+	                   @NonNull LocationSettingsRequest.Builder locationSettingsRequestBuilder,
+	@NonNull DsRepository dsRepository ) {
 		mView = view;
 		mGoogleApiClientBuilder = googleApiClientBuilder;
 		mCameraActivityWeakReference = new WeakReference<>(cameraActivity);
 		mLocationSettingsRequestBuilder = locationSettingsRequestBuilder;
+		mDsRepository = dsRepository;
 	}
 
 	@Inject
@@ -115,5 +121,16 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 				mView.onLocatingError();
 				break;
 		}
+	}
+
+	@Override
+	public void geosearch(@NonNull LatLng latLng) {
+		mDsRepository.onGeosearchQuery(latLng, new DsLoadedCallback() {
+			@Override
+			public void onGeosearchResponse(GeoResult result) {
+				super.onGeosearchResponse(result);
+				mView.showGeosearch(result);
+			}
+		});
 	}
 }

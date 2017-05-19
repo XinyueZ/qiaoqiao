@@ -9,6 +9,7 @@
     <item name="ic_locating" type="drawable">@drawable/ic_locating_vec</item>
     <item name="ic_translate" type="drawable">@drawable/ic_translate_vec</item>
     <item name="ic_direction" type="drawable">@drawable/ic_direction_vec</item>
+    <item name="ic_geosearch" type="drawable">@drawable/ic_geosearch_vec</item>
     <item name="ic_streetview" type="drawable">@drawable/ic_streetview_vec</item>
     <item name="ic_from_local" type="drawable">@drawable/ic_from_local_vec</item>
     <item name="ic_location_pin" type="drawable">@drawable/ic_location_pin_vec</item>

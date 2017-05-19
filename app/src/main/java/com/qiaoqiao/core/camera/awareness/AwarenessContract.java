@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.databinding.PlacesBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -43,10 +44,13 @@ public interface AwarenessContract {
 		void locating();
 
 		void solveSettingLocatingDialogProblem(@NonNull Status status);
+
+		void showGeosearch(@NonNull GeoResult geoResult);
 	}
 
 	interface Presenter extends BasePresenter {
 		void locating(@NonNull Context cxt);
 		void settingLocating();
+		void geosearch(@NonNull LatLng latLng);
 	}
 }

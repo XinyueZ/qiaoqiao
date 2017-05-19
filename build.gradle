@@ -44,6 +44,7 @@ ext {
     rxandroid = "2.0.1"
     easypermissions = "0.4.0"
     multidexVersion = "1.0.1"
+    mapsUtilsVersion = "0.5+"
     rxandroidAdapter = "1.0.0"
     appCompatVersion = project.SUPPORT
 

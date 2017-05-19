@@ -23,7 +23,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.AwarenessContract;
+import com.qiaoqiao.core.camera.awareness.map.ClusterManager;
 import com.qiaoqiao.databinding.PlacesBinding;
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
+
+import java.util.Arrays;
 
 public final class SnapshotPlacesFragment extends Fragment implements AwarenessContract.View,
                                                                       OnMapReadyCallback {
@@ -31,7 +35,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	private static final int LAYOUT = R.layout.fragment_snapshot_places;
 	private AwarenessContract.Presenter mPresenter;
 	private PlacesBinding mBinding;
-	private GoogleMap mGoogleMap;
+	private @Nullable GoogleMap mGoogleMap;
 
 	public static SnapshotPlacesFragment newInstance(@NonNull Context cxt) {
 		return (SnapshotPlacesFragment) SnapshotPlacesFragment.instantiate(cxt, SnapshotPlacesFragment.class.getName());
@@ -113,6 +117,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		}
 
 		mBinding.locatingControl.stopLocalProgressBar();
+		mPresenter.geosearch(latLng);
 	}
 
 	@Override
@@ -122,5 +127,21 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		} catch (IntentSender.SendIntentException e) {
 			onLocatingError();
 		}
+	}
+
+	@Override
+	public void showGeosearch(@NonNull GeoResult geoResult) {
+		if (mGoogleMap == null) {
+			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+			fragmentById.getMapAsync(googleMap -> {
+				mGoogleMap = googleMap;
+				showGeosearch(geoResult);
+			});
+			return;
+		}
+		ClusterManager.showGeosearch(getActivity(),
+		                             mGoogleMap,
+		                             Arrays.asList(geoResult.getQuery()
+		                                                    .getGeosearches()));
 	}
 }
