@@ -35,7 +35,7 @@
     <style name="CopyUrl" parent="BaseDialogStyle">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">@color/colorTealDark</item>
+        <item name="android:navigationBarColor">@color/colorTeal</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 

@@ -41,6 +41,10 @@ public final class DetailActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		DataBindingUtil.setContentView(this, LAYOUT);
 		App.inject(this, getIntent().getStringExtra(EXTRAS_KEYWORD));
+	}
+
+	@Inject
+	void injected() {
 		mPresenter.begin();
 	}
 

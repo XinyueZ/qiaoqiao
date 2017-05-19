@@ -15,7 +15,7 @@ import android.view.View;
 import com.qiaoqiao.R;
 
 public final class WebLinkActivity extends AppCompatActivity {
-	public static final int REQ = 0x80;
+	public static final int REQ_WEB_LINK = 0x80;
 	private static final int LAYOUT = R.layout.activity_web_link;
 
 
@@ -23,7 +23,7 @@ public final class WebLinkActivity extends AppCompatActivity {
 		Intent intent = new Intent(cxt, WebLinkActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(cxt, transitionView, cxt.getString(R.string.transition_share_item_name));
-		ActivityCompat.startActivityForResult(cxt, intent, REQ, options.toBundle());
+		ActivityCompat.startActivityForResult(cxt, intent, REQ_WEB_LINK, options.toBundle());
 	}
 
 	@Override

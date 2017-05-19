@@ -17,9 +17,14 @@
 package com.qiaoqiao.core.camera.awareness;
 
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.qiaoqiao.databinding.PlacesBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
-import com.qiaoqiao.databinding.PlacesBinding;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -29,10 +34,19 @@ public interface AwarenessContract {
 	interface View extends BaseView<Presenter, PlacesBinding> {
 		PlacesBinding getBinding();
 
+		void onLocatingError();
 
+		void onLocated(@NonNull LatLng latLng);
+
+		void onPlayServiceConnectionFailed();
+
+		void locating();
+
+		void solveSettingLocatingDialogProblem(@NonNull Status status);
 	}
 
 	interface Presenter extends BasePresenter {
-
+		void locating(@NonNull Context cxt);
+		void settingLocating();
 	}
 }

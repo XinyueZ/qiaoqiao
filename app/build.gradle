@@ -157,7 +157,6 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit-mock:${retrofit}"
     compile "com.squareup.retrofit2:converter-gson:${retrofit}"
 
-
     //Google-service include vision-api
     compile("com.google.http-client:google-http-client-gson:${httpClientGson}", {
         exclude module: 'httpclient'
@@ -188,6 +187,9 @@ dependencies {
         force = true
     }
 
+    compile("com.google.android.gms:play-services-location:${playService}") {
+        force = true
+    }
 
     //Others
     compile "commons-io:commons-io:${apacheIO}"

@@ -52,6 +52,13 @@
                         app:autoFocus="true"
                         app:facing="back"
                         app:flash="auto"/>
+
+                    <com.qiaoqiao.views.MainControlView
+                        android:id="@+id/main_control"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_margin="@dimen/larger"/>
                 </FrameLayout>
 
                 <android.support.v7.widget.Toolbar
@@ -65,6 +72,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/bar_title_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/app_name"
@@ -73,23 +81,6 @@
                     </com.facebook.shimmer.ShimmerFrameLayout>
                 </android.support.v7.widget.Toolbar>
 
-
-                <com.qiaoqiao.views.MainControlView
-                    android:id="@+id/main_control"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="@dimen/larger"
-                    app:layout_collapseMode="parallax"/>
-
-
-                <FrameLayout
-                    android:id="@+id/content_root_fl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/larger"
-                    app:layout_collapseMode="parallax"/>
 
             </android.support.design.widget.CollapsingToolbarLayout>
 

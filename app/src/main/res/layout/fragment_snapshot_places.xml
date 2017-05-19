@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
     <data class="PlacesBinding"></data>
@@ -12,7 +13,22 @@
             android:id="@+id/map"
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:cameraZoom="@integer/zoom"
+            app:mapType="normal"
+            app:uiCompass="false"
+            app:uiRotateGestures="false"
+            app:uiScrollGestures="true"
+            app:uiTiltGestures="false"
+            app:uiZoomControls="true"
+            app:uiZoomGestures="false"/>
+
+        <com.qiaoqiao.views.LocatingControlView
+            android:id="@+id/locating_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/larger"/>
     </FrameLayout>
 
 </layout>
