@@ -34,6 +34,7 @@ import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.qiaoqiao.R;
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 
 
 /**
@@ -57,9 +58,14 @@ final class ClusterRenderer extends DefaultClusterRenderer<ClusterItem> {
 		if (clusterItem == null || options == null) {
 			return;
 		}
-		options.position(clusterItem.getPosition())
-		       .icon(getBitmapDescriptor(R.drawable.ic_geosearch));
-
+		if (clusterItem instanceof Geosearch) {
+			options.position(clusterItem.getPosition())
+			       .icon(getBitmapDescriptor(R.drawable.ic_geosearch));
+		}
+		if (clusterItem instanceof PlaceWrapper) {
+			options.position(clusterItem.getPosition())
+			       .icon(((PlaceWrapper) clusterItem).getBitmapDescriptor());
+		}
 	}
 
 	private BitmapDescriptor getBitmapDescriptor(@DrawableRes int resId) {

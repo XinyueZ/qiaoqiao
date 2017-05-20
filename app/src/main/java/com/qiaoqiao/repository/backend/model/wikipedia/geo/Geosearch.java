@@ -5,13 +5,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
 
-public final class Geosearch implements ClusterItem  {
-	@SerializedName("pageid") private long mPageId;
+public final class Geosearch implements ClusterItem {
+	@SerializedName("pageid") private int mPageId;
 	@SerializedName("title") private String mTitle;
 	@SerializedName("lat") private double mLatitude;
 	@SerializedName("lon") private double mLongitude;
 
-	public Geosearch(long pageId, String title, double latitude, double longitude) {
+	public Geosearch(int pageId, String title, double latitude, double longitude) {
 		mPageId = pageId;
 		mTitle = title;
 		mLatitude = latitude;
@@ -25,20 +25,20 @@ public final class Geosearch implements ClusterItem  {
 
 	@Override
 	public String getSnippet() {
-		return mPageId + "";
-	}
-
-	public long getPageId() {
-		return mPageId;
-	}
-
-	public void setPageId(long pageId) {
-		mPageId = pageId;
+		return null;
 	}
 
 	@Override
 	public String getTitle() {
 		return mTitle;
+	}
+
+	public int getPageId() {
+		return mPageId;
+	}
+
+	public void setPageId(int pageId) {
+		mPageId = pageId;
 	}
 
 	public void setTitle(String title) {

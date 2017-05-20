@@ -4,6 +4,7 @@ package com.qiaoqiao.core.camera.awareness;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,15 +20,29 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.places.PlaceLikelihood;
+import com.google.android.gms.location.places.PlacePhotoMetadata;
+import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
+import com.google.android.gms.location.places.PlacePhotoMetadataResult;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.qiaoqiao.R;
+import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.DsRepository;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public final class AwarenessPresenter implements AwarenessContract.Presenter,
                                                  GoogleApiClient.OnConnectionFailedListener,
@@ -38,16 +53,19 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	private @NonNull WeakReference<CameraActivity> mCameraActivityWeakReference;
 	private @NonNull LocationSettingsRequest.Builder mLocationSettingsRequestBuilder;
 	private @NonNull DsRepository mDsRepository;
+	private int mPlaceImageSize;
 
 	@Inject
 	AwarenessPresenter(@NonNull CameraActivity cameraActivity,
 	                   @NonNull AwarenessContract.View view,
 	                   @NonNull GoogleApiClient.Builder googleApiClientBuilder,
 	                   @NonNull LocationSettingsRequest.Builder locationSettingsRequestBuilder,
-	@NonNull DsRepository dsRepository ) {
+	                   @NonNull DsRepository dsRepository) {
 		mView = view;
 		mGoogleApiClientBuilder = googleApiClientBuilder;
 		mCameraActivityWeakReference = new WeakReference<>(cameraActivity);
+		mPlaceImageSize = cameraActivity.getResources()
+		                                .getDimensionPixelSize(R.dimen.place_image_size);
 		mLocationSettingsRequestBuilder = locationSettingsRequestBuilder;
 		mDsRepository = dsRepository;
 	}
@@ -130,7 +148,61 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 			public void onGeosearchResponse(GeoResult result) {
 				super.onGeosearchResponse(result);
 				mView.showGeosearch(result);
+				getPlaces();
 			}
 		});
 	}
+
+
+	private void getPlaces() {
+		if (mCameraActivityWeakReference.get() == null || ActivityCompat.checkSelfPermission(mCameraActivityWeakReference.get(),
+		                                                                                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			return;
+		}
+		if (mGoogleApiClient == null || !mGoogleApiClient.isConnected() || mCameraActivityWeakReference.get() == null) {
+			return;
+		}
+		Awareness.SnapshotApi.getPlaces(mGoogleApiClient)
+		                     .setResultCallback(placesResult -> {
+			                     if (!placesResult.getStatus()
+			                                      .isSuccess()) {
+				                     return;
+			                     }
+			                     showPlaces(placesResult.getPlaceLikelihoods());
+		                     });
+	}
+
+	private void showPlaces(@NonNull List<PlaceLikelihood> placeLikelihoodList) {
+		Observable.just(placeLikelihoodList)
+		          .subscribeOn(Schedulers.newThread())
+		          .map(likelihoodList -> {
+			          List<PlaceWrapper> wrapperList = new ArrayList<>();
+			          createPlaceWrappers(likelihoodList, wrapperList);
+			          return wrapperList;
+		          })
+		          .observeOn(AndroidSchedulers.mainThread())
+		          .subscribe(mView::showPlaces);
+	}
+
+	private void createPlaceWrappers(@NonNull List<PlaceLikelihood> likelihoodList, @NonNull List<PlaceWrapper> wrapperList) {
+		for (PlaceLikelihood placeLikelihood : likelihoodList) {
+			PlacePhotoMetadataResult result = Places.GeoDataApi.getPlacePhotos(mGoogleApiClient,
+			                                                                   placeLikelihood.getPlace()
+			                                                                                  .getId())
+			                                                   .await();
+			if (result.getStatus()
+			          .isSuccess()) {
+				PlacePhotoMetadataBuffer photoMetadataBuffer = result.getPhotoMetadata();
+				if (photoMetadataBuffer.getCount() > 0) {
+					PlacePhotoMetadata photo = photoMetadataBuffer.get(0);
+					Bitmap image = photo.getScaledPhoto(mGoogleApiClient, mPlaceImageSize, mPlaceImageSize)
+					                    .await()
+					                    .getBitmap();
+					wrapperList.add(new PlaceWrapper(placeLikelihood.getPlace(), BitmapDescriptorFactory.fromBitmap(image)));
+				}
+				photoMetadataBuffer.release();
+			}
+		}
+	}
+
 }

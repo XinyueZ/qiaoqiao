@@ -22,10 +22,13 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.databinding.PlacesBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
+
+import java.util.List;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -46,6 +49,8 @@ public interface AwarenessContract {
 		void solveSettingLocatingDialogProblem(@NonNull Status status);
 
 		void showGeosearch(@NonNull GeoResult geoResult);
+
+		void showPlaces(@NonNull List<PlaceWrapper> placeWrappers);
 	}
 
 	interface Presenter extends BasePresenter {

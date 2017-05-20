@@ -24,10 +24,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.AwarenessContract;
 import com.qiaoqiao.core.camera.awareness.map.ClusterManager;
+import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.databinding.PlacesBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 
 import java.util.Arrays;
+import java.util.List;
 
 public final class SnapshotPlacesFragment extends Fragment implements AwarenessContract.View,
                                                                       OnMapReadyCallback {
@@ -143,5 +145,18 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		                             mGoogleMap,
 		                             Arrays.asList(geoResult.getQuery()
 		                                                    .getGeosearches()));
+	}
+
+	@Override
+	public void showPlaces(@NonNull List<PlaceWrapper> placeWrappers) {
+		if (mGoogleMap == null) {
+			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+			fragmentById.getMapAsync(googleMap -> {
+				mGoogleMap = googleMap;
+				showPlaces(placeWrappers);
+			});
+			return;
+		}
+		ClusterManager.showGeosearch(getActivity(), mGoogleMap, Arrays.asList(placeWrappers.toArray(new PlaceWrapper[placeWrappers.size()])));
 	}
 }

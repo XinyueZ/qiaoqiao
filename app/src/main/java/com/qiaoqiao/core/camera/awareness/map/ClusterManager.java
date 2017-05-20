@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.maps.android.MarkerManager;
 import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -41,10 +42,14 @@ public final class ClusterManager extends com.google.maps.android.clustering.Clu
 		mActivityWeakReference = new WeakReference<>(activity);
 	}
 
-	public static ClusterManager showGeosearch(@NonNull FragmentActivity activity, @NonNull GoogleMap googleMap, @Nullable List<ClusterItem> clusterItems) {
-		ClusterManager ret = new ClusterManager(activity, googleMap);
-		ret.addItems(clusterItems);
-		return ret;
+	public static @Nullable
+	ClusterManager showGeosearch(@Nullable FragmentActivity activity, @NonNull GoogleMap googleMap, @Nullable List<ClusterItem> clusterItems) {
+		if (activity != null) {
+			ClusterManager ret = new ClusterManager(activity, googleMap);
+			ret.addItems(clusterItems);
+			return ret;
+		}
+		return null;
 	}
 
 
@@ -53,7 +58,14 @@ public final class ClusterManager extends com.google.maps.android.clustering.Clu
 		if (mActivityWeakReference.get() == null) {
 			return true;
 		}
-		DetailActivity.showInstance(mActivityWeakReference.get(), Integer.valueOf(clusterItem.getSnippet()));
+		if (clusterItem instanceof Geosearch) {
+			DetailActivity.showInstance(mActivityWeakReference.get(), ((Geosearch) clusterItem).getPageId());
+			return true;
+		}
+		if (clusterItem instanceof PlaceWrapper) {
+//			DetailActivity.showInstance(mActivityWeakReference.get(), ((PlaceWrapper) clusterItem).getPlace());
+			return true;
+		}
 		return true;
 	}
 }
