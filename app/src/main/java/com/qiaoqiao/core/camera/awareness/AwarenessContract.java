@@ -50,7 +50,9 @@ public interface AwarenessContract {
 
 	interface Presenter extends BasePresenter {
 		void locating(@NonNull Context cxt);
+
 		void settingLocating();
+
 		void geosearch(@NonNull LatLng latLng);
 	}
 }

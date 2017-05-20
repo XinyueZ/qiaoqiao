@@ -20,18 +20,23 @@ package com.qiaoqiao.core.detail;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.qiaoqiao.databinding.FragmentDetailBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
 import com.qiaoqiao.repository.backend.model.wikipedia.Image;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
-import com.qiaoqiao.databinding.FragmentDetailBinding;
 
 public interface DetailContract {
 
 	interface View extends BaseView<DetailPresenter, FragmentDetailBinding> {
 		FragmentDetailBinding getBinding();
-		void showImage(@Nullable Image preview, @Nullable Image  photo);
+
+		void showImage(@Nullable Image preview, @Nullable Image photo);
+
 		void setText(@NonNull String title, @NonNull String content);
+
+		void loadDetail();
+
 		void setMultiLanguage(@Nullable LangLink[] langLinks);
 
 		void onError();
@@ -39,6 +44,9 @@ public interface DetailContract {
 
 	interface Presenter extends BasePresenter {
 
+		void loadDetail(int pageId);
+
+		void loadDetail(String text);
 
 		void loadDetail(LangLink langLink);
 	}

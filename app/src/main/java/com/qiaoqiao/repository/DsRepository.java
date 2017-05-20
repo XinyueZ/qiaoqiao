@@ -60,6 +60,10 @@ public final class DsRepository extends AbstractDsSource {
 		mKnowledgeRemoteDs.onGeosearchQuery(latLng, callback);
 	}
 
+	@Override
+	public void onKnowledgeQuery(int pageId, @NonNull DsLoadedCallback callback) {
+		mKnowledgeRemoteDs.onKnowledgeQuery(pageId, callback);
+	}
 
 	@Override
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {

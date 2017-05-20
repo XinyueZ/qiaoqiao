@@ -51,6 +51,10 @@ public abstract class AbstractDsSource {
 	public void onUri(@NonNull Uri uri, @NonNull DsLoadedCallback callback) {
 	}
 
+	public void onKnowledgeQuery(int pageId, @NonNull DsLoadedCallback callback) {
+
+	}
+
 	public void onKnowledgeQuery(@NonNull String keyword, @NonNull DsLoadedCallback callback) {
 
 	}

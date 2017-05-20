@@ -26,5 +26,8 @@ public interface Wikipedia {
 	Observable<WikiResult> getResult(@Body WikiReqBody body);
 
 	@GET
+	Observable<WikiResult> getResult(@Url String queryWithPageId);
+
+	@GET
 	Observable<GeoResult> getGeosearch(@Url String url);
 }

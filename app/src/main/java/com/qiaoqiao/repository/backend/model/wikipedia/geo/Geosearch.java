@@ -7,7 +7,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
 
-public final class Geosearch implements ClusterItem, PlaceLikelihood{
+public final class Geosearch implements ClusterItem,
+                                        PlaceLikelihood {
 	@SerializedName("pageid") private long mPageId;
 	@SerializedName("title") private String mTitle;
 	@SerializedName("lat") private double mLatitude;
@@ -27,7 +28,7 @@ public final class Geosearch implements ClusterItem, PlaceLikelihood{
 
 	@Override
 	public String getSnippet() {
-		return null;
+		return mPageId + "";
 	}
 
 	public long getPageId() {
@@ -38,6 +39,7 @@ public final class Geosearch implements ClusterItem, PlaceLikelihood{
 		mPageId = pageId;
 	}
 
+	@Override
 	public String getTitle() {
 		return mTitle;
 	}

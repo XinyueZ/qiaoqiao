@@ -22,6 +22,7 @@ import javax.inject.Inject;
 
 public final class DetailActivity extends AppCompatActivity {
 	static final String EXTRAS_KEYWORD = DetailActivity.class.getName() + ".EXTRAS.keyword";
+	static final String EXTRAS_PAGE_ID = DetailActivity.class.getName() + ".EXTRAS.page.id";
 	private static final int LAYOUT = R.layout.activity_detail;
 	@Inject DetailPresenter mPresenter;
 
@@ -36,11 +37,19 @@ public final class DetailActivity extends AppCompatActivity {
 		ActivityCompat.startActivity(cxt, intent, options.toBundle());
 	}
 
+	public static void showInstance(@NonNull Activity cxt, int pageId ) {
+		Intent intent = new Intent(cxt, DetailActivity.class);
+		intent.putExtra(EXTRAS_PAGE_ID, pageId);
+		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeBasic();
+		ActivityCompat.startActivity(cxt, intent, optionsCompat.toBundle());
+	}
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DataBindingUtil.setContentView(this, LAYOUT);
-		App.inject(this, getIntent().getStringExtra(EXTRAS_KEYWORD));
+		App.inject(this);
 	}
 
 	@Inject

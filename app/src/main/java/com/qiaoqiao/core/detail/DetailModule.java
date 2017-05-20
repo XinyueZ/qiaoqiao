@@ -12,12 +12,10 @@ import dagger.Provides;
 
 @Module
 public final class DetailModule {
-	private final @NonNull String mKeyword;
 	private final @NonNull FragmentManager mFragmentManager;
 
-	public DetailModule(@NonNull FragmentManager fragmentManager, @NonNull String keyword) {
+	public DetailModule(@NonNull FragmentManager fragmentManager) {
 		mFragmentManager = fragmentManager;
-		mKeyword = keyword;
 	}
 
 	@DetailScoped
@@ -26,9 +24,4 @@ public final class DetailModule {
 		return (DetailContract.View) mFragmentManager.findFragmentById(R.id.detail_fg);
 	}
 
-	@DetailScoped
-	@Provides
-	String provideKeyword() {
-		return mKeyword;
-	}
 }

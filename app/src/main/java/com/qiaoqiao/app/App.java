@@ -82,11 +82,11 @@ public final class App extends MultiDexApplication {
 		                     .doInject(cameraActivity);
 	}
 
-	public static void inject(@NonNull DetailActivity detailActivity, @NonNull String keyword) {
+	public static void inject(@NonNull DetailActivity detailActivity) {
 		final App application = (App) detailActivity.getApplication();
 		DaggerDetailComponent.builder()
 		                     .dsRepositoryComponent(application.mRepositoryComponent)
-		                     .detailModule(new DetailModule(detailActivity.getSupportFragmentManager(), keyword))
+		                     .detailModule(new DetailModule(detailActivity.getSupportFragmentManager()))
 		                     .build()
 		                     .injectDetail(detailActivity);
 	}

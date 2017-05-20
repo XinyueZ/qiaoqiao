@@ -32,14 +32,17 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.qiaoqiao.R;
-import com.qiaoqiao.repository.backend.model.wikipedia.Image;
-import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
-import com.qiaoqiao.databinding.FragmentDetailBinding;
 import com.qiaoqiao.core.detail.DetailContract;
 import com.qiaoqiao.core.detail.DetailPresenter;
+import com.qiaoqiao.databinding.FragmentDetailBinding;
+import com.qiaoqiao.repository.backend.model.wikipedia.Image;
+import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.utils.DeviceUtils;
 
 import java.lang.ref.WeakReference;
+
+import static com.qiaoqiao.core.detail.ui.DetailActivity.EXTRAS_KEYWORD;
+import static com.qiaoqiao.core.detail.ui.DetailActivity.EXTRAS_PAGE_ID;
 
 public final class DetailFragment extends Fragment implements DetailContract.View,
                                                               AppBarLayout.OnOffsetChangedListener,
@@ -108,6 +111,20 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		                                      .getStringExtra(getString(R.string.transition_share_item_name));
 		if (!TextUtils.isEmpty(transName)) {
 			ViewCompat.setTransitionName(mBinding.appbar, transName);
+		}
+
+	}
+
+	@Override
+	public void loadDetail() {
+		final String keyword = getActivity().getIntent()
+		                                    .getStringExtra(EXTRAS_KEYWORD);
+		if (!TextUtils.isEmpty(keyword)) {
+			mPresenter.loadDetail(keyword);
+		} else {
+			final int pageId = getActivity().getIntent()
+			                                .getIntExtra(EXTRAS_PAGE_ID, -1);
+			mPresenter.loadDetail(pageId);
 		}
 	}
 
@@ -272,6 +289,8 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	@Override
 	public void onError() {
-		Snackbar.make(mBinding.getRoot(), R.string.loading_detail_fail, Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok, v -> getActivity().supportFinishAfterTransition()).show();
+		Snackbar.make(mBinding.getRoot(), R.string.loading_detail_fail, Snackbar.LENGTH_INDEFINITE)
+		        .setAction(android.R.string.ok, v -> getActivity().supportFinishAfterTransition())
+		        .show();
 	}
 }

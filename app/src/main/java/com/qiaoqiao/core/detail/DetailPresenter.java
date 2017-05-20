@@ -3,23 +3,58 @@ package com.qiaoqiao.core.detail;
 
 import android.support.annotation.NonNull;
 
-import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
-import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult;
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.DsRepository;
+import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
+import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult;
 
 import javax.inject.Inject;
 
 public final class DetailPresenter implements DetailContract.Presenter {
 	private final @NonNull DetailContract.View mView;
 	private final @NonNull DsRepository mDsRepository;
-	private final @NonNull String mKeyword;
+	private final DsLoadedCallback mLoadedCallback = new DsLoadedCallback() {
+		@Override
+		public void onKnowledgeResponse(WikiResult result) {
+			super.onKnowledgeResponse(result);
+			mView.setMultiLanguage(result.getQuery()
+			                             .getPages()
+			                             .getList()
+			                             .get(0)
+			                             .getLangLinks());
+			mView.showImage(result.getQuery()
+			                      .getPages()
+			                      .getList()
+			                      .get(0)
+			                      .getThumbnail(),
+			                result.getQuery()
+			                      .getPages()
+			                      .getList()
+			                      .get(0)
+			                      .getOriginal());
+			mView.setText(result.getQuery()
+			                    .getPages()
+			                    .getList()
+			                    .get(0)
+			                    .getTitle(),
+			              result.getQuery()
+			                    .getPages()
+			                    .getList()
+			                    .get(0)
+			                    .getExtract());
+		}
+
+		@Override
+		public void onException(@NonNull Exception e) {
+			super.onException(e);
+			mView.onError();
+		}
+	};
 
 	@Inject
-	DetailPresenter(@NonNull DetailContract.View view, @NonNull DsRepository dsRepository, @NonNull String keyword) {
+	DetailPresenter(@NonNull DetailContract.View view, @NonNull DsRepository dsRepository) {
 		mView = view;
 		mDsRepository = dsRepository;
-		mKeyword = keyword;
 	}
 
 	@Inject
@@ -29,7 +64,7 @@ public final class DetailPresenter implements DetailContract.Presenter {
 
 	@Override
 	public void begin() {
-		loadDetail(mKeyword);
+		mView.loadDetail();
 	}
 
 	@Override
@@ -37,85 +72,19 @@ public final class DetailPresenter implements DetailContract.Presenter {
 		//Still not impl.
 	}
 
+	@Override
+	public void loadDetail(int pageId) {
+		mDsRepository.onKnowledgeQuery(pageId, mLoadedCallback);
+	}
 
 	@Override
 	public void loadDetail(LangLink langLink) {
-		mDsRepository.onKnowledgeQuery(langLink, new DsLoadedCallback() {
-			@Override
-			public void onKnowledgeResponse(WikiResult result) {
-				super.onKnowledgeResponse(result);
-				mView.setMultiLanguage(result.getQuery()
-				                             .getPages()
-				                             .getList()
-				                             .get(0)
-				                             .getLangLinks());
-				mView.showImage(result.getQuery()
-				                      .getPages()
-				                      .getList()
-				                      .get(0)
-				                      .getThumbnail(),
-				                result.getQuery()
-				                      .getPages()
-				                      .getList()
-				                      .get(0)
-				                      .getOriginal());
-				mView.setText(result.getQuery()
-				                    .getPages()
-				                    .getList()
-				                    .get(0)
-				                    .getTitle(),
-				              result.getQuery()
-				                    .getPages()
-				                    .getList()
-				                    .get(0)
-				                    .getExtract());
-			}
-
-			@Override
-			public void onException(@NonNull Exception e) {
-				super.onException(e);
-				mView.onError();
-			}
-		});
+		mDsRepository.onKnowledgeQuery(langLink, mLoadedCallback);
 	}
 
 
-	private void loadDetail(String text) {
-		mDsRepository.onKnowledgeQuery(text, new DsLoadedCallback() {
-			@Override
-			public void onKnowledgeResponse(WikiResult result) {
-				super.onKnowledgeResponse(result);
-				mView.setMultiLanguage(result.getQuery()
-				                             .getPages()
-				                             .getList()
-				                             .get(0)
-				                             .getLangLinks());
-				mView.showImage(result.getQuery()
-				                      .getPages()
-				                      .getList()
-				                      .get(0)
-				                      .getThumbnail(),
-				                result.getQuery()
-				                      .getPages()
-				                      .getList()
-				                      .get(0)
-				                      .getOriginal());
-				mView.setText(result.getQuery()
-				                    .getPages()
-				                    .getList()
-				                    .get(0)
-				                    .getTitle(),
-				              result.getQuery()
-				                    .getPages()
-				                    .getList()
-				                    .get(0)
-				                    .getExtract());
-			}
-			@Override
-			public void onException(@NonNull Exception e) {
-				super.onException(e);
-				mView.onError();
-			}
-		});
+	@Override
+	public void loadDetail(String text) {
+		mDsRepository.onKnowledgeQuery(text, mLoadedCallback);
 	}
 }

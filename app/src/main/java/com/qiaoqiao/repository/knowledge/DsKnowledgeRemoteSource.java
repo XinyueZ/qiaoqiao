@@ -80,6 +80,26 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 	}
 
 	@Override
+	public void onKnowledgeQuery(int pageId, @NonNull DsLoadedCallback callback) {
+		getWikipedia().getResult(wikiQuery(Locale.getDefault()
+		                                         .getLanguage(), pageId + ""))
+		              .subscribeOn(Schedulers.io())
+		              .observeOn(AndroidSchedulers.mainThread())
+		              .subscribe(result1 -> {
+			              try {
+				              if (result1.getQuery()
+				                         .getPages()
+				                         .getList()
+				                         .size() > 0) {
+					              callback.onKnowledgeResponse(result1);
+				              }
+			              } catch (Exception e) {
+				              callback.onException(e);
+			              }
+		              });
+	}
+
+	@Override
 	public void onGeosearchQuery(@NonNull LatLng latLng, @NonNull DsLoadedCallback callback) {
 		String geoLoc = String.format("%s|%s", latLng.latitude + "", latLng.longitude + "");
 		getWikipedia().getGeosearch(wikiGeosearch(Locale.getDefault()
