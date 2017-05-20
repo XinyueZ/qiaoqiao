@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.R;
-import com.qiaoqiao.databinding.FragmentListVisionBinding;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
+import com.qiaoqiao.databinding.FragmentListVisionBinding;
 
 import java.util.ArrayList;
 import java.util.List;

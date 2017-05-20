@@ -112,7 +112,8 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		if (!TextUtils.isEmpty(transName)) {
 			ViewCompat.setTransitionName(mBinding.appbar, transName);
 		}
-
+		//Detail has been defined in DetailActivity in xml directly,
+		//onViewCreated called earlier than injection.
 	}
 
 	@Override

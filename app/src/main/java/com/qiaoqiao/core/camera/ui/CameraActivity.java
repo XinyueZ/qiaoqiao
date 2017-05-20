@@ -122,6 +122,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Inject
 	void onInjected() {
+		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
 		setupViewPager((Fragment) mVisionFragment, (Fragment) moreVisionFragment, (Fragment) mHistoryFragment);
 		presentersBegin();
 	}

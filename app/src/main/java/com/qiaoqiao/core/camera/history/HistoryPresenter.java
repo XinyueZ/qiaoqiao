@@ -72,7 +72,7 @@ public final class HistoryPresenter implements HistoryContract.Presenter {
 	}
 
 	@Override
-	public void onViewReady() {
+	public void loadHistory() {
 		mResult = Realm.getDefaultInstance()
 		               .where(HistoryItem.class)
 		               .findAllAsync();

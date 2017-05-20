@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
-import com.qiaoqiao.databinding.FragmentHistoryBinding;
-import com.qiaoqiao.repository.database.HistoryItem;
 import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
+import com.qiaoqiao.databinding.FragmentHistoryBinding;
+import com.qiaoqiao.repository.database.HistoryItem;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mPresenter.onViewReady();
+		mPresenter.loadHistory();
 	}
 
 
