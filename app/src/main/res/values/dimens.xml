@@ -10,5 +10,8 @@
     <dimen name="touch_raise">6dp</dimen>
     <dimen name="z_card">5dp</dimen>
     <dimen name="grid_icon_with_padding">140dp</dimen> <!-- 24dp icon + 2 * @dimen/spacing_normal -->
-    <dimen name="place_image_size">80dp</dimen>
+    <dimen name="place_image_size">40dp</dimen>
+
+    <dimen name="custom_profile_image">45dp</dimen>
+    <dimen name="custom_profile_padding">2dp</dimen>
 </resources>

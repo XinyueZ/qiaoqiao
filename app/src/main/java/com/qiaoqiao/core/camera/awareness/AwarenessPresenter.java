@@ -25,7 +25,6 @@ import com.google.android.gms.location.places.PlacePhotoMetadata;
 import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
 import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
@@ -198,7 +197,7 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 					Bitmap image = photo.getScaledPhoto(mGoogleApiClient, mPlaceImageSize, mPlaceImageSize)
 					                    .await()
 					                    .getBitmap();
-					wrapperList.add(new PlaceWrapper(placeLikelihood.getPlace(), BitmapDescriptorFactory.fromBitmap(image)));
+					wrapperList.add(new PlaceWrapper(placeLikelihood.getPlace(), image));
 				}
 				photoMetadataBuffer.release();
 			}

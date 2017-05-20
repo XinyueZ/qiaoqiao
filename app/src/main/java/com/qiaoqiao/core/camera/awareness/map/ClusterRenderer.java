@@ -24,6 +24,7 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v7.content.res.AppCompatResources;
+import android.view.LayoutInflater;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -33,7 +34,9 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.google.maps.android.ui.IconGenerator;
 import com.qiaoqiao.R;
+import com.qiaoqiao.databinding.LayoutPlaceBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 
 
@@ -42,15 +45,28 @@ import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
  */
 final class ClusterRenderer extends DefaultClusterRenderer<ClusterItem> {
 	private final Context mContext;
+	private final LayoutPlaceBinding mItemBinding;
+	private final int mDimension;
 
 	ClusterRenderer(@NonNull Context cxt, @NonNull GoogleMap map, @NonNull ClusterManager<ClusterItem> clusterManager) {
 		super(cxt, map, clusterManager);
 		mContext = cxt;
+
+		LayoutInflater layoutInflater = (LayoutInflater) cxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+		mItemBinding = LayoutPlaceBinding.inflate(layoutInflater);
+		mItemBinding.setIconGenerator(new IconGenerator(cxt));
+		mItemBinding.getIconGenerator()
+		            .setContentView(mItemBinding.getRoot());
+
+		mDimension = (int) cxt.getResources()
+		                      .getDimension(R.dimen.custom_profile_image);
 	}
 
 	@Override
 	protected boolean shouldRenderAsCluster(Cluster<ClusterItem> cluster) {
-		return cluster.getSize() >= 10;
+		return cluster.getSize() > 20;
 	}
 
 	@Override
@@ -61,10 +77,12 @@ final class ClusterRenderer extends DefaultClusterRenderer<ClusterItem> {
 		if (clusterItem instanceof Geosearch) {
 			options.position(clusterItem.getPosition())
 			       .icon(getBitmapDescriptor(R.drawable.ic_geosearch));
-		}
-		if (clusterItem instanceof PlaceWrapper) {
+
+		} else {
+			mItemBinding.image.setImageBitmap(((PlaceWrapper) clusterItem).getBitmap());
 			options.position(clusterItem.getPosition())
-			       .icon(((PlaceWrapper) clusterItem).getBitmapDescriptor());
+			       .icon(BitmapDescriptorFactory.fromBitmap(mItemBinding.getIconGenerator()
+			                                                            .makeIcon()));
 		}
 	}
 
