@@ -1,14 +1,11 @@
 package com.qiaoqiao.repository.backend.model.wikipedia.geo;
 
 
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.google.maps.android.clustering.ClusterItem;
 
-public final class Geosearch implements ClusterItem,
-                                        PlaceLikelihood {
+public final class Geosearch implements ClusterItem  {
 	@SerializedName("pageid") private long mPageId;
 	@SerializedName("title") private String mTitle;
 	@SerializedName("lat") private double mLatitude;
@@ -62,25 +59,5 @@ public final class Geosearch implements ClusterItem,
 
 	public void setLongitude(double longitude) {
 		mLongitude = longitude;
-	}
-
-	@Override
-	public float getLikelihood() {
-		return 0;
-	}
-
-	@Override
-	public Place getPlace() {
-		return null;
-	}
-
-	@Override
-	public PlaceLikelihood freeze() {
-		return this;
-	}
-
-	@Override
-	public boolean isDataValid() {
-		return true;
 	}
 }
