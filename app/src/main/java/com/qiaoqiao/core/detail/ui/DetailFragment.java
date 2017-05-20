@@ -200,21 +200,54 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		     .listener(new RequestListener<String, GlideDrawable>() {
 			     @Override
 			     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-				     setRefreshing(false);
-				     Palette.Builder b = new Palette.Builder(((GlideBitmapDrawable) resource).getBitmap());
-				     b.maximumColorCount(1);
-				     b.generate(DetailFragment.this);
+				     detailImageLoaded((GlideBitmapDrawable) resource);
 				     return false;
 			     }
 
 			     @Override
 			     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-				     Snackbar.make(mBinding.getRoot(), R.string.no_image, Toast.LENGTH_SHORT)
-				             .show();
+				     if (mPreviewImage == null) {
+					     return true;
+				     }
+				     Glide.with(mContextWeakReference.get())
+				          .load(mPreviewImage.getSource())
+				          .crossFade()
+				          .centerCrop()
+				          .diskCacheStrategy(DiskCacheStrategy.ALL)
+				          .skipMemoryCache(false)
+				          .placeholder(R.drawable.ic_default_image)
+				          .error(R.drawable.ic_default_image)
+				          .listener(new RequestListener<String, GlideDrawable>() {
+					          @Override
+					          public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+						          detailImageLoaded((GlideBitmapDrawable) resource);
+						          return false;
+					          }
+
+					          @Override
+					          public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+						          detailImageLoadedFail();
+						          return true;
+					          }
+				          })
+				          .into(mBinding.detailIv);
 				     return true;
 			     }
 		     })
 		     .into(mBinding.detailIv);
+	}
+
+	private void detailImageLoadedFail() {
+		Snackbar.make(mBinding.getRoot(), R.string.no_image, Toast.LENGTH_SHORT)
+		        .show();
+		setRefreshing(false);
+	}
+
+	private void detailImageLoaded(GlideBitmapDrawable resource) {
+		setRefreshing(false);
+		Palette.Builder b = new Palette.Builder(resource.getBitmap());
+		b.maximumColorCount(1);
+		b.generate(DetailFragment.this);
 	}
 
 
@@ -241,14 +274,13 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 			     .listener(new RequestListener<String, GlideDrawable>() {
 				     @Override
 				     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-					     mBinding.previewIv.setVisibility(View.VISIBLE);
+					     previewLoaded();
 					     return false;
 				     }
 
 				     @Override
 				     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-					     Snackbar.make(mBinding.getRoot(), R.string.no_image, Toast.LENGTH_SHORT)
-					             .show();
+					     previewLoadedFail();
 					     return true;
 				     }
 			     })
@@ -256,6 +288,15 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		} else {
 			mBinding.previewIv.setVisibility(View.GONE);
 		}
+	}
+
+	private void previewLoadedFail() {
+		Snackbar.make(mBinding.getRoot(), R.string.no_image, Toast.LENGTH_SHORT)
+		        .show();
+	}
+
+	private void previewLoaded() {
+		mBinding.previewIv.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -293,5 +334,6 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		Snackbar.make(mBinding.getRoot(), R.string.loading_detail_fail, Snackbar.LENGTH_INDEFINITE)
 		        .setAction(android.R.string.ok, v -> getActivity().supportFinishAfterTransition())
 		        .show();
+		setRefreshing(false);
 	}
 }

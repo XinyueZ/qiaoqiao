@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
@@ -39,7 +40,10 @@ public abstract class AbstractVisionViewHolder extends RecyclerView.ViewHolder {
 		                                      .getDescriptionText());
 		Glide.with(cxt)
 		     .load(imageUrl)
+		     .crossFade()
 		     .centerCrop()
+		     .diskCacheStrategy(DiskCacheStrategy.ALL)
+		     .skipMemoryCache(false)
 		     .placeholder(R.drawable.ic_default_image)
 		     .error(R.drawable.ic_default_image)
 		     .crossFade()
