@@ -20,8 +20,8 @@
             app:uiRotateGestures="false"
             app:uiScrollGestures="true"
             app:uiTiltGestures="false"
-            app:uiZoomControls="true"
-            app:uiZoomGestures="false"/>
+            app:uiZoomControls="false"
+            app:uiZoomGestures="true"/>
 
         <com.qiaoqiao.views.LocatingControlView
             android:id="@+id/locating_control"

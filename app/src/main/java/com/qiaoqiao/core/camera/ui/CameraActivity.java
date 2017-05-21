@@ -11,6 +11,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -182,6 +183,18 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			supportActionBar.setHomeButtonEnabled(true);
 			supportActionBar.setDisplayShowTitleEnabled(false);
 		}
+
+		CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mBinding.appbar.getLayoutParams();
+		AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
+		behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+			@Override
+			public boolean canDrag(AppBarLayout appBarLayout) {
+				//MapView, CameraView , CoordinatorLayout and CollapsingToolbarLayout make scroll-effect difficultly , let's use a solution.
+				//http://stackoverflow.com/questions/31046147/android-mapview-in-a-collapsingtoolbarlayout
+				return false;
+			}
+		});
+		params.setBehavior(behavior);
 	}
 
 
