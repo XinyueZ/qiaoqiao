@@ -7,9 +7,15 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
+        <import type="android.text.TextUtils"/>
+
         <variable
             name="placeWrapper"
             type="com.qiaoqiao.core.camera.awareness.map.PlaceWrapper"/>
+
+
     </data>
 
     <LinearLayout
@@ -45,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{placeWrapper.getPlace().getName()}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:visibility="@{TextUtils.isEmpty(placeWrapper.getPlace().getName()) ? View.GONE : View.VISIBLE}"
                     tool:text="place name"/>
 
                 <TextView
@@ -53,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{placeWrapper.getPlace().getAddress()}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:visibility="@{TextUtils.isEmpty(placeWrapper.getPlace().getAddress()) ? View.GONE : View.VISIBLE}"
                     tool:text="place address"/>
             </LinearLayout>
         </LinearLayout>
@@ -63,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/medium"
             android:text="@{placeWrapper.getPlace().getPhoneNumber()}"
+            android:visibility="@{TextUtils.isEmpty(placeWrapper.getPlace().getPhoneNumber()) ? View.GONE : View.VISIBLE}"
             tool:text="+4917666686748"/>
 
         <TextView
@@ -71,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/medium"
             android:text="@{placeWrapper.getPlace().getWebsiteUri().toString()}"
+            android:visibility="@{placeWrapper.getPlace().getWebsiteUri() == null ? View.GONE : View.VISIBLE}"
             tool:text="http://wwww.google.com"/>
 
         <FrameLayout
@@ -78,14 +88,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_round_blue_rectangle_item_background"
-            android:padding="@dimen/mini">
+            android:padding="@dimen/mini"
+            android:visibility="@{placeWrapper.getPlace().getLatLng() == null ? View.GONE : View.VISIBLE}">
 
             <ImageButton
+                android:id="@+id/open_map_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/mini"
                 android:background="@color/colorTransparent"
+                android:transitionName="@string/transition_share_item_name"
                 app:srcCompat="@drawable/ic_map"/>
         </FrameLayout>
     </LinearLayout>

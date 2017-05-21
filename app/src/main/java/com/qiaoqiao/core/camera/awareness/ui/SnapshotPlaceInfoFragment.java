@@ -11,9 +11,10 @@ import android.view.View;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
+import com.qiaoqiao.core.location.ui.MapActivity;
 import com.qiaoqiao.databinding.FragmentSnapshotPlaceInfoBinding;
 
-public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment {
+public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment implements View.OnClickListener {
 	private static final String EXTRAS_PLACE = SnapshotPlaceInfoFragment.class.getName() + ".EXTRAS.place";
 	/**
 	 * Main layout for this component.
@@ -39,7 +40,7 @@ public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment {
 		mBehavior = BottomSheetBehavior.from((View) mBinding.getRoot()
 		                                                    .getParent());
 		mBinding.setPlaceWrapper((PlaceWrapper) getArguments().getSerializable(EXTRAS_PLACE));
-
+		mBinding.openMapFl.setOnClickListener(this);
 		return dialog;
 	}
 
@@ -49,6 +50,15 @@ public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment {
 		super.onResume();
 		if (mBehavior != null && mBinding != null) {
 			mBinding.openMapFl.setSelected(true);
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		final PlaceWrapper placeWrapper = (PlaceWrapper) getArguments().getSerializable(EXTRAS_PLACE);
+		if (placeWrapper != null) {
+			this.dismiss();
+			MapActivity.showInstance(getActivity(), placeWrapper.getPosition(), mBinding.openMapBtn);
 		}
 	}
 }
