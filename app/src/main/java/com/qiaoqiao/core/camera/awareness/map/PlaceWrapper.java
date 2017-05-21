@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
+import com.qiaoqiao.customtabs.CustomTabUtils;
 
 import java.io.Serializable;
 
@@ -17,6 +18,9 @@ public final class PlaceWrapper implements ClusterItem,
 	public PlaceWrapper(Place place, Bitmap bitmap) {
 		mPlace = place;
 		mBitmap = bitmap;
+		if (place.getWebsiteUri() != null) {
+			CustomTabUtils.HELPER.mayLaunchUrl(place.getWebsiteUri(), null, null);
+		}
 	}
 
 

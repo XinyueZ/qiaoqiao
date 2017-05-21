@@ -44,6 +44,7 @@ import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.core.camera.vision.annotation.target.More;
 import com.qiaoqiao.core.camera.vision.annotation.target.Single;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
+import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
@@ -136,12 +137,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Override
 	protected void onResume() {
 		super.onResume();
+		CustomTabUtils.HELPER.bindCustomTabsService(this);
 		EventBus.getDefault()
 		        .register(this);
 	}
 
 	@Override
 	protected void onPause() {
+		CustomTabUtils.HELPER.unbindCustomTabsService(this);
 		EventBus.getDefault()
 		        .unregister(this);
 		super.onPause();

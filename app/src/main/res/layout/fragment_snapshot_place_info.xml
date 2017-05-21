@@ -15,6 +15,10 @@
             name="placeWrapper"
             type="com.qiaoqiao.core.camera.awareness.map.PlaceWrapper"/>
 
+        <variable
+            name="clickHandler"
+            type="View.OnClickListener"/>
+
 
     </data>
 
@@ -69,8 +73,12 @@
             android:id="@+id/tel_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/medium"
+            android:layout_marginBottom="@dimen/larger"
+            android:background="@drawable/selector_transparent_item_background"
+            android:onClick="@{ clickHandler::onClick}"
             android:text="@{placeWrapper.getPlace().getPhoneNumber()}"
+            android:textColor="@color/colorBlue"
+            android:textStyle="italic"
             android:visibility="@{TextUtils.isEmpty(placeWrapper.getPlace().getPhoneNumber()) ? View.GONE : View.VISIBLE}"
             tool:text="+4917666686748"/>
 
@@ -78,8 +86,11 @@
             android:id="@+id/web_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/medium"
+            android:layout_marginBottom="@dimen/larger"
+            android:background="@drawable/selector_transparent_item_background"
+            android:onClick="@{  clickHandler::onClick}"
             android:text="@{placeWrapper.getPlace().getWebsiteUri().toString()}"
+            android:textColor="@color/colorBlue"
             android:visibility="@{placeWrapper.getPlace().getWebsiteUri() == null ? View.GONE : View.VISIBLE}"
             tool:text="http://wwww.google.com"/>
 
@@ -88,6 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_round_blue_rectangle_item_background"
+            android:onClick="@{  clickHandler::onClick}"
             android:padding="@dimen/mini"
             android:visibility="@{placeWrapper.getPlace().getLatLng() == null ? View.GONE : View.VISIBLE}">
 

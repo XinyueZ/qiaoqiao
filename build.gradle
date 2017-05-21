@@ -56,7 +56,6 @@ ext {
     hamcrestVersion = '1.3'
     mockitoVersion = '1.10.19'
 
-    apacheIO = "2.4"
 
     //Google Service
     playService = "10.2.6"
@@ -67,6 +66,10 @@ ext {
     //Image-loader
     imageLoader = "3.7.0"
 
+    //Facebook
     shimmer = "0.1.0@aar"
+
+    //Others
+    apacheIO = "2.4"
 
 }

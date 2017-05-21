@@ -1,17 +1,22 @@
 package com.qiaoqiao.core.camera.awareness.ui;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.location.ui.MapActivity;
+import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.FragmentSnapshotPlaceInfoBinding;
 
 public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment implements View.OnClickListener {
@@ -40,7 +45,7 @@ public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment i
 		mBehavior = BottomSheetBehavior.from((View) mBinding.getRoot()
 		                                                    .getParent());
 		mBinding.setPlaceWrapper((PlaceWrapper) getArguments().getSerializable(EXTRAS_PLACE));
-		mBinding.openMapFl.setOnClickListener(this);
+		mBinding.setClickHandler(this);
 		return dialog;
 	}
 
@@ -56,9 +61,57 @@ public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment i
 	@Override
 	public void onClick(View v) {
 		final PlaceWrapper placeWrapper = (PlaceWrapper) getArguments().getSerializable(EXTRAS_PLACE);
-		if (placeWrapper != null) {
-			this.dismiss();
-			MapActivity.showInstance(getActivity(), placeWrapper.getPosition(), mBinding.openMapBtn);
+		if (placeWrapper == null) {
+			return;
 		}
+		dismiss();
+		switch (v.getId()) {
+			case R.id.web_tv:
+				CustomTabUtils.openWeb(SnapshotPlaceInfoFragment.this,
+				                       placeWrapper.getTitle(),
+				                       placeWrapper.getPlace()
+				                                   .getWebsiteUri());
+				break;
+			case R.id.tel_tv:
+				callPhoneNumber(getContext(),
+				                placeWrapper.getPlace()
+				                            .getPhoneNumber()
+				                            .toString());
+				break;
+			default:
+				MapActivity.showInstance(getActivity(), placeWrapper.getPosition(), mBinding.openMapBtn);
+				break;
+		}
+
+	}
+
+
+	private static String getSanitizedPhoneNumber(String phoneNumber) {
+		return phoneNumber.replaceAll("[^0-9+]+", "");
+	}
+
+
+	private static Intent createCallPhoneNumberIntent(String phoneNumber) {
+		Intent ret = null;
+		if (phoneNumber != null) {
+			phoneNumber = getSanitizedPhoneNumber(phoneNumber);
+			if (!TextUtils.isEmpty(phoneNumber)) {
+				ret = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+			}
+		}
+		return ret;
+	}
+
+	private static boolean callPhoneNumber(Context ctx, String phoneNumber) {
+		boolean ret = false;
+		Intent intent = createCallPhoneNumberIntent(phoneNumber);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		try {
+			ctx.startActivity(intent);
+			ret = true;
+		} catch (ActivityNotFoundException e) {
+			ret = false;
+		}
+		return ret;
 	}
 }
