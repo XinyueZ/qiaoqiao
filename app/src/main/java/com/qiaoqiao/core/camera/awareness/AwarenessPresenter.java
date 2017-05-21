@@ -27,7 +27,6 @@ import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
-import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
 import com.qiaoqiao.repository.DsLoadedCallback;
@@ -54,7 +53,7 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	private @NonNull WeakReference<CameraActivity> mCameraActivityWeakReference;
 	private @NonNull LocationSettingsRequest.Builder mLocationSettingsRequestBuilder;
 	private @NonNull DsRepository mDsRepository;
-	private int mPlaceImageSize;
+//	private int mPlaceImageSize;
 
 	@Inject
 	AwarenessPresenter(@NonNull CameraActivity cameraActivity,
@@ -65,8 +64,8 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 		mView = view;
 		mGoogleApiClientBuilder = googleApiClientBuilder;
 		mCameraActivityWeakReference = new WeakReference<>(cameraActivity);
-		mPlaceImageSize = cameraActivity.getResources()
-		                                .getDimensionPixelSize(R.dimen.place_image_size);
+//		mPlaceImageSize = cameraActivity.getResources()
+//		                                .getDimensionPixelSize(R.dimen.place_image_size);
 		mLocationSettingsRequestBuilder = locationSettingsRequestBuilder;
 		mDsRepository = dsRepository;
 	}
@@ -197,7 +196,7 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 				PlacePhotoMetadataBuffer photoMetadataBuffer = result.getPhotoMetadata();
 				if (photoMetadataBuffer.getCount() > 0) {
 					PlacePhotoMetadata photo = photoMetadataBuffer.get(0);
-					Bitmap image = photo.getScaledPhoto(mGoogleApiClient, mPlaceImageSize, mPlaceImageSize)
+					Bitmap image = photo.getScaledPhoto(mGoogleApiClient, photo.getMaxWidth(), photo.getMaxHeight())
 					                    .await()
 					                    .getBitmap();
 					outputList.add(new PlaceWrapper(placeLikelihood.getPlace(), image));
