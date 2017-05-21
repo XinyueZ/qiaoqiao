@@ -26,12 +26,15 @@ import android.view.View;
 import com.google.android.cameraview.CameraView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
+import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
 import com.qiaoqiao.core.camera.CameraContract;
 import com.qiaoqiao.core.camera.CameraPresenter;
 import com.qiaoqiao.core.camera.awareness.AwarenessContract;
 import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
+import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
+import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlaceInfoFragment;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment;
 import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
@@ -40,7 +43,9 @@ import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.core.camera.vision.annotation.target.More;
 import com.qiaoqiao.core.camera.vision.annotation.target.Single;
+import com.qiaoqiao.core.detail.ui.DetailActivity;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.utils.DeviceUtils;
 
@@ -49,6 +54,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -82,6 +89,29 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject HistoryContract.View mHistoryFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
 
+	//------------------------------------------------
+	//Subscribes, event-handlers
+	//------------------------------------------------
+
+	/**
+	 * Handler for {@link com.qiaoqiao.core.camera.awareness.bus.OpenClusterItemEvent}.
+	 *
+	 * @param e Event {@link com.qiaoqiao.core.camera.awareness.bus.OpenClusterItemEvent}.
+	 */
+	@Subscribe
+	public void onEvent(com.qiaoqiao.core.camera.awareness.bus.OpenClusterItemEvent e) {
+		ClusterItem clusterItem = e.getClusterItem();
+		if (clusterItem instanceof Geosearch) {
+			DetailActivity.showInstance(this, ((Geosearch) clusterItem).getPageId());
+			return;
+		}
+		if (clusterItem instanceof PlaceWrapper) {
+			SnapshotPlaceInfoFragment.newInstance(this, (PlaceWrapper) clusterItem)
+			                         .show(getSupportFragmentManager(), null);
+		}
+	}
+	//------------------------------------------------
+
 	/**
 	 * Show single instance of {@link CameraActivity}
 	 *
@@ -101,6 +131,20 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupAppBar();
 		App.inject(this);
 		mBinding.appbar.addOnOffsetChangedListener(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		EventBus.getDefault()
+		        .register(this);
+	}
+
+	@Override
+	protected void onPause() {
+		EventBus.getDefault()
+		        .unregister(this);
+		super.onPause();
 	}
 
 	@Override

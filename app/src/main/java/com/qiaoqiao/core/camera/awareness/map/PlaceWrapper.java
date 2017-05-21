@@ -7,7 +7,10 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
-public final class PlaceWrapper implements ClusterItem{
+import java.io.Serializable;
+
+public final class PlaceWrapper implements ClusterItem,
+                                           Serializable {
 	private final Place mPlace;
 	private final Bitmap mBitmap;
 
@@ -32,7 +35,8 @@ public final class PlaceWrapper implements ClusterItem{
 
 	@Override
 	public String getTitle() {
-		return mPlace.getName().toString();
+		return mPlace.getName()
+		             .toString();
 	}
 
 	@Override

@@ -26,6 +26,7 @@ import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
 import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
@@ -35,6 +36,7 @@ import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -141,19 +143,21 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	}
 
 	@Override
-	public void geosearch(@NonNull LatLng latLng) {
+	public void searchAndSearch(@NonNull LatLng latLng) {
 		mDsRepository.onGeosearchQuery(latLng, new DsLoadedCallback() {
 			@Override
 			public void onGeosearchResponse(GeoResult result) {
 				super.onGeosearchResponse(result);
-				mView.showGeosearch(result);
-				getPlaces();
+				List<ClusterItem> clusterItemList = new ArrayList<>();
+				clusterItemList.addAll(Arrays.asList(result.getQuery()
+				                                           .getGeosearches()));
+				getPlaces(clusterItemList);
 			}
 		});
 	}
 
 
-	private void getPlaces() {
+	private void getPlaces(@NonNull List<ClusterItem> outputList) {
 		if (mCameraActivityWeakReference.get() == null || ActivityCompat.checkSelfPermission(mCameraActivityWeakReference.get(),
 		                                                                                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 			return;
@@ -167,23 +171,22 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 			                                      .isSuccess()) {
 				                     return;
 			                     }
-			                     showPlaces(placesResult.getPlaceLikelihoods());
+			                     showPlaces(placesResult.getPlaceLikelihoods(), outputList);
 		                     });
 	}
 
-	private void showPlaces(@NonNull List<PlaceLikelihood> placeLikelihoodList) {
+	private void showPlaces(@NonNull List<PlaceLikelihood> placeLikelihoodList, @NonNull List<ClusterItem> outputList) {
 		Observable.just(placeLikelihoodList)
 		          .subscribeOn(Schedulers.newThread())
 		          .map(likelihoodList -> {
-			          List<PlaceWrapper> wrapperList = new ArrayList<>();
-			          createPlaceWrappers(likelihoodList, wrapperList);
-			          return wrapperList;
+			          createPlaceWrappers(placeLikelihoodList, outputList);
+			          return outputList;
 		          })
 		          .observeOn(AndroidSchedulers.mainThread())
-		          .subscribe(mView::showPlaces);
+		          .subscribe(mView::showAllGeoAndPlaces);
 	}
 
-	private void createPlaceWrappers(@NonNull List<PlaceLikelihood> likelihoodList, @NonNull List<PlaceWrapper> wrapperList) {
+	private void createPlaceWrappers(@NonNull List<PlaceLikelihood> likelihoodList, @NonNull List<ClusterItem> outputList) {
 		for (PlaceLikelihood placeLikelihood : likelihoodList) {
 			PlacePhotoMetadataResult result = Places.GeoDataApi.getPlacePhotos(mGoogleApiClient,
 			                                                                   placeLikelihood.getPlace()
@@ -197,7 +200,7 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 					Bitmap image = photo.getScaledPhoto(mGoogleApiClient, mPlaceImageSize, mPlaceImageSize)
 					                    .await()
 					                    .getBitmap();
-					wrapperList.add(new PlaceWrapper(placeLikelihood.getPlace(), image));
+					outputList.add(new PlaceWrapper(placeLikelihood.getPlace(), image));
 				}
 				photoMetadataBuffer.release();
 			}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tool="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="placeWrapper"
+            type="com.qiaoqiao.core.camera.awareness.map.PlaceWrapper"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/larger">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/place_iv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/place_info_preview"
+                android:layout_marginBottom="@dimen/medium"
+                android:scaleType="centerCrop"
+                bind:placeWrapper="@{placeWrapper}"
+                tool:src="@drawable/ic_geosearch"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/place_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{placeWrapper.getPlace().getName()}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    tool:text="place name"/>
+
+                <TextView
+                    android:id="@+id/address_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{placeWrapper.getPlace().getAddress()}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    tool:text="place address"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tel_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium"
+            android:text="@{placeWrapper.getPlace().getPhoneNumber()}"
+            tool:text="+4917666686748"/>
+
+        <TextView
+            android:id="@+id/web_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium"
+            android:text="@{placeWrapper.getPlace().getWebsiteUri().toString()}"
+            tool:text="http://wwww.google.com"/>
+
+        <FrameLayout
+            android:id="@+id/open_map_fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_round_blue_rectangle_item_background"
+            android:padding="@dimen/mini">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/mini"
+                android:background="@color/colorTransparent"
+                app:srcCompat="@drawable/ic_map"/>
+        </FrameLayout>
+    </LinearLayout>
+</layout>

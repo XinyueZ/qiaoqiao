@@ -23,15 +23,14 @@ import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.maps.android.MarkerManager;
 import com.google.maps.android.clustering.ClusterItem;
-import com.qiaoqiao.core.detail.ui.DetailActivity;
-import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
+import com.qiaoqiao.core.camera.awareness.bus.OpenClusterItemEvent;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 public final class ClusterManager extends com.google.maps.android.clustering.ClusterManager implements com.google.maps.android.clustering.ClusterManager.OnClusterItemClickListener<ClusterItem> {
-	private final WeakReference<FragmentActivity> mActivityWeakReference;
 
 	private ClusterManager(@NonNull FragmentActivity activity, @NonNull GoogleMap map) {
 		super(activity.getApplicationContext(), map, new MarkerManager(map));
@@ -39,7 +38,6 @@ public final class ClusterManager extends com.google.maps.android.clustering.Clu
 		setRenderer(new ClusterRenderer(activity.getApplicationContext(), map, this));
 		getRenderer().setAnimation(true);
 		setOnClusterItemClickListener(this);
-		mActivityWeakReference = new WeakReference<>(activity);
 	}
 
 	public static @Nullable
@@ -55,17 +53,7 @@ public final class ClusterManager extends com.google.maps.android.clustering.Clu
 
 	@Override
 	public boolean onClusterItemClick(ClusterItem clusterItem) {
-		if (mActivityWeakReference.get() == null) {
-			return true;
-		}
-		if (clusterItem instanceof Geosearch) {
-			DetailActivity.showInstance(mActivityWeakReference.get(), ((Geosearch) clusterItem).getPageId());
-			return true;
-		}
-		if (clusterItem instanceof PlaceWrapper) {
-//			DetailActivity.showInstance(mActivityWeakReference.get(), ((PlaceWrapper) clusterItem).getPlace());
-			return true;
-		}
+		EventBus.getDefault().post(new OpenClusterItemEvent(clusterItem));
 		return true;
 	}
 }

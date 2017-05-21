@@ -25,7 +25,6 @@ public final class LandmarkViewHolder extends AbstractVisionViewHolder {
 		mItemVisionLandmarkBinding.setVisionEntity(entity);
 		mItemVisionLandmarkBinding.setViewholder(this);
 
-		itemView.setActivated(entity.isActivated());
 		itemView.setSelected(entity.isActivated());
 	}
 

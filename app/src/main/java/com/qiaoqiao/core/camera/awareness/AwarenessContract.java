@@ -22,11 +22,10 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
-import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
+import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.databinding.PlacesBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
-import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 
 import java.util.List;
 
@@ -48,9 +47,7 @@ public interface AwarenessContract {
 
 		void solveSettingLocatingDialogProblem(@NonNull Status status);
 
-		void showGeosearch(@NonNull GeoResult geoResult);
-
-		void showPlaces(@NonNull List<PlaceWrapper> placeWrappers);
+		void showAllGeoAndPlaces(@NonNull List<ClusterItem> clusterItemList);
 	}
 
 	interface Presenter extends BasePresenter {
@@ -58,6 +55,6 @@ public interface AwarenessContract {
 
 		void settingLocating();
 
-		void geosearch(@NonNull LatLng latLng);
+		void searchAndSearch(@NonNull LatLng latLng);
 	}
 }

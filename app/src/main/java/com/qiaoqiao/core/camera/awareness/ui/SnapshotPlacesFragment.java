@@ -21,14 +21,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.AwarenessContract;
 import com.qiaoqiao.core.camera.awareness.map.ClusterManager;
-import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.databinding.PlacesBinding;
-import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 
-import java.util.Arrays;
 import java.util.List;
 
 public final class SnapshotPlacesFragment extends Fragment implements AwarenessContract.View,
@@ -89,7 +87,8 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		mGoogleMap = googleMap;
-		mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
+		mGoogleMap.getUiSettings()
+		          .setMapToolbarEnabled(false);
 		mGoogleMap.getUiSettings()
 		          .setMyLocationButtonEnabled(false);
 		if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
@@ -120,7 +119,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		}
 
 		mBinding.locatingControl.stopLocalProgressBar();
-		mPresenter.geosearch(latLng);
+		mPresenter.searchAndSearch(latLng);
 	}
 
 	@Override
@@ -132,32 +131,17 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		}
 	}
 
-	@Override
-	public void showGeosearch(@NonNull GeoResult geoResult) {
-		if (mGoogleMap == null) {
-			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-			fragmentById.getMapAsync(googleMap -> {
-				mGoogleMap = googleMap;
-				showGeosearch(geoResult);
-			});
-			return;
-		}
-		ClusterManager.showGeosearch(getActivity(),
-		                             mGoogleMap,
-		                             Arrays.asList(geoResult.getQuery()
-		                                                    .getGeosearches()));
-	}
 
 	@Override
-	public void showPlaces(@NonNull List<PlaceWrapper> placeWrappers) {
+	public void showAllGeoAndPlaces(@NonNull List<ClusterItem> clusterItemList) {
 		if (mGoogleMap == null) {
 			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 			fragmentById.getMapAsync(googleMap -> {
 				mGoogleMap = googleMap;
-				showPlaces(placeWrappers);
+				showAllGeoAndPlaces(clusterItemList);
 			});
 			return;
 		}
-		ClusterManager.showGeosearch(getActivity(), mGoogleMap, Arrays.asList(placeWrappers.toArray(new PlaceWrapper[placeWrappers.size()])));
+		ClusterManager.showGeosearch(getActivity(), mGoogleMap, clusterItemList);
 	}
 }
