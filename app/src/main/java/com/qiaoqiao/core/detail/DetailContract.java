@@ -31,7 +31,7 @@ public interface DetailContract {
 	interface View extends BaseView<DetailPresenter, FragmentDetailBinding> {
 		FragmentDetailBinding getBinding();
 
-		void showImage(@Nullable Image preview, @Nullable Image photo);
+		void setDetailImages(@Nullable Image preview, @Nullable Image photo);
 
 		void setText(@NonNull String title, @NonNull String content);
 

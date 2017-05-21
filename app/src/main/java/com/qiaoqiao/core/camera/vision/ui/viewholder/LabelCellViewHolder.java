@@ -3,8 +3,9 @@ package com.qiaoqiao.core.camera.vision.ui.viewholder;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.qiaoqiao.databinding.LabelCellViewBinding;
+import com.bumptech.glide.Glide;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
+import com.qiaoqiao.databinding.LabelCellViewBinding;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public final class LabelCellViewHolder extends AbstractVisionViewHolder {
 
 	@Override
 	public void onViewRecycled() {
-
+		Glide.clear(mItemLabelCellBinding.visionIv);
 	}
 
 	@Override

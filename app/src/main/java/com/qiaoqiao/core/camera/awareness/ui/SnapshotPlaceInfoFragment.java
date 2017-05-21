@@ -13,6 +13,7 @@ import android.support.design.widget.BottomSheetDialogFragment;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.location.ui.MapActivity;
@@ -103,7 +104,7 @@ public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment i
 	}
 
 	private static boolean callPhoneNumber(Context ctx, String phoneNumber) {
-		boolean ret = false;
+		boolean ret;
 		Intent intent = createCallPhoneNumberIntent(phoneNumber);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		try {
@@ -113,5 +114,11 @@ public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment i
 			ret = false;
 		}
 		return ret;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		Glide.clear(mBinding.placeIv);
 	}
 }

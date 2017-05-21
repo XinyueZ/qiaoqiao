@@ -52,6 +52,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	private FragmentDetailBinding mBinding;
 	private WeakReference<Context> mContextWeakReference;
 	private MenuItem mMultiLanguageMenuItem;
+	private @Nullable Image mPhoto;
 	private @Nullable Image mPreviewImage;
 
 	@Nullable
@@ -102,6 +103,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				toggleLoaded();
+				loadDetailImage();
 				super.onPageFinished(view, url);
 			}
 		});
@@ -173,75 +175,21 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	}
 
 	private void toggleContentLoading() {
-		mBinding.layoutLoading.loadingPb.startShimmerAnimation();
+//		mBinding.layoutLoading.loadingPb.startShimmerAnimation();
+		mBinding.layoutLoading.loadingPb.setVisibility(View.VISIBLE);
 	}
 
 	private void toggleLoaded() {
-		mBinding.layoutLoading.loadingPb.stopShimmerAnimation();
+//		mBinding.layoutLoading.loadingPb.stopShimmerAnimation();
 		mBinding.layoutLoading.loadingPb.setVisibility(View.GONE);
 	}
 
 	@Override
-	public void showImage(@Nullable Image preview, @Nullable Image photo) {
-		if (mContextWeakReference.get() == null || photo == null) {
-			return;
-		}
-
+	public void setDetailImages(@Nullable Image preview, @Nullable Image photo) {
+		mPhoto = photo;
 		mPreviewImage = preview;
-		setRefreshing(true);
-		Glide.with(mContextWeakReference.get())
-		     .load(photo.getSource())
-		     .crossFade()
-		     .centerCrop()
-		     .diskCacheStrategy(DiskCacheStrategy.ALL)
-		     .error(R.drawable.ic_default_image)
-		     .placeholder(R.drawable.ic_default_image)
-		     .skipMemoryCache(false)
-		     .listener(new RequestListener<String, GlideDrawable>() {
-			     @Override
-			     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-				     detailImageLoaded((GlideBitmapDrawable) resource);
-				     return false;
-			     }
-
-			     @Override
-			     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-				     if (mPreviewImage == null) {
-					     return true;
-				     }
-				     Glide.with(mContextWeakReference.get())
-				          .load(mPreviewImage.getSource())
-				          .crossFade()
-				          .centerCrop()
-				          .diskCacheStrategy(DiskCacheStrategy.ALL)
-				          .skipMemoryCache(false)
-				          .placeholder(R.drawable.ic_default_image)
-				          .error(R.drawable.ic_default_image)
-				          .listener(new RequestListener<String, GlideDrawable>() {
-					          @Override
-					          public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-						          detailImageLoaded((GlideBitmapDrawable) resource);
-						          return false;
-					          }
-
-					          @Override
-					          public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-						          detailImageLoadedFail();
-						          return true;
-					          }
-				          })
-				          .into(mBinding.detailIv);
-				     return true;
-			     }
-		     })
-		     .into(mBinding.detailIv);
 	}
 
-	private void detailImageLoadedFail() {
-		Snackbar.make(mBinding.getRoot(), R.string.no_image, Toast.LENGTH_SHORT)
-		        .show();
-		setRefreshing(false);
-	}
 
 	private void detailImageLoaded(GlideBitmapDrawable resource) {
 		setRefreshing(false);
@@ -259,10 +207,16 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	@Override
 	public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-		if (mContextWeakReference.get() == null || mPreviewImage == null) {
-			return;
-		}
 		if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+			loadDetailPreview();
+		} else {
+			mBinding.previewIv.setVisibility(View.GONE);
+		}
+	}
+
+
+	private void loadDetailPreview() {
+		if (mContextWeakReference.get() != null && mPreviewImage != null && mPreviewImage.getSource() != null) {
 			Glide.with(mContextWeakReference.get())
 			     .load(mPreviewImage.getSource())
 			     .crossFade()
@@ -285,18 +239,48 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 				     }
 			     })
 			     .into(mBinding.previewIv);
-		} else {
-			mBinding.previewIv.setVisibility(View.GONE);
 		}
 	}
+
+	private void loadDetailImage() {
+		if (mContextWeakReference.get() == null || mPhoto == null || mPhoto.getSource() == null) {
+			return;
+		}
+		setRefreshing(true);
+		Glide.with(mContextWeakReference.get())
+		     .load(mPhoto.getSource())
+		     .crossFade()
+		     .centerCrop()
+		     .diskCacheStrategy(DiskCacheStrategy.ALL)
+		     .error(R.drawable.ic_default_image)
+		     .placeholder(R.drawable.ic_default_image)
+		     .skipMemoryCache(false)
+		     .listener(new RequestListener<String, GlideDrawable>() {
+			     @Override
+			     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+				     detailImageLoaded((GlideBitmapDrawable) resource);
+				     return false;
+			     }
+
+			     @Override
+			     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+				     loadDetailPreview();
+				     return true;
+			     }
+		     })
+		     .into(mBinding.detailIv);
+	}
+
 
 	private void previewLoadedFail() {
 		Snackbar.make(mBinding.getRoot(), R.string.no_image, Toast.LENGTH_SHORT)
 		        .show();
+		setRefreshing(false);
 	}
 
 	private void previewLoaded() {
 		mBinding.previewIv.setVisibility(View.VISIBLE);
+		setRefreshing(false);
 	}
 
 	@Override
@@ -335,5 +319,12 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		        .setAction(android.R.string.ok, v -> getActivity().supportFinishAfterTransition())
 		        .show();
 		setRefreshing(false);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		Glide.clear(mBinding.detailIv);
+		Glide.clear(mBinding.previewIv);
 	}
 }

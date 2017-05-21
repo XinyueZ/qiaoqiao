@@ -13,7 +13,7 @@
         android:layout_height="@dimen/custom_profile_image">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/image" android:scaleType="centerCrop"
             android:layout_width="@dimen/custom_profile_image"
             android:layout_height="@dimen/custom_profile_image"
             android:padding="@dimen/custom_profile_padding"/>

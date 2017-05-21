@@ -17,21 +17,23 @@ public final class DetailPresenter implements DetailContract.Presenter {
 		@Override
 		public void onKnowledgeResponse(WikiResult result) {
 			super.onKnowledgeResponse(result);
+			mView.setDetailImages(result.getQuery()
+			                            .getPages()
+			                            .getList()
+			                            .get(0)
+			                            .getThumbnail(),
+			                      result.getQuery()
+			                      .getPages()
+			                      .getList()
+			                      .get(0)
+			                      .getOriginal());
+
 			mView.setMultiLanguage(result.getQuery()
 			                             .getPages()
 			                             .getList()
 			                             .get(0)
 			                             .getLangLinks());
-			mView.showImage(result.getQuery()
-			                      .getPages()
-			                      .getList()
-			                      .get(0)
-			                      .getThumbnail(),
-			                result.getQuery()
-			                      .getPages()
-			                      .getList()
-			                      .get(0)
-			                      .getOriginal());
+
 			mView.setText(result.getQuery()
 			                    .getPages()
 			                    .getList()
