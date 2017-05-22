@@ -13,23 +13,20 @@ android {
         all*.exclude module: 'mediarouter-v7'
     }
 
-    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration.getAt("compileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("buildToolsVersion")
 
     defaultConfig {
         multiDexEnabled = true
-
-        applicationId project.APP_APPLICATIONID
-        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
-
-        versionName project.APP_VERSIONNAME
-        versionCode Integer.parseInt(project.APP_VERSIONCODE)
-
-        testInstrumentationRunner project.TEST_RUNNER
         vectorDrawables.useSupportLibrary = true
 
-
+        applicationId globalConfiguration.getAt("applicationId")
+        minSdkVersion globalConfiguration.getAt("minSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("targetSdkVersion")
+        versionName globalConfiguration.getAt("versionName")
+        versionCode globalConfiguration.getAt("versionCode")
     }
 
 
