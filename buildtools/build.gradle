@@ -1,0 +1,24 @@
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url 'https://maven.google.com'
+        }
+    }
+}
+
+
+ext {
+    //For the cameraview library: https://github.com/google/cameraview
+    //Reason: http://blog.csdn.net/adojayfan/article/details/52321868
+    compileSdkVersion = project.ANDROID_BUILD_SDK_VERSION
+    buildToolsVersion = project.ANDROID_BUILD_TOOLS_VERSION
+    applicationId = project.APP_APPLICATIONID
+    minSdkVersion = project.ANDROID_BUILD_MIN_SDK_VERSION
+    targetSdkVersion = project.ANDROID_BUILD_TARGET_SDK_VERSION
+    versionName = project.APP_VERSIONNAME
+    versionCode = Integer.parseInt(project.APP_VERSIONCODE)
+    testInstrumentationRunner = project.TEST_RUNNER
+    supportLibraryVersion = project.SUPPORT
+}

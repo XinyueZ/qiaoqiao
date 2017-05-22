@@ -1,0 +1,226 @@
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url 'https://maven.google.com'
+        }
+    }
+}
+
+
+ext {
+    bus = "3+"
+    dagger = "2+"
+    gson = "2.8.0"
+    junit = "4.12"
+    retrofit = "2.2.0"
+    rxandroid = "2.0.1"
+    easypermissions = "0.4.0"
+    multidexVersion = "1.0.1"
+    mapsUtilsVersion = "0.5+"
+    rxandroidAdapter = "1.0.0"
+    appCompatVersion = project.SUPPORT
+
+    //Test libs
+    testRules = 0.5
+    testRunner = 0.5
+    espresso = "2.2.2"
+    dexmakerVersion = '1.2'
+    hamcrestVersion = '1.3'
+    mockitoVersion = '1.10.19'
+
+    //Google Service
+    httpClientGson = "1.20.0"
+    httpClientAndroid = "1.20.0"
+    playService = "10.2.6"
+    vision = "v1-rev356-1.22.0"
+
+    //Image-loader
+    glide = "3.7.0"
+
+    //Facebook
+    shimmer = "0.1.0"
+
+    //Others
+    apacheIO = "2.4"
+
+    libs = [
+            //support-lib
+            design          : [group: "com.android.support", name: "design", version: appCompatVersion],
+            multidex        : [group: "com.android.support", name: "multidex", version: multidexVersion],
+            palette         : [group: "com.android.support", name: "palette-v7", version: appCompatVersion],
+            customtabs      : [group: "com.android.support", name: "customtabs", version: appCompatVersion],
+            cardview        : [group: "com.android.support", name: "cardview-v7", version: appCompatVersion],
+            appcompat       : [group: "com.android.support", name: "appcompat-v7", version: appCompatVersion],
+            compat          : [group: "com.android.support", name: "support-compat", version: appCompatVersion],
+            recyclerview    : [group: "com.android.support", name: "recyclerview-v7", version: appCompatVersion],
+            core            : [group: "com.android.support", name: "support-core-ui", version: appCompatVersion],
+            fragment        : [group: "com.android.support", name: "support-fragment", version: appCompatVersion],
+            coreUtils       : [group: "com.android.support", name: "support-core-utils", version: appCompatVersion],
+            annotations     : [group: "com.android.support", name: "support-annotations", version: appCompatVersion],
+            media           : [group: "com.android.support", name: "support-media-compat", version: appCompatVersion],
+
+            //Play
+            maps            : [group: "com.google.android.gms", name: "play-services-maps", version: playService],
+            awareness       : [group: "com.google.android.gms", name: "play-services-awareness", version: playService],
+            location        : [group: "com.google.android.gms", name: "play-services-location", version: playService],
+
+            //Apache
+            apacheIO        : [group: "commons-io", name: "commons-io", version: apacheIO],
+
+            //Retrofit
+            retrofit        : [group: "com.squareup.retrofit2", name: "retrofit", version: retrofit],
+            retrofitMock    : [group: "com.squareup.retrofit2", name: "retrofit-mock", version: retrofit],
+            converterGson   : [group: "com.squareup.retrofit2", name: "converter-gson", version: retrofit],
+
+            //Dagger
+            dagger          : [group: "com.google.dagger", name: "dagger", version: dagger],
+            daggerCompiler  : [group: "com.google.dagger", name: "dagger-compiler", version: dagger],
+
+            //Image-loader
+            glide           : [group: "com.github.bumptech.glide", name: "glide", version: glide],
+
+            //Bus
+            eventbus        : [group: "de.greenrobot", name: "eventbus", version: bus],
+
+            //Parser
+            gson            : [group: "com.google.code.gson", name: "gson", version: gson],
+
+            //Permission
+            easypermissions : [group: "pub.devrel", name: "easypermissions", version: easypermissions],
+
+            //Util
+            mapsUtils       : [group: "com.google.maps.android", name: "android-maps-utils", version: mapsUtilsVersion],
+
+            //Facebook
+            shimmer         : [group: "com.facebook.shimmer", name: "shimmer", version: shimmer, ext: 'aar'],
+
+            //Google API, cloud-service etc.
+            httpClientGson  : [group: "com.google.http-client", name: "google-http-client-gson", version: httpClientGson],
+            apiClientAndroid: [group: "com.google.api-client", name: "google-api-client-android", version: httpClientAndroid],
+            vision          : [group: "com.google.apis", name: "google-api-services-vision", version: vision],
+
+            //Rx
+            //Instead this official rxAdapter, more info
+            // see https://github.com/JakeWharton/retrofit2-rxjava2-adapter
+            // see http://stackoverflow.com/questions/35233161/illegalargumentexception-could-not-locate-call-adapter-for-rx-observable-rxjava
+            //compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+            rxandroid       : [group: "io.reactivex.rxjava2", name: "rxandroid", version: rxandroid],
+            rxAdapter       : [group: "com.jakewharton.retrofit", name: "retrofit2-rxjava2-adapter", version: rxandroidAdapter],
+    ]
+
+    appDependencies = [
+            //support-lib
+            [configuration: "compile", dependency: libs.design],
+            [configuration: "compile", dependency: libs.multidex],
+            [configuration: "compile", dependency: libs.palette],
+            [configuration: "compile", dependency: libs.customtabs],
+            [configuration: "compile", dependency: libs.cardview],
+            [configuration: "compile", dependency: libs.appcompat],
+            [configuration: "compile", dependency: libs.compat],
+            [configuration: "compile", dependency: libs.recyclerview],
+            [configuration: "compile", dependency: libs.core],
+            [configuration: "compile", dependency: libs.fragment],
+            [configuration: "compile", dependency: libs.coreUtils],
+            [configuration: "compile", dependency: libs.annotations],
+            [configuration: "compile", dependency: libs.media],
+
+            //Play
+            [configuration: "compile", dependency: libs.maps],
+            [configuration: "compile", dependency: libs.awareness],
+            [configuration: "compile", dependency: libs.location],
+
+            //Apache
+            [configuration: "compile", dependency: libs.apacheIO],
+
+            //Retrofit
+            [configuration: "compile", dependency: libs.retrofit],
+            [configuration: "compile", dependency: libs.retrofitMock],
+            [configuration: "compile", dependency: libs.converterGson],
+
+            //Dagger
+            [configuration: "compile", dependency: libs.dagger],
+            [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
+
+            //Image-loader
+            [configuration: "compile", dependency: libs.glide],
+
+            //Bus
+            [configuration: "compile", dependency: libs.eventbus],
+
+            //Parser
+            [configuration: "compile", dependency: libs.gson],
+
+            //Permission
+            [configuration: "compile", dependency: libs.easypermissions],
+
+            //Util
+            [configuration: "compile", dependency: libs.mapsUtils],
+
+            //Facebook
+            [configuration: "compile", dependency: libs.shimmer],
+
+            //Google API, cloud-service etc.
+            [configuration: "compile", dependency: libs.httpClientGson,
+             options      : {
+                 exclude module: 'httpclient'
+                 exclude group: 'org.json', module: 'json'
+                 exclude group: 'org.apache.httpcomponents'
+                 exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+             }],
+
+            [configuration: "compile", dependency: libs.apiClientAndroid,
+             options      : {
+                 exclude module: 'httpclient'
+                 exclude group: 'org.json', module: 'json'
+                 exclude group: 'org.apache.httpcomponents'
+                 exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+             }],
+
+            [configuration: "compile", dependency: libs.vision,
+             options      : {
+                 exclude module: 'httpclient'
+                 exclude group: 'org.json', module: 'json'
+                 exclude group: 'org.apache.httpcomponents'
+                 exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+             }],
+
+            //Rx
+            [configuration: "compile", dependency: libs.rxandroid],
+            [configuration: "compile", dependency: libs.rxAdapter],
+    ]
+}
+
+//UITest
+//    androidTestCompile("com.android.support.test:rules:${testRules}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test:runner:${testRunner}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test.espresso:espresso-core:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test.espresso:espresso-web:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+//    compile("com.android.support.test.espresso:espresso-idling-resource:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+//    androidTestCompile("com.android.support.test.espresso:espresso-intents:${espresso}", {
+//        exclude group: 'com.android.support'
+//    })
+
+//UnitTest
+//    testCompile "junit:junit:${junit}"
+//    androidTestCompile "org.mockito:mockito-core:${mockitoVersion}"
+//    androidTestCompile "com.google.dexmaker:dexmaker:${dexmakerVersion}"
+//    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}"
+//    testCompile "junit:junit:${junit}"
+//    testCompile "org.mockito:mockito-all:${mockitoVersion}"
+//    testCompile "org.hamcrest:hamcrest-all:${hamcrestVersion}"
+

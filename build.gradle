@@ -1,8 +1,11 @@
+apply from: 'buildtools/build.gradle'
+apply from: 'buildtools/dependencies.gradle'
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
         maven {
             url 'https://maven.google.com'
         }
@@ -15,64 +18,18 @@ buildscript {
     }
 }
 
+
 allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven {
+            url 'https://maven.google.com'
+        }
     }
 }
 
+
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext {
-    //For the cameraview library: https://github.com/google/cameraview
-    //Reason: http://blog.csdn.net/adojayfan/article/details/52321868
-    compileSdkVersion = project.ANDROID_BUILD_SDK_VERSION
-    buildToolsVersion = project.ANDROID_BUILD_TOOLS_VERSION
-    applicationId = project.APP_APPLICATIONID
-    minSdkVersion = project.ANDROID_BUILD_MIN_SDK_VERSION
-    targetSdkVersion = project.ANDROID_BUILD_TARGET_SDK_VERSION
-    versionName = project.APP_VERSIONNAME
-    versionCode = Integer.parseInt(project.APP_VERSIONCODE)
-    testInstrumentationRunner = project.TEST_RUNNER
-    supportLibraryVersion = project.SUPPORT
-
-
-    bus = "3+"
-    dagger = "2+"
-    gson = "2.8.0"
-    junit = "4.12"
-    retrofit = "2.2.0"
-    rxandroid = "2.0.1"
-    easypermissions = "0.4.0"
-    multidexVersion = "1.0.1"
-    mapsUtilsVersion = "0.5+"
-    rxandroidAdapter = "1.0.0"
-    appCompatVersion = project.SUPPORT
-
-    //Test libs
-    testRules = 0.5
-    testRunner = 0.5
-    espresso = "2.2.2"
-    dexmakerVersion = '1.2'
-    hamcrestVersion = '1.3'
-    mockitoVersion = '1.10.19'
-
-    //Google Service
-    playService = "10.2.6"
-    httpClientGson = "1.20.0"
-    apiClientAndroid = "1.20.0"
-    vision = "v1-rev356-1.22.0"
-
-    //Image-loader
-    imageLoader = "3.7.0"
-
-    //Facebook
-    shimmer = "0.1.0@aar"
-
-    //Others
-    apacheIO = "2.4"
-
 }

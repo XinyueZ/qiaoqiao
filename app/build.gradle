@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
+
 def buildNumber = 'bld' + (System.env.BUILD_NUMBER ?: 'SNAPSHOT')
+
 android {
 
     compileOptions {
@@ -79,124 +81,13 @@ android {
 }
 
 
-
-
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':cameraview')
 
-    //UITest
-//    androidTestCompile("com.android.support.test:rules:${testRules}", {
-//        exclude group: 'com.android.support'
-//    })
-//    androidTestCompile("com.android.support.test:runner:${testRunner}", {
-//        exclude group: 'com.android.support'
-//    })
-//    androidTestCompile("com.android.support.test.espresso:espresso-core:${espresso}", {
-//        exclude group: 'com.android.support'
-//    })
-//    androidTestCompile("com.android.support.test.espresso:espresso-web:${espresso}", {
-//        exclude group: 'com.android.support'
-//    })
-//    compile("com.android.support.test.espresso:espresso-idling-resource:${espresso}", {
-//        exclude group: 'com.android.support'
-//    })
-//    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${espresso}", {
-//        exclude group: 'com.android.support'
-//    })
-//    androidTestCompile("com.android.support.test.espresso:espresso-intents:${espresso}", {
-//        exclude group: 'com.android.support'
-//    })
-
-    //UnitTest
-//    testCompile "junit:junit:${junit}"
-//    androidTestCompile "org.mockito:mockito-core:${mockitoVersion}"
-//    androidTestCompile "com.google.dexmaker:dexmaker:${dexmakerVersion}"
-//    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}"
-//    testCompile "junit:junit:${junit}"
-//    testCompile "org.mockito:mockito-all:${mockitoVersion}"
-//    testCompile "org.hamcrest:hamcrest-all:${hamcrestVersion}"
-
-    //Support libraries
-    compile "com.android.support:design:${appCompatVersion}"
-    compile "com.android.support:multidex:${multidexVersion}"
-    compile "com.android.support:palette-v7:${appCompatVersion}"
-    compile "com.android.support:customtabs:${appCompatVersion}"
-    compile "com.android.support:cardview-v7:${appCompatVersion}"
-    compile "com.android.support:appcompat-v7:${appCompatVersion}"
-    compile "com.android.support:support-compat:${appCompatVersion}"
-    compile "com.android.support:recyclerview-v7:${appCompatVersion}"
-    compile "com.android.support:support-core-ui:${appCompatVersion}"
-    compile "com.android.support:support-fragment:${appCompatVersion}"
-    compile "com.android.support:support-core-utils:${appCompatVersion}"
-    compile "com.android.support:support-annotations:${appCompatVersion}"
-    compile "com.android.support:support-media-compat:${appCompatVersion}"
-
-    //Google libs
-    compile "de.greenrobot:eventbus:${bus}"
-    compile "com.google.code.gson:gson:${gson}"
-    compile "com.google.dagger:dagger:${dagger}"
-    compile "pub.devrel:easypermissions:${easypermissions}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
-    compile "com.google.maps.android:android-maps-utils:${mapsUtilsVersion}"
-
-    //Image-loader
-    compile "com.github.bumptech.glide:glide:${imageLoader}"
-
-    //Rx for android
-    compile "io.reactivex.rxjava2:rxandroid:${rxandroid}"
-    compile "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${rxandroidAdapter}"
-    //Instead this official adapter, more info
-    // see https://github.com/JakeWharton/retrofit2-rxjava2-adapter
-    // see http://stackoverflow.com/questions/35233161/illegalargumentexception-could-not-locate-call-adapter-for-rx-observable-rxjava
-    //compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    //Official Retrofit
-    compile "com.squareup.retrofit2:retrofit:${retrofit}"
-    compile "com.squareup.retrofit2:retrofit-mock:${retrofit}"
-    compile "com.squareup.retrofit2:converter-gson:${retrofit}"
-
-    //Google-service include vision-api
-    compile("com.google.http-client:google-http-client-gson:${httpClientGson}", {
-        exclude module: 'httpclient'
-        exclude group: 'org.json', module: 'json'
-        exclude group: 'org.apache.httpcomponents'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-
-    })
-    compile("com.google.api-client:google-api-client-android:${apiClientAndroid}", {
-        exclude module: 'httpclient'
-        exclude group: 'org.json', module: 'json'
-        exclude group: 'org.apache.httpcomponents'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-
-    })
-    compile("com.google.apis:google-api-services-vision:${vision}", {
-        exclude module: 'httpclient'
-        exclude group: 'org.json', module: 'json'
-        exclude group: 'org.apache.httpcomponents'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-
-    })
-    //Play-service
-    compile("com.google.android.gms:play-services-maps:${playService}") {
-        force = true
+    rootProject.appDependencies.each {
+        add(it.configuration, it.dependency, it.options)
     }
-    compile("com.google.android.gms:play-services-awareness:${playService}") {
-        force = true
-    }
-
-    compile("com.google.android.gms:play-services-location:${playService}") {
-        force = true
-    }
-
-
-    //Facebook
-    compile "com.facebook.shimmer:shimmer:${shimmer}"
-
-
-    //Others
-    compile "commons-io:commons-io:${apacheIO}"
 
 }
 
