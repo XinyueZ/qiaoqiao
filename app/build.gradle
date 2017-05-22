@@ -82,8 +82,6 @@ android {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':cameraview')
 
     rootProject.appDependencies.each {
         add(it.configuration, it.dependency, it.options)

@@ -111,6 +111,9 @@ ext {
     ]
 
     appDependencies = [
+            [configuration: "compile", dependency: fileTree(dir: 'libs', include: ['*.jar'])],
+            [configuration: "compile", dependency: project(':cameraview')],
+
             //support-lib
             [configuration: "compile", dependency: libs.design],
             [configuration: "compile", dependency: libs.multidex],
