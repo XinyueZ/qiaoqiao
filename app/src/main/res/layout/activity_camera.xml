@@ -53,6 +53,12 @@
                         app:facing="back"
                         app:flash="auto"/>
 
+                    <FrameLayout
+                        android:id="@+id/crop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"/>
+
                     <com.qiaoqiao.views.MainControlView
                         android:id="@+id/main_control"
                         android:layout_width="match_parent"

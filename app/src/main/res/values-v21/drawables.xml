@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="ic_map" type="drawable">@drawable/ic_map_vec</item>
+    <item name="ic_crop" type="drawable">@drawable/ic_crop_vec</item>
     <item name="ic_back" type="drawable">@drawable/ic_back_vec</item>
     <item name="ic_place" type="drawable">@drawable/ic_place_vec</item>
     <item name="ic_history" type="drawable">@drawable/ic_history_vec</item>

@@ -37,6 +37,8 @@ import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlaceInfoFragment;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment;
+import com.qiaoqiao.core.camera.crop.CropContract;
+import com.qiaoqiao.core.camera.crop.CropPresenter;
 import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
 import com.qiaoqiao.core.camera.vision.MoreVisionPresenter;
@@ -80,6 +82,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private boolean mOnBottom;
 
 
+	@Inject CropPresenter mCropPresenter;
 	@Inject CameraPresenter mCameraPresenter;
 	@Inject VisionPresenter mVisionPresenter;
 	@Inject HistoryPresenter mHistoryPresenter;
@@ -90,6 +93,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject @More VisionContract.View moreVisionFragment;
 	@Inject HistoryContract.View mHistoryFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
+	@Inject CropContract.View mCropFragment;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -131,8 +135,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		MapsInitializer.initialize(this);
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		setupAppBar();
-		App.inject(this);
 		mBinding.appbar.addOnOffsetChangedListener(this);
+		App.inject(this);
 	}
 
 	@Override
@@ -284,7 +288,20 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private void openPlaces() {
 		getSupportFragmentManager().beginTransaction()
 		                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-		                           .add(R.id.camera_container_fl, (Fragment) mSnapshotPlacesFragment, SnapshotPlacesFragment.class.getName())
+		                           .add(R.id.camera_container_fl,
+		                                (Fragment) mSnapshotPlacesFragment,
+		                                mSnapshotPlacesFragment.getClass()
+		                                                       .getName())
+		                           .addToBackStack(null)
+		                           .commit();
+	}
+
+	private void openCrop() {
+		getSupportFragmentManager().beginTransaction()
+		                           .add(R.id.crop,
+		                                (Fragment) mCropFragment,
+		                                mCropFragment.getClass()
+		                                             .getName())
 		                           .addToBackStack(null)
 		                           .commit();
 	}
@@ -296,12 +313,20 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	@Override
+	public void openCrop(byte[] data) {
+		openCrop();
+		mCropPresenter.setImageData(data);
+	}
+
+	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
-		mBinding.appbar.setExpanded(false, true);
-		mVisionPresenter.addResponseToScreen(response);
-		mMoreVisionPresenter.clean();
-		mMoreVisionPresenter.addResponseToScreen(response);
-		mBinding.viewpager.setCurrentItem(0, true);
+//		mVisionPresenter.addResponseToScreen(response);
+//		mMoreVisionPresenter.clean();
+//		mMoreVisionPresenter.addResponseToScreen(response);
+
+		//Select first page ("VISION") and scroll view to top.
+//		mBinding.appbar.setExpanded(false, true);
+//		mBinding.viewpager.setCurrentItem(0, true);
 	}
 
 	@Override
@@ -387,15 +412,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		return true;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.action_places:
-				requireFineLocationPermission();
-				break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -408,6 +424,16 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		                                 colorTealLight :
 		                                 colorYellow);
 		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_places:
+				requireFineLocationPermission();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	//--Begin permission--

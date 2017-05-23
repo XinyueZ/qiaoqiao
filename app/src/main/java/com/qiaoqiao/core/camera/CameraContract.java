@@ -56,6 +56,8 @@ public interface CameraContract {
 		void updateWhenRequest();
 
 		ActivityCameraBinding getBinding();
+
+		void openCrop(byte[] data);
 	}
 
 	interface Presenter extends BasePresenter {

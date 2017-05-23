@@ -37,6 +37,7 @@ import android.support.multidex.MultiDexApplication;
 import com.qiaoqiao.core.camera.CameraModule;
 import com.qiaoqiao.core.camera.DaggerCameraComponent;
 import com.qiaoqiao.core.camera.awareness.AwarenessModule;
+import com.qiaoqiao.core.camera.crop.CropModule;
 import com.qiaoqiao.core.camera.history.HistoryModule;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
 import com.qiaoqiao.core.camera.vision.VisionModule;
@@ -78,6 +79,7 @@ public final class App extends MultiDexApplication {
 		                     .historyModule(new HistoryModule())
 		                     .visionModule(new VisionModule())
 		                     .awarenessModule(new AwarenessModule())
+		                     .cropModule(new CropModule())
 		                     .build()
 		                     .doInject(cameraActivity);
 	}

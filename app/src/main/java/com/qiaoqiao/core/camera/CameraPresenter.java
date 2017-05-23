@@ -56,6 +56,7 @@ public final class CameraPresenter implements CameraContract.Presenter {
 				return;
 			}
 			mView.updateWhenRequest();
+			mView.openCrop(data);
 			mDsRepository.onBytes(data, new DsLoadedCallback() {
 				@Override
 				public void onVisionResponse(BatchAnnotateImagesResponse response) {
