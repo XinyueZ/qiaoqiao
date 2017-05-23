@@ -64,8 +64,8 @@ ext {
 
             //Play
             maps            : [group: "com.google.android.gms", name: "play-services-maps", version: playService],
-            awareness       : [group: "com.google.android.gms", name: "play-services-awareness", version: playService],
             location        : [group: "com.google.android.gms", name: "play-services-location", version: playService],
+            awareness       : [group: "com.google.android.gms", name: "play-services-awareness", version: playService],
 
             //Apache
             apacheIO        : [group: "commons-io", name: "commons-io", version: apacheIO],
@@ -98,9 +98,9 @@ ext {
             shimmer         : [group: "com.facebook.shimmer", name: "shimmer", version: shimmer, ext: 'aar'],
 
             //Google API, cloud-service etc.
+            vision          : [group: "com.google.apis", name: "google-api-services-vision", version: vision],
             httpClientGson  : [group: "com.google.http-client", name: "google-http-client-gson", version: httpClientGson],
             apiClientAndroid: [group: "com.google.api-client", name: "google-api-client-android", version: httpClientAndroid],
-            vision          : [group: "com.google.apis", name: "google-api-services-vision", version: vision],
 
             //Cropper for image
             cropper         : [group: "com.edmodo", name: "cropper", version: cropper],
@@ -135,8 +135,8 @@ ext {
 
             //Play
             [configuration: "compile", dependency: libs.maps],
-            [configuration: "compile", dependency: libs.awareness],
             [configuration: "compile", dependency: libs.location],
+            [configuration: "compile", dependency: libs.awareness],
 
             //Apache
             [configuration: "compile", dependency: libs.apacheIO],
@@ -169,6 +169,14 @@ ext {
             [configuration: "compile", dependency: libs.shimmer],
 
             //Google API, cloud-service etc.
+            [configuration: "compile", dependency: libs.vision,
+             options      : {
+                 exclude module: 'httpclient'
+                 exclude group: 'org.json', module: 'json'
+                 exclude group: 'org.apache.httpcomponents'
+                 exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+             }],
+
             [configuration: "compile", dependency: libs.httpClientGson,
              options      : {
                  exclude module: 'httpclient'
@@ -178,14 +186,6 @@ ext {
              }],
 
             [configuration: "compile", dependency: libs.apiClientAndroid,
-             options      : {
-                 exclude module: 'httpclient'
-                 exclude group: 'org.json', module: 'json'
-                 exclude group: 'org.apache.httpcomponents'
-                 exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-             }],
-
-            [configuration: "compile", dependency: libs.vision,
              options      : {
                  exclude module: 'httpclient'
                  exclude group: 'org.json', module: 'json'
