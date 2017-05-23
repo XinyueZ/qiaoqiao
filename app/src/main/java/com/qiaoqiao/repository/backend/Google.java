@@ -1,8 +1,6 @@
 package com.qiaoqiao.repository.backend;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
@@ -22,9 +20,9 @@ import com.google.api.services.vision.v1.model.Image;
 import com.google.api.services.vision.v1.model.ImageSource;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.qiaoqiao.app.Key;
+import com.qiaoqiao.utils.ImageUtils;
 import com.qiaoqiao.utils.LL;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -40,7 +38,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public final class Google {
-	private static final int MAX_DIMENSION = 1200;
 	private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
 	private static final String ANDROID_PACKAGE_HEADER = "X-Android-Package";
 	private @NonNull final Key mKey;
@@ -76,7 +73,7 @@ public final class Google {
 		Image build() {
 			// Add the image
 			Image base64EncodedImage = new Image();
-			byte[] imageBytes = convertBytes(bytes);
+			byte[] imageBytes = ImageUtils.convertBytes(bytes);
 			// Base64 encode the JPEG
 			base64EncodedImage.encodeContent(imageBytes);
 			return base64EncodedImage;
@@ -171,34 +168,6 @@ public final class Google {
 		          .subscribeOn(Schedulers.newThread())
 		          .observeOn(AndroidSchedulers.mainThread())
 		          .subscribe(consumer);
-	}
-
-
-	private static byte[] convertBytes(@NonNull byte[] bytes) {
-		Bitmap bitmap = scaleBitmapDown(BitmapFactory.decodeByteArray(bytes, 0, bytes.length), MAX_DIMENSION);
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
-		return byteArrayOutputStream.toByteArray();
-	}
-
-	private static Bitmap scaleBitmapDown(@NonNull Bitmap bitmap, int maxDimension) {
-
-		int originalWidth = bitmap.getWidth();
-		int originalHeight = bitmap.getHeight();
-		int resizedWidth = maxDimension;
-		int resizedHeight = maxDimension;
-
-		if (originalHeight > originalWidth) {
-			resizedHeight = maxDimension;
-			resizedWidth = (int) (resizedHeight * (float) originalWidth / (float) originalHeight);
-		} else if (originalWidth > originalHeight) {
-			resizedWidth = maxDimension;
-			resizedHeight = (int) (resizedWidth * (float) originalHeight / (float) originalWidth);
-		} else if (originalHeight == originalWidth) {
-			resizedHeight = maxDimension;
-			resizedWidth = maxDimension;
-		}
-		return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
 	}
 
 
