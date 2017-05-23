@@ -30,7 +30,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 
-public final class ClusterManager extends com.google.maps.android.clustering.ClusterManager implements com.google.maps.android.clustering.ClusterManager.OnClusterItemClickListener<ClusterItem> {
+public final class  ClusterManager extends com.google.maps.android.clustering.ClusterManager implements com.google.maps.android.clustering.ClusterManager.OnClusterItemClickListener<ClusterItem> {
 
 	private ClusterManager(@NonNull FragmentActivity activity, @NonNull GoogleMap map) {
 		super(activity.getApplicationContext(), map, new MarkerManager(map));

@@ -142,7 +142,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 
 	private @NonNull
 	String wikiGeosearch(@NonNull String keyword) {
-		return "/w/api.php?format=json&action=query&list=geosearch&gsradius=10000&gslimit=max&gscoord=" + keyword;
+		return "/w/api.php?format=json&action=query&list=geosearch&gsradius=500&gslimit=max&gscoord=" + keyword;
 	}
 
 }
