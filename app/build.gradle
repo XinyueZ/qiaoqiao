@@ -24,11 +24,11 @@ android {
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
 
+        versionName globalConfiguration.getAt("versionName")
+        versionCode globalConfiguration.getAt("versionCode")
         applicationId globalConfiguration.getAt("applicationId")
         minSdkVersion globalConfiguration.getAt("minSdkVersion")
         targetSdkVersion globalConfiguration.getAt("targetSdkVersion")
-        versionName globalConfiguration.getAt("versionName")
-        versionCode globalConfiguration.getAt("versionCode")
     }
 
 

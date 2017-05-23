@@ -1,7 +1,6 @@
 package com.qiaoqiao.core.splash;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -65,12 +64,7 @@ public final class SplashActivity extends AppCompatActivity implements EasyPermi
 	public void onPermissionsDenied(int i, List<String> list) {
 		if (!hasPermission()) {
 			new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-			                                   .setNegativeButton(getString(R.string.exit_app), new DialogInterface.OnClickListener() {
-				                                   @Override
-				                                   public void onClick(DialogInterface dialogInterface, int i) {
-					                                   supportFinishAfterTransition();
-				                                   }
-			                                   })
+			                                   .setNegativeButton(getString(R.string.exit_app), (dialogInterface, i1) -> supportFinishAfterTransition())
 			                                   .build()
 			                                   .show();
 		} else {

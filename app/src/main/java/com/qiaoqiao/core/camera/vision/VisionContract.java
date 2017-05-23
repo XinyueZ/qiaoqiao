@@ -18,15 +18,16 @@ package com.qiaoqiao.core.camera.vision;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
+import com.qiaoqiao.core.camera.vision.model.VisionEntity;
+import com.qiaoqiao.databinding.FragmentListVisionBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
-import com.qiaoqiao.databinding.FragmentListVisionBinding;
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.DsRepository;
-import com.qiaoqiao.core.camera.vision.model.VisionEntity;
+
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -35,11 +36,11 @@ import de.greenrobot.event.EventBus;
  */
 public interface VisionContract {
 
-	interface View<T, S, P, Q> extends BaseView<Presenter, FragmentListVisionBinding> {
+	interface View  extends BaseView<Presenter, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
 
-		void addEntities(@Nullable T t, @Nullable S s, @Nullable P p, @Nullable Q q);
 
+		void addEntities(@NonNull List<VisionEntity> visionEntityList);
 
 		void showDetail(@NonNull VisionEntity entity, android.view.View transitionView);
 

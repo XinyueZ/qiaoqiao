@@ -13,17 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.api.services.vision.v1.model.EntityAnnotation;
-import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public final class VisionListFragment extends AbstractVisionFragment implements VisionContract.View<EntityAnnotation, EntityAnnotation, EntityAnnotation, WebEntity> {
+public final class VisionListFragment extends AbstractVisionFragment implements VisionContract.View {
 	private static final int LAYOUT = R.layout.fragment_list_vision;
 	private FragmentListVisionBinding mBinding;
 	private VisionContract.Presenter mPresenter;
@@ -64,25 +61,9 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 
 
 	@Override
-	public void addEntities(@Nullable EntityAnnotation landmarkAnnotation, @Nullable EntityAnnotation logoAnnotation, @Nullable EntityAnnotation labelAnnotation, @Nullable WebEntity webEntity) {
+	public void addEntities(@NonNull List<VisionEntity> visionEntityList) {
+		mVisionListAdapter.addVisionEntityList(visionEntityList);
 		setRefreshing(false);
-		if (landmarkAnnotation == null && logoAnnotation == null && labelAnnotation == null && webEntity == null) {
-			return;
-		}
-		List<VisionEntity> filterList = new ArrayList<>();
-		if (landmarkAnnotation != null) {
-			filterList.add(new VisionEntity(landmarkAnnotation, "LANDMARK_DETECTION").setActivated(true));
-		}
-		if (logoAnnotation != null) {
-			filterList.add(new VisionEntity(logoAnnotation, "LOGO_DETECTION").setActivated(true));
-		}
-		if (labelAnnotation != null) {
-			filterList.add(new VisionEntity(labelAnnotation, "LABEL_DETECTION").setActivated(true));
-		}
-		if (webEntity != null) {
-			filterList.add(new VisionEntity(webEntity, "WEB_DETECTION").setActivated(true));
-		}
-		mVisionListAdapter.addVisionEntityList(filterList);
 	}
 
 	@Override

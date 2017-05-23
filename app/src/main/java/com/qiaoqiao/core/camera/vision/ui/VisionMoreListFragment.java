@@ -10,17 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.api.services.vision.v1.model.EntityAnnotation;
-import com.google.api.services.vision.v1.model.WebEntity;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public final class VisionMoreListFragment extends AbstractVisionFragment implements VisionContract.View<List<EntityAnnotation>, List<EntityAnnotation>, List<EntityAnnotation>, List<WebEntity>> {
+public final class VisionMoreListFragment extends AbstractVisionFragment implements VisionContract.View {
 	private static final int LAYOUT = R.layout.fragment_list_vision;
 	private FragmentListVisionBinding mBinding;
 	private VisionContract.Presenter mPresenter;
@@ -53,17 +50,8 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 
 
 	@Override
-	public void addEntities(@Nullable List<EntityAnnotation> landmarkAnnotations,
-	                        @Nullable List<EntityAnnotation> logoAnnotations,
-	                        @Nullable List<EntityAnnotation> labelAnnotations,
-	                        @Nullable List<WebEntity> webEntities) {
-		List<VisionEntity> output = new ArrayList<>();
-		addEntities(landmarkAnnotations, "LANDMARK_DETECTION", output);
-		addEntities(logoAnnotations, "LOGO_DETECTION", output);
-		addEntities(labelAnnotations, "LABEL_DETECTION", output);
-		addWebEntity(webEntities, output);
-
-		mVisionListAdapter.addVisionEntityList(output);
+	public void addEntities(@NonNull List<VisionEntity> visionEntityList) {
+		mVisionListAdapter.addVisionEntityList(visionEntityList);
 		setRefreshing(false);
 	}
 
@@ -94,25 +82,4 @@ public final class VisionMoreListFragment extends AbstractVisionFragment impleme
 		mBinding.loadingPb.setRefreshing(refresh);
 	}
 
-
-	private void addEntities(@Nullable List<EntityAnnotation> entityAnnotationList, @NonNull String name, @NonNull List<VisionEntity> output) {
-		if (entityAnnotationList == null || entityAnnotationList.size() <= 0) {
-			return;
-		}
-		for (EntityAnnotation entityAnnotation : entityAnnotationList) {
-			output.add(new VisionEntity(entityAnnotation, name, true));
-		}
-
-	}
-
-
-	private void addWebEntity(@Nullable List<WebEntity> webEntityList, @NonNull List<VisionEntity> output) {
-		if (webEntityList == null || webEntityList.size() <= 0) {
-			setRefreshing(false);
-			return;
-		}
-		for (WebEntity entityAnnotation : webEntityList) {
-			output.add(new VisionEntity(entityAnnotation, "WEB_DETECTION", true));
-		}
-	}
 }

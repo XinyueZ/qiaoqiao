@@ -8,10 +8,12 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
-import com.qiaoqiao.repository.DsRepository;
 import com.qiaoqiao.core.camera.vision.annotation.target.Single;
 import com.qiaoqiao.core.camera.vision.bus.VisionEntityClickEvent;
+import com.qiaoqiao.core.camera.vision.model.VisionEntity;
+import com.qiaoqiao.repository.DsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,7 +21,7 @@ import javax.inject.Inject;
 import de.greenrobot.event.Subscribe;
 
 public final class VisionPresenter extends VisionContract.Presenter {
-	private final @NonNull VisionContract.View<EntityAnnotation, EntityAnnotation, EntityAnnotation, WebEntity> mView;
+	private final @NonNull VisionContract.View mView;
 
 
 	//------------------------------------------------
@@ -57,35 +59,32 @@ public final class VisionPresenter extends VisionContract.Presenter {
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
 		final List<AnnotateImageResponse> annotates = response.getResponses();
+		List<VisionEntity> filterList = new ArrayList<>();
 		if (annotates != null && annotates.size() > 0) {
 			final AnnotateImageResponse annotateImage = annotates.get(0);
 			if (annotateImage != null) {
-				EntityAnnotation landAnnotation = null;
-				EntityAnnotation logoAnnotation = null;
-				EntityAnnotation labelAnnotation = null;
-				WebEntity webEntity = null;
 				final List<EntityAnnotation> landmarkAnnotations = annotateImage.getLandmarkAnnotations();
 				if (landmarkAnnotations != null && landmarkAnnotations.size() > 0) {
-					landAnnotation = landmarkAnnotations.get(0);
+					filterList.add(new VisionEntity(landmarkAnnotations.get(0), "LANDMARK_DETECTION").setActivated(true));
 				}
 				final List<EntityAnnotation> logoAnnotations = annotateImage.getLogoAnnotations();
 				if (logoAnnotations != null && logoAnnotations.size() > 0) {
-					logoAnnotation = logoAnnotations.get(0);
+					filterList.add(new VisionEntity(logoAnnotations.get(0), "LOGO_DETECTION").setActivated(true));
 				}
 				final List<EntityAnnotation> labelAnnotations = annotateImage.getLabelAnnotations();
 				if (labelAnnotations != null && labelAnnotations.size() > 0) {
-					labelAnnotation = labelAnnotations.get(0);
+					filterList.add(new VisionEntity(labelAnnotations.get(0), "LABEL_DETECTION").setActivated(true));
 				}
 				final WebDetection webDetection = annotateImage.getWebDetection();
 				if (webDetection != null) {
 					final List<WebEntity> webEntities = webDetection.getWebEntities();
 					if (webEntities != null && webEntities.size() > 0) {
-						webEntity = webEntities.get(0);
+						filterList.add(new VisionEntity(webEntities.get(0), "WEB_DETECTION").setActivated(true));
 					}
 				}
-				mView.addEntities(landAnnotation, logoAnnotation, labelAnnotation, webEntity);
 			}
 		}
+		mView.addEntities(filterList);
 	}
 
 	@Override
