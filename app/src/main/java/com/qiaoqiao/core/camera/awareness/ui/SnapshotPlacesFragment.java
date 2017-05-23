@@ -118,7 +118,6 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 			});
 		}
 
-		mBinding.locatingControl.stopLocalProgressBar();
 		mPresenter.searchAndSearch(latLng);
 	}
 
@@ -143,5 +142,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 			return;
 		}
 		ClusterManager.showGeosearch(getActivity(), mGoogleMap, clusterItemList);
+		mBinding.locatingControl.stopLocalProgressBar();
+		mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(getResources().getInteger(R.integer.zoom) + 3));
 	}
 }
