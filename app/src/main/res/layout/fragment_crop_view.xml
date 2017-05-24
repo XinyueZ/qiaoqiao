@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.isseiaoki.simplecropview.CropImageView
+        android:id="@+id/crop_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        app:scv_crop_mode="fit_image"
+        app:scv_background_color="@color/colorBlueGrey80"
+        app:scv_frame_color="@color/colorAccent"
+        app:scv_handle_color="@color/colorAccent"
+        app:scv_guide_color="@color/colorAccent"
+        app:scv_guide_show_mode="show_always"
+        app:scv_handle_show_mode="show_always"
+        app:scv_handle_size="15dp"
+        app:scv_crop_enabled="true"
+        app:scv_initial_frame_scale="0.5"
+        app:scv_animation_enabled="true"
+        app:scv_animation_duration="200"
+        app:scv_handle_shadow_enabled="true"/>
+</layout>

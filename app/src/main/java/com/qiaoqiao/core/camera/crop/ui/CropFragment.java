@@ -17,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.isseiaoki.simplecropview.callback.CropCallback;
+import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.databinding.FragmentCropBinding;
+import com.qiaoqiao.databinding.FragmentCropViewBinding;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
@@ -35,6 +37,7 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	private FragmentCropBinding mBinding;
 	private CropContract.Presenter mPresenter;
 	private byte[] mData;
+	private CropViewFragment mCropViewFragment;
 
 	public static CropFragment newInstance(@NonNull Context cxt) {
 		return (CropFragment) CropFragment.instantiate(cxt, CropFragment.class.getName());
@@ -55,6 +58,11 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		showImage();
 	}
 
+	@Override
+	public void onDestroyView() {
+		mCropViewFragment = null;
+		super.onDestroyView();
+	}
 
 	@Override
 	public void setPresenter(@NonNull CropContract.Presenter presenter) {
@@ -74,22 +82,25 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		if (mData == null || mData.length <= 0) {
 			return;
 		}
-		mBinding.cropIv.setImageBitmap(BitmapFactory.decodeByteArray(mData, 0, mData.length));
-		mBinding.cropIv.setCustomRatio(4, 3);
+		getChildFragmentManager().beginTransaction()
+		                         .replace(R.id.crop_container, mCropViewFragment = CropViewFragment.newInstance(getContext(), mData), CropViewFragment.class.getName())
+		                         .commitNow();
+		mCropViewFragment.setTargetFragment(this, 0x09);
 	}
 
 
 	@Override
 	public void onClick(View view) {
-		mVibrator.vibrate(VIB_LNG);
-		if (mBinding.cropIv.getCroppedBitmap() != null) {
-			final Drawable drawable = mBinding.cropFbPb.getDrawable();
-			if (drawable instanceof Animatable) {
-				((Animatable) drawable).start();
-				mBinding.cropFbPb.setVisibility(VISIBLE);
-			}
-			mBinding.cropIv.startCrop(Uri.fromFile(new File(getActivity().getCacheDir(), "cropped")), this, null);
+		if (mCropViewFragment == null || !mCropViewFragment.isAdded()) {
+			return;
 		}
+		mVibrator.vibrate(VIB_LNG);
+		final Drawable drawable = mBinding.cropFbPb.getDrawable();
+		if (drawable instanceof Animatable) {
+			((Animatable) drawable).start();
+			mBinding.cropFbPb.setVisibility(VISIBLE);
+		}
+		mCropViewFragment.crop();
 	}
 
 	@Override
@@ -108,5 +119,38 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	@Override
 	public void onError() {
 		mPresenter.croppedFail();
+	}
+
+
+	public static final class CropViewFragment extends Fragment {
+		private FragmentCropViewBinding mBinding;
+
+		private static CropViewFragment newInstance(@NonNull Context cxt, @NonNull byte[] data) {
+			Bundle args = new Bundle(1);
+			args.putByteArray("data", data);
+			return (CropViewFragment) CropViewFragment.instantiate(cxt, CropViewFragment.class.getName(), args);
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+			mBinding = FragmentCropViewBinding.inflate(inflater, container, false);
+			return mBinding.getRoot();
+		}
+
+		@Override
+		public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+			super.onViewCreated(view, savedInstanceState);
+
+			byte[] data = getArguments().getByteArray("data");
+			mBinding.cropIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
+			mBinding.cropIv.setCustomRatio(4, 3);
+		}
+
+		private void crop() {
+			if (mBinding.cropIv.getCroppedBitmap() != null) {
+				mBinding.cropIv.startCrop(Uri.fromFile(new File(getActivity().getCacheDir(), "cropped")), (CropCallback) getTargetFragment(), null);
+			}
+		}
 	}
 }
