@@ -7,11 +7,12 @@ import javax.inject.Inject;
 
 public final class CropPresenter implements CropContract.Presenter {
 	private final @NonNull CropContract.View mView;
-
+	private final @NonNull CropCallback mCropCallback;
 
 	@Inject
-	CropPresenter(@NonNull CropContract.View view) {
+	CropPresenter(@NonNull CropContract.View view, @NonNull CropCallback cropCallback) {
 		mView = view;
+		mCropCallback = cropCallback;
 	}
 
 	@Inject
@@ -28,7 +29,17 @@ public final class CropPresenter implements CropContract.Presenter {
 	}
 
 	@Override
-	public void setImageData(byte[] data) {
+	public void setImageData(@NonNull byte[] data) {
 		mView.setImageData(data);
+	}
+
+	@Override
+	public void cropped(@NonNull byte[] bytes) {
+		mCropCallback.onCropped(bytes);
+	}
+
+	@Override
+	public void croppedFail() {
+		mCropCallback.onCroppedFail();
 	}
 }

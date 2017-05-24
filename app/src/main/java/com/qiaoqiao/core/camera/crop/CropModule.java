@@ -16,7 +16,7 @@ public final class CropModule {
 
 	@Provides
 	@CameraScoped
-	CropContract.View provideCropContracttView(@NonNull Context cxt) {
+	CropContract.View provideCropContractView(@NonNull Context cxt) {
 		return CropFragment.newInstance(cxt);
 	}
 

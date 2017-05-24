@@ -32,9 +32,9 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	@Inject
 	void onInjected() {
 		mView.setPresenter(this);
-		mView.getBinding().mainControl.setOnFromLocalClickedListener(v -> mView.showLoadFromLocal(v));
-		mView.getBinding().mainControl.setOnCaptureClickedListener(v -> mView.capturePhoto(v));
-		mView.getBinding().mainControl.setOnFromWebClickedListener(v -> mView.showInputFromWeb(v));
+		mView.getBinding().mainControl.setOnFromLocalClickedListener(mView::showLoadFromLocal);
+		mView.getBinding().mainControl.setOnCaptureClickedListener(mView::capturePhoto);
+		mView.getBinding().mainControl.setOnFromWebClickedListener(mView::showInputFromWeb);
 	}
 
 	@Override
@@ -55,28 +55,8 @@ public final class CameraPresenter implements CameraContract.Presenter {
 				LL.e("The camera captured picture but the bytes is NULL.");
 				return;
 			}
-			mView.updateWhenRequest();
 			mView.openCrop(data);
-			mDsRepository.onBytes(data, new DsLoadedCallback() {
-				@Override
-				public void onVisionResponse(BatchAnnotateImagesResponse response) {
-					super.onVisionResponse(response);
-					mView.addResponseToScreen(response);
-					mView.updateWhenResponse();
-				}
 
-				@Override
-				public void onError(@NonNull Status status) {
-					super.onError(status);
-					mView.updateWhenResponse();
-				}
-
-				@Override
-				public void onException(@NonNull Exception e) {
-					super.onException(e);
-					mView.updateWhenResponse();
-				}
-			});
 		}
 
 		@Override
@@ -87,6 +67,31 @@ public final class CameraPresenter implements CameraContract.Presenter {
 		public void onCameraClosed(CameraView cameraView) {
 		}
 	};
+
+	@Override
+	public void openCroppedCapturedImage(@NonNull byte[] bytes) {
+		mView.updateWhenRequest();
+		mDsRepository.onBytes(bytes, new DsLoadedCallback() {
+			@Override
+			public void onVisionResponse(BatchAnnotateImagesResponse response) {
+				super.onVisionResponse(response);
+				mView.addResponseToScreen(response);
+				mView.updateWhenResponse();
+			}
+
+			@Override
+			public void onError(@NonNull Status status) {
+				super.onError(status);
+				mView.updateWhenResponse();
+			}
+
+			@Override
+			public void onException(@NonNull Exception e) {
+				super.onException(e);
+				mView.updateWhenResponse();
+			}
+		});
+	}
 
 	@Override
 	public void openLink(@NonNull Uri uri) {

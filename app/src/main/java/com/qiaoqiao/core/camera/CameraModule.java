@@ -3,6 +3,7 @@ package com.qiaoqiao.core.camera;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.core.camera.annotation.CameraScoped;
+import com.qiaoqiao.core.camera.crop.CropCallback;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
 
 import dagger.Module;
@@ -28,5 +29,11 @@ public final class CameraModule {
 	@Provides
 	CameraActivity provideCameraActivity() {
 		return (CameraActivity)mView;
+	}
+
+	@CameraScoped
+	@Provides
+	CropCallback provideCropCallback() {
+		return (CropCallback)mView;
 	}
 }

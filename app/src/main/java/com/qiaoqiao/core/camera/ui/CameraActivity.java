@@ -37,8 +37,10 @@ import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlaceInfoFragment;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment;
+import com.qiaoqiao.core.camera.crop.CropCallback;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
+import com.qiaoqiao.core.camera.crop.ui.CropFragment;
 import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
 import com.qiaoqiao.core.camera.vision.MoreVisionPresenter;
@@ -74,7 +76,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
                                                                        View.OnClickListener,
                                                                        EasyPermissions.PermissionCallbacks,
                                                                        AppBarLayout.OnOffsetChangedListener,
-                                                                       FragmentManager.OnBackStackChangedListener {
+                                                                       FragmentManager.OnBackStackChangedListener,
+                                                                       CropCallback {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
@@ -193,6 +196,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
 			@Override
 			public boolean canDrag(AppBarLayout appBarLayout) {
+				if (appBarLayout == null) {
+					return true;
+				}
 				//MapView, CameraView , CoordinatorLayout and CollapsingToolbarLayout make scroll-effect difficultly , let's use a solution.
 				//http://stackoverflow.com/questions/31046147/android-mapview-in-a-collapsingtoolbarlayout
 				return false;
@@ -296,9 +302,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		                           .commit();
 	}
 
-	private void openCrop() {
+	private void openCropView(@NonNull  byte[] data) {
+		mCropPresenter.setImageData(data);
 		getSupportFragmentManager().beginTransaction()
-		                           .add(R.id.crop,
+		                           .add(R.id.camera_container_fl,
 		                                (Fragment) mCropFragment,
 		                                mCropFragment.getClass()
 		                                             .getName())
@@ -313,20 +320,41 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	@Override
-	public void openCrop(byte[] data) {
-		openCrop();
-		mCropPresenter.setImageData(data);
+	public void openCrop(@NonNull  byte[] data) {
+		openCropView(data);
 	}
 
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
-//		mVisionPresenter.addResponseToScreen(response);
-//		mMoreVisionPresenter.clean();
-//		mMoreVisionPresenter.addResponseToScreen(response);
+		mVisionPresenter.addResponseToScreen(response);
+		mMoreVisionPresenter.clean();
+		mMoreVisionPresenter.addResponseToScreen(response);
+
+
+		closeCropView();
+
 
 		//Select first page ("VISION") and scroll view to top.
-//		mBinding.appbar.setExpanded(false, true);
-//		mBinding.viewpager.setCurrentItem(0, true);
+		mBinding.appbar.setExpanded(false, true);
+		mBinding.viewpager.setCurrentItem(0, true);
+
+	}
+
+	private void closeCropView() {
+		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
+		if (isCropThere) {
+			getSupportFragmentManager().popBackStack();
+		}
+	}
+
+	@Override
+	public void onCropped(@NonNull byte[] bytes) {
+		mCameraPresenter.openCroppedCapturedImage(bytes);
+	}
+
+	@Override
+	public void onCroppedFail() {
+		closeCropView();
 	}
 
 	@Override
@@ -423,6 +451,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.barTitleTv.setTextColor(isSnapshotPlacesThere ?
 		                                 colorTealLight :
 		                                 colorYellow);
+
+		//When user doesn't crop anything just back, we need stop progressbar on main-control.
+		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
+		if (isCropThere) {
+			mBinding.mainControl.stopCaptureProgressBar();
+		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -489,5 +523,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			                                   .show();
 		}
 	}
+
+
 	//--End permission--
 }

@@ -21,4 +21,5 @@
     <color name="colorCyan">#00BCD4</color>
     <color name="colorBlue">#0069fe</color>
     <color name="colorScrim">#99323232</color>
+    <color name="colorBlueGrey80">#80607D8B</color>
 </resources>

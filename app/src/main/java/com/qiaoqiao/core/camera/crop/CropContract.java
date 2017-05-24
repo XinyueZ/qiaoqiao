@@ -17,6 +17,8 @@
 package com.qiaoqiao.core.camera.crop;
 
 
+import android.support.annotation.NonNull;
+
 import com.qiaoqiao.databinding.FragmentCropBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
@@ -29,10 +31,14 @@ public interface CropContract {
 	interface View extends BaseView<Presenter, FragmentCropBinding> {
 		FragmentCropBinding getBinding();
 
-		void setImageData(byte[] data);
+		void setImageData(@NonNull byte[] data);
 	}
 
 	interface Presenter extends BasePresenter {
-		void setImageData(byte[] data);
+		void setImageData(@NonNull byte[] data);
+
+		void cropped(@NonNull byte[] bytes);
+
+		void croppedFail();
 	}
 }

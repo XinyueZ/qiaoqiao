@@ -57,11 +57,13 @@ public interface CameraContract {
 
 		ActivityCameraBinding getBinding();
 
-		void openCrop(byte[] data);
+		void openCrop(@NonNull  byte[] data);
 	}
 
 	interface Presenter extends BasePresenter {
 
+
+		void openCroppedCapturedImage(@NonNull byte[] bytes);
 
 		void openLink(@NonNull Uri uri);
 
