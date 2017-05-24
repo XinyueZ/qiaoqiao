@@ -6,7 +6,7 @@
         android:exitFadeDuration="@android:integer/config_shortAnimTime"
         android:radius="@dimen/radius">
     <item>
-        <selector >
+        <selector>
 
             <item
                 android:drawable="@drawable/round_brown_rectangle"
