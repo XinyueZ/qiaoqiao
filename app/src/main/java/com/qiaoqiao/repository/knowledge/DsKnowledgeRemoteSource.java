@@ -108,8 +108,7 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 		              .observeOn(AndroidSchedulers.mainThread())
 		              .subscribe(result1 -> {
 			              try {
-				              if (result1.getQuery() != null && result1.getQuery()
-				                                                       .getGeosearches().length > 0) {
+				              if (result1.getQuery() != null) {
 					              callback.onGeosearchResponse(result1);
 				              }
 			              } catch (Exception e) {
