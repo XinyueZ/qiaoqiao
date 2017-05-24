@@ -458,7 +458,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			mBinding.mainControl.stopCaptureProgressBar();
 		}
 		menu.findItem(R.id.action_crop_rotate)
-		    .setVisible(isCropThere);
+		    .setVisible(isCropThere && !isSnapshotPlacesThere);
 		return super.onPrepareOptionsMenu(menu);
 	}
 

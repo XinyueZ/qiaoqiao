@@ -55,7 +55,7 @@ public final class SnapshotPlaceInfoFragment extends BottomSheetDialogFragment i
 	public void onResume() {
 		super.onResume();
 		if (mBehavior != null && mBinding != null) {
-			mBinding.openMapFl.setSelected(true);
+			mBinding.openMapFl.setActivated(true);
 		}
 	}
 
