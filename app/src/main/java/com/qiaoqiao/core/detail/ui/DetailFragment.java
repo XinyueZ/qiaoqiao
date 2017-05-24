@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -208,14 +209,14 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 		if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-			loadDetailPreview();
+			loadDetailPreview(mBinding.previewIv);
 		} else {
 			mBinding.previewIv.setVisibility(View.GONE);
 		}
 	}
 
 
-	private void loadDetailPreview() {
+	private void loadDetailPreview(@NonNull ImageView imageView) {
 		if (mContextWeakReference.get() != null && mPreviewImage != null && mPreviewImage.getSource() != null) {
 			Glide.with(mContextWeakReference.get())
 			     .load(mPreviewImage.getSource())
@@ -228,7 +229,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 			     .listener(new RequestListener<String, GlideDrawable>() {
 				     @Override
 				     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-					     previewLoaded();
+					     previewLoaded(imageView);
 					     return false;
 				     }
 
@@ -238,7 +239,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 					     return true;
 				     }
 			     })
-			     .into(mBinding.previewIv);
+			     .into(imageView );
 		}
 	}
 
@@ -264,7 +265,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 			     @Override
 			     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-				     loadDetailPreview();
+				     loadDetailPreview(mBinding.detailIv);
 				     return true;
 			     }
 		     })
@@ -278,8 +279,8 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		setRefreshing(false);
 	}
 
-	private void previewLoaded() {
-		mBinding.previewIv.setVisibility(View.VISIBLE);
+	private void previewLoaded(@NonNull ImageView imageView) {
+		imageView.setVisibility(View.VISIBLE);
 		setRefreshing(false);
 	}
 

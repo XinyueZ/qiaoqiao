@@ -38,7 +38,7 @@ ext {
     vision = "v1-rev356-1.22.0"
 
     //Image-loader
-    glide = "3.7.0"
+    glide = "3.8.0"
 
     //Facebook
     shimmer = "0.1.0"
