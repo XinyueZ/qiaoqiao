@@ -5,5 +5,15 @@
         android:enterFadeDuration="@android:integer/config_shortAnimTime"
         android:exitFadeDuration="@android:integer/config_shortAnimTime"
         android:radius="@dimen/radius">
-    <item android:drawable="@drawable/selector_wrapper_round_green_rectangle_item_background"/>
+    <item>
+        <selector >
+
+            <item
+                android:drawable="@drawable/round_green_rectangle"
+                android:state_activated="true"/> <!-- default -->
+            <item
+                android:drawable="@drawable/round_gray_rectangle"
+                android:state_activated="false"/>
+        </selector>
+    </item>
 </ripple>

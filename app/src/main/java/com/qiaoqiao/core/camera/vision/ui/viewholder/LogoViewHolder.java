@@ -24,7 +24,7 @@ public final class LogoViewHolder extends AbstractVisionViewHolder {
 		mItemVisionLogoBinding.setVisionEntity(entity);
 		mItemVisionLogoBinding.setViewholder(this);
 
-		itemView.setSelected(entity.isActivated());
+		itemView.setActivated(entity.isActivated());
 	}
 
 	@Override
