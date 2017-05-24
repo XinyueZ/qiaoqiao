@@ -13,7 +13,8 @@
     <item name="ic_geosearch" type="drawable">@drawable/ic_geosearch_vec</item>
     <item name="ic_streetview" type="drawable">@drawable/ic_streetview_vec</item>
     <item name="ic_from_local" type="drawable">@drawable/ic_from_local_vec</item>
+    <item name="ic_crop_rotate" type="drawable">@drawable/ic_crop_rotate_vec</item>
     <item name="ic_location_pin" type="drawable">@drawable/ic_location_pin_vec</item>
-    <item name="ic_knowledge_link_open" type="drawable">@drawable/ic_knowledge_link_open_vec</item>
     <item name="ic_default_image" type="drawable">@drawable/ic_default_image_vec</item>
+    <item name="ic_knowledge_link_open" type="drawable">@drawable/ic_knowledge_link_open_vec</item>
 </resources>

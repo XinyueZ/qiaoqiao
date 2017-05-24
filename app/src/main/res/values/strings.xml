@@ -15,7 +15,7 @@
 
     <string name="temp_degree">%1$.0f °C</string>
 
-    <string name="action_crop">My Place</string>
+    <string name="action_crop_rotate">Rotate</string>
     <string name="action_my_place">My Place</string>
     <string name="action_multi_language">More language</string>
 

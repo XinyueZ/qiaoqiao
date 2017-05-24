@@ -8,4 +8,11 @@
         android:icon="@drawable/ic_place"
         android:title="@string/action_my_place"
         app:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/action_crop_rotate"
+        android:icon="@drawable/ic_crop_rotate"
+        android:title="@string/action_crop_rotate"
+        app:showAsAction="always"/>
 </menu>

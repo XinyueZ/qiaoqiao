@@ -32,6 +32,8 @@ public interface CropContract {
 		FragmentCropBinding getBinding();
 
 		void setImageData(@NonNull byte[] data);
+
+		void rotate();
 	}
 
 	interface Presenter extends BasePresenter {

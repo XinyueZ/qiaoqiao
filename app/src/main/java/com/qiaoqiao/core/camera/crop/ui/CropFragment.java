@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.isseiaoki.simplecropview.CropImageView;
 import com.isseiaoki.simplecropview.callback.CropCallback;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.crop.CropContract;
@@ -121,6 +122,13 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		mPresenter.croppedFail();
 	}
 
+	@Override
+	public void rotate() {
+		if (mCropViewFragment == null || !mCropViewFragment.isAdded()) {
+			return;
+		}
+		mCropViewFragment.rotate();
+	}
 
 	public static final class CropViewFragment extends Fragment {
 		private FragmentCropViewBinding mBinding;
@@ -151,6 +159,10 @@ public final class CropFragment extends Fragment implements CropContract.View,
 			if (mBinding.cropIv.getCroppedBitmap() != null) {
 				mBinding.cropIv.startCrop(Uri.fromFile(new File(getActivity().getCacheDir(), "cropped")), (CropCallback) getTargetFragment(), null);
 			}
+		}
+
+		private void rotate() {
+			mBinding.cropIv.rotateImage(CropImageView.RotateDegrees.ROTATE_90D);
 		}
 	}
 }

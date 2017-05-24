@@ -457,6 +457,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		if (isCropThere) {
 			mBinding.mainControl.stopCaptureProgressBar();
 		}
+		menu.findItem(R.id.action_crop_rotate)
+		    .setVisible(isCropThere);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -465,6 +467,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		switch (item.getItemId()) {
 			case R.id.action_places:
 				requireFineLocationPermission();
+				break;
+			case R.id.action_crop_rotate:
+				mCropFragment.rotate();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
