@@ -36,7 +36,7 @@ android {
         enabled = true
     }
 
-    flavorDimensions "development", "release"
+    flavorDimensions "development", "store"
 
     productFlavors {
         dev {
@@ -44,7 +44,7 @@ android {
             applicationId project.APP_DEV_APPLICATIONID
         }
         live {
-            dimension "release"
+            dimension "store"
             applicationId project.APP_APPLICATIONID
         }
     }

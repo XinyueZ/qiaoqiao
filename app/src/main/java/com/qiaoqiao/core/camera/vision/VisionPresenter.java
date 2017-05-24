@@ -65,21 +65,29 @@ public final class VisionPresenter extends VisionContract.Presenter {
 			if (annotateImage != null) {
 				final List<EntityAnnotation> landmarkAnnotations = annotateImage.getLandmarkAnnotations();
 				if (landmarkAnnotations != null && landmarkAnnotations.size() > 0) {
-					filterList.add(new VisionEntity(landmarkAnnotations.get(0), "LANDMARK_DETECTION").setActivated(true));
+					for (EntityAnnotation annotation : landmarkAnnotations) {
+						filterList.add(new VisionEntity(annotation, "LANDMARK_DETECTION").setActivated(true));
+					}
 				}
 				final List<EntityAnnotation> logoAnnotations = annotateImage.getLogoAnnotations();
 				if (logoAnnotations != null && logoAnnotations.size() > 0) {
-					filterList.add(new VisionEntity(logoAnnotations.get(0), "LOGO_DETECTION").setActivated(true));
+					for (EntityAnnotation annotation : logoAnnotations) {
+						filterList.add(new VisionEntity(annotation, "LOGO_DETECTION").setActivated(true));
+					}
 				}
 				final List<EntityAnnotation> labelAnnotations = annotateImage.getLabelAnnotations();
 				if (labelAnnotations != null && labelAnnotations.size() > 0) {
-					filterList.add(new VisionEntity(labelAnnotations.get(0), "LABEL_DETECTION").setActivated(true));
+					for (EntityAnnotation annotation : labelAnnotations) {
+						filterList.add(new VisionEntity(annotation, "LABEL_DETECTION").setActivated(true));
+					}
 				}
 				final WebDetection webDetection = annotateImage.getWebDetection();
 				if (webDetection != null) {
 					final List<WebEntity> webEntities = webDetection.getWebEntities();
 					if (webEntities != null && webEntities.size() > 0) {
-						filterList.add(new VisionEntity(webEntities.get(0), "WEB_DETECTION").setActivated(true));
+						for (WebEntity entity : webEntities) {
+							filterList.add(new VisionEntity(entity, "WEB_DETECTION").setActivated(true));
+						}
 					}
 				}
 			}
