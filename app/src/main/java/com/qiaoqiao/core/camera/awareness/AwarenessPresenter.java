@@ -175,6 +175,7 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	}
 
 	private void showPlaces(@NonNull List<PlaceLikelihood> placeLikelihoodList, @NonNull List<ClusterItem> outputList) {
+		if(mGoogleApiClient == null) return;
 		Observable.just(placeLikelihoodList)
 		          .subscribeOn(Schedulers.newThread())
 		          .map(likelihoodList -> {
@@ -186,6 +187,7 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	}
 
 	private void createPlaceWrappers(@NonNull List<PlaceLikelihood> likelihoodList, @NonNull List<ClusterItem> outputList) {
+		if(mGoogleApiClient == null) return;
 		for (PlaceLikelihood placeLikelihood : likelihoodList) {
 			PlacePhotoMetadataResult result = Places.GeoDataApi.getPlacePhotos(mGoogleApiClient,
 			                                                                   placeLikelihood.getPlace()
