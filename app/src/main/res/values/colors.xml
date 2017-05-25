@@ -19,6 +19,7 @@
     <color name="colorTealLight">#52c7b8</color>
     <color name="colorBrown">#795548</color>
     <color name="colorCyan">#00BCD4</color>
+    <color name="colorCyan80">#8000BCD4</color>
     <color name="colorBlue">#0069fe</color>
     <color name="colorScrim">#99323232</color>
     <color name="colorBlueGrey80">#80607D8B</color>

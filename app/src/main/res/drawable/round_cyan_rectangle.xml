@@ -5,8 +5,8 @@
         android:radius="@dimen/radius">
     </corners>
     <gradient
-        android:endColor="@color/colorCyan"
-        android:startColor="@color/colorCyan">
+        android:endColor="@color/colorCyan80"
+        android:startColor="@color/colorCyan80">
     </gradient>
 
     <padding
