@@ -10,23 +10,12 @@ public final class VisionEntity {
 	private final @NonNull String mReadableName;
 	private boolean mActivated;
 
-	private final boolean mInCell;
 
 	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName) {
 		mVision = vision;
 		mReadableName = readableName;
-		mInCell = false;
 	}
 
-	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName, boolean inCell) {
-		mVision = vision;
-		mReadableName = readableName;
-		mInCell = inCell;
-	}
-
-	public boolean isInCell() {
-		return mInCell;
-	}
 
 	@NonNull
 	GenericJson getVision() {
@@ -52,7 +41,6 @@ public final class VisionEntity {
 	VisionEntityLocation getLocation() {
 		return new VisionEntityLocation(this);
 	}
-
 
 
 	public boolean isActivated() {

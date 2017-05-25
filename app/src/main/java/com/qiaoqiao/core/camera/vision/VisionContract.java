@@ -36,7 +36,7 @@ import de.greenrobot.event.EventBus;
  */
 public interface VisionContract {
 
-	interface View  extends BaseView<Presenter, FragmentListVisionBinding> {
+	interface View extends BaseView<Presenter, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
 
 
@@ -44,7 +44,6 @@ public interface VisionContract {
 
 		void showDetail(@NonNull VisionEntity entity, android.view.View transitionView);
 
-		void clean();
 
 		void setRefreshing(boolean refresh);
 	}

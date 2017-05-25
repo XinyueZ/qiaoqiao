@@ -81,10 +81,6 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 		openDetail(entity, transitionView);
 	}
 
-	@Override
-	public void clean() {
-		mVisionListAdapter.clean();
-	}
 
 	@Override
 	public void setRefreshing(boolean refresh) {

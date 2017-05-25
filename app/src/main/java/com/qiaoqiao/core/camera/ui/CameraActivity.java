@@ -43,10 +43,8 @@ import com.qiaoqiao.core.camera.crop.CropPresenter;
 import com.qiaoqiao.core.camera.crop.ui.CropFragment;
 import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
-import com.qiaoqiao.core.camera.vision.MoreVisionPresenter;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
-import com.qiaoqiao.core.camera.vision.annotation.target.More;
 import com.qiaoqiao.core.camera.vision.annotation.target.Single;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
 import com.qiaoqiao.customtabs.CustomTabUtils;
@@ -90,10 +88,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject VisionPresenter mVisionPresenter;
 	@Inject HistoryPresenter mHistoryPresenter;
 	@Inject AwarenessPresenter mAwarenessPresenter;
-	@Inject MoreVisionPresenter mMoreVisionPresenter;
 
 	@Inject @Single VisionContract.View mVisionFragment;
-	@Inject @More VisionContract.View moreVisionFragment;
 	@Inject HistoryContract.View mHistoryFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
 	@Inject CropContract.View mCropFragment;
@@ -178,7 +174,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject
 	void onInjected() {
 		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
-		setupViewPager((Fragment) mVisionFragment, (Fragment) moreVisionFragment, (Fragment) mHistoryFragment);
+		setupViewPager((Fragment) mVisionFragment, (Fragment) mHistoryFragment);
 		presentersBegin();
 	}
 
@@ -213,7 +209,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mVisionPresenter.begin();
 		mHistoryPresenter.begin();
 		mAwarenessPresenter.begin();
-		mMoreVisionPresenter.begin();
 	}
 
 	@Override
@@ -228,7 +223,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mVisionPresenter.end();
 		mHistoryPresenter.end();
 		mAwarenessPresenter.end();
-		mMoreVisionPresenter.end();
 	}
 
 
@@ -302,7 +296,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		                           .commit();
 	}
 
-	private void openCropView(@NonNull  byte[] data) {
+	private void openCropView(@NonNull byte[] data) {
 		mCropPresenter.setImageData(data);
 		getSupportFragmentManager().beginTransaction()
 		                           .add(R.id.camera_container_fl,
@@ -320,16 +314,13 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	@Override
-	public void openCrop(@NonNull  byte[] data) {
+	public void openCrop(@NonNull byte[] data) {
 		openCropView(data);
 	}
 
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
 		mVisionPresenter.addResponseToScreen(response);
-		mMoreVisionPresenter.clean();
-		mMoreVisionPresenter.addResponseToScreen(response);
-
 
 		closeCropView();
 
@@ -399,20 +390,17 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.barTitleLoadingPb.stopShimmerAnimation();
 	}
 
-	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment moreVisionFragment, @NonNull Fragment historyFragment) {
+	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment historyFragment) {
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		adapter.addFragment(visionFragment, getString(R.string.tab_vision));
-		adapter.addFragment(moreVisionFragment, getString(R.string.tab_more));
 		adapter.addFragment(historyFragment, getString(R.string.tab_history));
 		mBinding.viewpager.setAdapter(adapter);
-		mBinding.viewpager.setOffscreenPageLimit(2);
 		mBinding.tabs.setupWithViewPager(mBinding.viewpager);
 	}
 
 	@Override
 	public void updateWhenRequest() {
 		mVisionPresenter.setRefreshing(true);
-		mMoreVisionPresenter.setRefreshing(true);
 		mBinding.barTitleLoadingPb.startShimmerAnimation();
 	}
 

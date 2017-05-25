@@ -217,7 +217,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 
 	private void loadDetailPreview(@NonNull ImageView imageView) {
-		if (mContextWeakReference.get() != null && mPreviewImage != null && mPreviewImage.getSource() != null) {
+		if (mContextWeakReference.get() != null && mPreviewImage != null && mPreviewImage.getSource() != null && !getActivity().isFinishing()) {
 			Glide.with(mContextWeakReference.get())
 			     .load(mPreviewImage.getSource())
 			     .crossFade()
@@ -239,12 +239,12 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 					     return true;
 				     }
 			     })
-			     .into(imageView );
+			     .into(imageView);
 		}
 	}
 
 	private void loadDetailImage() {
-		if (mContextWeakReference.get() == null || mPhoto == null || mPhoto.getSource() == null) {
+		if (mContextWeakReference.get() == null || mPhoto == null || mPhoto.getSource() == null || getActivity().isFinishing()) {
 			return;
 		}
 		setRefreshing(true);
