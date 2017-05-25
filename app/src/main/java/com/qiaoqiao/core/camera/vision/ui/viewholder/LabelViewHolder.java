@@ -24,7 +24,7 @@ public final class LabelViewHolder extends AbstractVisionViewHolder {
 		                                             .getDescriptionText());
 		mItemVisionLabelBinding.setVisionEntity(entity);
 		mItemVisionLabelBinding.setViewholder(this);
-
+		mItemVisionLabelBinding.visionIv.setActivated(entity.isActivated());
 		mItemVisionLabelBinding.visionTvFl.setActivated(entity.isActivated());
 		loadImage(itemView.getContext(), entity, mItemVisionLabelBinding.visionIv);
 	}

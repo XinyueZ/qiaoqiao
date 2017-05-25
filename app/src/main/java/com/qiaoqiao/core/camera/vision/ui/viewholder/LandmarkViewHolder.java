@@ -54,7 +54,7 @@ public final class LandmarkViewHolder extends AbstractVisionViewHolder {
 		                                                  .getDescriptionText());
 		mItemVisionLandmarkBinding.setVisionEntity(entity);
 		mItemVisionLandmarkBinding.setViewholder(this);
-
+		mItemVisionLandmarkBinding.visionIv.setActivated(entity.isActivated());
 		mItemVisionLandmarkBinding.visionTvFl.setActivated(entity.isActivated());
 		loadImage(itemView.getContext(), entity, mItemVisionLandmarkBinding.visionIv);
 	}

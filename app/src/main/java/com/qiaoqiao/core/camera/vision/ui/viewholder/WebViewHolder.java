@@ -24,7 +24,7 @@ public final class WebViewHolder extends AbstractVisionViewHolder {
 		                                             .getDescriptionText());
 		mItemVisionWebBinding.setVisionEntity(entity);
 		mItemVisionWebBinding.setViewholder(this);
-
+		mItemVisionWebBinding.visionIv.setActivated(entity.isActivated());
 		mItemVisionWebBinding.visionTvFl.setActivated(entity.isActivated());
 		loadImage(itemView.getContext(), entity, mItemVisionWebBinding.visionIv);
 	}

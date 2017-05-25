@@ -24,7 +24,7 @@ public final class LogoViewHolder extends AbstractVisionViewHolder {
 		                                             .getDescriptionText());
 		mItemVisionLogoBinding.setVisionEntity(entity);
 		mItemVisionLogoBinding.setViewholder(this);
-
+		mItemVisionLogoBinding.visionIv.setActivated(entity.isActivated());
 		mItemVisionLogoBinding.visionTvFl.setActivated(entity.isActivated());
 		loadImage(itemView.getContext(), entity, mItemVisionLogoBinding.visionIv);
 	}

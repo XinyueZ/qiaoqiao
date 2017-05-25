@@ -4,7 +4,7 @@
           android:enterFadeDuration="@android:integer/config_shortAnimTime"
           android:exitFadeDuration="@android:integer/config_shortAnimTime">
 
-    <item android:drawable="@drawable/round_blue_rectangle" android:state_activated="true"/> <!-- default -->
-    <item android:drawable="@drawable/round_gray_rectangle"  android:state_activated="false"/>
     <item android:drawable="@drawable/round_cyan_rectangle" android:state_pressed="true"/>
+    <item android:drawable="@drawable/round_gray_rectangle"  android:state_activated="false"/>
+    <item android:drawable="@drawable/round_blue_rectangle" android:state_activated="true"/> <!-- default -->
 </selector>

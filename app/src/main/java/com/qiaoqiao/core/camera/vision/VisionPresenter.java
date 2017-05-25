@@ -2,6 +2,7 @@ package com.qiaoqiao.core.camera.vision;
 
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.google.api.services.vision.v1.model.AnnotateImageResponse;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -63,30 +64,40 @@ public final class VisionPresenter extends VisionContract.Presenter {
 		if (annotates != null && annotates.size() > 0) {
 			final AnnotateImageResponse annotateImage = annotates.get(0);
 			if (annotateImage != null) {
+				final List<EntityAnnotation> labelAnnotations = annotateImage.getLabelAnnotations();
+				if (labelAnnotations != null && labelAnnotations.size() > 0) {
+					for (EntityAnnotation annotation : labelAnnotations) {
+						if (!TextUtils.isEmpty(annotation.getDescription()) && annotation.getScore() >= 0.7) {
+							filterList.add(new VisionEntity(annotation, "LABEL_DETECTION").setActivated(true));
+						}
+					}
+				}
+
 				final List<EntityAnnotation> landmarkAnnotations = annotateImage.getLandmarkAnnotations();
 				if (landmarkAnnotations != null && landmarkAnnotations.size() > 0) {
 					for (EntityAnnotation annotation : landmarkAnnotations) {
-						filterList.add(new VisionEntity(annotation, "LANDMARK_DETECTION").setActivated(true));
+						if (!TextUtils.isEmpty(annotation.getDescription()) && annotation.getScore() >= 0.7) {
+							filterList.add(new VisionEntity(annotation, "LANDMARK_DETECTION").setActivated(true));
+						}
 					}
 				}
 				final List<EntityAnnotation> logoAnnotations = annotateImage.getLogoAnnotations();
 				if (logoAnnotations != null && logoAnnotations.size() > 0) {
 					for (EntityAnnotation annotation : logoAnnotations) {
-						filterList.add(new VisionEntity(annotation, "LOGO_DETECTION").setActivated(true));
+						if (!TextUtils.isEmpty(annotation.getDescription()) && annotation.getScore() >= 0.7) {
+							filterList.add(new VisionEntity(annotation, "LOGO_DETECTION").setActivated(true));
+						}
 					}
 				}
-				final List<EntityAnnotation> labelAnnotations = annotateImage.getLabelAnnotations();
-				if (labelAnnotations != null && labelAnnotations.size() > 0) {
-					for (EntityAnnotation annotation : labelAnnotations) {
-						filterList.add(new VisionEntity(annotation, "LABEL_DETECTION").setActivated(true));
-					}
-				}
+
 				final WebDetection webDetection = annotateImage.getWebDetection();
 				if (webDetection != null) {
 					final List<WebEntity> webEntities = webDetection.getWebEntities();
 					if (webEntities != null && webEntities.size() > 0) {
 						for (WebEntity entity : webEntities) {
-							filterList.add(new VisionEntity(entity, "WEB_DETECTION").setActivated(true));
+							if (!TextUtils.isEmpty(entity.getDescription()) && entity.getScore() >= 0.7) {
+								filterList.add(new VisionEntity(entity, "WEB_DETECTION").setActivated(true));
+							}
 						}
 					}
 				}

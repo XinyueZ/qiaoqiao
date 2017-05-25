@@ -33,7 +33,7 @@ public abstract class AbstractVisionViewHolder extends RecyclerView.ViewHolder {
 
 	protected void loadImage(Context cxt, VisionEntity entity, ImageView imageView) {
 		String baseUrl = cxt.getString(R.string.base_url_knowledge);
-		String imageUrl = String.format(baseUrl + "images/wikipedia?language=%s&keyword=%s",
+		String imageUrl = String.format(baseUrl + "thumbnails/wikipedia?language=%s&keyword=%s",
 		                                Locale.getDefault()
 		                                      .getLanguage(),
 		                                entity.getDescription()
