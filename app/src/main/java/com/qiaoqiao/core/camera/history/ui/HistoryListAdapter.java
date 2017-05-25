@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.R;
-import com.qiaoqiao.repository.database.HistoryItem;
 import com.qiaoqiao.databinding.ItemHistoryBinding;
-import com.qiaoqiao.core.camera.history.bus.HistoryItemClickEvent;
+import com.qiaoqiao.repository.database.HistoryItem;
 import com.qiaoqiao.utils.DeviceUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -84,7 +86,6 @@ public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAd
 
 
 	public static final class ViewHolder extends RecyclerView.ViewHolder {
-		private final HistoryItemClickEvent historyItemClickEvent = new HistoryItemClickEvent();
 		private ItemHistoryBinding binding;
 		private int size;
 
@@ -95,9 +96,15 @@ public final class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAd
 		}
 
 		public void onEntryClicked(@NonNull HistoryItem historyItem) {
-			historyItemClickEvent.setHistoryItem(historyItem);
-			EventBus.getDefault()
-			        .post(historyItemClickEvent);
+			try {
+				final BatchAnnotateImagesResponse response = GsonFactory.getDefaultInstance()
+				                                                        .createJsonParser(historyItem.getJsonText())
+				                                                        .parse(BatchAnnotateImagesResponse.class);
+				EventBus.getDefault()
+				        .post(response);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

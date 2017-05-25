@@ -69,7 +69,7 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	};
 
 	@Override
-	public void openCroppedCapturedImage(@NonNull byte[] bytes) {
+	public void findAnnotateImages(@NonNull byte[] bytes) {
 		mView.updateWhenRequest();
 		mDsRepository.onBytes(bytes, new DsLoadedCallback() {
 			@Override

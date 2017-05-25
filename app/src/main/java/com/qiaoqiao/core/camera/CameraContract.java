@@ -63,7 +63,7 @@ public interface CameraContract {
 	interface Presenter extends BasePresenter {
 
 
-		void openCroppedCapturedImage(@NonNull byte[] bytes);
+		void findAnnotateImages(@NonNull byte[] bytes);
 
 		void openLink(@NonNull Uri uri);
 

@@ -56,7 +56,6 @@ public final class VisionPresenter extends VisionContract.Presenter {
 		mView.setPresenter(this);
 	}
 
-
 	@Override
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
 		final List<AnnotateImageResponse> annotates = response.getResponses();

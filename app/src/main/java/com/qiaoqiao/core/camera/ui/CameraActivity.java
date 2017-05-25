@@ -319,6 +319,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	@Override
+	@Subscribe
 	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
 		mVisionPresenter.addResponseToScreen(response);
 
@@ -340,7 +341,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void onCropped(@NonNull byte[] bytes) {
-		mCameraPresenter.openCroppedCapturedImage(bytes);
+		mCameraPresenter.findAnnotateImages(bytes);
 	}
 
 	@Override
