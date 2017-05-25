@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data class="LogoViewBinding">
@@ -22,7 +21,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/vision_iv"
-            style="@style/VisionImageView"/>
+            style="@style/VisionImageView"
+            android:onClick="@{() -> viewholder.onClicked(visionEntity)}"/>
 
         <FrameLayout
             android:id="@+id/vision_tv_fl"

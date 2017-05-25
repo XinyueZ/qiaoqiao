@@ -108,10 +108,11 @@
     </style>
 
     <style name="VisionImageView">
-        <item name="android:layout_width">@dimen/custom_profile_image</item>
-        <item name="android:layout_height">@dimen/custom_profile_image</item>
+        <item name="android:layout_width">@dimen/place_info_preview</item>
+        <item name="android:layout_height">@dimen/place_info_preview</item>
         <item name="civ_border_color">@color/colorPrimaryDark</item>
         <item name="civ_border_width">1dp</item>
+        <item name="android:foreground">@drawable/selector_transparent_item_background</item>
     </style>
 
 </resources>
