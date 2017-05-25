@@ -1,7 +1,9 @@
 package com.qiaoqiao.app;
 
 
-public final class Key {
+import java.io.Serializable;
+
+public final class Key implements Serializable{
 	private String mApiKey;
 
 	Key(String apiKey) {

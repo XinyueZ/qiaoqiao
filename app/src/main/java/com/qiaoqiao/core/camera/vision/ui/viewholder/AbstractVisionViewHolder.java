@@ -31,7 +31,7 @@ public abstract class AbstractVisionViewHolder extends RecyclerView.ViewHolder {
 		mBinding = binding;
 	}
 
-	protected static void loadImage(Context cxt, VisionEntity entity, ImageView imageView) {
+	protected void loadImage(Context cxt, VisionEntity entity, ImageView imageView) {
 		String baseUrl = cxt.getString(R.string.base_url_knowledge);
 		String imageUrl = String.format(baseUrl + "images/wikipedia?language=%s&keyword=%s",
 		                                Locale.getDefault()

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
+import com.qiaoqiao.app.Key;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 import com.qiaoqiao.databinding.FragmentListVisionBinding;
@@ -22,13 +23,16 @@ import java.util.List;
 
 public final class VisionListFragment extends AbstractVisionFragment implements VisionContract.View {
 	private static final int LAYOUT = R.layout.fragment_list_vision;
+	private static final String EXTRAS_KEY = VisionListFragment.class.getName() + ".EXTRAS.key";
 	private FragmentListVisionBinding mBinding;
 	private VisionContract.Presenter mPresenter;
 
 	private VisionListAdapter mVisionListAdapter;
 
-	public static VisionListFragment newInstance(@NonNull Context cxt) {
-		return (VisionListFragment) VisionListFragment.instantiate(cxt, VisionListFragment.class.getName());
+	public static VisionListFragment newInstance(@NonNull Context cxt,   @NonNull Key key) {
+		Bundle args = new Bundle(1);
+		args.putSerializable(EXTRAS_KEY, key);
+		return (VisionListFragment) VisionListFragment.instantiate(cxt, VisionListFragment.class.getName(), args);
 	}
 
 	@Nullable
@@ -47,7 +51,7 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
 		mBinding.visionRv.setLayoutManager(layoutManager);
-		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter());
+		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter((Key) getArguments().getSerializable(EXTRAS_KEY)));
 		final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
 		final Drawable divideDrawable = AppCompatResources.getDrawable(getActivity(), R.drawable.divider_drawable);
 		if (divideDrawable != null) {

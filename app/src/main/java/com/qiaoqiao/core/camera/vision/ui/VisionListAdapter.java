@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
+import com.qiaoqiao.app.Key;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 import com.qiaoqiao.core.camera.vision.ui.viewholder.AbstractVisionViewHolder;
 import com.qiaoqiao.core.camera.vision.ui.viewholder.LabelViewHolder;
@@ -32,9 +33,13 @@ public final class VisionListAdapter extends RecyclerView.Adapter<AbstractVision
 	private static final int ITEM_TYPE_LANDMARK = 0x91;
 	private static final int ITEM_TYPE_LOGO = 0x92;
 	private static final int ITEM_TYPE_LABEL = 0x93;
-
+	private @NonNull Key mKey;
 	private @NonNull final List<VisionEntity> mEntities = new LinkedList<>();
 
+
+	VisionListAdapter(@NonNull Key key) {
+		mKey = key;
+	}
 
 	@Override
 	public AbstractVisionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,7 +53,7 @@ public final class VisionListAdapter extends RecyclerView.Adapter<AbstractVision
 			case ITEM_TYPE_LANDMARK:
 				LandmarkViewBinding landmarkBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                         .inflate(ITEM_LAYOUT_LANDMARK, parent, false));
-				return new LandmarkViewHolder(landmarkBinding, mEntities);
+				return new LandmarkViewHolder(landmarkBinding, mEntities, mKey);
 			case ITEM_TYPE_LOGO:
 				LogoViewBinding logoBinding = DataBindingUtil.bind(LayoutInflater.from(cxt)
 				                                                                 .inflate(ITEM_LAYOUT_LOGO, parent, false));
