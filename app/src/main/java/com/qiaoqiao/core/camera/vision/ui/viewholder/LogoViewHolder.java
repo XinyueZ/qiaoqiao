@@ -3,8 +3,9 @@ package com.qiaoqiao.core.camera.vision.ui.viewholder;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.qiaoqiao.databinding.LogoViewBinding;
+import com.bumptech.glide.Glide;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
+import com.qiaoqiao.databinding.LogoViewBinding;
 
 import java.util.List;
 
@@ -24,16 +25,17 @@ public final class LogoViewHolder extends AbstractVisionViewHolder {
 		mItemVisionLogoBinding.setVisionEntity(entity);
 		mItemVisionLogoBinding.setViewholder(this);
 
-		itemView.setActivated(entity.isActivated());
+		mItemVisionLogoBinding.visionTvFl.setActivated(entity.isActivated());
+		loadImage(itemView.getContext(), entity, mItemVisionLogoBinding.visionIv);
 	}
 
 	@Override
 	public void onViewRecycled() {
-
+		Glide.clear(mItemVisionLogoBinding.visionIv);
 	}
 
 	@Override
 	protected View getTransitionView() {
-		return mItemVisionLogoBinding.visionTv;
+		return mItemVisionLogoBinding.visionIv;
 	}
 }

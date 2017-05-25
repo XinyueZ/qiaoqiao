@@ -37,8 +37,9 @@ ext {
     playService = "10.2.6"
     vision = "v1-rev356-1.22.0"
 
-    //Image-loader
+    //Image, loader
     glide = "3.8.0"
+    circleImageView = "2.1.0"
 
     //Facebook
     shimmer = "0.1.0"
@@ -79,8 +80,9 @@ ext {
             dagger          : [group: "com.google.dagger", name: "dagger", version: dagger],
             daggerCompiler  : [group: "com.google.dagger", name: "dagger-compiler", version: dagger],
 
-            //Image-loader
+            //Image, loader
             glide           : [group: "com.github.bumptech.glide", name: "glide", version: glide],
+            circleImageView : [group: "de.hdodenhof", name: "circleimageview", version: circleImageView],
 
             //Bus
             eventbus        : [group: "de.greenrobot", name: "eventbus", version: bus],
@@ -150,8 +152,9 @@ ext {
             [configuration: "compile", dependency: libs.dagger],
             [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
 
-            //Image-loader
+            //Image, loader
             [configuration: "compile", dependency: libs.glide],
+            [configuration: "compile", dependency: libs.circleImageView],
 
             //Bus
             [configuration: "compile", dependency: libs.eventbus],

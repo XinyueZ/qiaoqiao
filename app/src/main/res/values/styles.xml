@@ -110,4 +110,11 @@
         <item name="cardCornerRadius">1dp</item>
     </style>
 
+    <style name="VisionImageView">
+        <item name="android:layout_width">@dimen/custom_profile_image</item>
+        <item name="android:layout_height">@dimen/custom_profile_image</item>
+        <item name="civ_border_color">@color/colorPrimaryDark</item>
+        <item name="civ_border_width">1dp</item>
+    </style>
+
 </resources>

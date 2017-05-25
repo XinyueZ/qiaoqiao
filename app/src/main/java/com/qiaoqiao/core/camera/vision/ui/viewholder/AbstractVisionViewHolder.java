@@ -40,7 +40,7 @@ public abstract class AbstractVisionViewHolder extends RecyclerView.ViewHolder {
 		                                      .getDescriptionText());
 		Glide.with(cxt)
 		     .load(imageUrl)
-		     .crossFade()
+		     .dontAnimate()
 		     .centerCrop()
 		     .diskCacheStrategy(DiskCacheStrategy.ALL)
 		     .skipMemoryCache(false)

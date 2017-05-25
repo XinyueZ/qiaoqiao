@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data class="LogoViewBinding">
@@ -13,18 +14,30 @@
             type="com.qiaoqiao.core.camera.vision.ui.viewholder.LogoViewHolder"/>
     </data>
 
-    <FrameLayout
-        style="@style/VisionItemRoot"
-        android:background="@drawable/selector_round_blue_gray_rectangle_item_background"
-        android:onClick="@{() -> viewholder.onClicked(visionEntity)}">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/vision_iv"
+            style="@style/VisionImageView"/>
+
+        <FrameLayout
+            android:id="@+id/vision_tv_fl"
+            style="@style/VisionItemRoot"
+            android:background="@drawable/selector_round_blue_gray_rectangle_item_background"
+            android:onClick="@{() -> viewholder.onClicked(visionEntity)}">
 
 
-        <TextView
-            android:id="@+id/vision_tv"
-            style="@style/VisionItemTextView"
-            android:drawableEnd="@drawable/ic_knowledge_link_open"
-            android:drawableRight="@drawable/ic_knowledge_link_open"
-            tools:text="hello,world"/>
+            <TextView
+                android:id="@+id/vision_tv"
+                style="@style/VisionItemTextView"
+                android:drawableEnd="@drawable/ic_knowledge_link_open"
+                android:drawableRight="@drawable/ic_knowledge_link_open"
+                tools:text="hello,world"/>
 
-    </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
 </layout>

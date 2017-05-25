@@ -3,8 +3,9 @@ package com.qiaoqiao.core.camera.vision.ui.viewholder;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.qiaoqiao.databinding.WebViewBinding;
+import com.bumptech.glide.Glide;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
+import com.qiaoqiao.databinding.WebViewBinding;
 
 import java.util.List;
 
@@ -24,16 +25,17 @@ public final class WebViewHolder extends AbstractVisionViewHolder {
 		mItemVisionWebBinding.setVisionEntity(entity);
 		mItemVisionWebBinding.setViewholder(this);
 
-		itemView.setActivated(entity.isActivated());
+		mItemVisionWebBinding.visionTvFl.setActivated(entity.isActivated());
+		loadImage(itemView.getContext(), entity, mItemVisionWebBinding.visionIv);
 	}
 
 	@Override
 	public void onViewRecycled() {
-
+		Glide.clear(mItemVisionWebBinding.visionIv);
 	}
 
 	@Override
 	protected View getTransitionView() {
-		return mItemVisionWebBinding.visionTv;
+		return mItemVisionWebBinding.visionIv;
 	}
 }

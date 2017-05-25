@@ -3,6 +3,7 @@ package com.qiaoqiao.core.camera.vision.ui.viewholder;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.qiaoqiao.databinding.LabelViewBinding;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 
@@ -24,16 +25,17 @@ public final class LabelViewHolder extends AbstractVisionViewHolder {
 		mItemVisionLabelBinding.setVisionEntity(entity);
 		mItemVisionLabelBinding.setViewholder(this);
 
-		itemView.setActivated(entity.isActivated());
+		mItemVisionLabelBinding.visionTvFl.setActivated(entity.isActivated());
+		loadImage(itemView.getContext(), entity, mItemVisionLabelBinding.visionIv);
 	}
 
 	@Override
 	public void onViewRecycled() {
-
+		Glide.clear(mItemVisionLabelBinding.visionIv);
 	}
 
 	@Override
 	protected View getTransitionView() {
-		return mItemVisionLabelBinding.visionTv;
+		return mItemVisionLabelBinding.visionIv;
 	}
 }
