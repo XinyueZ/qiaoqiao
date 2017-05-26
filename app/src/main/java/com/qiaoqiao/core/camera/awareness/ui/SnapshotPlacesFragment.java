@@ -117,6 +117,8 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		} else {
 			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 			fragmentById.getMapAsync(googleMap -> {
+				if(isDetached()) return;
+				if(!isAdded()) return;
 				mGoogleMap = googleMap;
 				onLocated(latLng);
 			});
@@ -141,6 +143,8 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		if (mGoogleMap == null) {
 			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 			fragmentById.getMapAsync(googleMap -> {
+				if(isDetached()) return;
+				if(!isAdded()) return;
 				mGoogleMap = googleMap;
 				showAllGeoAndPlaces(clusterItemList);
 			});
