@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply plugin: 'realm-android'
 
 def buildNumber = 'bld' + (System.env.BUILD_NUMBER ?: 'SNAPSHOT')
@@ -85,6 +100,9 @@ dependencies {
 
     rootProject.appDependencies.each {
         add(it.configuration, it.dependency, it.options)
+    }
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
     }
 
 }

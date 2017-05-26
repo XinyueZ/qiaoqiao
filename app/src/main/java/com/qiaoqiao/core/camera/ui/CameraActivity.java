@@ -213,6 +213,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void fullSizeLayout() {
+		mBinding.appbar.setExpanded(true);
 		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(this).Height;
 
 		mBinding.expandMoreBtn.setVisibility(View.VISIBLE);

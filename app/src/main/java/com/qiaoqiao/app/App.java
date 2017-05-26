@@ -34,6 +34,7 @@ package com.qiaoqiao.app;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
+import com.crashlytics.android.Crashlytics;
 import com.qiaoqiao.core.camera.CameraModule;
 import com.qiaoqiao.core.camera.DaggerCameraComponent;
 import com.qiaoqiao.core.camera.awareness.AwarenessModule;
@@ -48,6 +49,7 @@ import com.qiaoqiao.repository.DaggerDsRepositoryComponent;
 import com.qiaoqiao.repository.DsRepositoryComponent;
 import com.qiaoqiao.repository.backend.BackendModule;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
 
@@ -59,6 +61,7 @@ public final class App extends MultiDexApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Fabric.with(this, new Crashlytics());
 		Realm.init(getApplicationContext());
 		mAppComponent = DaggerAppComponent.builder()
 		                                  .appModule(new AppModule(this))
