@@ -134,6 +134,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		super.onCreate(savedInstanceState);
 		MapsInitializer.initialize(this);
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
+		mBinding.setClickHandler(this);
 		setupAppBar();
 		mBinding.appbar.addOnOffsetChangedListener(this);
 		App.inject(this);
@@ -206,6 +207,16 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	private void resizeLayout() {
 		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height * 0.618f);
+
+		mBinding.expandMoreBtn.setVisibility(View.GONE);
+		mBinding.expandLessBtn.setVisibility(View.VISIBLE);
+	}
+
+	private void fullSizeLayout() {
+		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(this).Height;
+
+		mBinding.expandMoreBtn.setVisibility(View.VISIBLE);
+		mBinding.expandLessBtn.setVisibility(View.GONE);
 	}
 
 
@@ -278,10 +289,20 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void onClick(View v) {
-		if (mSnackbar == null) {
-			return;
+		switch (v.getId()) {
+			case R.id.expand_less_btn:
+				fullSizeLayout();
+				break;
+			case R.id.expand_more_btn:
+				resizeLayout();
+				break;
+			default:
+				if (mSnackbar == null) {
+					return;
+				}
+				mSnackbar.dismiss();
+
 		}
-		mSnackbar.dismiss();
 	}
 
 
