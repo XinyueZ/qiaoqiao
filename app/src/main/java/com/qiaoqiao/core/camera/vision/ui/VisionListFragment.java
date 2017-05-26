@@ -1,6 +1,7 @@
 package com.qiaoqiao.core.camera.vision.ui;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -90,5 +91,14 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	public void setRefreshing(boolean refresh) {
 		mBinding.loadingPb.setEnabled(refresh);
 		mBinding.loadingPb.setRefreshing(refresh);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		final int columns = getResources().getInteger(R.integer.num_columns);
+		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
+		mBinding.visionRv.getAdapter().notifyDataSetChanged();
 	}
 }

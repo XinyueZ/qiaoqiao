@@ -38,7 +38,8 @@
 
         <activity
             android:name=".core.splash.SplashActivity"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -48,25 +49,30 @@
 
         <activity
             android:name=".core.camera.ui.CameraActivity"
-            android:screenOrientation="portrait"/>
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor"/>
 
 
         <activity
             android:name=".core.location.ui.MapActivity"
-            android:screenOrientation="portrait"/>
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor"/>
 
 
         <activity
             android:name=".core.location.ui.StreetViewActivity"
-            android:screenOrientation="portrait"/>
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor"/>
 
         <activity
             android:name=".core.detail.ui.DetailActivity"
-            android:screenOrientation="portrait"/>
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor"/>
 
         <activity
             android:name=".repository.web.ui.WebLinkActivity"
-            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor"
             android:theme="@style/DialogStyle"/>
     </application>
 
