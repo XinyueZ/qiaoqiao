@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -179,7 +180,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void setupAppBar() {
-		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height * 0.618f);
+		resizeLayout();
 		setSupportActionBar(mBinding.toolbar);
 		final ActionBar supportActionBar = getSupportActionBar();
 		if (supportActionBar != null) {
@@ -201,6 +202,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			}
 		});
 		params.setBehavior(behavior);
+	}
+
+	private void resizeLayout() {
+		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height * 0.618f);
 	}
 
 
@@ -462,6 +467,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		resizeLayout();
 	}
 
 	//--Begin permission--
