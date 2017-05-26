@@ -36,22 +36,22 @@ android {
         enabled = true
     }
 
-    flavorDimensions "development", "store"
+    flavorDimensions  "app"
 
     productFlavors {
         dev {
-            dimension "development"
+            dimension "app"
             applicationId project.APP_DEV_APPLICATIONID
         }
         live {
-            dimension "store"
+            dimension "app"
             applicationId project.APP_APPLICATIONID
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
