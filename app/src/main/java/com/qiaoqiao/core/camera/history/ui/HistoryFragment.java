@@ -24,7 +24,7 @@ import java.util.List;
 public final class HistoryFragment extends Fragment implements HistoryContract.View {
 	private static final int LAYOUT = R.layout.fragment_history;
 	private FragmentHistoryBinding mBinding;
-	private HistoryContract.Presenter mPresenter;
+	private @Nullable HistoryContract.Presenter mPresenter;
 
 	private @Nullable HistoryListAdapter mHistoryListAdapter;
 
@@ -43,6 +43,9 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		if (mPresenter == null) {
+			return;
+		}
 		mPresenter.loadHistory();
 	}
 
@@ -83,6 +86,7 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		mBinding.historyRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
-		mBinding.historyRv.getAdapter().notifyDataSetChanged();
+		mBinding.historyRv.getAdapter()
+		                  .notifyDataSetChanged();
 	}
 }

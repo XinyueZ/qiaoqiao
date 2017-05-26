@@ -33,7 +33,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
                                                                       OnMapReadyCallback {
 	public static final int REQ_SETTING_LOCATING = 0x78;
 	private static final int LAYOUT = R.layout.fragment_snapshot_places;
-	private AwarenessContract.Presenter mPresenter;
+	private @Nullable AwarenessContract.Presenter mPresenter;
 	private PlacesBinding mBinding;
 	private @Nullable GoogleMap mGoogleMap;
 
@@ -56,7 +56,9 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		fragmentById.onCreate(savedInstanceState);
 		fragmentById.onStart();
 		fragmentById.getMapAsync(this);
-		mPresenter.settingLocating();
+		if (mPresenter != null) {
+			mPresenter.settingLocating();
+		}
 	}
 
 
@@ -102,7 +104,9 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	@Override
 	public void locating() {
 		mBinding.locatingControl.startLocalProgressBar();
-		mPresenter.locating(getContext());
+		if (mPresenter != null) {
+			mPresenter.locating(getContext());
+		}
 	}
 
 
@@ -117,8 +121,9 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 				onLocated(latLng);
 			});
 		}
-
-		mPresenter.searchAndSearch(latLng);
+		if (mPresenter != null) {
+			mPresenter.searchAndSearch(latLng);
+		}
 	}
 
 	@Override

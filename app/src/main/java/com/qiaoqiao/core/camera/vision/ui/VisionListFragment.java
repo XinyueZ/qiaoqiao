@@ -26,11 +26,11 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	private static final int LAYOUT = R.layout.fragment_list_vision;
 	private static final String EXTRAS_KEY = VisionListFragment.class.getName() + ".EXTRAS.key";
 	private FragmentListVisionBinding mBinding;
-	private VisionContract.Presenter mPresenter;
+	private @Nullable VisionContract.Presenter mPresenter;
 
 	private VisionListAdapter mVisionListAdapter;
 
-	public static VisionListFragment newInstance(@NonNull Context cxt,   @NonNull Key key) {
+	public static VisionListFragment newInstance(@NonNull Context cxt, @NonNull Key key) {
 		Bundle args = new Bundle(1);
 		args.putSerializable(EXTRAS_KEY, key);
 		return (VisionListFragment) VisionListFragment.instantiate(cxt, VisionListFragment.class.getName(), args);
@@ -48,6 +48,9 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		setRefreshing(false);
+		if ((Key) getArguments().getSerializable(EXTRAS_KEY) == null) {
+			return;
+		}
 		mBinding.loadingPb.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
@@ -99,6 +102,7 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
-		mBinding.visionRv.getAdapter().notifyDataSetChanged();
+		mBinding.visionRv.getAdapter()
+		                 .notifyDataSetChanged();
 	}
 }

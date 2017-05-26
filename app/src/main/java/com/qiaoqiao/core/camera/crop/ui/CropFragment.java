@@ -36,7 +36,7 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	private static final int VIB_LNG = 50;
 	private Vibrator mVibrator;
 	private FragmentCropBinding mBinding;
-	private CropContract.Presenter mPresenter;
+	private @Nullable CropContract.Presenter mPresenter;
 	private byte[] mData;
 	private CropViewFragment mCropViewFragment;
 
@@ -110,7 +110,9 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		byte[] byteArray = stream.toByteArray();
-		mPresenter.cropped(byteArray);
+		if (mPresenter != null) {
+			mPresenter.cropped(byteArray);
+		}
 		if (!bitmap.isRecycled()) {
 			bitmap.recycle();
 		}
@@ -119,7 +121,9 @@ public final class CropFragment extends Fragment implements CropContract.View,
 
 	@Override
 	public void onError() {
-		mPresenter.croppedFail();
+		if (mPresenter != null) {
+			mPresenter.croppedFail();
+		}
 	}
 
 	@Override
@@ -151,6 +155,9 @@ public final class CropFragment extends Fragment implements CropContract.View,
 			super.onViewCreated(view, savedInstanceState);
 
 			byte[] data = getArguments().getByteArray("data");
+			if (data == null) {
+				return;
+			}
 			mBinding.cropIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
 			mBinding.cropIv.setCustomRatio(4, 3);
 		}

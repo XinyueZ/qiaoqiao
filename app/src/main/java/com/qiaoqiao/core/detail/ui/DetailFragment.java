@@ -49,7 +49,7 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
                                                               AppBarLayout.OnOffsetChangedListener,
                                                               Palette.PaletteAsyncListener {
 	private static final int LAYOUT = R.layout.fragment_detail;
-	private DetailContract.Presenter mPresenter;
+	private @Nullable DetailContract.Presenter mPresenter;
 	private FragmentDetailBinding mBinding;
 	private WeakReference<Context> mContextWeakReference;
 	private MenuItem mMultiLanguageMenuItem;
@@ -121,6 +121,9 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	@Override
 	public void loadDetail() {
+		if (mPresenter == null) {
+			return;
+		}
 		final String keyword = getActivity().getIntent()
 		                                    .getStringExtra(EXTRAS_KEYWORD);
 		if (!TextUtils.isEmpty(keyword)) {
@@ -164,7 +167,9 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 			mMultiLanguageMenuItem.getSubMenu()
 			                      .add(langLink.toString())
 			                      .setOnMenuItemClickListener(item -> {
-				                      mPresenter.loadDetail(langLink);
+				                      if (mPresenter != null) {
+					                      mPresenter.loadDetail(langLink);
+				                      }
 				                      return true;
 			                      });
 		}
@@ -306,10 +311,12 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 		int[] abSzAttr;
 		abSzAttr = new int[] { android.R.attr.actionBarSize };
 		TypedArray a = cxt.obtainStyledAttributes(abSzAttr);
-		return a.getDimensionPixelSize(0, -1);
+		int ret = a.getDimensionPixelSize(0, -1);
+		a.recycle();
+		return ret;
 	}
 
-	public void setRefreshing(boolean refresh) {
+	private void setRefreshing(boolean refresh) {
 		mBinding.loadingPb.setEnabled(refresh);
 		mBinding.loadingPb.setRefreshing(refresh);
 	}
