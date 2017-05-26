@@ -113,12 +113,12 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	@Override
 	public void onLocated(@NonNull LatLng latLng) {
 		if (mGoogleMap != null) {
+			if(isDetached()) return;
+			if(!isAdded()) return;
 			mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, getResources().getInteger(R.integer.zoom)));
 		} else {
 			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 			fragmentById.getMapAsync(googleMap -> {
-				if(isDetached()) return;
-				if(!isAdded()) return;
 				mGoogleMap = googleMap;
 				onLocated(latLng);
 			});
@@ -143,8 +143,6 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		if (mGoogleMap == null) {
 			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 			fragmentById.getMapAsync(googleMap -> {
-				if(isDetached()) return;
-				if(!isAdded()) return;
 				mGoogleMap = googleMap;
 				showAllGeoAndPlaces(clusterItemList);
 			});
@@ -152,6 +150,8 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		}
 		ClusterManager.showGeosearch(getActivity(), mGoogleMap, clusterItemList);
 		mBinding.locatingControl.stopLocalProgressBar();
+		if(isDetached()) return;
+		if(!isAdded()) return;
 		mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(getResources().getInteger(R.integer.zoom) + 3));
 	}
 }
