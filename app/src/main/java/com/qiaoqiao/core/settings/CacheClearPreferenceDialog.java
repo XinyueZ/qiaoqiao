@@ -9,22 +9,27 @@ import android.widget.Toast;
 
 import com.qiaoqiao.R;
 
+import io.realm.Realm;
+
 
 public class CacheClearPreferenceDialog extends PreferenceDialogFragmentCompat {
 
-	private static final String KEY = "key";
+	private static final String EXTRAS_KEY = "key";
 
 	public static CacheClearPreferenceDialog newInstance(@NonNull Context cxt) {
 		Bundle args = new Bundle(1);
-		args.putString(KEY, cxt.getString(R.string.preference_key_datastore_clear_cache));
+		args.putString(EXTRAS_KEY, cxt.getString(R.string.preference_key_datastore_clear_cache));
 		return (CacheClearPreferenceDialog) Fragment.instantiate(cxt, CacheClearPreferenceDialog.class.getName(), args);
 	}
 
 	@Override
 	public void onDialogClosed(boolean b) {
 		if (b) {
-			Toast.makeText(getContext(), "Cache has been cleared.", Toast.LENGTH_LONG)
-			     .show();
+			Realm.getDefaultInstance().executeTransaction(realm -> {
+				realm.deleteAll();
+				Toast.makeText(getContext(), R.string.preference_feedback_cleared_cache, Toast.LENGTH_LONG)
+				     .show();
+			});
 		}
 	}
 }

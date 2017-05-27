@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -18,7 +17,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -505,11 +503,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		boolean isSnapshotPlacesThere = ((SnapshotPlacesFragment) mSnapshotPlacesFragment).isAdded();
 		menu.findItem(R.id.action_places)
 		    .setVisible(!isSnapshotPlacesThere);
-		@ColorInt int colorTealLight = ResourcesCompat.getColor(getResources(), R.color.colorTealLight, null);
-		@ColorInt int colorYellow = ResourcesCompat.getColor(getResources(), R.color.colorYellow, null);
-		mBinding.barTitleTv.setTextColor(isSnapshotPlacesThere ?
-		                                 colorTealLight :
-		                                 colorYellow);
 
 		//When user doesn't crop anything just back, we need stop progressbar on main-control.
 		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();

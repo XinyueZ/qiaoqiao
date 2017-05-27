@@ -37,10 +37,11 @@
     <string name="preference_summary_datastore">Setting on local cache</string>
     <string name="preference_key_datastore_clear_cache">prefs_datastore_clear_cache</string>
     <string name="preference_title_datastore_clear_cache">Cache clear</string>
-    <string name="preference_summary_datastore_clear_cache">Delete all local data including images, database etc.</string>
-    <string name="preference_dialogmessage_datastore_clear_cache">Do you want to delete all local data including images, database?</string>
+    <string name="preference_summary_datastore_clear_cache">Delete all data, history.</string>
+    <string name="preference_dialogmessage_datastore_clear_cache">Delete all data, history?</string>
     <string name="preference_dialogtitle_datastore_clear_cache">Cache clear</string>
     <string name="preference_dialogok_datastore_clear_cache">OK</string>
     <string name="preference_dialogcancel_datastore_clear_cache">Cancel</string>
+    <string name="preference_feedback_cleared_cache">Cache cleared.</string>
 
 </resources>

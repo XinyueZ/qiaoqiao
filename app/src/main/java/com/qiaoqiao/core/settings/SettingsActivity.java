@@ -26,7 +26,7 @@ public final class SettingsActivity extends AppCompatActivity implements Prefere
 	public static void showInstance(Activity cxt) {
 		Intent intent = new Intent(cxt, SettingsActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		ActivityCompat.startActivity(cxt, intent, null);
+		ActivityCompat.startActivity(cxt, intent, Bundle.EMPTY);
 	}
 
 	@Override
@@ -94,15 +94,12 @@ public final class SettingsActivity extends AppCompatActivity implements Prefere
 		manager.beginTransaction()
 		       .replace(LAYOUT_HEADERS, SettingHeadersFragment.newInstance(getApplicationContext(), mTabletLayout))
 		       .commit();
-		manager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-			@Override
-			public void onBackStackChanged() {
-				if (getSupportFragmentManager().getBackStackEntryCount() < 1) {
-					setTitle(R.string.preference_title);
-					//When there's empty on stack we just leave the settings, it effects only on tablet version.
-					if (mTabletLayout) {
-						ActivityCompat.finishAfterTransition(SettingsActivity.this);
-					}
+		manager.addOnBackStackChangedListener(() -> {
+			if (getSupportFragmentManager().getBackStackEntryCount() < 1) {
+				setTitle(R.string.preference_title);
+				//When there's empty on stack we just leave the settings, it effects only on tablet version.
+				if (mTabletLayout) {
+					ActivityCompat.finishAfterTransition(SettingsActivity.this);
 				}
 			}
 		});
