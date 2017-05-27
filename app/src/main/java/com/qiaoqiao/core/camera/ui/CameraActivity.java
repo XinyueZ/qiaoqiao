@@ -56,7 +56,7 @@ import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.DeviceUtils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -108,6 +108,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	 *
 	 * @param e Event {@link com.qiaoqiao.core.camera.awareness.bus.OpenClusterItemEvent}.
 	 */
+	@SuppressWarnings("unused")
 	@Subscribe
 	public void onEvent(com.qiaoqiao.core.camera.awareness.bus.OpenClusterItemEvent e) {
 		ClusterItem clusterItem = e.getClusterItem();
@@ -225,10 +226,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
 		behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
 			@Override
-			public boolean canDrag(AppBarLayout appBarLayout) {
-				if (appBarLayout == null) {
-					return true;
-				}
+			public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
+
 				//MapView, CameraView , CoordinatorLayout and CollapsingToolbarLayout make scroll-effect difficultly , let's use a solution.
 				//http://stackoverflow.com/questions/31046147/android-mapview-in-a-collapsingtoolbarlayout
 				return false;
@@ -597,13 +596,17 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void onPermissionsDenied(int i, List<String> list) {
-		if (EasyPermissions.somePermissionPermanentlyDenied(this, Arrays.asList(Manifest.permission.READ_EXTERNAL_STORAGE))) {
+		if (EasyPermissions.somePermissionPermanentlyDenied(this, new ArrayList<String>() {{
+			add(Manifest.permission.READ_EXTERNAL_STORAGE);
+		}})) {
 			new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
 			                                   .build()
 			                                   .show();
 			return;
 		}
-		if (EasyPermissions.somePermissionPermanentlyDenied(this, Arrays.asList(Manifest.permission.ACCESS_FINE_LOCATION))) {
+		if (EasyPermissions.somePermissionPermanentlyDenied(this, new ArrayList<String>() {{
+			add(Manifest.permission.ACCESS_FINE_LOCATION);
+		}})) {
 			new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
 			                                   .build()
 			                                   .show();
