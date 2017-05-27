@@ -33,4 +33,8 @@
     </style>
 
     <style name="DialogStyle" parent="BaseDialogStyle" />
+
+
+    <style name="Settings" parent="AppTheme">
+    </style>
 </resources>
