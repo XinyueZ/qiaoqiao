@@ -17,6 +17,7 @@
 
     <string name="action_crop_rotate">Rotate</string>
     <string name="action_my_place">My Place</string>
+    <string name="action_settings">Settings</string>
     <string name="action_multi_language">More language</string>
 
     <string name="tab_vision">Vision</string>
@@ -30,4 +31,16 @@
     <string name="loading_detail_fail">Cannot load page, close this and try it later.</string>
     <string name="locating_fail">Cannot locate…</string>
     <string name="play_service_fail">PlayService cannot be connected.</string>
+
+    <string name="preference_title">Settings</string>
+    <string name="preference_title_datastore">Storage</string>
+    <string name="preference_summary_datastore">Setting on local cache</string>
+    <string name="preference_key_datastore_clear_cache">prefs_datastore_clear_cache</string>
+    <string name="preference_title_datastore_clear_cache">Cache clear</string>
+    <string name="preference_summary_datastore_clear_cache">Delete all local data including images, database etc.</string>
+    <string name="preference_dialogmessage_datastore_clear_cache">Do you want to delete all local data including images, database?</string>
+    <string name="preference_dialogtitle_datastore_clear_cache">Cache clear</string>
+    <string name="preference_dialogok_datastore_clear_cache">OK</string>
+    <string name="preference_dialogcancel_datastore_clear_cache">Cancel</string>
+
 </resources>

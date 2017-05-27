@@ -11,6 +11,8 @@
         <item name="colorControlActivated">@color/colorTealLight</item>
         <item name="colorControlHighlight">@color/colorTealLight</item>
 
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
         <item name="android:windowBackground">@color/colorWhite</item>
     </style>
 

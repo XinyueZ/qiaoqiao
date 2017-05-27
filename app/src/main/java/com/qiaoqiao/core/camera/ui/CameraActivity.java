@@ -13,12 +13,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +51,7 @@ import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.core.camera.vision.annotation.target.Single;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
+import com.qiaoqiao.core.settings.SettingsActivity;
 import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
@@ -76,13 +80,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
                                                                        EasyPermissions.PermissionCallbacks,
                                                                        AppBarLayout.OnOffsetChangedListener,
                                                                        FragmentManager.OnBackStackChangedListener,
-                                                                       CropCallback {
+                                                                       CropCallback,
+                                                                       NavigationView.OnNavigationItemSelectedListener {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
 	private ActivityCameraBinding mBinding;
 	private boolean mOnBottom;
-
+	private ActionBarDrawerToggle mDrawerToggle;
 
 	@Inject CropPresenter mCropPresenter;
 	@Inject CameraPresenter mCameraPresenter;
@@ -136,8 +141,30 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		mBinding.setClickHandler(this);
 		setupAppBar();
-		mBinding.appbar.addOnOffsetChangedListener(this);
+		setupNavigationDrawer();
 		App.inject(this);
+	}
+
+	private void setupNavigationDrawer() {
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar == null) {
+			return;
+		}
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		mDrawerToggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout, R.string.app_name, R.string.app_name) {
+			@Override
+			public void onDrawerOpened(View drawerView) {
+			}
+		};
+		mBinding.drawerLayout.addDrawerListener(mDrawerToggle);
+		mBinding.navView.setNavigationItemSelectedListener(this);
+	}
+
+	private void setDownNavigationDrawer() {
+		if (mDrawerToggle != null) {
+			mBinding.drawerLayout.removeDrawerListener(mDrawerToggle);
+		}
 	}
 
 	@Override
@@ -146,6 +173,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		CustomTabUtils.HELPER.bindCustomTabsService(this);
 		EventBus.getDefault()
 		        .register(this);
+
+		if (mDrawerToggle != null) {
+			mDrawerToggle.syncState();
+		}
+
 	}
 
 	@Override
@@ -181,6 +213,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void setupAppBar() {
+		mBinding.appbar.addOnOffsetChangedListener(this);
 		resizeLayout();
 		setSupportActionBar(mBinding.toolbar);
 		final ActionBar supportActionBar = getSupportActionBar();
@@ -203,6 +236,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			}
 		});
 		params.setBehavior(behavior);
+	}
+
+	private void setDownAppBar() {
+		mBinding.appbar.removeOnOffsetChangedListener(this);
 	}
 
 	private void resizeLayout() {
@@ -230,7 +267,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onDestroy() {
-		mBinding.appbar.removeOnOffsetChangedListener(this);
+		setDownNavigationDrawer();
+		setDownAppBar();
 		presentersEnd();
 		super.onDestroy();
 	}
@@ -439,6 +477,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void onBackPressed() {
+		if (mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+			mBinding.drawerLayout.closeDrawer(GravityCompat.START);
+			return;
+		}
+
 		if (mOnBottom) {
 			mBinding.viewpager.setCurrentItem(0, true);
 			mBinding.appbar.setExpanded(true, true);
@@ -480,6 +523,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+
 		switch (item.getItemId()) {
 			case R.id.action_places:
 				requireFineLocationPermission();
@@ -490,6 +537,18 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+
+	@Override
+	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_settings:
+				SettingsActivity.showInstance(this);
+				break;
+		}
+		return true;
+	}
+
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {

@@ -115,4 +115,11 @@
         <item name="android:foreground">@drawable/selector_transparent_item_circle_background</item>
     </style>
 
+
+
+    <style name="NavDrawerItem" parent="@style/Theme.AppCompat.Light">
+        <item name="android:textColor">?attr/colorPrimaryDark</item>
+        <item name="android:textColorSecondary">?attr/colorPrimaryDark</item>
+    </style>
+
 </resources>
