@@ -538,6 +538,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		switch (item.getItemId()) {
 			case R.id.action_settings:
 				SettingsActivity.showInstance(this);
+				mBinding.drawerLayout.closeDrawers();
 				break;
 		}
 		return true;

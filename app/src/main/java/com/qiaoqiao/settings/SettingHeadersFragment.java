@@ -70,6 +70,9 @@ public final class SettingHeadersFragment extends AbstractSettingFragment implem
 				if (mSelectedItem != null) {
 					mSelectedItem.setBackgroundColor(mUnselectedItemColor);
 				}
+				if (listView.findViewHolderForAdapterPosition(index) == null) {
+					return;
+				}
 				mSelectedItem = listView.findViewHolderForAdapterPosition(index).itemView;
 				mSelectedItem.setBackgroundColor(mSelectedItemColor);
 			}
@@ -78,6 +81,9 @@ public final class SettingHeadersFragment extends AbstractSettingFragment implem
 
 	private void clickFirst() {
 		selectHeader(0);
+		if (mSelectedItem == null) {
+			return;
+		}
 		mSelectedItem.performClick();
 	}
 
