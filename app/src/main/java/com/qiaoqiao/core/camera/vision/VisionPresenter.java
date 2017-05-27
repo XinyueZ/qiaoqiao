@@ -9,7 +9,6 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
-import com.qiaoqiao.core.camera.vision.annotation.target.Single;
 import com.qiaoqiao.core.camera.vision.bus.VisionEntityClickEvent;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 import com.qiaoqiao.repository.DsRepository;
@@ -21,7 +20,7 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.Subscribe;
 
-public final class VisionPresenter extends VisionContract.Presenter {
+public final class VisionPresenter extends VisionContract.Presenter{
 	private final @NonNull VisionContract.View mView;
 
 
@@ -46,7 +45,7 @@ public final class VisionPresenter extends VisionContract.Presenter {
 
 
 	@Inject
-	VisionPresenter(@NonNull @Single VisionContract.View view, @NonNull DsRepository dsRepository) {
+	VisionPresenter(@NonNull VisionContract.View view, @NonNull DsRepository dsRepository) {
 		super(dsRepository);
 		mView = view;
 	}
@@ -108,5 +107,10 @@ public final class VisionPresenter extends VisionContract.Presenter {
 	@Override
 	public void setRefreshing(boolean refresh) {
 		mView.setRefreshing(refresh);
+	}
+
+	@Override
+	public void clear() {
+		mView.clear();
 	}
 }

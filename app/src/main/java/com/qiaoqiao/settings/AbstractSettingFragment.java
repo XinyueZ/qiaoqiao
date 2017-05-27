@@ -1,4 +1,4 @@
-package com.qiaoqiao.core.settings;
+package com.qiaoqiao.settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

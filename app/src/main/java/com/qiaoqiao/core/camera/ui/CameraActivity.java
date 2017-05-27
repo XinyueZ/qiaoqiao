@@ -43,17 +43,17 @@ import com.qiaoqiao.core.camera.crop.CropCallback;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
 import com.qiaoqiao.core.camera.crop.ui.CropFragment;
+import com.qiaoqiao.core.camera.history.HistoryCallback;
 import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
-import com.qiaoqiao.core.camera.vision.annotation.target.Single;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
-import com.qiaoqiao.core.settings.SettingsActivity;
 import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
+import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.DeviceUtils;
 
 import java.util.Arrays;
@@ -79,7 +79,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
                                                                        AppBarLayout.OnOffsetChangedListener,
                                                                        FragmentManager.OnBackStackChangedListener,
                                                                        CropCallback,
-                                                                       NavigationView.OnNavigationItemSelectedListener {
+                                                                       NavigationView.OnNavigationItemSelectedListener,
+                                                                       HistoryCallback {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQUEST_FILE_SELECTOR = 0x19;
 	private @Nullable Snackbar mSnackbar;
@@ -93,7 +94,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject HistoryPresenter mHistoryPresenter;
 	@Inject AwarenessPresenter mAwarenessPresenter;
 
-	@Inject @Single VisionContract.View mVisionFragment;
+	@Inject VisionContract.View mVisionFragment;
 	@Inject HistoryContract.View mHistoryFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
 	@Inject CropContract.View mCropFragment;
@@ -547,6 +548,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		resizeLayout();
+	}
+
+	@Override
+	public void cleared() {
+		mVisionPresenter.clear();
 	}
 
 	//--Begin permission--

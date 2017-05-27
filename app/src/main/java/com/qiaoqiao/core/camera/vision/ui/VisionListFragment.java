@@ -28,7 +28,7 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	private FragmentListVisionBinding mBinding;
 	private @Nullable VisionContract.Presenter mPresenter;
 
-	private VisionListAdapter mVisionListAdapter;
+	private @Nullable VisionListAdapter mVisionListAdapter;
 
 	public static VisionListFragment newInstance(@NonNull Context cxt, @NonNull Key key) {
 		Bundle args = new Bundle(1);
@@ -48,14 +48,16 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		setRefreshing(false);
-		if ((Key) getArguments().getSerializable(EXTRAS_KEY) == null) {
+
+		Key key = (Key) getArguments().getSerializable(EXTRAS_KEY);
+		if (key == null) {
 			return;
 		}
 		mBinding.loadingPb.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
 		final int columns = getResources().getInteger(R.integer.num_columns);
 		final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
 		mBinding.visionRv.setLayoutManager(layoutManager);
-		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter((Key) getArguments().getSerializable(EXTRAS_KEY)));
+		mBinding.visionRv.setAdapter(mVisionListAdapter = new VisionListAdapter(key));
 		final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
 		final Drawable divideDrawable = AppCompatResources.getDrawable(getActivity(), R.drawable.divider_drawable);
 		if (divideDrawable != null) {
@@ -70,6 +72,9 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 
 	@Override
 	public void addEntities(@NonNull List<VisionEntity> visionEntityList) {
+		if (mVisionListAdapter == null) {
+			return;
+		}
 		mVisionListAdapter.addVisionEntityList(visionEntityList);
 		setRefreshing(false);
 	}
@@ -104,5 +109,13 @@ public final class VisionListFragment extends AbstractVisionFragment implements 
 		mBinding.visionRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
 		mBinding.visionRv.getAdapter()
 		                 .notifyDataSetChanged();
+	}
+
+
+	@Override
+	public void clear() {
+		if (mVisionListAdapter != null) {
+			mVisionListAdapter.clear();
+		}
 	}
 }

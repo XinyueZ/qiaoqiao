@@ -39,16 +39,17 @@ public interface VisionContract {
 	interface View extends BaseView<Presenter, FragmentListVisionBinding> {
 		FragmentListVisionBinding getBinding();
 
+		void clear();
 
 		void addEntities(@NonNull List<VisionEntity> visionEntityList);
 
 		void showDetail(@NonNull VisionEntity entity, android.view.View transitionView);
 
-
 		void setRefreshing(boolean refresh);
 	}
 
 	abstract class Presenter implements BasePresenter {
+		public abstract void clear();
 
 		protected abstract void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.qiaoqiao.core.camera.annotation.CameraScoped;
 import com.qiaoqiao.core.camera.crop.CropCallback;
+import com.qiaoqiao.core.camera.history.HistoryCallback;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
 
 import dagger.Module;
@@ -35,5 +36,11 @@ public final class CameraModule {
 	@Provides
 	CropCallback provideCropCallback() {
 		return (CropCallback)mView;
+	}
+
+	@CameraScoped
+	@Provides
+	HistoryCallback provideHistoryCallback() {
+		return (HistoryCallback)mView;
 	}
 }

@@ -1,4 +1,4 @@
-package com.qiaoqiao.core.settings;
+package com.qiaoqiao.settings;
 
 
 import android.content.Context;

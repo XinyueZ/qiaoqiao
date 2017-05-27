@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.qiaoqiao.app.Key;
 import com.qiaoqiao.core.camera.annotation.CameraScoped;
-import com.qiaoqiao.core.camera.vision.annotation.target.Single;
 import com.qiaoqiao.core.camera.vision.ui.VisionListFragment;
 
 import dagger.Module;
@@ -16,13 +15,11 @@ import dagger.Provides;
 public final class VisionModule {
 
 
-	@Single
 	@CameraScoped
 	@Provides
 	VisionContract.View provideVisionContractView(@NonNull Context cxt,  @NonNull Key key) {
 		return VisionListFragment.newInstance(cxt, key);
 	}
-
 
 
 }

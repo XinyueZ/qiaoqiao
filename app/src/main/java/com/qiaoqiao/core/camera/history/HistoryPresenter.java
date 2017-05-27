@@ -15,11 +15,13 @@ import io.realm.RealmResults;
 public final class HistoryPresenter implements HistoryContract.Presenter {
 	private final @NonNull HistoryContract.View mView;
 	private @Nullable RealmResults<HistoryItem> mResult;
+	private @NonNull HistoryCallback mHistoryCallback;
 
 
 	@Inject
-	HistoryPresenter(@NonNull HistoryContract.View view) {
+	HistoryPresenter(@NonNull HistoryContract.View view, @NonNull HistoryCallback historyCallback) {
 		mView = view;
+		mHistoryCallback = historyCallback;
 	}
 
 	@Inject
@@ -31,6 +33,9 @@ public final class HistoryPresenter implements HistoryContract.Presenter {
 		@Override
 		public void onChange(RealmResults<HistoryItem> historyItemList) {
 			mView.updateList(historyItemList);
+			if (historyItemList.size() == 0) {
+				mHistoryCallback.cleared();
+			}
 		}
 	};
 

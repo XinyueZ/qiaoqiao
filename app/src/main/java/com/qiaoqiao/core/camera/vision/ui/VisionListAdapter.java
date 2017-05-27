@@ -114,5 +114,8 @@ public final class VisionListAdapter extends RecyclerView.Adapter<AbstractVision
 		return super.getItemViewType(position);
 	}
 
-
+	public void clear() {
+		mEntities.clear();
+		notifyDataSetChanged();
+	}
 }
