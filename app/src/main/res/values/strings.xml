@@ -76,6 +76,20 @@
     <string name="preference_title_camera_auto_focus_allowed">Allow auto-focus</string>
     <string name="preference_summary_camera_auto_focus_allowed">auto-focus allowed</string>
 
+    <string name="preference_key_camera_aspect_ratio">prefs_camera_aspect_ratio</string>
+    <string name="preference_title_camera_aspect_ratio">Aspect ratio</string>
+    <string name="preference_summary_camera_aspect_ratio">Aspect ratio: 3:2, 4:3, 16:9</string>
+    <string-array name="preference_camera_aspect_ratio_entries">
+        <item>3:2</item>
+        <item>4:3</item>
+        <item>16:9</item>
+    </string-array>
+    <string-array name="preference_camera_aspect_ratio_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string name="invitation_title">@string/app_name</string>
     <string name="invitation_message">@string/app_description</string>
     <string name="invitation_image">@string/invite_logo</string>
