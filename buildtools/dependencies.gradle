@@ -44,6 +44,9 @@ ext {
     //Facebook
     shimmer = "0.1.0"
 
+    //Firebase
+    firebase = "10.2.6"
+
     //Others
     apacheIO = "2.4"
 
@@ -107,6 +110,9 @@ ext {
 
             //Cropper for image
             cropper         : [group: "com.isseiaoki", name: "simplecropview", version: cropper],
+
+            //Firebase
+            firebase         : [group: "com.google.firebase", name: "firebase-invites", version: firebase],
 
             //Rx
             //Instead this official rxAdapter, more info
@@ -200,6 +206,9 @@ ext {
 
             //Cropper for image
             [configuration: "compile", dependency: libs.cropper],
+
+            //Firebase
+            [configuration: "compile", dependency: libs.firebase],
 
             //Rx
             [configuration: "compile", dependency: libs.rxandroid],
