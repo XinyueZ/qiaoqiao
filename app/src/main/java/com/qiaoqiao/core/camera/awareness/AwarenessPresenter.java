@@ -53,7 +53,6 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	private @NonNull WeakReference<CameraActivity> mCameraActivityWeakReference;
 	private @NonNull LocationSettingsRequest.Builder mLocationSettingsRequestBuilder;
 	private @NonNull DsRepository mDsRepository;
-//	private int mPlaceImageSize;
 
 	@Inject
 	AwarenessPresenter(@NonNull CameraActivity cameraActivity,
@@ -64,8 +63,6 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 		mView = view;
 		mGoogleApiClientBuilder = googleApiClientBuilder;
 		mCameraActivityWeakReference = new WeakReference<>(cameraActivity);
-//		mPlaceImageSize = cameraActivity.getResources()
-//		                                .getDimensionPixelSize(R.dimen.place_image_size);
 		mLocationSettingsRequestBuilder = locationSettingsRequestBuilder;
 		mDsRepository = dsRepository;
 	}

@@ -3,10 +3,12 @@ package com.qiaoqiao.core.camera.ui;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -21,6 +23,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.view.Menu;
@@ -29,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.cameraview.CameraView;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.maps.android.clustering.ClusterItem;
@@ -56,6 +60,7 @@ import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
+import com.qiaoqiao.utils.AppUtils;
 import com.qiaoqiao.utils.DeviceUtils;
 
 import java.util.ArrayList;
@@ -84,7 +89,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
                                                                        NavigationView.OnNavigationItemSelectedListener,
                                                                        HistoryCallback {
 	private static final int LAYOUT = R.layout.activity_camera;
-	private static final int REQUEST_FILE_SELECTOR = 0x19;
+	private static final int REQ_FILE_SELECTOR = 0x19;
+	private static final int REQ_INVITE = 0x56;
 	private @Nullable Snackbar mSnackbar;
 	private ActivityCameraBinding mBinding;
 	private boolean mOnBottom;
@@ -318,7 +324,13 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 					mCameraPresenter.openLink(data.getData());
 				}
 				break;
-			case REQUEST_FILE_SELECTOR:
+			case REQ_INVITE:
+				if (resultCode != RESULT_OK) {
+					mSnackbar  = Snackbar.make(mBinding.root, R.string.invitation_send_failed, Snackbar.LENGTH_LONG).setAction(android.R.string.cancel, this);
+					mSnackbar.show();
+				}
+				break;
+			case REQ_FILE_SELECTOR:
 				if (!(resultCode == Activity.RESULT_OK && data != null && data.getData() != null)) {
 					super.onActivityResult(requestCode, resultCode, data);
 					return;
@@ -356,7 +368,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	private void openLocalDir() {
 		Intent openPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(openPhotoIntent, REQUEST_FILE_SELECTOR);
+		startActivityForResult(openPhotoIntent, REQ_FILE_SELECTOR);
 	}
 
 	private void openPlaces() {
@@ -542,8 +554,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				mCropFragment.rotate();
 				break;
 			case R.id.action_camera_direction:
-				mBinding.camera.setFacing(mBinding.camera.getFacing() == CameraView.FACING_BACK ? CameraView.FACING_FRONT : CameraView.FACING_BACK);
-				item.setIcon(mBinding.camera.getFacing() == CameraView.FACING_BACK ? R.drawable.ic_camera_front : R.drawable.ic_camera_rear);
+				mBinding.camera.setFacing(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
+				                          CameraView.FACING_FRONT :
+				                          CameraView.FACING_BACK);
+				item.setIcon(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
+				             R.drawable.ic_camera_front :
+				             R.drawable.ic_camera_rear);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -552,10 +568,13 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		mBinding.drawerLayout.closeDrawers();
 		switch (item.getItemId()) {
+			case R.id.action_app_invite:
+				sendAppInvitation();
+				break;
 			case R.id.action_settings:
 				SettingsActivity.showInstance(this);
-				mBinding.drawerLayout.closeDrawers();
 				break;
 		}
 		return true;
@@ -572,6 +591,36 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public void cleared() {
 		mVisionPresenter.clear();
 	}
+
+
+	private void sendAppInvitation() {
+		String invitationTitle = getString(R.string.invitation_title);
+		String invitationMessage = getString(R.string.invitation_message);
+		String invitationDeepLink = getString(R.string.invitation_link);
+		String invitationCustomImage = getString(R.string.invitation_image);
+		String invitationCta = getString(R.string.invitation_cta);
+
+
+		Intent intent = new AppInviteInvitation.IntentBuilder(invitationTitle).setMessage(invitationMessage)
+		                                                                      .setDeepLink(Uri.parse(invitationDeepLink))
+		                                                                      .setCustomImage(Uri.parse(invitationCustomImage))
+		                                                                      .setCallToActionText(invitationCta)
+		                                                                      .build();
+		try {
+			startActivityForResult(intent, REQ_INVITE);
+		} catch (ActivityNotFoundException | NullPointerException ex) {
+			new AlertDialog.Builder(this).setTitle(R.string.invitation_title)
+			                             .setMessage(R.string.invitation_error)
+			                             .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
+				                             dialog.dismiss();
+				                             AppUtils.goToPlayServiceDownload(getApplicationContext());
+			                             })
+			                             .setCancelable(true)
+			                             .create()
+			                             .show();
+		}
+	}
+
 
 	//--Begin permission--
 

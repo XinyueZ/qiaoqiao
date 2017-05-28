@@ -2,4 +2,6 @@
     <string name="app_name">ViApp</string>
     <string name="map">AIzaSyBhiz7V0Bbzyu8NWnGXfv9QxHm-2KP6VSk</string>
     <string name="base_url_knowledge">https://qiaoqiao-live.appspot.com/knowledge/</string>
+    <string name="invite_logo">https://dl.dropboxusercontent.com/s/p9gt7myk6o6nnh8/ic_launcher.png</string>
+    <string name="invite_link">https://ed39y.app.goo.gl/jdF1</string>
 </resources>

@@ -5,8 +5,9 @@
 
 
     <string name="action_crop_rotate">Umdrehen</string>
-    <string name="action_my_place">Meine Umgebung</string>
     <string name="action_settings">Einstellungen</string>
+    <string name="action_my_place">Meine Umgebung</string>
+    <string name="action_app_invite">Leute einladen</string>
     <string name="action_multi_language">Mehr Sprache</string>
 
 

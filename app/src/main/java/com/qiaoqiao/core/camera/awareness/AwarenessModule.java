@@ -4,6 +4,7 @@ package com.qiaoqiao.core.camera.awareness;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -31,6 +32,7 @@ public final class AwarenessModule {
 	@CameraScoped
 	GoogleApiClient.Builder provideGoogleApiClientBuilder(@NonNull Context cxt) {
 		return new GoogleApiClient.Builder(cxt).addApi(Awareness.API)
+		                                       .addApi(AppInvite.API)
 		                                       .addApi(Places.GEO_DATA_API)
 		                                       .addApi(LocationServices.API);
 	}
@@ -38,7 +40,8 @@ public final class AwarenessModule {
 	@Provides
 	@CameraScoped
 	LocationSettingsRequest.Builder provideLocationSettingsRequestBuilder() {
-		return new LocationSettingsRequest.Builder().addLocationRequest(LocationRequest.create()).setAlwaysShow(true)
+		return new LocationSettingsRequest.Builder().addLocationRequest(LocationRequest.create())
+		                                            .setAlwaysShow(true)
 		                                            .setNeedBle(true);
 	}
 }

@@ -2,4 +2,6 @@
     <string name="app_name">ViApp-Dev</string>
     <string name="map">AIzaSyCSuFANZAk1waOgeoWeRfdWVNFgqp5Usy8</string>
     <string name="base_url_knowledge">https://qiaoqiao-dev.appspot.com/knowledge/</string>
+    <string name="invite_logo">https://dl.dropboxusercontent.com/s/mru9dripbdg3dq9/ic_launcher.png</string>
+    <string name="invite_link">https://vth24.app.goo.gl/qL6j</string>
 </resources>
