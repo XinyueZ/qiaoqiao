@@ -22,3 +22,5 @@ gradle/*.*
 gradle/
 gradle*
 !gradle.properties
+
+release.gradle
