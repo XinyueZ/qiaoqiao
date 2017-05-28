@@ -11,9 +11,8 @@
 
 
     <string name="preference_title">Einstellungen</string>
-    <string name="preference_title_datastore">Speicherung</string>
+    <string name="preference_title_datastore">Speicherung einstellen</string>
     <string name="preference_summary_datastore">Gespeicherte App-Daten wird gelöscht werden.</string>
-    <string name="preference_key_datastore_clear_cache">prefs_datastore_clear_cache</string>
     <string name="preference_title_datastore_clear_cache">Speicherung entleeren</string>
     <string name="preference_summary_datastore_clear_cache">Gespeicherte App-Daten wird gelöscht werden.</string>
     <string name="preference_dialogmessage_datastore_clear_cache">Speicherung entleeren?</string>
@@ -21,5 +20,12 @@
     <string name="preference_dialogok_datastore_clear_cache">OK</string>
     <string name="preference_dialogcancel_datastore_clear_cache">Abbrechen</string>
     <string name="preference_feedback_cleared_cache">Speicherung entleert</string>
+
+    <string name="preference_title_camera">Kamera</string>
+    <string name="preference_summary_camera">Kamera einstellen</string>
+    <string name="preference_title_camera_flash_allowed">Blitzen</string>
+    <string name="preference_summary_camera_flash_allowed">erlaubt</string>
+    <string name="preference_title_camera_auto_focus_allowed">Auto-Focus</string>
+    <string name="preference_summary_camera_auto_focus_allowed">erlaubt</string>
 
 </resources>

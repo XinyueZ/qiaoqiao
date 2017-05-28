@@ -59,6 +59,9 @@ public final class SettingContentFragment extends AbstractSettingFragment {
 			Activity activity = getActivity();
 			if (activity != null) {
 				switch (value) {
+					case HEADER_CAMERA:
+						addPreferencesFromResource(R.xml.preferences_camera);
+						break;
 					case HEADER_DATASTORE:
 						addPreferencesFromResource(R.xml.preferences_datastore);
 						break;

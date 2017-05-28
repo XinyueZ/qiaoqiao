@@ -33,7 +33,7 @@
     <string name="play_service_fail">PlayService cannot be connected.</string>
 
     <string name="preference_title">Settings</string>
-    <string name="preference_title_datastore">Storage</string>
+    <string name="preference_title_datastore">Storage options</string>
     <string name="preference_summary_datastore">Setting on local cache</string>
     <string name="preference_key_datastore_clear_cache">prefs_datastore_clear_cache</string>
     <string name="preference_title_datastore_clear_cache">Cache clear</string>
@@ -43,5 +43,16 @@
     <string name="preference_dialogok_datastore_clear_cache">OK</string>
     <string name="preference_dialogcancel_datastore_clear_cache">Cancel</string>
     <string name="preference_feedback_cleared_cache">Cache cleared.</string>
+
+
+    <string name="preference_title_camera">Camera</string>
+    <string name="preference_summary_camera">Camera options</string>
+    <string name="preference_key_camera_flash_allowed">prefs_camera_flash_allowed</string>
+    <string name="preference_title_camera_flash_allowed">Allow flash</string>
+    <string name="preference_summary_camera_flash_allowed">Flash allowed</string>
+    <string name="preference_key_camera_auto_focus_allowed">prefs_camera_auto_focus_allowed</string>
+    <string name="preference_title_camera_auto_focus_allowed">Allow auto-focus</string>
+    <string name="preference_summary_camera_auto_focus_allowed">auto-focus allowed</string>
+
 
 </resources>
