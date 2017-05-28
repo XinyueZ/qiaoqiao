@@ -35,5 +35,7 @@
     </string-array>
     <string name="preference_title_camera_auto_focus_allowed">Auto-Focus</string>
     <string name="preference_summary_camera_auto_focus_allowed">erlaubt</string>
+    <string name="preference_title_camera_aspect_ratio">Seitenverhältnis</string>
+    <string name="preference_summary_camera_aspect_ratio">Seitenverhältnis: 3:2, 4:3, 16:9</string>
 
 </resources>

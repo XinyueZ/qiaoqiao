@@ -17,7 +17,7 @@
         android:key="@string/preference_key_camera_aspect_ratio"
         android:summary="@string/preference_summary_camera_aspect_ratio"
         android:title="@string/preference_title_camera_aspect_ratio"
-        android:defaultValue="1"
+        android:defaultValue="4:3"
         />
 
 
