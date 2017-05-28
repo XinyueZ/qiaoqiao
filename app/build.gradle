@@ -17,6 +17,7 @@ repositories {
 apply plugin: 'realm-android'
 
 def buildNumber = 'bld' + (System.env.BUILD_NUMBER ?: 'SNAPSHOT')
+def globalConfiguration = rootProject.extensions.getByName("ext")
 
 android {
 
@@ -30,7 +31,7 @@ android {
         all*.exclude module: 'mediarouter-v7'
     }
 
-    def globalConfiguration = rootProject.extensions.getByName("ext")
+
 
     compileSdkVersion globalConfiguration.getAt("compileSdkVersion")
     buildToolsVersion globalConfiguration.getAt("buildToolsVersion")
@@ -51,7 +52,7 @@ android {
         enabled = true
     }
 
-    flavorDimensions  "app"
+    flavorDimensions "app"
 
     productFlavors {
         dev {
@@ -64,10 +65,26 @@ android {
         }
     }
 
+
+    signingConfigs {
+        release {
+            storeFile = file(globalConfiguration.getAt("storeFile"))
+            storePassword = globalConfiguration.getAt("storePassword")
+            keyAlias = globalConfiguration.getAt("keyAlias")
+            keyPassword = globalConfiguration.getAt("keyPassword")
+        }
+
+        debug {
+            //Default:  "../signing/debug.keystore"
+            storeFile = file(globalConfiguration.getAt("debugStoreFile"))
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false
@@ -93,6 +110,7 @@ android {
         preDexLibraries true
         javaMaxHeapSize project.JAVA_MAX_HEAP_SIZE
     }
+
 }
 
 
