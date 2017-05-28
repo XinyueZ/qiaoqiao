@@ -3,4 +3,4 @@ An Android-app that gives detected information about live shooting, based on Goo
 
 # Release
 
-[A preview](https://github.com/XinyueZ/qiaoqiao/tree/master/app/live/release)
+[A preview](https://github.com/XinyueZ/qiaoqiao/tree/master/app/build/outputs/apk/live/release)
