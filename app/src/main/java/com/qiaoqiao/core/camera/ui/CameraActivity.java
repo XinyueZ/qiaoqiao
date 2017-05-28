@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -169,6 +171,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onResume() {
+		setupCamera();
 		super.onResume();
 		CustomTabUtils.HELPER.bindCustomTabsService(this);
 		EventBus.getDefault()
@@ -178,6 +181,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			mDrawerToggle.syncState();
 		}
 
+	}
+
+	private void setupCamera() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		boolean autoFocus = prefs.getBoolean(getString(R.string.preference_key_camera_auto_focus_allowed), true);
+		mBinding.camera.setAutoFocus(autoFocus);
+		int flash = Integer.valueOf(prefs.getString(getString(R.string.preference_key_camera_flash_options), "3"));
+		mBinding.camera.setFlash(flash);
 	}
 
 	@Override

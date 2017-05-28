@@ -47,9 +47,23 @@
 
     <string name="preference_title_camera">Camera</string>
     <string name="preference_summary_camera">Camera options</string>
-    <string name="preference_key_camera_flash_allowed">prefs_camera_flash_allowed</string>
-    <string name="preference_title_camera_flash_allowed">Allow flash</string>
-    <string name="preference_summary_camera_flash_allowed">Flash allowed</string>
+    <string name="preference_key_camera_flash_options">prefs_camera_flash_options</string>
+    <string name="preference_title_camera_flash_options">Flash option</string>
+    <string name="preference_summary_camera_flash_options">Flash: off, on, torch, auto, red eye</string>
+    <string-array name="preference_camera_flash_options_entries">
+        <item>off</item>
+        <item>on</item>
+        <item>torch</item>
+        <item>auto</item>
+        <item>red eye</item>
+    </string-array>
+    <string-array name="preference_camera_flash_options_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
     <string name="preference_key_camera_auto_focus_allowed">prefs_camera_auto_focus_allowed</string>
     <string name="preference_title_camera_auto_focus_allowed">Allow auto-focus</string>
     <string name="preference_summary_camera_auto_focus_allowed">auto-focus allowed</string>
