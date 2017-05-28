@@ -43,12 +43,7 @@ public final class SettingHeadersFragment extends AbstractSettingFragment implem
 		super.onViewCreated(view, savedInstanceState);
 		boolean isTabletLayout = getArguments().getBoolean(EXTRAS_TABLET_LAYOUT);
 		if (isTabletLayout) {
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					clickFirst();
-				}
-			}, 500);
+			new Handler().postDelayed(this::clickFirst, 500);
 		}
 	}
 

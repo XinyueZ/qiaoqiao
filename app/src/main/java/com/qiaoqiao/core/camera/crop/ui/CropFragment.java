@@ -2,6 +2,7 @@ package com.qiaoqiao.core.camera.crop.ui;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Animatable;
@@ -12,6 +13,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,7 +161,17 @@ public final class CropFragment extends Fragment implements CropContract.View,
 				return;
 			}
 			mBinding.cropIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
-			mBinding.cropIv.setCustomRatio(4, 3);
+
+			setupCamera();
+		}
+
+		private void setupCamera() {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+			String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
+			String[] aspectRatioXY = aspectRatio.split(":");
+			int x = Integer.parseInt(aspectRatioXY[0]);
+			int y = Integer.parseInt(aspectRatioXY[1]);
+			mBinding.cropIv.setCustomRatio(x, y);
 		}
 
 		private void crop() {

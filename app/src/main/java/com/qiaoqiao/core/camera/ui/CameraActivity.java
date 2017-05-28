@@ -31,6 +31,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.cameraview.AspectRatio;
 import com.google.android.cameraview.CameraView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.maps.MapsInitializer;
@@ -195,6 +196,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.camera.setAutoFocus(autoFocus);
 		int flash = Integer.valueOf(prefs.getString(getString(R.string.preference_key_camera_flash_options), "3"));
 		mBinding.camera.setFlash(flash);
+		String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
+		mBinding.camera.setAspectRatio(AspectRatio.parse(aspectRatio));
 	}
 
 	@Override
@@ -326,7 +329,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				break;
 			case REQ_INVITE:
 				if (resultCode != RESULT_OK) {
-					mSnackbar  = Snackbar.make(mBinding.root, R.string.invitation_send_failed, Snackbar.LENGTH_LONG).setAction(android.R.string.cancel, this);
+					mSnackbar = Snackbar.make(mBinding.root, R.string.invitation_send_failed, Snackbar.LENGTH_LONG)
+					                    .setAction(android.R.string.cancel, this);
 					mSnackbar.show();
 				}
 				break;
