@@ -522,6 +522,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		}
 		menu.findItem(R.id.action_crop_rotate)
 		    .setVisible(isCropThere && !isSnapshotPlacesThere);
+
+		menu.findItem(R.id.action_camera_direction)
+		    .setVisible(!isCropThere && !isSnapshotPlacesThere);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -537,6 +540,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				break;
 			case R.id.action_crop_rotate:
 				mCropFragment.rotate();
+				break;
+			case R.id.action_camera_direction:
+				mBinding.camera.setFacing(mBinding.camera.getFacing() == CameraView.FACING_BACK ? CameraView.FACING_FRONT : CameraView.FACING_BACK);
+				item.setIcon(mBinding.camera.getFacing() == CameraView.FACING_BACK ? R.drawable.ic_camera_front : R.drawable.ic_camera_rear);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
