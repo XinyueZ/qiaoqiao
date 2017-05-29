@@ -49,7 +49,6 @@ ext {
 
     //Others
     apacheIO = "2.4"
-
     libs = [
             //support-lib
             design          : [group: "com.android.support", name: "design", version: appCompatVersion],
@@ -66,11 +65,6 @@ ext {
             coreUtils       : [group: "com.android.support", name: "support-core-utils", version: appCompatVersion],
             annotations     : [group: "com.android.support", name: "support-annotations", version: appCompatVersion],
             media           : [group: "com.android.support", name: "support-media-compat", version: appCompatVersion],
-
-            //Play
-            maps            : [group: "com.google.android.gms", name: "play-services-maps", version: playService],
-            location        : [group: "com.google.android.gms", name: "play-services-location", version: playService],
-            awareness       : [group: "com.google.android.gms", name: "play-services-awareness", version: playService],
 
             //Apache
             apacheIO        : [group: "commons-io", name: "commons-io", version: apacheIO],
@@ -111,8 +105,15 @@ ext {
             //Cropper for image
             cropper         : [group: "com.isseiaoki", name: "simplecropview", version: cropper],
 
+            //Play
+            maps            : [group: "com.google.android.gms", name: "play-services-maps", version: playService],
+            googleAuth      : [group: "com.google.android.gms", name: "play-services-auth", version: playService],
+            location        : [group: "com.google.android.gms", name: "play-services-location", version: playService],
+            awareness       : [group: "com.google.android.gms", name: "play-services-awareness", version: playService],
+
             //Firebase
-            firebase         : [group: "com.google.firebase", name: "firebase-invites", version: firebase],
+            fireAuth        : [group: "com.google.firebase", name: "firebase-auth", version: firebase],
+            fireInvite      : [group: "com.google.firebase", name: "firebase-invites", version: firebase],
 
             //Rx
             //Instead this official rxAdapter, more info
@@ -122,6 +123,7 @@ ext {
             rxandroid       : [group: "io.reactivex.rxjava2", name: "rxandroid", version: rxandroid],
             rxAdapter       : [group: "com.jakewharton.retrofit", name: "retrofit2-rxjava2-adapter", version: rxandroidAdapter],
     ]
+
 
     appDependencies = [
             [configuration: "compile", dependency: fileTree(dir: 'libs', include: ['*.jar'])],
@@ -142,11 +144,6 @@ ext {
             [configuration: "compile", dependency: libs.customtabs],
             [configuration: "compile", dependency: libs.annotations],
             [configuration: "compile", dependency: libs.recyclerview],
-
-            //Play
-            [configuration: "compile", dependency: libs.maps],
-            [configuration: "compile", dependency: libs.location],
-            [configuration: "compile", dependency: libs.awareness],
 
             //Apache
             [configuration: "compile", dependency: libs.apacheIO],
@@ -207,8 +204,15 @@ ext {
             //Cropper for image
             [configuration: "compile", dependency: libs.cropper],
 
+            //Play
+            [configuration: "compile", dependency: libs.maps],
+            [configuration: "compile", dependency: libs.location],
+            [configuration: "compile", dependency: libs.awareness],
+            [configuration: "compile", dependency: libs.googleAuth],
+
             //Firebase
-            [configuration: "compile", dependency: libs.firebase],
+            [configuration: "compile", dependency: libs.fireAuth],
+            [configuration: "compile", dependency: libs.fireInvite],
 
             //Rx
             [configuration: "compile", dependency: libs.rxandroid],
