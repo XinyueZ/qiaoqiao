@@ -133,3 +133,5 @@ dependencies {
 //                .replace(".apk", "-${android.defaultConfig.versionName}${buildNumber}.apk"))
 //    }
 //}
+
+apply plugin: 'com.google.gms.google-services'
