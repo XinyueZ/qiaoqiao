@@ -18,6 +18,7 @@ package com.qiaoqiao.core.camera.vision;
 
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
@@ -60,14 +61,14 @@ public interface VisionContract {
 		}
 
 		@Override
-		public void begin() {
+		public void begin(@NonNull FragmentActivity hostActivity) {
 			EventBus.getDefault()
 			        .register(this);
 
 		}
 
 		@Override
-		public void end() {
+		public void end(@NonNull FragmentActivity hostActivity) {
 			EventBus.getDefault()
 			        .unregister(this);
 		}

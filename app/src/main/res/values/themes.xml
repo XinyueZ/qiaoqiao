@@ -37,4 +37,7 @@
 
     <style name="Settings" parent="AppTheme">
     </style>
+
+    <style name="Login" parent="AppTheme">
+    </style>
 </resources>

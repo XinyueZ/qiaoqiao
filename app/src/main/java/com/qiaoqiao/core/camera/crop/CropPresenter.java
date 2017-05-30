@@ -2,6 +2,7 @@ package com.qiaoqiao.core.camera.crop;
 
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 
 import javax.inject.Inject;
 
@@ -21,11 +22,11 @@ public final class CropPresenter implements CropContract.Presenter {
 	}
 
 	@Override
-	public void begin() {
+	public void begin(@NonNull FragmentActivity hostActivity) {
 	}
 
 	@Override
-	public void end() {
+	public void end(@NonNull FragmentActivity hostActivity) {
 	}
 
 	@Override

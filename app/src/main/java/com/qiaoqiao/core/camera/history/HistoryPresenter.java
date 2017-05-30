@@ -3,6 +3,7 @@ package com.qiaoqiao.core.camera.history;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 
 import com.qiaoqiao.repository.database.HistoryItem;
 
@@ -40,11 +41,11 @@ public final class HistoryPresenter implements HistoryContract.Presenter {
 	};
 
 	@Override
-	public void begin() {
+	public void begin(@NonNull FragmentActivity hostActivity) {
 	}
 
 	@Override
-	public void end() {
+	public void end(@NonNull FragmentActivity hostActivity) {
 		if (mResult != null) {
 			mResult.removeChangeListener(mChangeListener);
 		}

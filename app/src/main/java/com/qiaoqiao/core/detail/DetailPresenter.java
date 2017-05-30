@@ -2,6 +2,7 @@ package com.qiaoqiao.core.detail;
 
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.DsRepository;
@@ -65,12 +66,12 @@ public final class DetailPresenter implements DetailContract.Presenter {
 	}
 
 	@Override
-	public void begin() {
+	public void begin(@NonNull FragmentActivity hostActivity) {
 		mView.loadDetail();
 	}
 
 	@Override
-	public void end() {
+	public void end(@NonNull FragmentActivity hostActivity) {
 		//Still not impl.
 	}
 

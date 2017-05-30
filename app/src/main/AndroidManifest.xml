@@ -87,6 +87,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".core.camera.ui.CameraActivity"/>
         </activity>
+
+
+        <activity
+            android:name=".core.splash.ConnectGoogleActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Login"/>
     </application>
 
 </manifest>

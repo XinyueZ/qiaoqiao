@@ -54,12 +54,12 @@ public final class DetailActivity extends AppCompatActivity {
 
 	@Inject
 	void injected() {
-		mPresenter.begin();
+		mPresenter.begin(this);
 	}
 
 	@Override
 	protected void onDestroy() {
-		mPresenter.end();
+		mPresenter.end(this);
 		super.onDestroy();
 	}
 

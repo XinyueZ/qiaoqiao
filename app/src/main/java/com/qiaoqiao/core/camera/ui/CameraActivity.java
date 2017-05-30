@@ -277,10 +277,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 	private void presentersBegin() {
-		mCameraPresenter.begin();
-		mVisionPresenter.begin();
-		mHistoryPresenter.begin();
-		mAwarenessPresenter.begin();
+		mCameraPresenter.begin(this);
+		mVisionPresenter.begin(this);
+		mHistoryPresenter.begin(this);
+		mAwarenessPresenter.begin(this);
 	}
 
 	@Override
@@ -292,10 +292,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void presentersEnd() {
-		mCameraPresenter.end();
-		mVisionPresenter.end();
-		mHistoryPresenter.end();
-		mAwarenessPresenter.end();
+		mCameraPresenter.end(this);
+		mVisionPresenter.end(this);
+		mHistoryPresenter.end(this);
+		mAwarenessPresenter.end(this);
 	}
 
 

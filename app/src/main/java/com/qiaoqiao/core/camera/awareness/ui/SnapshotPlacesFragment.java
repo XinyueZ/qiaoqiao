@@ -123,8 +123,8 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 				onLocated(latLng);
 			});
 		}
-		if (mPresenter != null) {
-			mPresenter.searchAndSearch(latLng);
+		if (mPresenter != null && getContext() != null) {
+			mPresenter.searchAndSearch(getContext(), latLng);
 		}
 	}
 

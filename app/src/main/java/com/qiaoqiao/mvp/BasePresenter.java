@@ -16,10 +16,13 @@
 
 package com.qiaoqiao.mvp;
 
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
+
 public interface BasePresenter {
 
-	void begin();
+	void begin(@NonNull FragmentActivity hostActivity);
 
-	void end();
+	void end(@NonNull FragmentActivity hostActivity);
 
 }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -38,12 +39,12 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	}
 
 	@Override
-	public void begin() {
+	public void begin(@NonNull FragmentActivity hostActivity) {
 		mView.cameraBegin(mCameraCallback);
 	}
 
 	@Override
-	public void end() {
+	public void end(@NonNull FragmentActivity hostActivity) {
 		mView.cameraEnd(mCameraCallback);
 	}
 

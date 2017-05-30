@@ -55,6 +55,6 @@ public interface AwarenessContract {
 
 		void settingLocating();
 
-		void searchAndSearch(@NonNull LatLng latLng);
+		void searchAndSearch(@NonNull  Context cxt, @NonNull LatLng latLng);
 	}
 }
