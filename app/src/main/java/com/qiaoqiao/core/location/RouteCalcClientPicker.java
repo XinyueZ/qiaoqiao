@@ -1,4 +1,4 @@
-package com.qiaoqiao.core.location.ui;
+package com.qiaoqiao.core.location;
 
 import android.app.Activity;
 import android.app.Dialog;

@@ -55,6 +55,9 @@ import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
+import com.qiaoqiao.core.confidence.ConfidenceContract;
+import com.qiaoqiao.core.confidence.ConfidencePresenter;
+import com.qiaoqiao.core.confidence.ui.ConfidenceDialogFragment;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
 import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
@@ -102,11 +105,13 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject VisionPresenter mVisionPresenter;
 	@Inject HistoryPresenter mHistoryPresenter;
 	@Inject AwarenessPresenter mAwarenessPresenter;
+	@Inject ConfidencePresenter mConfidencePresenter;
 
+	@Inject CropContract.View mCropFragment;
 	@Inject VisionContract.View mVisionFragment;
 	@Inject HistoryContract.View mHistoryFragment;
+	@Inject ConfidenceContract.View mConfidenceFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
-	@Inject CropContract.View mCropFragment;
 
 	//------------------------------------------------
 	//Subscribes, event-handlers
@@ -153,6 +158,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupNavigationDrawer();
 		App.inject(this);
 	}
+
+	@Inject
+	void onInjected() {
+		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
+		setupViewPager((Fragment) mVisionFragment, (Fragment) mHistoryFragment);
+		presentersBegin();
+	}
+
 
 	private void setupNavigationDrawer() {
 		ActionBar actionBar = getSupportActionBar();
@@ -225,12 +238,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		supportInvalidateOptionsMenu();
 	}
 
-	@Inject
-	void onInjected() {
-		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
-		setupViewPager((Fragment) mVisionFragment, (Fragment) mHistoryFragment);
-		presentersBegin();
-	}
 
 	private void setupAppBar() {
 		mBinding.appbar.addOnOffsetChangedListener(this);
@@ -574,6 +581,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		mBinding.drawerLayout.closeDrawers();
 		switch (item.getItemId()) {
+			case R.id.action_confidence:
+				((ConfidenceDialogFragment) mConfidenceFragment).show(getSupportFragmentManager(), null);
+				break;
 			case R.id.action_app_invite:
 				sendAppInvitation();
 				break;

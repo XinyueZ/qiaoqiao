@@ -57,13 +57,13 @@
 
 
         <activity
-            android:name=".core.location.ui.MapActivity"
+            android:name=".core.location.MapActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"/>
 
 
         <activity
-            android:name=".core.location.ui.StreetViewActivity"
+            android:name=".core.location.StreetViewActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"/>
 

@@ -7,6 +7,7 @@ import com.qiaoqiao.core.camera.crop.CropModule;
 import com.qiaoqiao.core.camera.history.HistoryModule;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
 import com.qiaoqiao.core.camera.vision.VisionModule;
+import com.qiaoqiao.core.confidence.ConfidenceModule;
 import com.qiaoqiao.repository.DsRepositoryComponent;
 
 import dagger.Component;
@@ -17,7 +18,8 @@ import dagger.Component;
                                                                        CameraModule.class,
                                                                        VisionModule.class,
                                                                        HistoryModule.class,
-                                                                       AwarenessModule.class })
+                                                                       AwarenessModule.class,
+                                                                       ConfidenceModule.class })
 public interface CameraComponent {
 	void doInject(CameraActivity activity);
 }

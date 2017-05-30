@@ -16,7 +16,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
-import com.qiaoqiao.core.location.ui.MapActivity;
+import com.qiaoqiao.core.location.MapActivity;
 import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.FragmentSnapshotPlaceInfoBinding;
 

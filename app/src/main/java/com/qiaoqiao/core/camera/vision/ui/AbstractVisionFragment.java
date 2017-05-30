@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
-import com.qiaoqiao.core.location.ui.MapActivity;
+import com.qiaoqiao.core.location.MapActivity;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 
 public abstract class AbstractVisionFragment extends Fragment {

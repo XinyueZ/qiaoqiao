@@ -42,6 +42,7 @@ import com.qiaoqiao.core.camera.crop.CropModule;
 import com.qiaoqiao.core.camera.history.HistoryModule;
 import com.qiaoqiao.core.camera.ui.CameraActivity;
 import com.qiaoqiao.core.camera.vision.VisionModule;
+import com.qiaoqiao.core.confidence.ConfidenceModule;
 import com.qiaoqiao.core.detail.DaggerDetailComponent;
 import com.qiaoqiao.core.detail.DetailModule;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
@@ -83,6 +84,7 @@ public final class App extends MultiDexApplication {
 		                     .visionModule(new VisionModule())
 		                     .awarenessModule(new AwarenessModule())
 		                     .cropModule(new CropModule())
+		                     .confidenceModule(new ConfidenceModule())
 		                     .build()
 		                     .doInject(cameraActivity);
 	}
