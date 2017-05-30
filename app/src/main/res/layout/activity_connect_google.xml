@@ -19,7 +19,7 @@
         android:id="@+id/connect_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/ic_launcher_background"
+        android:background="@drawable/gradient_launcher_background"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 

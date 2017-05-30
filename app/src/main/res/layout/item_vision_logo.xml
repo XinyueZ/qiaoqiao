@@ -22,7 +22,9 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/vision_iv"
             style="@style/VisionImageView"
-            android:onClick="@{() -> viewholder.onClicked(visionEntity)}"/>
+            android:onClick="@{() -> viewholder.onClicked(visionEntity)}"
+            android:layout_weight="1"
+            android:baselineAligned="false"/>
 
         <FrameLayout
             android:id="@+id/vision_tv_fl"
