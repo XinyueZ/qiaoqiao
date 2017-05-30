@@ -23,7 +23,7 @@ import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_ID;
 import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_PHOTO_URL;
 
 /**
- * The fragment that controls user information of g+, logout etc.
+ * The fragment that controls user information of g+, signOut etc.
  *
  * @author Xinyue Zhao
  */
@@ -49,11 +49,11 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 		return mBinding.getRoot();
 	}
 
-	private void login() {
-		ConnectGoogleActivity.showInstance(getActivity());
+	private void signIn() {
+		ConnectGoogleActivity.showInstance(getActivity(), false);
 	}
 
-	private void logout() {
+	private void signOut() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		final SharedPreferences.Editor edit = prefs.edit();
 		edit.putString(KEY_GOOGLE_ID, null);
@@ -61,6 +61,7 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 		edit.putString(KEY_GOOGLE_DISPLAY_NAME, null);
 		SharedPreferencesCompat.EditorCompat.getInstance()
 		                                    .apply(edit);
+		ConnectGoogleActivity.showInstance(getActivity(), true);
 	}
 
 
@@ -100,9 +101,9 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 			case R.id.btn:
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 				if (TextUtils.isEmpty(prefs.getString(PrefsKeys.KEY_GOOGLE_ID, null))) {
-					login();
+					signIn();
 				} else {
-					logout();
+					signOut();
 				}
 				break;
 		}

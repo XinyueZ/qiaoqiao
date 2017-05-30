@@ -99,6 +99,6 @@
 
     <string name="connect_google">Connect Google</string>
     <string name="connect_google_fail">Cannot connect Google</string>
-    <string name="login_google">login</string>
-    <string name="logout_google">login</string>
+    <string name="login_google">Sign In</string>
+    <string name="logout_google">Sign Out</string>
 </resources>
