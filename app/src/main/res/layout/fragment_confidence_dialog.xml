@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="com.qiaoqiao.core.confidence.ui.ConfidenceDialogFragment">
+
+    <data>
+
+        <variable
+            name="seekBarChangeHandler"
+            type="android.widget.SeekBar.OnSeekBarChangeListener"/>
+
+        <variable
+            name="thumbLabel"
+            type="com.amulyakhare.textdrawable.TextDrawable"/>
+        <variable
+            name="thumbLogo"
+            type="com.amulyakhare.textdrawable.TextDrawable"/>
+        <variable
+            name="thumbImage"
+            type="com.amulyakhare.textdrawable.TextDrawable"/>
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +33,9 @@
 
         <SeekBar
             android:id="@+id/confidence_label_value"
-            style="@style/ConfidenceSeekBar"/>
+            style="@style/ConfidenceSeekBar"
+            android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
+            bind:textThumb="@{thumbLabel}"/>
 
         <TextView
             style="@style/ConfidenceTitle"
@@ -24,7 +44,9 @@
 
         <SeekBar
             android:id="@+id/confidence_logo_value"
-            style="@style/ConfidenceSeekBar"/>
+            style="@style/ConfidenceSeekBar"
+            android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
+            bind:textThumb="@{thumbLogo}"/>
 
         <TextView
             style="@style/ConfidenceTitle"
@@ -33,6 +55,8 @@
 
         <SeekBar
             android:id="@+id/confidence_image_value"
-            style="@style/ConfidenceSeekBar"/>
+            style="@style/ConfidenceSeekBar"
+            android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
+            bind:textThumb="@{thumbImage}"/>
     </LinearLayout>
 </layout>
