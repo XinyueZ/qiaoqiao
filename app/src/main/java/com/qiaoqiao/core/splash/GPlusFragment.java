@@ -89,6 +89,9 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 			mBinding.btn.setText(R.string.login_google);
 			mBinding.getRoot()
 			        .setBackgroundResource(R.color.colorBlueGrey);
+			mBinding.peopleNameTv.setText("");
+			mBinding.peoplePhotoIv.setImageDrawable(AppCompatResources.getDrawable(getContext(), R.drawable.ic_people));
+
 		} else {
 			mBinding.btn.setText(R.string.logout_google);
 			String name = prefs.getString(PrefsKeys.KEY_GOOGLE_DISPLAY_NAME, null);

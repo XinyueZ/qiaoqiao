@@ -147,14 +147,15 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 					SharedPreferencesCompat.EditorCompat.getInstance()
 					                                    .apply(edit);
 
-					mBinding.helloTv.setText(getString(android.R.string.ok, acct.getDisplayName()));
+					mBinding.helloTv.setText(getString(R.string.connect_successfully, acct.getDisplayName()));
 					mBinding.loginPb.setVisibility(View.GONE);
 					mBinding.closeBtn.setVisibility(View.VISIBLE);
 					Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
 					mBinding.closeBtn.startAnimation(shake);
+					mBinding.skipBtn.setVisibility(View.GONE);
+					firebaseAuthWithGoogle(acct);
 				}
 			}
-			firebaseAuthWithGoogle(acct);
 		} else {
 			mBinding.helloTv.setText(R.string.app_description);
 			mBinding.loginPb.setVisibility(View.GONE);
@@ -205,6 +206,9 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 				break;
 			case R.id.close_btn:
 				close();
+				break;
+			case R.id.skip_btn:
+				supportFinishAfterTransition();
 				break;
 		}
 	}

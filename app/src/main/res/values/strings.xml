@@ -97,8 +97,10 @@
     <string name="invitation_error">Some errors happened when opening App-invite, please checkout whether you should update your Play-Service or not.</string>
     <string name="invitation_send_failed">No invitation has been sent.</string>
 
-    <string name="connect_google">Connect Google</string>
+    <string name="connect_google">Connecting Google…</string>
     <string name="connect_google_fail">Cannot connect Google</string>
     <string name="login_google">Sign In</string>
     <string name="logout_google">Sign Out</string>
+    <string name="connect_successfully">Welcome %s!</string>
+    <string name="connect_ignore">Skip</string>
 </resources>
