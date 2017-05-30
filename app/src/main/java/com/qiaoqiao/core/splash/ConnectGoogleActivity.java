@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,12 +24,12 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.qiaoqiao.R;
@@ -42,7 +46,10 @@ import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_PHOTO_URL;
  *
  * @author Xinyue Zhao
  */
-public final class ConnectGoogleActivity extends AppCompatActivity implements View.OnClickListener {
+public final class ConnectGoogleActivity extends AppCompatActivity implements View.OnClickListener,
+                                                                              GoogleApiClient.ConnectionCallbacks,
+                                                                              GoogleApiClient.OnConnectionFailedListener,
+                                                                              OnCompleteListener {
 	private static final int PLAY_CLIENT_ID = 0x2;
 	private static final String EXTRAS_SIGN_OUT = ConnectGoogleActivity.class.getName() + ".EXTRAS.sign.out";
 	/**
@@ -79,14 +86,12 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 		mVisible = false;
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		mBinding.setClickHandler(this);
+		mBinding.thumbIv.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_default_image));
 		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height * (1 - 0.618f));
 		mBinding.googleLoginBtn.setSize(SignInButton.SIZE_WIDE);
 		mBinding.helloTv.setText(R.string.app_description);
-		mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this /* FragmentActivity */,
-		                                                                      PLAY_CLIENT_ID,
-		                                                                      connectionResult -> Snackbar.make(mBinding.connectFl, R.string.connect_google_fail, Snackbar.LENGTH_LONG)
-		                                                                                                  .setAction(R.string.exit_app, v -> ActivityCompat.finishAffinity(ConnectGoogleActivity.this))
-		                                                                                                  .show())
+		mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this /* FragmentActivity */, PLAY_CLIENT_ID, this)
+		                                                    .addConnectionCallbacks(this)
 		                                                    .addApi(Auth.GOOGLE_SIGN_IN_API,
 		                                                            new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
 		                                                                                                                                .requestId()
@@ -95,9 +100,6 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 		                                                    .build();
 
 
-		if (getIntent().getBooleanExtra(EXTRAS_SIGN_OUT, false)) {
-			signOutGoogle();
-		}
 		mBinding.googleLoginBtn.setOnClickListener(this);
 	}
 
@@ -129,13 +131,6 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 					}
 					SharedPreferencesCompat.EditorCompat.getInstance()
 					                                    .apply(edit);
-					mBinding.thumbIv.animate()
-					                .cancel();
-					mBinding.thumbIv.animate()
-					                .alpha(1)
-					                .setDuration(500)
-					                .start();
-
 
 					mBinding.helloTv.setText(getString(android.R.string.ok, acct.getDisplayName()));
 					mBinding.loginPb.setVisibility(View.GONE);
@@ -148,13 +143,11 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 		} else {
 			mBinding.helloTv.setText(R.string.app_description);
 			mBinding.loginPb.setVisibility(View.GONE);
-			mBinding.thumbIv.animate()
-			                .cancel();
-			mBinding.thumbIv.animate()
-			                .alpha(1)
-			                .setDuration(500)
-			                .start();
 			mBinding.googleLoginBtn.setVisibility(View.VISIBLE);
+		}
+		final Drawable drawable = mBinding.loginPb.getDrawable();
+		if (drawable instanceof Animatable) {
+			((Animatable) drawable).stop();
 		}
 	}
 
@@ -165,13 +158,11 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 	private void signInGoogle() {
 		mBinding.googleLoginBtn.setVisibility(View.GONE);
 		mBinding.loginPb.setVisibility(View.VISIBLE);
+		final Drawable drawable = mBinding.loginPb.getDrawable();
+		if (drawable instanceof Animatable) {
+			((Animatable) drawable).start();
+		}
 		mBinding.helloTv.setText(R.string.connect_google);
-		mBinding.thumbIv.animate()
-		                .cancel();
-		mBinding.thumbIv.animate()
-		                .alpha(0.3f)
-		                .setDuration(500)
-		                .start();
 		startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient), REQ_SIGN_GOOGLE);
 	}
 
@@ -207,13 +198,37 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 		AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
 		FirebaseAuth.getInstance()
 		            .signInWithCredential(credential)
-		            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-			            @Override
-			            public void onComplete(@NonNull Task<AuthResult> task) {
-				            if (!task.isSuccessful()) {
-					            LL.d("Firebase is ready.");
-				            }
-			            }
-		            });
+		            .addOnCompleteListener(this, this);
+	}
+
+	@Override
+	public void onComplete(@NonNull Task task) {
+		if (task.isSuccessful()) {
+			LL.d("Firebase is ready.");
+		}
+	}
+
+	@Override
+	public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+		Snackbar.make(mBinding.connectFl, R.string.connect_google_fail, Snackbar.LENGTH_LONG)
+		        .setAction(R.string.exit_app, v -> ActivityCompat.finishAffinity(ConnectGoogleActivity.this))
+		        .show();
+	}
+
+	@Override
+	public void onConnected(@Nullable Bundle bundle) {
+		if (shouldSignOut()) {
+			signOutGoogle();
+		}
+		mBinding.googleLoginBtn.setVisibility(View.VISIBLE);
+	}
+
+	private boolean shouldSignOut() {
+		return getIntent().getBooleanExtra(EXTRAS_SIGN_OUT, false);
+	}
+
+	@Override
+	public void onConnectionSuspended(int i) {
+
 	}
 }

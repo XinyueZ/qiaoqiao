@@ -11,7 +11,8 @@
     <dimen name="z_card">5dp</dimen>
     <dimen name="grid_icon_with_padding">140dp</dimen> <!-- 24dp icon + 2 * @dimen/spacing_normal -->
     <dimen name="place_info_preview">80dp</dimen>
-    <dimen name="user_thumbnail_preview">80dp</dimen>
+    <dimen name="user_thumbnail_preview">75dp</dimen>
+    <dimen name="user_thumbnail_preview_pb">85dp</dimen>
     <dimen name="vision_image_size">70dp</dimen>
     <dimen name="custom_profile_image">55dp</dimen>
     <dimen name="custom_profile_padding">2dp</dimen>

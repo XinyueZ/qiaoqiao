@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ViApp</string>
-    <string name="app_description">ViApp is an intelligent assistant to help you to detect visions round you. </string>
+    <string name="app_description">An intelligent assistant who helps you to detect visions surround you. </string>
     <string name="app_store_url">https://play.google.com/store/apps/details?id=%1$s</string>
 
     <string name="play_service_url">market://details?id=com.google.android.gms</string>

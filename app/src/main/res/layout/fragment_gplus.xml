@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
     <data>
@@ -24,14 +25,15 @@
             android:id="@+id/people_photo_iv"
             android:layout_width="@dimen/user_thumbnail_preview"
             android:layout_height="@dimen/user_thumbnail_preview"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            app:civ_fill_color="?attr/colorPrimaryDark"/>
 
         <TextView
             android:id="@+id/people_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/small"
+            android:layout_marginTop="@dimen/medium"
             android:gravity="center"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"/>
@@ -42,8 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/small"
-            android:background="@drawable/selector_transparent_item_background"
+            android:layout_marginTop="@dimen/medium"
+            android:background="@drawable/selector_round_blue_gray_rectangle_item_background"
             android:gravity="center"
             android:onClick="@{clickHandler::onClick}"
             android:paddingBottom="@dimen/small"

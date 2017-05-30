@@ -151,7 +151,7 @@
             android:background="@color/colorWhite"
             android:fitsSystemWindows="true"
             android:theme="@style/NavDrawerItem"
-            app:headerLayout="@layout/nav_header"
+            app:headerLayout="@layout/layout_navigation_drawer_header"
             app:itemIconTint="@color/colorBlueGrey"
             app:itemTextColor="@color/colorBlueGrey"
             app:menu="@menu/menu_navigation_view"/>
