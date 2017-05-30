@@ -43,7 +43,7 @@
                     app:expandedTitleMarginEnd="@dimen/larger"
                     app:expandedTitleMarginStart="@dimen/larger"
                     app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Small"
-                    app:layout_scrollFlags="scroll"
+                    app:layout_scrollFlags="scroll|snap"
                     app:titleEnabled="false"
                     app:toolbarId="@+id/toolbar">
 

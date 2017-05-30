@@ -35,7 +35,7 @@
                 app:expandedTitleMarginEnd="@dimen/larger"
                 app:expandedTitleMarginStart="@dimen/larger"
                 app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:toolbarId="@+id/toolbar">
 
 
