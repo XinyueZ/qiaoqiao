@@ -36,6 +36,7 @@ import com.qiaoqiao.R;
 import com.qiaoqiao.databinding.ActivityConnectGoogleBinding;
 import com.qiaoqiao.utils.DeviceUtils;
 import com.qiaoqiao.utils.LL;
+import com.qiaoqiao.utils.SystemUiHelper;
 
 import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_DISPLAY_NAME;
 import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_ID;
@@ -82,11 +83,14 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0);
+		uiHelper.hide();
 		super.onCreate(savedInstanceState);
 		mVisible = false;
 		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		mBinding.setClickHandler(this);
-		mBinding.thumbIv.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_default_image));
+		mBinding.setUiHelper(uiHelper);
+		mBinding.thumbIv.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_people));
 		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height * (1 - 0.618f));
 		mBinding.googleLoginBtn.setSize(SignInButton.SIZE_WIDE);
 		mBinding.helloTv.setText(R.string.app_description);
@@ -101,6 +105,15 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 
 
 		mBinding.googleLoginBtn.setOnClickListener(this);
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		if (mBinding != null) {
+			mBinding.getUiHelper()
+			        .hide();
+		}
+		super.onWindowFocusChanged(hasFocus);
 	}
 
 	@Override
@@ -124,6 +137,8 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 					if (acct.getPhotoUrl() != null) {
 						Glide.with(getApplicationContext())
 						     .load(acct.getPhotoUrl())
+						     .error(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_people))
+						     .placeholder(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_people))
 						     .into(mBinding.thumbIv);
 						edit.putString(KEY_GOOGLE_PHOTO_URL,
 						               acct.getPhotoUrl()

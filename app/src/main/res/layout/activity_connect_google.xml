@@ -7,6 +7,10 @@
     <data>
 
         <variable
+            name="uiHelper"
+            type="com.qiaoqiao.utils.SystemUiHelper"/>
+
+        <variable
             name="clickHandler"
             type="android.view.View.OnClickListener"/>
     </data>
@@ -67,8 +71,7 @@
                         android:layout_width="@dimen/user_thumbnail_preview"
                         android:layout_height="@dimen/user_thumbnail_preview"
                         android:layout_gravity="center"
-                        app:civ_fill_color="?attr/colorPrimaryDark"
-                        app:srcCompat="@drawable/ic_default_image"/>
+                        app:civ_fill_color="@color/colorGrey"/>
 
                 </FrameLayout>
 

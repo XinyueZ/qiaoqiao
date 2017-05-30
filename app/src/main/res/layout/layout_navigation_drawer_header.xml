@@ -18,17 +18,13 @@
     android:id="@+id/gplus_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimaryDark"
-    android:paddingBottom="@dimen/larger"
-    android:paddingTop="@dimen/larger"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <fragment
         android:id="@+id/gplus_frg"
         android:name="com.qiaoqiao.core.splash.GPlusFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/larger"/>
+        android:layout_height="match_parent"/>
 
 
 </FrameLayout>

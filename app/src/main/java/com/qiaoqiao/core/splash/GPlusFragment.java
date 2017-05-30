@@ -3,6 +3,7 @@ package com.qiaoqiao.core.splash;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v7.content.res.AppCompatResources;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.PrefsKeys;
 import com.qiaoqiao.databinding.FragmentGplusBinding;
+import com.qiaoqiao.utils.DeviceUtils;
 
 import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_DISPLAY_NAME;
 import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_ID;
@@ -46,7 +48,17 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mBinding = FragmentGplusBinding.inflate(inflater, container, false);
 		mBinding.setClickHandler(this);
+		mBinding.peoplePhotoIv.setImageDrawable(AppCompatResources.getDrawable(getContext(), R.drawable.ic_people));
 		return mBinding.getRoot();
+	}
+
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		mBinding.getRoot()
+		        .getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(getContext()).Height * (1 - 0.618f));
+
+
 	}
 
 	private void signIn() {
@@ -75,19 +87,20 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		if (TextUtils.isEmpty(prefs.getString(PrefsKeys.KEY_GOOGLE_ID, null))) {
 			mBinding.btn.setText(R.string.login_google);
-			mBinding.peoplePhotoIv.setImageDrawable(AppCompatResources.getDrawable(getContext(), R.drawable.ic_default_image));
+			mBinding.getRoot()
+			        .setBackgroundResource(R.color.colorBlueGrey);
 		} else {
 			mBinding.btn.setText(R.string.logout_google);
 			String name = prefs.getString(PrefsKeys.KEY_GOOGLE_DISPLAY_NAME, null);
 			String thumbnailUrl = prefs.getString(KEY_GOOGLE_PHOTO_URL, null);
-
+			mBinding.getRoot()
+			        .setBackgroundResource(R.color.colorPrimary);
 			if (!TextUtils.isEmpty(thumbnailUrl)) {
 				Glide.with(this)
 				     .load(thumbnailUrl)
-				     .placeholder(AppCompatResources.getDrawable(getContext(), R.drawable.ic_default_image))
+				     .error(AppCompatResources.getDrawable(getContext(), R.drawable.ic_people))
+				     .placeholder(AppCompatResources.getDrawable(getContext(), R.drawable.ic_people))
 				     .into(mBinding.peoplePhotoIv);
-			} else {
-				mBinding.peoplePhotoIv.setImageDrawable(AppCompatResources.getDrawable(getContext(), R.drawable.ic_default_image));
 			}
 			if (!TextUtils.isEmpty(name)) {
 				mBinding.peopleNameTv.setText(name);

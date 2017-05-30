@@ -13,8 +13,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom|start"
+        android:layout_gravity="center"
         android:background="@color/colorTransparent"
+        android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="@dimen/larger"
         android:paddingRight="@dimen/larger"
@@ -26,7 +27,8 @@
             android:layout_width="@dimen/user_thumbnail_preview"
             android:layout_height="@dimen/user_thumbnail_preview"
             android:layout_gravity="center"
-            app:civ_fill_color="?attr/colorPrimaryDark"/>
+            android:layout_marginTop="@dimen/medium"
+            app:civ_fill_color="@color/colorGrey"/>
 
         <TextView
             android:id="@+id/people_name_tv"
@@ -44,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/medium"
+            android:layout_marginTop="@dimen/larger"
             android:background="@drawable/selector_round_blue_gray_rectangle_item_background"
             android:gravity="center"
             android:onClick="@{clickHandler::onClick}"

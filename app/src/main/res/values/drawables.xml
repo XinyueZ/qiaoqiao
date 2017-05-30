@@ -3,6 +3,7 @@
     <item name="ic_map" type="drawable">@drawable/ic_map_compat</item>
     <item name="ic_back" type="drawable">@drawable/ic_back_compat</item>
     <item name="ic_place" type="drawable">@drawable/ic_place_compat</item>
+    <item name="ic_people" type="drawable">@drawable/ic_people_compat</item>
     <item name="ic_history" type="drawable">@drawable/ic_history_compat</item>
     <item name="ic_capture" type="drawable">@drawable/ic_capture_compat</item>
     <item name="ic_cropped" type="drawable">@drawable/ic_cropped_compat</item>
