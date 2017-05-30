@@ -19,6 +19,7 @@
         android:id="@+id/connect_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/ic_launcher_background"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
@@ -37,19 +38,21 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll"
                 app:srcCompat="@mipmap/ic_launcher_round"/>
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/larger"
+            android:background="@color/colorWhite"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/larger"
                 android:background="@color/colorWhite"
                 android:orientation="vertical"
                 android:weightSum="3">
@@ -64,6 +67,7 @@
                         android:layout_width="@dimen/user_thumbnail_preview_pb"
                         android:layout_height="@dimen/user_thumbnail_preview_pb"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         app:srcCompat="@drawable/ic_animated_loading_pb"/>
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -79,13 +83,11 @@
                     android:id="@+id/hello_tv"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/larger"
+                    android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/larger"
                     android:layout_marginLeft="@dimen/larger"
                     android:layout_marginRight="@dimen/larger"
                     android:layout_marginStart="@dimen/larger"
-                    android:layout_marginTop="@dimen/larger"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -112,13 +114,12 @@
                     android:id="@+id/close_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center|top"
                     android:layout_marginBottom="@dimen/larger"
                     android:layout_marginEnd="@dimen/larger"
                     android:layout_marginLeft="@dimen/larger"
                     android:layout_marginRight="@dimen/larger"
                     android:layout_marginStart="@dimen/larger"
-                    android:layout_marginTop="@dimen/larger"
                     android:layout_weight="1"
                     android:background="@color/colorTransparent"
                     android:onClick="@{clickHandler::onClick}"

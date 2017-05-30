@@ -7,7 +7,8 @@
         android:layout_height="match_parent">
 
 
-        <FrameLayout android:id="@+id/crop_container"
+        <FrameLayout
+            android:id="@+id/crop_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -21,12 +22,13 @@
             <ImageView
                 android:id="@+id/crop_fb_pb"
                 style="@style/ButtonProgressBar"
-                app:srcCompat="@drawable/ic_animated_loading_pb"/>
+                app:srcCompat="@drawable/ic_animated_loading_small_pb"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/crop_fb"
                 style="@style/MainControlButton"
                 app:backgroundTint="@color/colorTealDark"
+                app:fabSize="mini"
                 app:srcCompat="@drawable/ic_cropped"/>
 
         </FrameLayout>

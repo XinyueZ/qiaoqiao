@@ -152,7 +152,6 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 					mBinding.closeBtn.setVisibility(View.VISIBLE);
 					Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
 					mBinding.closeBtn.startAnimation(shake);
-					mBinding.skipBtn.setVisibility(View.GONE);
 					firebaseAuthWithGoogle(acct);
 				}
 			}
@@ -160,6 +159,7 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 			mBinding.helloTv.setText(R.string.app_description);
 			mBinding.loginPb.setVisibility(View.GONE);
 			mBinding.googleLoginBtn.setVisibility(View.VISIBLE);
+			mBinding.skipBtn.setVisibility(View.VISIBLE);
 		}
 		final Drawable drawable = mBinding.loginPb.getDrawable();
 		if (drawable instanceof Animatable) {
@@ -178,6 +178,7 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 		if (drawable instanceof Animatable) {
 			((Animatable) drawable).start();
 		}
+		mBinding.skipBtn.setVisibility(View.GONE);
 		mBinding.helloTv.setText(R.string.connect_google);
 		startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient), REQ_SIGN_GOOGLE);
 	}

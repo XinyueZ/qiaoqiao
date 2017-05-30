@@ -77,6 +77,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	public void onLocatingError() {
 		Toast.makeText(getActivity(), R.string.locating_fail, Toast.LENGTH_LONG)
 		     .show();
+		mBinding.locatingControl.stopLocalProgressBar();
 	}
 
 
