@@ -41,6 +41,11 @@ public final class Confidence implements SeekBar.OnSeekBarChangeListener {
 		return new Confidence(cxt, key, prefs.getFloat(key, defaultValue));
 	}
 
+	public static float getValueOnly(@NonNull Context cxt, @NonNull String key, float defaultValue) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
+		return prefs.getFloat(key, defaultValue);
+	}
+
 	public void save(@NonNull Context cxt) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
 		final SharedPreferences.Editor edit = prefs.edit();
@@ -60,7 +65,7 @@ public final class Confidence implements SeekBar.OnSeekBarChangeListener {
 	}
 
 
-	private float getValue() {
+	public float getValue() {
 		return mValue;
 	}
 
