@@ -17,6 +17,10 @@
 package com.qiaoqiao.core.confidence;
 
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import com.qiaoqiao.core.confidence.ui.Confidence;
 import com.qiaoqiao.databinding.FragmentConfidenceDialogBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
@@ -27,10 +31,19 @@ import com.qiaoqiao.mvp.BaseView;
 public interface ConfidenceContract {
 	interface View extends BaseView<ConfidencePresenter, FragmentConfidenceDialogBinding> {
 		FragmentConfidenceDialogBinding getBinding();
+
+		void showLabelConfidence(@NonNull Confidence confidence);
+
+		void showLogoConfidence(@NonNull Confidence confidence);
+
+		void showImageConfidence(@NonNull Confidence confidence);
 	}
 
 
 	interface Presenter extends BasePresenter {
 
+		void loadAllConfidences(@NonNull Context cxt);
+
+		void save(@NonNull  Context context, @NonNull  String key, int progress);
 	}
 }

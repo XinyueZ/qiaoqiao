@@ -10,30 +10,18 @@
             name="seekBarChangeHandler"
             type="android.widget.SeekBar.OnSeekBarChangeListener"/>
 
-        <variable
-            name="thumbLabel"
-            type="com.amulyakhare.textdrawable.TextDrawable"/>
 
         <variable
-            name="thumbLogo"
-            type="com.amulyakhare.textdrawable.TextDrawable"/>
+            name="confidenceLabel"
+            type="com.qiaoqiao.core.confidence.ui.Confidence"/>
 
         <variable
-            name="thumbImage"
-            type="com.amulyakhare.textdrawable.TextDrawable"/>
-
-
-        <variable
-            name="cfLabel"
-            type="int"/>
+            name="confidenceLogo"
+            type="com.qiaoqiao.core.confidence.ui.Confidence"/>
 
         <variable
-            name="cfLogo"
-            type="int"/>
-
-        <variable
-            name="cfImage"
-            type="int"/>
+            name="confidenceImage"
+            type="com.qiaoqiao.core.confidence.ui.Confidence"/>
     </data>
 
     <LinearLayout
@@ -49,9 +37,7 @@
         <SeekBar
             android:id="@+id/confidence_label_value"
             style="@style/ConfidenceSeekBar"
-            android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
-            android:progress="@{cfLabel}"
-            bind:textThumb="@{thumbLabel}"/>
+            bind:confidence="@{confidenceLabel}"/>
 
         <TextView
             style="@style/ConfidenceTitle"
@@ -61,9 +47,7 @@
         <SeekBar
             android:id="@+id/confidence_logo_value"
             style="@style/ConfidenceSeekBar"
-            android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
-            android:progress="@{cfLogo}"
-            bind:textThumb="@{thumbLogo}"/>
+            bind:confidence="@{confidenceLogo}"/>
 
         <TextView
             style="@style/ConfidenceTitle"
@@ -73,8 +57,6 @@
         <SeekBar
             android:id="@+id/confidence_image_value"
             style="@style/ConfidenceSeekBar"
-            android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
-            android:progress="@{cfImage}"
-            bind:textThumb="@{thumbImage}"/>
+            bind:confidence="@{confidenceImage}"/>
     </LinearLayout>
 </layout>

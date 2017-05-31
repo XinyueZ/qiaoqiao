@@ -3,19 +3,13 @@ package com.qiaoqiao.core.confidence.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.Px;
-import android.support.v4.content.SharedPreferencesCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.support.v7.preference.PreferenceManager;
-import android.widget.SeekBar;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.confidence.ConfidenceContract;
 import com.qiaoqiao.core.confidence.ConfidencePresenter;
@@ -27,9 +21,8 @@ import static com.qiaoqiao.app.PrefsKeys.KEY_CONFIDENCE_LOGO;
 
 
 public final class ConfidenceDialogFragment extends AppCompatDialogFragment implements ConfidenceContract.View,
-                                                                                       SeekBar.OnSeekBarChangeListener,
                                                                                        DialogInterface.OnClickListener {
-	private ConfidenceContract.Presenter mPresenter;
+	private @Nullable ConfidenceContract.Presenter mPresenter;
 	private FragmentConfidenceDialogBinding mBinding;
 	private @Px static final int W = 95;
 	private @Px static final int H = 95;
@@ -43,16 +36,6 @@ public final class ConfidenceDialogFragment extends AppCompatDialogFragment impl
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		mBinding = FragmentConfidenceDialogBinding.inflate(getActivity().getLayoutInflater());
-		mBinding.setSeekBarChangeHandler(this);
-		final float cfLabel = readPrefs(KEY_CONFIDENCE_LABEL);
-		final float cfLogo = readPrefs(KEY_CONFIDENCE_LOGO);
-		final float cfImage = readPrefs(KEY_CONFIDENCE_IMAGE);
-		mBinding.setThumbLabel(createThumbDrawable(cfLabel));
-		mBinding.setThumbLogo(createThumbDrawable(cfLogo));
-		mBinding.setThumbImage(createThumbDrawable(cfImage));
-		mBinding.setCfLabel((int) ((cfLabel) * 100));
-		mBinding.setCfLogo((int) ((cfLogo) * 100));
-		mBinding.setCfImage((int) ((cfImage) * 100));
 		builder.setView(mBinding.getRoot())
 		       .setTitle(R.string.confidence_title)
 		       .setPositiveButton(android.R.string.ok, this)
@@ -61,28 +44,34 @@ public final class ConfidenceDialogFragment extends AppCompatDialogFragment impl
 		return builder.create();
 	}
 
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (mPresenter != null) {
+			mPresenter.loadAllConfidences(getContext());
+		}
+	}
+
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		writePrefs();
+		saveAllConfidences();
 	}
 
-	private void writePrefs() {
-		writePrefs(KEY_CONFIDENCE_LABEL, mBinding.confidenceLabelValue.getProgress());
-		writePrefs(KEY_CONFIDENCE_LOGO, mBinding.confidenceLogoValue.getProgress());
-		writePrefs(KEY_CONFIDENCE_IMAGE, mBinding.confidenceImageValue.getProgress());
+
+	@Override
+	public void showLabelConfidence(@NonNull Confidence confidence) {
+		mBinding.setConfidenceLabel(confidence);
 	}
 
-	private void writePrefs(@NonNull String key, int value) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-		final SharedPreferences.Editor edit = prefs.edit();
-		edit.putFloat(key, value / 100.f);
-		SharedPreferencesCompat.EditorCompat.getInstance()
-		                                    .apply(edit);
+	@Override
+	public void showLogoConfidence(@NonNull Confidence confidence) {
+		mBinding.setConfidenceLogo(confidence);
 	}
 
-	private float readPrefs(@NonNull String key) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-		return prefs.getFloat(key, 0.f);
+	@Override
+	public void showImageConfidence(@NonNull Confidence confidence) {
+		mBinding.setConfidenceImage(confidence);
 	}
 
 	@Override
@@ -95,33 +84,14 @@ public final class ConfidenceDialogFragment extends AppCompatDialogFragment impl
 		return mBinding;
 	}
 
-	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//		TextDrawable textDrawable = (TextDrawable) seekBar.getThumb();
-//		textDrawable.
-		seekBar.setThumb(createThumbDrawable(progress / 100.f));
-
-	}
-
-	private TextDrawable createThumbDrawable(float progress) {
-		final Resources resources = getResources();
-		return TextDrawable.builder()
-		                   .beginConfig()
-		                   .width(W)
-		                   .height(H)
-		                   .textColor(ResourcesCompat.getColor(resources, R.color.colorYellow, null))
-		                   .endConfig()
-		                   .buildRound(String.valueOf(progress), ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null));
-	}
-
-	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
-
-	}
-
-	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
-
+	private void saveAllConfidences() {
+		if (mPresenter == null) {
+			return;
+		}
+		final Context context = getContext();
+		mPresenter.save(context, KEY_CONFIDENCE_LABEL, mBinding.confidenceLabelValue.getProgress());
+		mPresenter.save(context, KEY_CONFIDENCE_LOGO, mBinding.confidenceLogoValue.getProgress());
+		mPresenter.save(context, KEY_CONFIDENCE_IMAGE, mBinding.confidenceImageValue.getProgress());
 	}
 }
 
