@@ -17,4 +17,5 @@
     <dimen name="custom_profile_image">55dp</dimen>
     <dimen name="custom_profile_padding">2dp</dimen>
     <dimen name="circle_padding">-7dp</dimen>
+    <dimen name="seek_bar_thumb_size">30dp</dimen>
 </resources>

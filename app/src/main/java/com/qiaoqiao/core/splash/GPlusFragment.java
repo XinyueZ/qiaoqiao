@@ -20,6 +20,9 @@ import com.qiaoqiao.app.PrefsKeys;
 import com.qiaoqiao.databinding.FragmentGplusBinding;
 import com.qiaoqiao.utils.DeviceUtils;
 
+import static com.qiaoqiao.app.PrefsKeys.DEFAULT_GOOGLE_DISPLAY_NAME;
+import static com.qiaoqiao.app.PrefsKeys.DEFAULT_GOOGLE_ID;
+import static com.qiaoqiao.app.PrefsKeys.DEFAULT_GOOGLE_PHOTO_URL;
 import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_DISPLAY_NAME;
 import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_ID;
 import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_PHOTO_URL;
@@ -68,9 +71,9 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 	private void signOut() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		final SharedPreferences.Editor edit = prefs.edit();
-		edit.putString(KEY_GOOGLE_ID, null);
-		edit.putString(KEY_GOOGLE_PHOTO_URL, null);
-		edit.putString(KEY_GOOGLE_DISPLAY_NAME, null);
+		edit.putString(KEY_GOOGLE_ID, DEFAULT_GOOGLE_ID);
+		edit.putString(KEY_GOOGLE_PHOTO_URL, DEFAULT_GOOGLE_PHOTO_URL);
+		edit.putString(KEY_GOOGLE_DISPLAY_NAME, DEFAULT_GOOGLE_DISPLAY_NAME);
 		SharedPreferencesCompat.EditorCompat.getInstance()
 		                                    .apply(edit);
 		ConnectGoogleActivity.showInstance(getActivity(), true);
@@ -85,7 +88,7 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 
 	private void showUIStatus() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-		if (TextUtils.isEmpty(prefs.getString(PrefsKeys.KEY_GOOGLE_ID, null))) {
+		if (TextUtils.isEmpty(prefs.getString(PrefsKeys.KEY_GOOGLE_ID, DEFAULT_GOOGLE_ID))) {
 			mBinding.btn.setText(R.string.login_google);
 			mBinding.getRoot()
 			        .setBackgroundResource(R.color.colorBlueGrey);
@@ -116,7 +119,7 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 			case R.id.btn:
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-				if (TextUtils.isEmpty(prefs.getString(PrefsKeys.KEY_GOOGLE_ID, null))) {
+				if (TextUtils.isEmpty(prefs.getString(PrefsKeys.KEY_GOOGLE_ID, DEFAULT_GOOGLE_ID))) {
 					signIn();
 				} else {
 					signOut();

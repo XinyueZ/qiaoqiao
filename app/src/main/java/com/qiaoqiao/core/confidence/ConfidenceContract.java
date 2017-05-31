@@ -44,6 +44,7 @@ public interface ConfidenceContract {
 
 		void loadAllConfidences(@NonNull Context cxt);
 
-		void save(@NonNull  Context context, @NonNull  String key, int progress);
+		@NonNull
+		Presenter save(@NonNull Context context, @NonNull Confidence onSaveItem);
 	}
 }

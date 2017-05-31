@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.Px;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
@@ -15,17 +14,11 @@ import com.qiaoqiao.core.confidence.ConfidenceContract;
 import com.qiaoqiao.core.confidence.ConfidencePresenter;
 import com.qiaoqiao.databinding.FragmentConfidenceDialogBinding;
 
-import static com.qiaoqiao.app.PrefsKeys.KEY_CONFIDENCE_IMAGE;
-import static com.qiaoqiao.app.PrefsKeys.KEY_CONFIDENCE_LABEL;
-import static com.qiaoqiao.app.PrefsKeys.KEY_CONFIDENCE_LOGO;
-
 
 public final class ConfidenceDialogFragment extends AppCompatDialogFragment implements ConfidenceContract.View,
                                                                                        DialogInterface.OnClickListener {
 	private @Nullable ConfidenceContract.Presenter mPresenter;
 	private FragmentConfidenceDialogBinding mBinding;
-	private @Px static final int W = 95;
-	private @Px static final int H = 95;
 
 	public static ConfidenceDialogFragment newInstance(@NonNull Context cxt) {
 		return (ConfidenceDialogFragment) ConfidenceDialogFragment.instantiate(cxt, ConfidenceDialogFragment.class.getName());
@@ -89,9 +82,15 @@ public final class ConfidenceDialogFragment extends AppCompatDialogFragment impl
 			return;
 		}
 		final Context context = getContext();
-		mPresenter.save(context, KEY_CONFIDENCE_LABEL, mBinding.confidenceLabelValue.getProgress());
-		mPresenter.save(context, KEY_CONFIDENCE_LOGO, mBinding.confidenceLogoValue.getProgress());
-		mPresenter.save(context, KEY_CONFIDENCE_IMAGE, mBinding.confidenceImageValue.getProgress());
+		mPresenter.save(context,
+		                mBinding.getConfidenceLabel()
+		                        .setValue(mBinding.confidenceLabelValue.getProgress() / 100.0f))
+		          .save(context,
+		                mBinding.getConfidenceLogo()
+		                        .setValue(mBinding.confidenceLogoValue.getProgress() / 100.0f))
+		          .save(context,
+		                mBinding.getConfidenceImage()
+		                        .setValue(mBinding.confidenceImageValue.getProgress() / 100.0f));
 	}
 }
 
