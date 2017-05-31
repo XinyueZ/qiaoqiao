@@ -22,6 +22,7 @@ public final class LocatingControlView extends FrameLayout {
 
 	public interface OnFromLocalClickedListener extends OnClickListener {}
 
+	public interface OnAdjustClickedListener extends OnClickListener {}
 
 	public LocatingControlView(Context context) {
 		super(context);
@@ -75,6 +76,15 @@ public final class LocatingControlView extends FrameLayout {
 
 	public void setOnFromLocalClickedListener(@Nullable OnFromLocalClickedListener l) {
 		mBinding.fromLocalFb.setOnClickListener(v -> {
+			mVibrator.vibrate(VIB_LNG);
+			if (l != null) {
+				l.onClick(v);
+			}
+		});
+	}
+
+	public void setOnAdjustClickedListener(@Nullable OnAdjustClickedListener l) {
+		mBinding.fromAdjustFb.setOnClickListener(v -> {
 			mVibrator.vibrate(VIB_LNG);
 			if (l != null) {
 				l.onClick(v);

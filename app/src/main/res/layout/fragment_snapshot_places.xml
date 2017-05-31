@@ -29,6 +29,30 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_margin="@dimen/larger"/>
+
+
+        <FrameLayout
+            android:id="@+id/adjust_fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/larger"
+            android:background="@color/colorBlueGrey80"
+            android:paddingBottom="@dimen/medium"
+            android:paddingLeft="@dimen/larger"
+            android:paddingRight="@dimen/larger"
+            android:paddingTop="@dimen/medium"
+            android:visibility="gone">
+
+            <SeekBar
+                android:id="@+id/adjust_radius_sb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="10000"
+                android:progress="10"
+                />
+
+        </FrameLayout>
     </FrameLayout>
 
 </layout>

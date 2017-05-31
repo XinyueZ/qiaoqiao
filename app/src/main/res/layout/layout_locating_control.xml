@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="2">
 
         <FrameLayout
             style="@style/ButtonContainer">
@@ -25,6 +25,24 @@
                 app:backgroundTint="@color/colorTealDark"
                 app:fabSize="mini"
                 app:srcCompat="@drawable/ic_locating"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            style="@style/ButtonContainer">
+
+
+            <ImageView
+                android:id="@+id/from_adjust_fb_pb"
+                style="@style/ButtonProgressBar"
+                app:srcCompat="@drawable/ic_animated_loading_small_pb"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/from_adjust_fb"
+                style="@style/MainControlButton"
+                app:backgroundTint="@color/colorPink"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_adjust"/>
 
         </FrameLayout>
 

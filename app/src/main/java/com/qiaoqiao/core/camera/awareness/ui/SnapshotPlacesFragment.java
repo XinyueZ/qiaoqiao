@@ -29,8 +29,12 @@ import com.qiaoqiao.databinding.PlacesBinding;
 
 import java.util.List;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public final class SnapshotPlacesFragment extends Fragment implements AwarenessContract.View,
-                                                                      OnMapReadyCallback {
+                                                                      OnMapReadyCallback,
+                                                                      GoogleMap.OnMapClickListener {
 	public static final int REQ_SETTING_LOCATING = 0x78;
 	private static final int LAYOUT = R.layout.fragment_snapshot_places;
 	private @Nullable AwarenessContract.Presenter mPresenter;
@@ -46,7 +50,15 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		mBinding = DataBindingUtil.inflate(inflater, LAYOUT, container, false);
 		mBinding.locatingControl.setOnFromLocalClickedListener(v -> locating());
+		mBinding.locatingControl.setOnAdjustClickedListener(v -> handleAdjustUI());
+
 		return mBinding.getRoot();
+	}
+
+	private void handleAdjustUI() {
+		mBinding.adjustFl.setVisibility(mBinding.adjustFl.getVisibility() != VISIBLE ?
+		                                VISIBLE :
+		                                GONE);
 	}
 
 	@Override
@@ -90,6 +102,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		mGoogleMap = googleMap;
+		mGoogleMap.setOnMapClickListener(this);
 		mGoogleMap.getUiSettings()
 		          .setMapToolbarEnabled(false);
 		mGoogleMap.getUiSettings()
@@ -114,8 +127,12 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	@Override
 	public void onLocated(@NonNull LatLng latLng) {
 		if (mGoogleMap != null) {
-			if(isDetached()) return;
-			if(!isAdded()) return;
+			if (isDetached()) {
+				return;
+			}
+			if (!isAdded()) {
+				return;
+			}
 			mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, getResources().getInteger(R.integer.zoom)));
 		} else {
 			final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -151,8 +168,23 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		}
 		ClusterManager.showGeosearch(getActivity(), mGoogleMap, clusterItemList);
 		mBinding.locatingControl.stopLocalProgressBar();
-		if(isDetached()) return;
-		if(!isAdded()) return;
+		if (isDetached()) {
+			return;
+		}
+		if (!isAdded()) {
+			return;
+		}
 		mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(getResources().getInteger(R.integer.zoom) + 3));
+	}
+
+	@Override
+	public void onMapClick(LatLng latLng) {
+		dismissAdjust();
+	}
+
+	private void dismissAdjust() {
+		if (mBinding.adjustFl.getVisibility() == VISIBLE) {
+			mBinding.adjustFl.setVisibility(GONE);
+		}
 	}
 }
