@@ -13,12 +13,27 @@
         <variable
             name="thumbLabel"
             type="com.amulyakhare.textdrawable.TextDrawable"/>
+
         <variable
             name="thumbLogo"
             type="com.amulyakhare.textdrawable.TextDrawable"/>
+
         <variable
             name="thumbImage"
             type="com.amulyakhare.textdrawable.TextDrawable"/>
+
+
+        <variable
+            name="cfLabel"
+            type="int"/>
+
+        <variable
+            name="cfLogo"
+            type="int"/>
+
+        <variable
+            name="cfImage"
+            type="int"/>
     </data>
 
     <LinearLayout
@@ -35,6 +50,7 @@
             android:id="@+id/confidence_label_value"
             style="@style/ConfidenceSeekBar"
             android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
+            android:progress="@{cfLabel}"
             bind:textThumb="@{thumbLabel}"/>
 
         <TextView
@@ -46,6 +62,7 @@
             android:id="@+id/confidence_logo_value"
             style="@style/ConfidenceSeekBar"
             android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
+            android:progress="@{cfLogo}"
             bind:textThumb="@{thumbLogo}"/>
 
         <TextView
@@ -57,6 +74,7 @@
             android:id="@+id/confidence_image_value"
             style="@style/ConfidenceSeekBar"
             android:onProgressChanged="@{seekBarChangeHandler::onProgressChanged}"
+            android:progress="@{cfImage}"
             bind:textThumb="@{thumbImage}"/>
     </LinearLayout>
 </layout>
