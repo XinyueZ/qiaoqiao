@@ -3,13 +3,17 @@ package com.qiaoqiao.core.camera.awareness;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.SharedPreferencesCompat;
+import android.support.v7.preference.PreferenceManager;
 
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.common.ConnectionResult;
@@ -44,6 +48,9 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.qiaoqiao.app.PrefsKeys.DEFAULT_GEOSEARCH_RADIUS;
+import static com.qiaoqiao.app.PrefsKeys.KEY_GEOSEARCH_RADIUS;
 
 public final class AwarenessPresenter implements AwarenessContract.Presenter,
                                                  GoogleApiClient.OnConnectionFailedListener,
@@ -140,7 +147,8 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	@Override
 	public void searchAndSearch(@NonNull Context cxt, @NonNull LatLng latLng) {
 		Reference<Context> cxtRef = new WeakReference<>(cxt);
-		mDsRepository.onGeosearchQuery(latLng, new DsLoadedCallback() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
+		mDsRepository.onGeosearchQuery(latLng, prefs.getLong(KEY_GEOSEARCH_RADIUS, DEFAULT_GEOSEARCH_RADIUS), new DsLoadedCallback() {
 			@Override
 			public void onGeosearchResponse(GeoResult result) {
 				super.onGeosearchResponse(result);
@@ -208,5 +216,14 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 				photoMetadataBuffer.release();
 			}
 		}
+	}
+
+	@Override
+	public void setGeosearchRadius(@Nullable Context cxt, @IntRange(from = 10L, to = 10000L) long radius) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
+		final SharedPreferences.Editor edit = prefs.edit();
+		edit.putFloat(KEY_GEOSEARCH_RADIUS, radius);
+		SharedPreferencesCompat.EditorCompat.getInstance()
+		                                    .apply(edit);
 	}
 }

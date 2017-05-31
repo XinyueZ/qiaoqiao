@@ -18,7 +18,9 @@ package com.qiaoqiao.core.camera.awareness;
 
 
 import android.content.Context;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -55,6 +57,8 @@ public interface AwarenessContract {
 
 		void settingLocating();
 
-		void searchAndSearch(@NonNull  Context cxt, @NonNull LatLng latLng);
+		void searchAndSearch(@NonNull Context cxt, @NonNull LatLng latLng);
+
+		void setGeosearchRadius(@Nullable Context cxt, @IntRange(from = 10L, to = 10000L) long radius);
 	}
 }

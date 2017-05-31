@@ -63,7 +63,7 @@ public abstract class AbstractDsSource {
 
 	}
 
-	public void onGeosearchQuery(@NonNull LatLng latLng, @NonNull DsLoadedCallback callback) {
+	public void onGeosearchQuery(@NonNull LatLng latLng, long radius, @NonNull DsLoadedCallback callback) {
 
 	}
 

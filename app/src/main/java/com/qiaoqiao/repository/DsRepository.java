@@ -56,8 +56,8 @@ public final class DsRepository extends AbstractDsSource {
 	}
 
 	@Override
-	public void onGeosearchQuery(@NonNull LatLng latLng, @NonNull DsLoadedCallback callback) {
-		mKnowledgeRemoteDs.onGeosearchQuery(latLng, callback);
+	public void onGeosearchQuery(@NonNull LatLng latLng, long radius, @NonNull DsLoadedCallback callback) {
+		mKnowledgeRemoteDs.onGeosearchQuery(latLng, radius, callback);
 	}
 
 	@Override

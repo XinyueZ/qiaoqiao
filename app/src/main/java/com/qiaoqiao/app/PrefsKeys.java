@@ -16,4 +16,7 @@ public interface PrefsKeys {
 	float DEFAULT_CONFIDENCE_LABEL = 0.9f;
 	float DEFAULT_CONFIDENCE_LOGO = 0.9f;
 	float DEFAULT_CONFIDENCE_IMAGE = 0.5f;
+
+	String KEY_GEOSEARCH_RADIUS = "geosearchRadius";
+	long DEFAULT_GEOSEARCH_RADIUS = 500L;
 }

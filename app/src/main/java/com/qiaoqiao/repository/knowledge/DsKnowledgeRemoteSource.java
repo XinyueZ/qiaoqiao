@@ -100,10 +100,10 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 	}
 
 	@Override
-	public void onGeosearchQuery(@NonNull LatLng latLng, @NonNull DsLoadedCallback callback) {
+	public void onGeosearchQuery(@NonNull LatLng latLng, long radius, @NonNull DsLoadedCallback callback) {
 		String geoLoc = String.format("%s|%s", latLng.latitude + "", latLng.longitude + "");
 		getWikipedia().getGeosearch(wikiGeosearch(Locale.getDefault()
-		                                                            .getLanguage(), geoLoc))
+		                                                .getLanguage(), radius, geoLoc))
 		              .subscribeOn(Schedulers.io())
 		              .observeOn(AndroidSchedulers.mainThread())
 		              .subscribe(result1 -> {
@@ -134,14 +134,14 @@ public final class DsKnowledgeRemoteSource extends AbstractDsSource {
 	}
 
 	private @NonNull
-	String wikiGeosearch(@NonNull String lang, @NonNull String keyword) {
-		return wikiHost(lang) + wikiGeosearch(keyword);
+	String wikiGeosearch(@NonNull String lang, long radius, @NonNull String keyword) {
+		return wikiHost(lang) + wikiGeosearch(radius, keyword);
 	}
 
 
 	private @NonNull
-	String wikiGeosearch(@NonNull String keyword) {
-		return "/w/api.php?format=json&action=query&list=geosearch&gsradius=500&gslimit=max&gscoord=" + keyword;
+	String wikiGeosearch(long radius, @NonNull String keyword) {
+		return "/w/api.php?format=json&action=query&list=geosearch&gsradius=" + radius + "&gslimit=max&gscoord=" + keyword;
 	}
 
 }
