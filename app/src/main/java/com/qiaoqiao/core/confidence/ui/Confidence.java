@@ -14,12 +14,20 @@ import com.qiaoqiao.R;
 
 public final class Confidence implements SeekBar.OnSeekBarChangeListener {
 	private float mValue;
-	private String mKey;
+	private final String mKey;
+	private final int mThumbWidth;
+	private final int mThumbHeight;
+	private final int mTextColor;
+	private final int mThumbColor;
 
-
-	private Confidence(@NonNull String key, float value) {
+	private Confidence(@NonNull Context cxt, @NonNull String key, float value) {
 		mValue = value;
 		mKey = key;
+		Resources resources = cxt.getResources();
+		mThumbWidth = resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size);
+		mThumbHeight = resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size);
+		mTextColor = ResourcesCompat.getColor(resources, R.color.colorYellow, null);
+		mThumbColor = ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null);
 	}
 
 	public @NonNull
@@ -30,7 +38,7 @@ public final class Confidence implements SeekBar.OnSeekBarChangeListener {
 
 	public static Confidence createFromPrefs(@NonNull Context cxt, @NonNull String key, float defaultValue) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
-		return new Confidence(key, prefs.getFloat(key, defaultValue));
+		return new Confidence(cxt, key, prefs.getFloat(key, defaultValue));
 	}
 
 	public void save(@NonNull Context cxt) {
@@ -41,21 +49,18 @@ public final class Confidence implements SeekBar.OnSeekBarChangeListener {
 		                                    .apply(edit);
 	}
 
-	private TextDrawable createThumbDrawable(@NonNull Context cxt) {
-		final Resources resources = cxt.getResources();
-		int w  = resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size);
-		int h  = resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size);
+	private TextDrawable createThumbDrawable() {
 		return TextDrawable.builder()
 		                   .beginConfig()
-		                   .width(w)
-		                   .height(h)
-		                   .textColor(ResourcesCompat.getColor(resources, R.color.colorYellow, null))
+		                   .width(mThumbWidth)
+		                   .height(mThumbHeight)
+		                   .textColor(mTextColor)
 		                   .endConfig()
-		                   .buildRound(String.valueOf(mValue), ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null));
+		                   .buildRound(String.valueOf(mValue), mThumbColor);
 	}
 
 
-	public float getValue() {
+	private float getValue() {
 		return mValue;
 	}
 
@@ -63,15 +68,11 @@ public final class Confidence implements SeekBar.OnSeekBarChangeListener {
 		return ((int) (getValue() * 100));
 	}
 
-	public String getKey() {
-		return mKey;
-	}
-
 
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		mValue = progress / 100.0f;
-		seekBar.setThumb(createThumbDrawable(seekBar.getContext()));
+		seekBar.setThumb(createThumbDrawable());
 	}
 
 	@Override
