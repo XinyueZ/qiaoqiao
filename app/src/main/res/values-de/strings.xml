@@ -41,7 +41,7 @@
     <string name="connect_google">Melde mich an Google…</string>
     <string name="connect_google_fail">Kann nicht an Google binden.</string>
     <string name="login_google">Anmelden</string>
-    <string name="logout_google">Ausmelden</string>
+    <string name="logout_google">Abmelden</string>
     <string name="connect_successfully">Willkommen %s!</string>
     <string name="connect_ignore">Spät</string>
 </resources>
