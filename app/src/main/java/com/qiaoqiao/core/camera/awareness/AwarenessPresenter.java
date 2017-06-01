@@ -222,8 +222,14 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	public void setGeosearchRadius(@Nullable Context cxt, @IntRange(from = 10L, to = 10000L) long radius) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
 		final SharedPreferences.Editor edit = prefs.edit();
-		edit.putFloat(KEY_GEOSEARCH_RADIUS, radius);
+		edit.putLong(KEY_GEOSEARCH_RADIUS, radius);
 		SharedPreferencesCompat.EditorCompat.getInstance()
 		                                    .apply(edit);
+	}
+
+	@Override
+	public long loadGeosearchAdjust(@NonNull  Context cxt) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
+		return prefs.getLong(KEY_GEOSEARCH_RADIUS, DEFAULT_GEOSEARCH_RADIUS);
 	}
 }

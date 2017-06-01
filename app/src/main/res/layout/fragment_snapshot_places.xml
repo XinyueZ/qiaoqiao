@@ -3,7 +3,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <data class="PlacesBinding"></data>
+    <data class="PlacesBinding">
+
+        <variable
+            name="seekBarListener"
+            type="android.widget.SeekBar.OnSeekBarChangeListener"/>
+    </data>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -39,8 +44,6 @@
             android:layout_margin="@dimen/larger"
             android:background="@color/colorBlueGrey80"
             android:paddingBottom="@dimen/medium"
-            android:paddingLeft="@dimen/larger"
-            android:paddingRight="@dimen/larger"
             android:paddingTop="@dimen/medium"
             android:visibility="gone">
 
@@ -49,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="10000"
+                android:onProgressChanged="@{seekBarListener::onProgressChanged}"
                 android:progress="10"
                 />
 

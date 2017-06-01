@@ -60,5 +60,7 @@ public interface AwarenessContract {
 		void searchAndSearch(@NonNull Context cxt, @NonNull LatLng latLng);
 
 		void setGeosearchRadius(@Nullable Context cxt, @IntRange(from = 10L, to = 10000L) long radius);
+
+		long loadGeosearchAdjust(@NonNull  Context cxt);
 	}
 }

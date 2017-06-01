@@ -4,17 +4,21 @@ import android.Manifest;
 import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,21 +38,38 @@ import static android.view.View.VISIBLE;
 
 public final class SnapshotPlacesFragment extends Fragment implements AwarenessContract.View,
                                                                       OnMapReadyCallback,
-                                                                      GoogleMap.OnMapClickListener {
+                                                                      GoogleMap.OnMapClickListener,
+                                                                      SeekBar.OnSeekBarChangeListener {
 	public static final int REQ_SETTING_LOCATING = 0x78;
 	private static final int LAYOUT = R.layout.fragment_snapshot_places;
 	private @Nullable AwarenessContract.Presenter mPresenter;
 	private PlacesBinding mBinding;
 	private @Nullable GoogleMap mGoogleMap;
 
+	private int mThumbWidth;
+	private int mThumbHeight;
+	private int mTextColor;
+	private int mThumbColor;
+
 	public static SnapshotPlacesFragment newInstance(@NonNull Context cxt) {
 		return (SnapshotPlacesFragment) SnapshotPlacesFragment.instantiate(cxt, SnapshotPlacesFragment.class.getName());
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Resources resources = getContext().getResources();
+		mThumbWidth = resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size);
+		mThumbHeight = resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size);
+		mTextColor = ResourcesCompat.getColor(resources, R.color.colorYellow, null);
+		mThumbColor = ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null);
 	}
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		mBinding = DataBindingUtil.inflate(inflater, LAYOUT, container, false);
+		mBinding.setSeekBarListener(this);
 		mBinding.locatingControl.setOnFromLocalClickedListener(v -> locating());
 		mBinding.locatingControl.setOnAdjustClickedListener(v -> handleAdjustUI());
 
@@ -59,7 +80,13 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		mBinding.adjustFl.setVisibility(mBinding.adjustFl.getVisibility() != VISIBLE ?
 		                                VISIBLE :
 		                                GONE);
+		if (mBinding.adjustFl.getVisibility() == VISIBLE && mPresenter != null) {
+			final int progress = (int) mPresenter.loadGeosearchAdjust(getContext());
+			mBinding.adjustRadiusSb.setProgress(progress);
+			mBinding.adjustRadiusSb.setThumb(createThumbDrawable(progress));
+		}
 	}
+
 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -186,5 +213,34 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		if (mBinding.adjustFl.getVisibility() == VISIBLE) {
 			mBinding.adjustFl.setVisibility(GONE);
 		}
+	}
+
+	private TextDrawable createThumbDrawable(long value) {
+		return TextDrawable.builder()
+		                   .beginConfig()
+		                   .width(mThumbWidth)
+		                   .height(mThumbHeight)
+		                   .textColor(mTextColor)
+		                   .endConfig()
+		                   .buildRound(String.valueOf(value), mThumbColor);
+	}
+
+	@Override
+	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+		mBinding.adjustRadiusSb.setThumb(createThumbDrawable(progress));
+		if (mPresenter == null) {
+			return;
+		}
+		mPresenter.setGeosearchRadius(getContext(), progress);
+	}
+
+	@Override
+	public void onStartTrackingTouch(SeekBar seekBar) {
+
+	}
+
+	@Override
+	public void onStopTrackingTouch(SeekBar seekBar) {
+
 	}
 }
