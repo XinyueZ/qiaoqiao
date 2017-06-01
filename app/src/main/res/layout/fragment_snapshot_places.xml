@@ -36,16 +36,30 @@
             android:layout_margin="@dimen/larger"/>
 
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/adjust_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/larger"
-            android:background="@color/colorBlueGrey80"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginEnd="@dimen/small"
+            android:layout_marginLeft="@dimen/small"
+            android:layout_marginRight="@dimen/small"
+            android:layout_marginStart="@dimen/small"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="@drawable/selector_round_brown_rectangle_item_background"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/medium"
             android:paddingTop="@dimen/medium"
             android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|start"
+                android:layout_marginLeft="@dimen/small"
+                android:layout_marginStart="@dimen/small"
+                android:text="@string/radius_meter"
+                android:textColor="@color/colorYellow"/>
 
             <SeekBar
                 android:id="@+id/adjust_radius_sb"
@@ -56,7 +70,7 @@
                 android:progress="10"
                 />
 
-        </FrameLayout>
+        </LinearLayout>
     </FrameLayout>
 
 </layout>
