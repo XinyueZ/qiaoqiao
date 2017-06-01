@@ -212,6 +212,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	private void dismissAdjust() {
 		if (mBinding.adjustFl.getVisibility() == VISIBLE) {
 			mBinding.adjustFl.setVisibility(GONE);
+			locating();
 		}
 	}
 
