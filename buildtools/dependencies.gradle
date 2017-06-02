@@ -116,6 +116,7 @@ ext {
             //Firebase
             fireAuth        : [group: "com.google.firebase", name: "firebase-auth", version: firebase],
             fireInvite      : [group: "com.google.firebase", name: "firebase-invites", version: firebase],
+            fireDatabase    : [group: "com.google.firebase", name: "firebase-database", version: firebase],
 
             //text-drawable
             textDrawable    : [group: "com.amulyakhare", name: "com.amulyakhare.textdrawable", version: textDrawable],
@@ -217,6 +218,7 @@ ext {
             //Firebase
             [configuration: "compile", dependency: libs.fireAuth],
             [configuration: "compile", dependency: libs.fireInvite],
+            [configuration: "compile", dependency: libs.fireDatabase],
 
             //Text-drawable
             [configuration: "compile", dependency: libs.textDrawable],
