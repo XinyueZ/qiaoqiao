@@ -232,7 +232,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		if (mPresenter == null) {
 			return;
 		}
-		mPresenter.setGeosearchRadius(getContext(), progress);
+		mPresenter.setGeosearchRadius(getContext(), progress == 0 ? 500 : progress);
 	}
 
 	@Override
