@@ -7,7 +7,7 @@ import android.widget.SeekBar;
 public final class BindingAdapter {
 
 	@android.databinding.BindingAdapter({ "bind:confidence" })
-	public static void setSeekBar(@NonNull SeekBar seekBar, @NonNull Confidence confidence) {
+	public static void setConfidenceSeekBar(@NonNull SeekBar seekBar, @NonNull Confidence confidence) {
 		if (confidence.getIntValue() == 0) {
 			confidence.onProgressChanged(seekBar, 0, false);
 		}
