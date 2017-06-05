@@ -15,7 +15,6 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -38,8 +37,7 @@ import static android.view.View.VISIBLE;
 
 public final class SnapshotPlacesFragment extends Fragment implements AwarenessContract.View,
                                                                       OnMapReadyCallback,
-                                                                      GoogleMap.OnMapClickListener,
-                                                                      SeekBar.OnSeekBarChangeListener {
+                                                                      GoogleMap.OnMapClickListener {
 	public static final int REQ_SETTING_LOCATING = 0x78;
 	private static final int LAYOUT = R.layout.fragment_snapshot_places;
 	private @Nullable AwarenessContract.Presenter mPresenter;
@@ -69,24 +67,11 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		mBinding = DataBindingUtil.inflate(inflater, LAYOUT, container, false);
-		mBinding.setSeekBarListener(this);
 		mBinding.locatingControl.setOnFromLocalClickedListener(v -> locating());
 		mBinding.locatingControl.setOnAdjustClickedListener(v -> handleAdjustUI());
 
 		return mBinding.getRoot();
 	}
-
-	private void handleAdjustUI() {
-		mBinding.adjustFl.setVisibility(mBinding.adjustFl.getVisibility() != VISIBLE ?
-		                                VISIBLE :
-		                                GONE);
-		if (mBinding.adjustFl.getVisibility() == VISIBLE && mPresenter != null) {
-			final int progress = (int) mPresenter.loadGeosearchAdjust(getContext());
-			mBinding.adjustRadiusSb.setProgress(progress);
-			mBinding.adjustRadiusSb.setThumb(createThumbDrawable(progress));
-		}
-	}
-
 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -226,22 +211,18 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		                   .buildRound(String.valueOf(value), mThumbColor);
 	}
 
-	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		mBinding.adjustRadiusSb.setThumb(createThumbDrawable(progress));
-		if (mPresenter == null) {
-			return;
+
+	private void handleAdjustUI() {
+		mBinding.adjustFl.setVisibility(mBinding.adjustFl.getVisibility() != VISIBLE ?
+		                                VISIBLE :
+		                                GONE);
+		if (mBinding.adjustFl.getVisibility() == VISIBLE && mPresenter != null) {
+			mPresenter.loadGeosearchAdjust(getContext());
 		}
-		mPresenter.setGeosearchRadius(getContext(), progress == 0 ? 500 : progress);
 	}
 
 	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
-
-	}
-
-	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
-
+	public void showAdjust(@NonNull Adjust adjust) {
+		mBinding.setAdjust(adjust);
 	}
 }

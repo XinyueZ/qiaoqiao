@@ -18,13 +18,12 @@ package com.qiaoqiao.core.camera.awareness;
 
 
 import android.content.Context;
-import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
+import com.qiaoqiao.core.camera.awareness.ui.Adjust;
 import com.qiaoqiao.databinding.PlacesBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
@@ -50,6 +49,8 @@ public interface AwarenessContract {
 		void solveSettingLocatingDialogProblem(@NonNull Status status);
 
 		void showAllGeoAndPlaces(@NonNull List<ClusterItem> clusterItemList);
+
+		void showAdjust(@NonNull  Adjust adjust);
 	}
 
 	interface Presenter extends BasePresenter {
@@ -59,8 +60,6 @@ public interface AwarenessContract {
 
 		void searchAndSearch(@NonNull Context cxt, @NonNull LatLng latLng);
 
-		void setGeosearchRadius(@Nullable Context cxt, @IntRange(from = 10L, to = 10000L) long radius);
-
-		long loadGeosearchAdjust(@NonNull  Context cxt);
+		void loadGeosearchAdjust(@NonNull  Context cxt);
 	}
 }

@@ -74,7 +74,7 @@
                 android:max="10000"
                 android:onProgressChanged="@{seekBarListener::onProgressChanged}"
                 android:progress="500"
-                bind:ajust="@{adjust}"
+                bind:adjust="@{adjust}"
                 />
 
         </LinearLayout>

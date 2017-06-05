@@ -2,14 +2,14 @@ package com.qiaoqiao.core.camera.awareness.ui
 
 import android.content.Context
 import android.support.annotation.NonNull
-import android.support.v4.content.SharedPreferencesCompat
+import android.support.v4.content.SharedPreferencesCompat.EditorCompat.getInstance
 import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.preference.PreferenceManager
+import android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences
 import android.widget.SeekBar
 import com.amulyakhare.textdrawable.TextDrawable
 import com.qiaoqiao.R
 
-class Adjust(@NonNull val cxt: Context, @NonNull val key: String, var value: Float) :
+class Adjust(@NonNull val cxt: Context, @NonNull val key: String, var value: Int) :
         SeekBar.OnSeekBarChangeListener {
     private var thumbWidth: Int = cxt.resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size)
 
@@ -19,10 +19,7 @@ class Adjust(@NonNull val cxt: Context, @NonNull val key: String, var value: Flo
 
     private var thumbColor: Int = ResourcesCompat.getColor(cxt.resources, R.color.colorPrimaryDark, null)
 
-    internal val intValue: Int
-        get() = value.toInt()
-
-    private fun createThumbDrawable(): TextDrawable = TextDrawable.builder()
+    fun createThumbDrawable(): TextDrawable = TextDrawable.builder()
             .beginConfig()
             .width(thumbWidth)
             .height(thumbHeight)
@@ -30,19 +27,23 @@ class Adjust(@NonNull val cxt: Context, @NonNull val key: String, var value: Flo
             .endConfig()
             .buildRound(value.toString(), thumbColor)
 
-    internal fun createFromPrefs(cxt: Context, key: String, defaultValue: Float): Adjust =
-            Adjust(cxt, key, PreferenceManager.getDefaultSharedPreferences(cxt).getFloat(key, defaultValue))
+    companion object Factory {
+        fun createAdjust(cxt: Context, key: String, defaultValue: Int): Adjust =
+                Adjust(cxt, key, getDefaultSharedPreferences(cxt).getInt(key, defaultValue))
 
-    internal fun save(cxt: Context) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(cxt)
+    }
+
+    private fun save(cxt: Context) {
+        val prefs = getDefaultSharedPreferences(cxt)
         val edit = prefs.edit()
-        edit.putFloat(key, value)
-        SharedPreferencesCompat.EditorCompat.getInstance()
+        edit.putInt(key, value)
+        getInstance()
                 .apply(edit)
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        value = progress / 100.0f
+        value = progress
+        save(cxt)
         seekBar?.thumb = createThumbDrawable()
     }
 

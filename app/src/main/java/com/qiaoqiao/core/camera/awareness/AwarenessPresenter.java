@@ -7,12 +7,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v7.preference.PreferenceManager;
 
 import com.google.android.gms.awareness.Awareness;
@@ -33,6 +31,7 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
+import com.qiaoqiao.core.camera.awareness.ui.Adjust;
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.DsRepository;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
@@ -218,18 +217,13 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 		}
 	}
 
-	@Override
-	public void setGeosearchRadius(@Nullable Context cxt, @IntRange(from = 10L, to = 10000L) long radius) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
-		final SharedPreferences.Editor edit = prefs.edit();
-		edit.putLong(KEY_GEOSEARCH_RADIUS, radius);
-		SharedPreferencesCompat.EditorCompat.getInstance()
-		                                    .apply(edit);
-	}
 
 	@Override
-	public long loadGeosearchAdjust(@NonNull  Context cxt) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
-		return prefs.getLong(KEY_GEOSEARCH_RADIUS, DEFAULT_GEOSEARCH_RADIUS);
+	public void loadGeosearchAdjust(@NonNull Context cxt) {
+		mView.showAdjust(Adjust.Factory.createAdjust(cxt,
+		                                             KEY_GEOSEARCH_RADIUS,
+		                                             PreferenceManager.getDefaultSharedPreferences(cxt)
+		                                                                 .getInt(KEY_GEOSEARCH_RADIUS, DEFAULT_GEOSEARCH_RADIUS)));
+
 	}
 }

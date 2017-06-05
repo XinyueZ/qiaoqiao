@@ -51,6 +51,8 @@ ext {
     apacheIO = "2.4"
     textDrawable = "1.0.1"
 
+    kotlin = project.KOTLIN
+
     libs = [
             //support-lib
             design          : [group: "com.android.support", name: "design", version: appCompatVersion],
@@ -120,6 +122,10 @@ ext {
 
             //text-drawable
             textDrawable    : [group: "com.amulyakhare", name: "com.amulyakhare.textdrawable", version: textDrawable],
+
+            //Kotlin
+            kotlin    : [group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre7", version: kotlin],
+
             //Rx
             //Instead this official rxAdapter, more info
             // see https://github.com/JakeWharton/retrofit2-rxjava2-adapter
@@ -226,6 +232,9 @@ ext {
             //Rx
             [configuration: "compile", dependency: libs.rxandroid],
             [configuration: "compile", dependency: libs.rxAdapter],
+
+            //Kotlin
+            [configuration: "compile", dependency: libs.kotlin],
     ]
 }
 
