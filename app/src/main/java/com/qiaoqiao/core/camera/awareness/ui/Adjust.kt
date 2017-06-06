@@ -1,7 +1,6 @@
 package com.qiaoqiao.core.camera.awareness.ui
 
 import android.content.Context
-import android.support.annotation.NonNull
 import android.support.v4.content.SharedPreferencesCompat.EditorCompat.getInstance
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences
@@ -9,7 +8,7 @@ import android.widget.SeekBar
 import com.amulyakhare.textdrawable.TextDrawable
 import com.qiaoqiao.R
 
-class Adjust(@NonNull val cxt: Context, @NonNull val key: String, var value: Int) :
+class Adjust(val cxt: Context, val key: String, var value: Int) :
         SeekBar.OnSeekBarChangeListener {
     private var thumbWidth: Int = cxt.resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size)
 

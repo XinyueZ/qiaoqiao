@@ -30,6 +30,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.qiaoqiao.R;
@@ -50,7 +51,7 @@ import static com.qiaoqiao.app.PrefsKeys.KEY_GOOGLE_PHOTO_URL;
 public final class ConnectGoogleActivity extends AppCompatActivity implements View.OnClickListener,
                                                                               GoogleApiClient.ConnectionCallbacks,
                                                                               GoogleApiClient.OnConnectionFailedListener,
-                                                                              OnCompleteListener {
+                                                                              OnCompleteListener<AuthResult>  {
 	private static final int PLAY_CLIENT_ID = 0x2;
 	private static final String EXTRAS_SIGN_OUT = ConnectGoogleActivity.class.getName() + ".EXTRAS.sign.out";
 	/**
@@ -60,7 +61,7 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 	/**
 	 * Request-id of this  {@link Activity}.
 	 */
-	public static final int REQ_SIGN_GOOGLE = 0x34;
+	private static final int REQ_SIGN_GOOGLE = 0x34;
 	/**
 	 * Data-binding.
 	 */
@@ -222,7 +223,7 @@ public final class ConnectGoogleActivity extends AppCompatActivity implements Vi
 	}
 
 	@Override
-	public void onComplete(@NonNull Task task) {
+	public  void onComplete(@NonNull Task task) {
 		if (task.isSuccessful()) {
 			LL.d("Firebase is ready.");
 		}

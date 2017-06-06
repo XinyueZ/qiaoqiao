@@ -288,6 +288,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mVisionPresenter.begin(this);
 		mHistoryPresenter.begin(this);
 		mAwarenessPresenter.begin(this);
+		mConfidencePresenter.begin(this);
 	}
 
 	@Override
@@ -303,6 +304,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mVisionPresenter.end(this);
 		mHistoryPresenter.end(this);
 		mAwarenessPresenter.end(this);
+		mConfidencePresenter.end(this);
 	}
 
 

@@ -147,7 +147,7 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	public void searchAndSearch(@NonNull Context cxt, @NonNull LatLng latLng) {
 		Reference<Context> cxtRef = new WeakReference<>(cxt);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
-		mDsRepository.onGeosearchQuery(latLng, prefs.getLong(KEY_GEOSEARCH_RADIUS, DEFAULT_GEOSEARCH_RADIUS), new DsLoadedCallback() {
+		mDsRepository.onGeosearchQuery(latLng, prefs.getInt(KEY_GEOSEARCH_RADIUS, DEFAULT_GEOSEARCH_RADIUS), new DsLoadedCallback() {
 			@Override
 			public void onGeosearchResponse(GeoResult result) {
 				super.onGeosearchResponse(result);
