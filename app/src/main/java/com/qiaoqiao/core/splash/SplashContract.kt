@@ -6,13 +6,13 @@ import com.qiaoqiao.mvp.BasePresenter
 import com.qiaoqiao.mvp.BaseView
 
 class SplashContract {
-    interface View : BaseView<SplashPresenter, FragmentLaunchImageBinding> {
+    interface LaunchImageView : BaseView<SplashPresenter, FragmentLaunchImageBinding> {
         override fun getBinding(): FragmentLaunchImageBinding?
-        fun showLaunchImage(uri: Uri): Unit
-        fun showLaunchImage(data: ByteArray): Unit
+        fun showLaunchImage(uri: Uri)
+        fun showLaunchImage(data: ByteArray)
     }
 
     interface Presenter : BasePresenter {
-        fun loadLaunchImage(): Unit
+        fun loadLaunchImage()
     }
 }

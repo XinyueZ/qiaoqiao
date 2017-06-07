@@ -108,7 +108,7 @@ public final class App extends MultiDexApplication {
 		                     .dsRepositoryComponent(application.mRepositoryComponent)
 		                     .splashModule(new SplashModule())
 		                     .build()
-		                     .(detailActivity);
+		                     .injectSplashActivity(splashActivity);
 	}
 
 }

@@ -12,7 +12,7 @@ import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.FragmentLaunchImageBinding
 import com.qiaoqiao.utils.SystemUiHelper
 
-class LaunchImageFragment : Fragment(), SplashContract.View {
+class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView {
     private var presenter: SplashContract.Presenter? = null
     private var binding: FragmentLaunchImageBinding? = null
 

@@ -8,5 +8,5 @@ import dagger.Provides
 @Module
 class SplashModule {
     @Provides
-    fun getSplashContractView(cxt: Context): SplashContract.View = LaunchImageFragment.newInstance(cxt)
+    fun getSplashContractView(cxt: Context): SplashContract.LaunchImageView = LaunchImageFragment.newInstance(cxt)
 }

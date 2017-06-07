@@ -7,9 +7,9 @@ import android.text.TextUtils;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
-import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 import com.qiaoqiao.repository.backend.model.translate.Data;
 import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult;
+import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult;
 import com.qiaoqiao.repository.database.HistoryItem;
 import com.qiaoqiao.utils.LL;
 
@@ -85,10 +85,12 @@ public abstract class DsLoadedCallback {
 	}
 
 	public void onImageLoad(@NonNull Uri imageLocation) {
+		LL.d("loaded an image at location: " + imageLocation.toString());
 
 	}
 
 	public void onImageLoad(@NonNull byte[] imageBytes) {
+		LL.d("loaded an image with size: " + imageBytes.length);
 
 	}
 }
