@@ -40,7 +40,7 @@
             android:value="true"/>
 
         <activity
-            android:name=".core.splash.SplashActivity"
+            android:name=".core.splash.ui.SplashActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor">
             <intent-filter>
@@ -49,6 +49,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".core.splash.ui.LaunchImageFragment"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor"/>
+
 
         <activity
             android:name=".core.camera.ui.CameraActivity"
@@ -90,7 +96,7 @@
 
 
         <activity
-            android:name=".core.splash.ConnectGoogleActivity"
+            android:name=".core.splash.ui.ConnectGoogleActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"
             android:theme="@style/Login"/>

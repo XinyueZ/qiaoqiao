@@ -1,4 +1,4 @@
-package com.qiaoqiao.core.splash;
+package com.qiaoqiao.core.splash.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;

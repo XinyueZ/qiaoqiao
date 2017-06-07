@@ -46,6 +46,9 @@ import com.qiaoqiao.core.confidence.ConfidenceModule;
 import com.qiaoqiao.core.detail.DaggerDetailComponent;
 import com.qiaoqiao.core.detail.DetailModule;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
+import com.qiaoqiao.core.splash.DaggerSplashComponent;
+import com.qiaoqiao.core.splash.SplashModule;
+import com.qiaoqiao.core.splash.ui.SplashActivity;
 import com.qiaoqiao.repository.DaggerDsRepositoryComponent;
 import com.qiaoqiao.repository.DsRepositoryComponent;
 import com.qiaoqiao.repository.backend.BackendModule;
@@ -96,6 +99,16 @@ public final class App extends MultiDexApplication {
 		                     .detailModule(new DetailModule(detailActivity.getSupportFragmentManager()))
 		                     .build()
 		                     .injectDetail(detailActivity);
+	}
+
+
+	public static void inject(@NonNull SplashActivity splashActivity) {
+		final App application = (App) splashActivity.getApplication();
+		DaggerSplashComponent.builder()
+		                     .dsRepositoryComponent(application.mRepositoryComponent)
+		                     .splashModule(new SplashModule())
+		                     .build()
+		                     .(detailActivity);
 	}
 
 }

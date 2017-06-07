@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/gplus_frg"
-        android:name="com.qiaoqiao.core.splash.GPlusFragment"
+        android:name="com.qiaoqiao.core.splash.ui.GPlusFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
