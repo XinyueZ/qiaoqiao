@@ -9,5 +9,5 @@ import dagger.Component
 @SplashScoped
 @Component(dependencies = arrayOf(AppComponent::class, DsRepositoryComponent::class), modules = arrayOf(SplashModule::class))
 interface SplashComponent {
-    abstract fun injectSplashActivity(activity: SplashActivity)
+    fun injectSplashActivity(activity: SplashActivity)
 }

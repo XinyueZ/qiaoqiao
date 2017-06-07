@@ -13,7 +13,7 @@ fun setAdjustSeekBar(seekBar: SeekBar, adjust: Adjust?) {
     }
 
     seekBar.setOnSeekBarChangeListener(adjust)
-    seekBar.progress = adjust?.value
+    seekBar.progress = adjust.value
 }
 
 @android.databinding.BindingAdapter("bind:placeWrapper")
