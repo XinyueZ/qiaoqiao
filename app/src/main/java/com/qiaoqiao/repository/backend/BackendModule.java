@@ -51,6 +51,16 @@ public final class BackendModule {
 		return r.create(Wikipedia.class);
 	}
 
+	@RepositoryScope
+	@Provides
+	ImageProvider provideZhiHu(@NonNull Context cxt) {
+
+		Retrofit r = new Retrofit.Builder().baseUrl(cxt.getString(R.string.base_url_zhihu))
+		                                   .addConverterFactory(GsonConverterFactory.create(GSON))
+		                                   .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+		                                   .build();
+		return r.create(ImageProvider.class);
+	}
 }
 
 

@@ -25,6 +25,8 @@ import com.qiaoqiao.repository.annotation.target.Camera;
 import com.qiaoqiao.repository.annotation.target.Database;
 import com.qiaoqiao.repository.annotation.target.Knowledge;
 import com.qiaoqiao.repository.annotation.target.Local;
+import com.qiaoqiao.repository.annotation.target.LocalImage;
+import com.qiaoqiao.repository.annotation.target.RemoteImage;
 import com.qiaoqiao.repository.annotation.target.Web;
 import com.qiaoqiao.repository.backend.Google;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
@@ -39,20 +41,26 @@ public final class DsRepository extends AbstractDsSource {
 	private @NonNull  final AbstractDsSource mCameraDs;
 	private @NonNull  final AbstractDsSource mKnowledgeRemoteDs;
 	private @NonNull  final AbstractDsSource mDatabaseDs;
+	private @NonNull  final AbstractDsSource mRemoteImageDs;
+	private @NonNull  final AbstractDsSource mLocalImageDs;
 
 	DsRepository(@NonNull Google google,
 	             @NonNull com.qiaoqiao.repository.backend.Wikipedia wikipedia,
-	             @Web AbstractDsSource webDs,
-	             @Local AbstractDsSource localDs,
-	             @Camera AbstractDsSource cameraDs,
-	             @Knowledge AbstractDsSource knowledgeRemoteDs,
-	             @Database AbstractDsSource databaseDs) {
+	             @NonNull @Web AbstractDsSource webDs,
+	             @NonNull @Local AbstractDsSource localDs,
+	             @NonNull @Camera AbstractDsSource cameraDs,
+	             @NonNull @Knowledge AbstractDsSource knowledgeRemoteDs,
+	             @NonNull @Database AbstractDsSource databaseDs,
+	             @NonNull @RemoteImage AbstractDsSource remoteImageDs,
+	             @NonNull @LocalImage AbstractDsSource localImageDs) {
 		super(google, wikipedia);
 		mWebDs = webDs;
 		mLocalDs = localDs;
 		mCameraDs = cameraDs;
 		mKnowledgeRemoteDs = knowledgeRemoteDs;
 		mDatabaseDs = databaseDs;
+		mRemoteImageDs = remoteImageDs;
+		mLocalImageDs = localImageDs;
 	}
 
 	@Override
@@ -100,5 +108,10 @@ public final class DsRepository extends AbstractDsSource {
 	@Override
 	public void onRecentRequest(@NonNull DsLoadedCallback callback) {
 		mDatabaseDs.onRecentRequest(callback);
+	}
+
+	@Override
+	public void onImage(@NonNull DsLoadedCallback callback) {
+		mRemoteImageDs.onImage(callback);
 	}
 }

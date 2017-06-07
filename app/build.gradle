@@ -126,9 +126,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
     }
-    kapt 'com.google.dagger:dagger-compiler:2+'
-    kapt 'com.google.dagger:dagger-android-processor:2+'
-    kapt 'com.android.databinding:compiler:3.0.0-alpha3'
 }
 
 

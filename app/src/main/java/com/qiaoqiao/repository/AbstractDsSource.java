@@ -75,4 +75,8 @@ public abstract class AbstractDsSource {
 	public void onRecentRequest(@NonNull DsLoadedCallback callback) {
 
 	}
+
+	public void onImage(@NonNull DsLoadedCallback callback) {
+
+	}
 }

@@ -13,7 +13,9 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Provides utility logic for getting the app's SHA1 signature. Used with restricted API keys.
  */
-class BackendUtils {
+final class BackendUtils {
+	private BackendUtils() {
+	}
 
 	/**
 	 * Gets the SHA1 signature, hex encoded for inclusion with Google Cloud Platform API requests
