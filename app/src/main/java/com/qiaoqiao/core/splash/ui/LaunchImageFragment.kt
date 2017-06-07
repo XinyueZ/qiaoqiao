@@ -30,6 +30,11 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView {
         return binding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter?.loadLaunchImage()
+    }
+
     override fun getBinding(): FragmentLaunchImageBinding? = this.binding
 
     override fun showLaunchImage(uri: Uri) {

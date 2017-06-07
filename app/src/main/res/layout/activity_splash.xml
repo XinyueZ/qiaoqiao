@@ -5,6 +5,7 @@
     tools:context=".core.splash.ui.SplashActivity">
 
     <FrameLayout
+        android:id="@+id/splash_root_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ic_launcher_background"
