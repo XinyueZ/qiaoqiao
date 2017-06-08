@@ -33,7 +33,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
     private var presenter: SplashContract.Presenter? = null
     private var binding: FragmentLaunchImageBinding? = null
 
-    companion object Factory {
+    companion object {
         fun newInstance(cxt: Context): LaunchImageFragment = Fragment.instantiate(cxt, LaunchImageFragment::class.java.name) as LaunchImageFragment
     }
 
