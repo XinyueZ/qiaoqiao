@@ -19,7 +19,8 @@ class SplashPresenter @Inject constructor(private var launchImageView: SplashCon
         }
     }
 
-    private var loadLaunchImageCallback: LoadLaunchImageCallback
+    private val loadLaunchImageCallback: LoadLaunchImageCallback
+        get() = LoadLaunchImageCallback(launchImageView)
 
     @Inject
     fun onInjected() {
@@ -35,9 +36,4 @@ class SplashPresenter @Inject constructor(private var launchImageView: SplashCon
 
     override fun end(hostActivity: FragmentActivity) {
     }
-
-    init {
-        loadLaunchImageCallback = LoadLaunchImageCallback(launchImageView)
-    }
-
 }
