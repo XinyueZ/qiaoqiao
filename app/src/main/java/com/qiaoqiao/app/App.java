@@ -106,6 +106,7 @@ public final class App extends MultiDexApplication {
 		final App application = (App) splashActivity.getApplication();
 		DaggerSplashComponent.builder()
 		                     .dsRepositoryComponent(application.mRepositoryComponent)
+		                     .appComponent(application.mAppComponent)
 		                     .splashModule(new SplashModule())
 		                     .build()
 		                     .injectSplashActivity(splashActivity);

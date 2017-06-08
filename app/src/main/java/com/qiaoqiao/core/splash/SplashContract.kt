@@ -10,6 +10,7 @@ class SplashContract {
         override fun getBinding(): FragmentLaunchImageBinding?
         fun showLaunchImage(uri: Uri)
         fun showLaunchImage(data: ByteArray)
+        fun requirePermission()
     }
 
     interface Presenter : BasePresenter {
