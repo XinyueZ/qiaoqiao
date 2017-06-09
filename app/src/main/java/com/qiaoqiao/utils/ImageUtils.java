@@ -22,6 +22,14 @@ public final class ImageUtils {
 		return byteArrayOutputStream.toByteArray();
 	}
 
+
+	public static byte[] convertImage2Bytes(@NonNull Bitmap bitmap) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		return stream.toByteArray();
+	}
+
+
 	private static Bitmap scaleBitmapDown(@NonNull Bitmap bitmap, int maxDimension) {
 
 		int originalWidth = bitmap.getWidth();

@@ -3,6 +3,7 @@ package com.qiaoqiao.core.splash.ui
 import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.qiaoqiao.R
@@ -20,6 +20,7 @@ import com.qiaoqiao.core.camera.ui.CameraActivity
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.LaunchImageBinding
+import com.qiaoqiao.utils.ImageUtils
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -27,7 +28,7 @@ import java.lang.Exception
 
 private const val RC_PERMISSIONS = 123
 
-class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPermissions.PermissionCallbacks, RequestListener<Uri, GlideDrawable> {
+class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPermissions.PermissionCallbacks, RequestListener<Uri, Bitmap> {
 
     private var presenter: SplashContract.Presenter? = null
     private lateinit var binding: LaunchImageBinding
@@ -45,14 +46,14 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.presenter?.loadLaunchImage()
+        this.presenter?.loadLaunchImage(context)
     }
 
     override fun getBinding(): LaunchImageBinding = this.binding
 
     override fun showLaunchImage(uri: Uri) {
         Glide.with(this)
-                .load(uri)
+                .load(uri).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(false)
                 .crossFade()
@@ -60,23 +61,25 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
                 .into(binding.launchImageIv)
     }
 
-    override fun onException(e: Exception?, model: Uri?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onResourceReady(resource: GlideDrawable?, model: Uri?, target: Target<GlideDrawable>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+    override fun onResourceReady(resource: Bitmap?, model: Uri?, target: Target<Bitmap>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
         requirePermission()
+        if (resource == null) return true
+        presenter?.saveLoadedLaunchImage(ImageUtils.convertImage2Bytes(resource))
         return false
     }
 
-    override fun onStop() {
-        super.onStop()
-        Glide.clear(binding.launchImageIv)
+    override fun onException(e: Exception?, model: Uri?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+        return false
     }
 
     override fun showLaunchImage(data: ByteArray) {
         binding.launchImageIv.setImageBitmap(BitmapFactory.decodeByteArray(data, data.size, 0))
         requirePermission()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Glide.clear(binding.launchImageIv)
     }
 
     override fun setPresenter(presenter: SplashPresenter) {

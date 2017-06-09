@@ -16,8 +16,12 @@
 
 package com.qiaoqiao.repository;
 
+import android.app.AlarmManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.repository.annotation.RepositoryScope;
@@ -111,7 +115,13 @@ public final class DsRepository extends AbstractDsSource {
 	}
 
 	@Override
-	public void onImage(@NonNull DsLoadedCallback callback) {
-		mRemoteImageDs.onImage(callback);
+	public void onImage(@NonNull Context cxt, @NonNull DsLoadedCallback callback) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
+		long lastTime = prefs.getLong("remote-launch-image-time", -1);
+		if (lastTime < 0 || System.currentTimeMillis() - lastTime > AlarmManager.INTERVAL_FIFTEEN_MINUTES) {
+			mRemoteImageDs.onImage(cxt, callback);
+		} else {
+			mLocalImageDs.onImage(cxt, callback);
+		}
 	}
 }

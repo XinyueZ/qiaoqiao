@@ -1,5 +1,6 @@
 package com.qiaoqiao.core.splash
 
+import android.content.Context
 import android.net.Uri
 import com.qiaoqiao.databinding.LaunchImageBinding
 import com.qiaoqiao.mvp.BasePresenter
@@ -14,6 +15,7 @@ class SplashContract {
     }
 
     interface Presenter : BasePresenter {
-        fun loadLaunchImage()
+        fun loadLaunchImage(cxt: Context)
+        fun saveLoadedLaunchImage(imageData: ByteArray)
     }
 }

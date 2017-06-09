@@ -1,6 +1,7 @@
 package com.qiaoqiao.repository;
 
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
@@ -9,8 +10,12 @@ import com.qiaoqiao.repository.backend.Google;
 import com.qiaoqiao.repository.backend.ImageProvider;
 import com.qiaoqiao.repository.backend.Wikipedia;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
+import com.qiaoqiao.repository.database.LastLaunchImage;
+import com.qiaoqiao.utils.LL;
 
 import java.io.File;
+
+import io.realm.Realm;
 
 public abstract class AbstractDsSource {
 	private Google mGoogle;
@@ -27,10 +32,6 @@ public abstract class AbstractDsSource {
 
 	protected AbstractDsSource(@NonNull Google google) {
 		mGoogle = google;
-	}
-
-	protected AbstractDsSource(@NonNull Wikipedia wikipedia) {
-		mWikipedia = wikipedia;
 	}
 
 
@@ -86,7 +87,15 @@ public abstract class AbstractDsSource {
 
 	}
 
-	public void onImage(@NonNull DsLoadedCallback callback) {
+	public void onImage(@NonNull Context cxt, @NonNull DsLoadedCallback callback) {
 
+	}
+
+	public void saveLoadedLaunchImage(@NonNull byte[] imageData) {
+		final Realm realm = Realm.getDefaultInstance();
+		realm.executeTransactionAsync(bgRealm -> {
+			LastLaunchImage lastLaunchImage = bgRealm.createObject(LastLaunchImage.class);
+			lastLaunchImage.setByteArray(imageData);
+		}, () -> LL.d("Saved last launch-image successfully."), error -> LL.d("Saved launch-image fail."));
 	}
 }
