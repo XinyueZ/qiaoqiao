@@ -22,9 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -54,8 +56,11 @@ public final class BackendModule {
 	@RepositoryScope
 	@Provides
 	ImageProvider provideImageProvider(@NonNull Context cxt) {
-
 		Retrofit r = new Retrofit.Builder().baseUrl(cxt.getString(R.string.base_url_zhihu))
+		                                   .client(new OkHttpClient().newBuilder()
+		                                                             .connectTimeout(15, TimeUnit.SECONDS)
+		                                                             .readTimeout(15, TimeUnit.SECONDS)
+		                                                             .build())
 		                                   .addConverterFactory(GsonConverterFactory.create(GSON))
 		                                   .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 		                                   .build();
