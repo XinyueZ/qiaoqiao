@@ -19,8 +19,7 @@ import com.qiaoqiao.R
 import com.qiaoqiao.core.camera.ui.CameraActivity
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
-import com.qiaoqiao.databinding.FragmentLaunchImageBinding
-import com.qiaoqiao.utils.SystemUiHelper
+import com.qiaoqiao.databinding.LaunchImageBinding
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -31,18 +30,15 @@ private const val RC_PERMISSIONS = 123
 class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPermissions.PermissionCallbacks, RequestListener<Uri, GlideDrawable> {
 
     private var presenter: SplashContract.Presenter? = null
-    private var binding: FragmentLaunchImageBinding? = null
+    private lateinit var binding: LaunchImageBinding
 
     companion object {
         fun newInstance(cxt: Context): LaunchImageFragment = Fragment.instantiate(cxt, LaunchImageFragment::class.java.name) as LaunchImageFragment
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val uiHelper = SystemUiHelper(activity, SystemUiHelper.LEVEL_IMMERSIVE, 0)
-        uiHelper.hide()
         super.onCreate(savedInstanceState)
-        val binding = FragmentLaunchImageBinding.inflate(inflater!!, container, false)
-        binding.uiHelper = uiHelper
+        val binding = LaunchImageBinding.inflate(inflater!!, container, false)
         this.binding = binding
         return binding.root
     }
@@ -52,7 +48,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
         this.presenter?.loadLaunchImage()
     }
 
-    override fun getBinding(): FragmentLaunchImageBinding? = this.binding
+    override fun getBinding(): LaunchImageBinding = this.binding
 
     override fun showLaunchImage(uri: Uri) {
         Glide.with(this)
@@ -61,7 +57,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
                 .skipMemoryCache(false)
                 .crossFade()
                 .listener(this)
-                .into(binding?.launchImageIv)
+                .into(binding.launchImageIv)
     }
 
     override fun onException(e: Exception?, model: Uri?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
@@ -75,11 +71,11 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
 
     override fun onStop() {
         super.onStop()
-        Glide.clear(binding?.launchImageIv)
+        Glide.clear(binding.launchImageIv)
     }
 
     override fun showLaunchImage(data: ByteArray) {
-        binding?.launchImageIv?.setImageBitmap(BitmapFactory.decodeByteArray(data, data.size, 0))
+        binding.launchImageIv.setImageBitmap(BitmapFactory.decodeByteArray(data, data.size, 0))
         requirePermission()
     }
 

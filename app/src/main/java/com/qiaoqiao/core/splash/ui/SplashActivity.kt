@@ -9,25 +9,26 @@ import com.qiaoqiao.R
 import com.qiaoqiao.app.App
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
-import com.qiaoqiao.databinding.ActivitySplashBinding
+import com.qiaoqiao.databinding.SplashBinding
 import com.qiaoqiao.utils.SystemUiHelper
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-const val LAYOUT: Int = R.layout.activity_splash
+private const val LAYOUT: Int = R.layout.activity_splash
 
 class SplashActivity : AppCompatActivity() {
-    private var binding: ActivitySplashBinding? = null
-    @Inject private var presenter: SplashPresenter? = null
-    @Inject private var launchImageView: SplashContract.LaunchImageView? = null
+    lateinit private var binding: SplashBinding
+    lateinit private var uiHelper: SystemUiHelper
+    @Inject
+    lateinit var presenter: SplashPresenter
+    @Inject
+    lateinit var launchImageView: SplashContract.LaunchImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val uiHelper = SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0)
+        uiHelper = SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0)
         uiHelper.hide()
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<ActivitySplashBinding>(this, LAYOUT)
-        binding?.uiHelper = uiHelper
+        this.binding = DataBindingUtil.setContentView<SplashBinding>(this, LAYOUT)
         App.inject(this)
     }
 
@@ -37,7 +38,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
-        binding?.uiHelper?.hide()
+        uiHelper.hide()
         super.onWindowFocusChanged(hasFocus)
     }
 
@@ -46,11 +47,11 @@ class SplashActivity : AppCompatActivity() {
                 .replace(R.id.splash_root_fl, launchImageView as Fragment?)
                 .commit()
 
-        presenter?.begin(this)
+        presenter.begin(this)
     }
 
     override fun onDestroy() {
-        presenter?.end(this)
+        presenter.end(this)
         super.onDestroy()
     }
 }

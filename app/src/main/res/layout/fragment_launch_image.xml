@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".core.splash.ui.LaunchImageFragment">
 
-    <data>
+    <data class="LaunchImageBinding">
 
-        <variable
-            name="uiHelper"
-            type="com.qiaoqiao.utils.SystemUiHelper"/>
     </data>
 
     <ImageView
