@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.qiaoqiao.repository.backend.Google;
+import com.qiaoqiao.repository.backend.ImageProvider;
 import com.qiaoqiao.repository.backend.Wikipedia;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 
@@ -14,11 +15,15 @@ import java.io.File;
 public abstract class AbstractDsSource {
 	private Google mGoogle;
 	private com.qiaoqiao.repository.backend.Wikipedia mWikipedia;
+	private ImageProvider mImageProvider;
 
 	protected AbstractDsSource() {
 
 	}
 
+	protected AbstractDsSource(@NonNull ImageProvider imageProvider) {
+		mImageProvider = imageProvider;
+	}
 
 	protected AbstractDsSource(@NonNull Google google) {
 		mGoogle = google;
@@ -40,6 +45,11 @@ public abstract class AbstractDsSource {
 
 	protected Wikipedia getWikipedia() {
 		return mWikipedia;
+	}
+
+
+	public ImageProvider getImageProvider() {
+		return mImageProvider;
 	}
 
 	public void onBytes(@NonNull byte[] bytes, @NonNull DsLoadedCallback callback) {

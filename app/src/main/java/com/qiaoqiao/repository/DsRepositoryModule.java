@@ -12,6 +12,7 @@ import com.qiaoqiao.repository.annotation.target.LocalImage;
 import com.qiaoqiao.repository.annotation.target.RemoteImage;
 import com.qiaoqiao.repository.annotation.target.Web;
 import com.qiaoqiao.repository.backend.Google;
+import com.qiaoqiao.repository.backend.ImageProvider;
 import com.qiaoqiao.repository.backend.Wikipedia;
 import com.qiaoqiao.repository.camera.DsCameraSource;
 import com.qiaoqiao.repository.database.DsDatabaseSource;
@@ -70,15 +71,15 @@ final class DsRepositoryModule {
 	@RepositoryScope
 	@RemoteImage
 	@Provides
-	AbstractDsSource provideRemoteImageDataSource() {
-		return new RemoteImageDs();
+	AbstractDsSource provideRemoteImageDataSource(@NonNull ImageProvider imageProvider) {
+		return new RemoteImageDs(imageProvider);
 	}
 
 	@RepositoryScope
 	@LocalImage
 	@Provides
-	AbstractDsSource provideLocalImageDataSource() {
-		return new LocalImageDs();
+	AbstractDsSource provideLocalImageDataSource(@NonNull ImageProvider imageProvider) {
+		return new LocalImageDs(imageProvider);
 	}
 
 

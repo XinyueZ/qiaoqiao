@@ -53,7 +53,7 @@ public final class BackendModule {
 
 	@RepositoryScope
 	@Provides
-	ImageProvider provideZhiHu(@NonNull Context cxt) {
+	ImageProvider provideImageProvider(@NonNull Context cxt) {
 
 		Retrofit r = new Retrofit.Builder().baseUrl(cxt.getString(R.string.base_url_zhihu))
 		                                   .addConverterFactory(GsonConverterFactory.create(GSON))
