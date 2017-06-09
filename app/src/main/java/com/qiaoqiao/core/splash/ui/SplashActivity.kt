@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
 
     @Inject
     fun injected() {
-        Handler().postDelayed({ -> gotoLaunchImage() }, TimeUnit.SECONDS.toMillis(5))
+        Handler().postDelayed({ -> gotoLaunchImage() }, TimeUnit.SECONDS.toMillis(3))
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

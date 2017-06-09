@@ -94,6 +94,7 @@ public abstract class AbstractDsSource {
 	public void saveLoadedLaunchImage(@NonNull byte[] imageData) {
 		final Realm realm = Realm.getDefaultInstance();
 		realm.executeTransactionAsync(bgRealm -> {
+			bgRealm.delete(LastLaunchImage.class);
 			LastLaunchImage lastLaunchImage = bgRealm.createObject(LastLaunchImage.class);
 			lastLaunchImage.setByteArray(imageData);
 		}, () -> LL.d("Saved last launch-image successfully."), error -> LL.d("Saved launch-image fail."));

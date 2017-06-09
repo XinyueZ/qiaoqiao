@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,10 +22,12 @@ import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.LaunchImageBinding
 import com.qiaoqiao.utils.ImageUtils
+import com.qiaoqiao.utils.LL
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.lang.Exception
+import java.util.concurrent.TimeUnit
 
 private const val RC_PERMISSIONS = 123
 
@@ -63,6 +66,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
 
     override fun onResourceReady(resource: Bitmap?, model: Uri?, target: Target<Bitmap>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
         requirePermission()
+
         if (resource == null) return true
         presenter?.saveLoadedLaunchImage(ImageUtils.convertImage2Bytes(resource))
         return false
@@ -73,8 +77,8 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
     }
 
     override fun showLaunchImage(data: ByteArray) {
-        binding.launchImageIv.setImageBitmap(BitmapFactory.decodeByteArray(data, data.size, 0))
-        requirePermission()
+        binding.launchImageIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.size))
+        Handler().postDelayed({ -> requirePermission() }, TimeUnit.SECONDS.toMillis(3))
     }
 
     override fun onStop() {
