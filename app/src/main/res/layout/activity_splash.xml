@@ -3,7 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".core.splash.ui.SplashActivity">
-
+    <data>
+        <variable
+            name="uiHelper"
+            type="com.qiaoqiao.utils.SystemUiHelper"/>
+    </data>
     <FrameLayout
         android:id="@+id/splash_root_fl"
         android:layout_width="match_parent"
