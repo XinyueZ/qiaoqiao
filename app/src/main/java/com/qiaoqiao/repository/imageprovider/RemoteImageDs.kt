@@ -23,6 +23,9 @@ class RemoteImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvid
                         edit.putLong("remote-launch-image-time", System.currentTimeMillis())
                         SharedPreferencesCompat.EditorCompat.getInstance().apply(edit)
                     }
+                }, { e ->
+                    e.printStackTrace()
+                    callback.onImageLoad(ByteArray(0))
                 })
     }
 }

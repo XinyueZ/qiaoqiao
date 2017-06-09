@@ -22,7 +22,6 @@ import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.LaunchImageBinding
 import com.qiaoqiao.utils.ImageUtils
-import com.qiaoqiao.utils.LL
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -77,6 +76,10 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
     }
 
     override fun showLaunchImage(data: ByteArray) {
+        if (data.isEmpty()) {
+            requirePermission()
+            return
+        }
         binding.launchImageIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.size))
         Handler().postDelayed({ -> requirePermission() }, TimeUnit.SECONDS.toMillis(3))
     }

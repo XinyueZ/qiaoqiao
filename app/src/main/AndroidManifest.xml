@@ -50,10 +50,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".core.splash.ui.LaunchImageFragment"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="fullSensor"/>
+
 
 
         <activity

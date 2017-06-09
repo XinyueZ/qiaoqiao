@@ -34,8 +34,11 @@ import com.qiaoqiao.repository.annotation.target.RemoteImage;
 import com.qiaoqiao.repository.annotation.target.Web;
 import com.qiaoqiao.repository.backend.Google;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
+import com.qiaoqiao.utils.NetworkUtils;
 
 import java.io.File;
+
+import static com.qiaoqiao.utils.NetworkUtils.CONNECTION_FAST;
 
 
 @RepositoryScope
@@ -116,6 +119,11 @@ public final class DsRepository extends AbstractDsSource {
 
 	@Override
 	public void onImage(@NonNull Context cxt, @NonNull DsLoadedCallback callback) {
+		if (!NetworkUtils.isOnline(cxt) || NetworkUtils.isAirplaneModeOn(cxt) || NetworkUtils.getCurrentNetworkType(cxt) != CONNECTION_FAST) {
+			mLocalImageDs.onImage(cxt, callback);
+			return;
+		}
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(cxt);
 		long lastTime = prefs.getLong("remote-launch-image-time", -1);
 		if (lastTime < 0 || System.currentTimeMillis() - lastTime > AlarmManager.INTERVAL_FIFTEEN_MINUTES) {
