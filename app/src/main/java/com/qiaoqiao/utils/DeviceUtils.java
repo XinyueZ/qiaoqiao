@@ -11,7 +11,9 @@ import android.view.Display;
  */
 public final class DeviceUtils {
 
+	private DeviceUtils(){
 
+	}
 
 	public static ScreenSize getScreenSize(Context cxt) {
 		return getScreenSize(cxt, 0);
