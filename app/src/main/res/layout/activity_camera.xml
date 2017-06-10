@@ -64,19 +64,12 @@
                             app:facing="back"
                             app:flash="auto"/>
 
-                        <com.qiaoqiao.views.MainControlView
-                            android:id="@+id/main_control"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_margin="@dimen/larger"/>
-
 
                         <net.frakbot.glowpadbackport.GlowPadView
                             android:id="@+id/control_pad"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center_horizontal|bottom"
                             android:background="@color/colorTransparent"
                             app:feedbackCount="1"
                             app:glowRadius="@dimen/glowpadview_glow_radius"

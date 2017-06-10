@@ -8,7 +8,7 @@
     </array>
     <item name="glowpadview_target_handle_drawable" type="drawable">@drawable/ic_touch_app_button</item>
     <!-- Default target placement radius for GlowPadView. Should be 1/2 of outerring diameter. -->
-    <dimen name="glowpadview_target_placement_radius">135dip</dimen>
+    <dimen name="glowpadview_target_placement_radius">100dip</dimen>
     <!-- Default glow radius for GlowPadView -->
     <dimen name="glowpadview_glow_radius">75dip</dimen>
     <!-- Default distance beyond which GlowPadView snaps to the matching target -->
@@ -16,7 +16,7 @@
     <!-- Default distance from each snap target that GlowPadView considers a "hit" -->
     <dimen name="glowpadview_inner_radius">15dip</dimen>
     <!-- Size of lockscreen outerring on unsecure unlock LockScreen -->
-    <dimen name="keyguard_lockscreen_outerring_diameter">270dp</dimen>
+    <dimen name="keyguard_lockscreen_outerring_diameter">200dp</dimen>
     <!-- Circle size for incoming call widget's each item. -->
     <dimen name="incoming_call_widget_circle_size">56dp</dimen>
     <!-- Margin used for incoming call widget's icon for each item.

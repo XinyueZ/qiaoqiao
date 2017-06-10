@@ -30,7 +30,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.cameraview.AspectRatio;
 import com.google.android.cameraview.CameraView;
@@ -66,9 +65,6 @@ import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
-import com.qiaoqiao.utils.LL;
-
-import net.frakbot.glowpadbackport.GlowPadView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,36 +154,29 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupDataBinding();
 		setupAppBar();
 		setupNavigationDrawer();
-		mBinding.controlPad.setOnTriggerListener(new GlowPadView.OnTriggerListener() {
-			@Override
-			public void onGrabbed(View v, int handle) {
-				LL.d("controlPad: onGrabbed");
-			}
+		setupControlPad();
+		App.inject(this);
+	}
 
-			@Override
-			public void onReleased(View v, int handle) {
-				LL.d("controlPad: onReleased");
-			}
-
+	private void setupControlPad() {
+		mBinding.controlPad.setOnTriggerListener(new SimpleOnTriggerListener() {
 			@Override
 			public void onTrigger(View v, int target) {
-				LL.d("controlPad: onTrigger");
-				Toast.makeText(getApplicationContext(), "Target triggered! ID=" + target, Toast.LENGTH_SHORT)
-				     .show();
+				super.onTrigger(v, target);
 				mBinding.controlPad.reset(true);
-			}
-
-			@Override
-			public void onGrabbedStateChange(View v, int handle) {
-				LL.d("controlPad: onGrabbedStateChange");
-			}
-
-			@Override
-			public void onFinishFinalAnimation() {
-				LL.d("controlPad: onFinishFinalAnimation");
+				switch (target) {
+					case 0:
+						showInputFromWeb(v);
+						break;
+					case 1:
+						capturePhoto(v);
+						break;
+					case 2:
+						showLoadFromLocal(v);
+						break;
+				}
 			}
 		});
-		App.inject(this);
 	}
 
 	private void setupDataBinding() {
@@ -496,18 +485,18 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void capturePhoto(@NonNull android.view.View v) {
-		mBinding.mainControl.startCaptureProgressBar();
+		mBinding.controlPad.reset(true);
 		mBinding.camera.takePicture();
 	}
 
 	@Override
 	public void openLink() {
-		mBinding.mainControl.startWebProgressBar();
+		mBinding.controlPad.reset(true);
 	}
 
 	@Override
 	public void openLocal() {
-		mBinding.mainControl.startLocalProgressBar();
+		mBinding.controlPad.reset(true);
 	}
 
 
@@ -525,9 +514,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void updateWhenResponse() {
-		mBinding.mainControl.stopCaptureProgressBar();
-		mBinding.mainControl.stopLocalProgressBar();
-		mBinding.mainControl.stopWebProgressBar();
+		mBinding.controlPad.reset(true);
 		mBinding.barTitleLoadingPb.stopShimmerAnimation();
 	}
 
@@ -585,7 +572,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		//When user doesn't crop anything just back, we need stop progressbar on main-control.
 		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
 		if (isCropThere) {
-			mBinding.mainControl.stopCaptureProgressBar();
+			mBinding.controlPad.reset(true);
 		}
 		menu.findItem(R.id.action_crop_rotate)
 		    .setVisible(isCropThere && !isSnapshotPlacesThere);

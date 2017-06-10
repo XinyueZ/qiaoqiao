@@ -33,9 +33,6 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	@Inject
 	void onInjected() {
 		mView.setPresenter(this);
-		mView.getBinding().mainControl.setOnFromLocalClickedListener(mView::showLoadFromLocal);
-		mView.getBinding().mainControl.setOnCaptureClickedListener(mView::capturePhoto);
-		mView.getBinding().mainControl.setOnFromWebClickedListener(mView::showInputFromWeb);
 	}
 
 	@Override
