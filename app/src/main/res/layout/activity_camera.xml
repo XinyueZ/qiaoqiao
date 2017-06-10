@@ -86,8 +86,10 @@
                             android:id="@+id/expand_more_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|end|right"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:background="@drawable/selector_round_green_rectangle_item_background"
                             android:onClick="@{clickHandler::onClick}"
+                            android:tint="@color/colorWhite"
                             app:srcCompat="@drawable/ic_expand_more"/>
                     </FrameLayout>
 
@@ -107,7 +109,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/app_name"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:textColor="?attr/colorPrimary"/>
+                                android:textColor="@color/colorYellow"/>
                         </com.facebook.shimmer.ShimmerFrameLayout>
                     </android.support.v7.widget.Toolbar>
 
@@ -146,8 +148,10 @@
                     android:id="@+id/expand_less_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|end|right"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/selector_round_green_rectangle_item_background"
                     android:onClick="@{clickHandler::onClick}"
+                    android:tint="@color/colorWhite"
                     app:srcCompat="@drawable/ic_expand_less"/>
             </FrameLayout>
 
