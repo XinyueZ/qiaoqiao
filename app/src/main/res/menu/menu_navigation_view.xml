@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_settings"
         android:title="@string/action_settings"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_source_license"
+        android:icon="@drawable/ic_assignment"
+        android:title="@string/action_source_license"
+        app:showAsAction="always"/>
 </menu>

@@ -28,6 +28,7 @@
     <string name="action_app_invite">Invite people</string>
     <string name="action_multi_language">More language</string>
     <string name="action_camera_direction">Camera direction</string>
+    <string name="action_source_license">License</string>
 
     <string name="tab_vision">Vision</string>
     <string name="tab_history">History</string>

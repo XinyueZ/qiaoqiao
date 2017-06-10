@@ -15,6 +15,7 @@
     <item name="ic_translate" type="drawable">@drawable/ic_translate_compat</item>
     <item name="ic_direction" type="drawable">@drawable/ic_direction_compat</item>
     <item name="ic_geosearch" type="drawable">@drawable/ic_geosearch_compat</item>
+    <item name="ic_assignment" type="drawable">@drawable/ic_assignment_compat</item>
     <item name="ic_confidence" type="drawable">@drawable/ic_confidence_compat</item>
     <item name="ic_app_invite" type="drawable">@drawable/ic_app_invite_compat</item>
     <item name="ic_streetview" type="drawable">@drawable/ic_streetview_compat</item>
