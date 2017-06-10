@@ -65,7 +65,6 @@ import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
-import com.qiaoqiao.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,11 +151,15 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		MapsInitializer.initialize(this);
-		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
-		mBinding.setClickHandler(this);
+		setupDataBinding();
 		setupAppBar();
 		setupNavigationDrawer();
 		App.inject(this);
+	}
+
+	private void setupDataBinding() {
+		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
+		mBinding.setClickHandler(this);
 	}
 
 	@Inject
@@ -241,7 +244,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	private void setupAppBar() {
 		mBinding.appbar.addOnOffsetChangedListener(this);
-		resizeLayout();
+		showCameraOnly();
 		setSupportActionBar(mBinding.toolbar);
 		final ActionBar supportActionBar = getSupportActionBar();
 		if (supportActionBar != null) {
@@ -267,21 +270,26 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.appbar.removeOnOffsetChangedListener(this);
 	}
 
-	private void resizeLayout() {
-		mBinding.appbar.getLayoutParams().height = (int) Math.ceil(DeviceUtils.getScreenSize(this).Height * 0.618f);
+	private void showCameraOnly() {
+		mBinding.appbar.setExpanded(true, true);
+	}
 
+
+	private void showVisionOnly() {
+		mBinding.appbar.setExpanded(false, true);
 		mBinding.expandMoreBtn.setVisibility(View.GONE);
 		mBinding.expandLessBtn.setVisibility(View.VISIBLE);
 	}
 
-	private void fullSizeLayout() {
-		mBinding.appbar.setExpanded(true);
-		mBinding.appbar.getLayoutParams().height = DeviceUtils.getScreenSize(this).Height;
-
-		mBinding.expandMoreBtn.setVisibility(View.VISIBLE);
-		mBinding.expandLessBtn.setVisibility(View.GONE);
+	private void toggleVisionCameraShowButtons() {
+		if (!mOnBottom) {
+			mBinding.expandMoreBtn.setVisibility(View.VISIBLE);
+			mBinding.expandLessBtn.setVisibility(View.GONE);
+		} else {
+			mBinding.expandMoreBtn.setVisibility(View.GONE);
+			mBinding.expandLessBtn.setVisibility(View.VISIBLE);
+		}
 	}
-
 
 	private void presentersBegin() {
 		mCameraPresenter.begin(this);
@@ -364,10 +372,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.expand_less_btn:
-				fullSizeLayout();
+				showCameraOnly();
 				break;
 			case R.id.expand_more_btn:
-				resizeLayout();
+				showVisionOnly();
 				break;
 			default:
 				if (mSnackbar == null) {
@@ -426,7 +434,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 		//Select first page ("VISION") and scroll view to top.
-		mBinding.appbar.setExpanded(false, true);
+		showVisionOnly();
 		mBinding.viewpager.setCurrentItem(0, true);
 
 	}
@@ -507,6 +515,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Override
 	public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 		mOnBottom = (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange());
+		toggleVisionCameraShowButtons();
 	}
 
 	@Override
@@ -518,7 +527,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 		if (mOnBottom) {
 			mBinding.viewpager.setCurrentItem(0, true);
-			mBinding.appbar.setExpanded(true, true);
+			showCameraOnly();
 			return;
 		}
 
@@ -600,7 +609,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		resizeLayout();
+		showCameraOnly();
 	}
 
 	@Override
