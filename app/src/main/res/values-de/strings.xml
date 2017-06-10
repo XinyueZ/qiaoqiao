@@ -9,7 +9,7 @@
     <string name="action_my_place">Meine Umgebung</string>
     <string name="action_app_invite">Leute einladen</string>
     <string name="action_multi_language">Mehr Sprache</string>
-    <string name="action_source_license">Software Lizenz</string>
+    <string name="action_source_license">Softwarelizenz</string>
 
 
     <string name="preference_title">Einstellungen</string>
