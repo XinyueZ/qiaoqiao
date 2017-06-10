@@ -71,6 +71,24 @@
                             android:layout_gravity="bottom"
                             android:layout_margin="@dimen/larger"/>
 
+
+                        <net.frakbot.glowpadbackport.GlowPadView
+                            android:id="@+id/control_pad"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@color/colorTransparent"
+                            app:feedbackCount="1"
+                            app:glowRadius="@dimen/glowpadview_glow_radius"
+                            app:handleDrawable="@drawable/glowpadview_target_handle_drawable"
+                            app:innerRadius="@dimen/glowpadview_inner_radius"
+                            app:outerRadius="@dimen/glowpadview_target_placement_radius"
+                            app:outerRingDrawable="@drawable/ic_lockscreen_outerring"
+                            app:pointDrawable="@drawable/ic_lockscreen_glowdot"
+                            app:snapMargin="@dimen/glowpadview_snap_margin"
+                            app:targetDrawables="@array/glowpadview_target_drawables"
+                            app:vibrationDuration="20"/>
+
                         <ImageButton
                             android:id="@+id/expand_more_btn"
                             android:layout_width="wrap_content"

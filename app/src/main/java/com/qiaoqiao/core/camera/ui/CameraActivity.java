@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.cameraview.AspectRatio;
 import com.google.android.cameraview.CameraView;
@@ -65,6 +66,9 @@ import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
+import com.qiaoqiao.utils.LL;
+
+import net.frakbot.glowpadbackport.GlowPadView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,6 +158,35 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupDataBinding();
 		setupAppBar();
 		setupNavigationDrawer();
+		mBinding.controlPad.setOnTriggerListener(new GlowPadView.OnTriggerListener() {
+			@Override
+			public void onGrabbed(View v, int handle) {
+				LL.d("controlPad: onGrabbed");
+			}
+
+			@Override
+			public void onReleased(View v, int handle) {
+				LL.d("controlPad: onReleased");
+			}
+
+			@Override
+			public void onTrigger(View v, int target) {
+				LL.d("controlPad: onTrigger");
+				Toast.makeText(getApplicationContext(), "Target triggered! ID=" + target, Toast.LENGTH_SHORT)
+				     .show();
+				mBinding.controlPad.reset(true);
+			}
+
+			@Override
+			public void onGrabbedStateChange(View v, int handle) {
+				LL.d("controlPad: onGrabbedStateChange");
+			}
+
+			@Override
+			public void onFinishFinalAnimation() {
+				LL.d("controlPad: onFinishFinalAnimation");
+			}
+		});
 		App.inject(this);
 	}
 
@@ -203,8 +236,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		if (mDrawerToggle != null) {
 			mDrawerToggle.syncState();
 		}
-
 	}
+
 
 	private void setupCamera() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

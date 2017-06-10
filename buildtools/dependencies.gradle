@@ -5,6 +5,9 @@ allprojects {
         maven {
             url 'https://maven.google.com'
         }
+        maven {
+            url "http://dl.bintray.com/frakbot/maven"
+        }
     }
 }
 
@@ -53,7 +56,7 @@ ext {
     //Others
     apacheIO = "2.4"
     textDrawable = "1.0.1"
-
+    glowPadBackport = "2.1.1"
 
     kotlin = project.KOTLIN
 
@@ -135,6 +138,9 @@ ext {
 
             //Kotlin
             kotlin                : [group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre7", version: kotlin],
+
+            //GlowPadBackport
+            glowPadBackport       : [group: "net.frakbot", name: "glowpadbackport", version: glowPadBackport],
 
             //Rx
             //Instead this official rxAdapter, more info
@@ -251,6 +257,9 @@ ext {
 
             //Kotlin
             [configuration: "compile", dependency: libs.kotlin],
+
+            //GlowPadBackport
+            [configuration: "compile", dependency: libs.glowPadBackport],
     ]
 }
 
