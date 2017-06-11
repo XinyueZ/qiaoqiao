@@ -588,10 +588,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		adjustUIForDifferentFragmentSenario(menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	private void adjustUIForDifferentFragmentSenario(Menu menu) {
 		boolean isSnapshotPlacesThere = ((SnapshotPlacesFragment) mSnapshotPlacesFragment).isAdded();
 		menu.findItem(R.id.action_places)
 		    .setVisible(!isSnapshotPlacesThere);
-
 		//When user doesn't crop anything just back, we need stop progressbar on main-control.
 		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
 		if (isCropThere) {
@@ -599,10 +603,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		}
 		menu.findItem(R.id.action_crop_rotate)
 		    .setVisible(isCropThere && !isSnapshotPlacesThere);
-
 		menu.findItem(R.id.action_camera_direction)
 		    .setVisible(!isCropThere && !isSnapshotPlacesThere);
-		return super.onPrepareOptionsMenu(menu);
+		mBinding.controlPad.setVisibility(!isCropThere && !isSnapshotPlacesThere ? View.VISIBLE : GONE);
+		mBinding.expandMoreBtn.setVisibility(!isCropThere && !isSnapshotPlacesThere ? View.VISIBLE : GONE);
+		mBinding.expandLessBtn.setVisibility(!isCropThere && !isSnapshotPlacesThere ? View.VISIBLE : GONE);
 	}
 
 	@Override
