@@ -606,8 +606,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		menu.findItem(R.id.action_camera_direction)
 		    .setVisible(!isCropThere && !isSnapshotPlacesThere);
 		mBinding.controlPad.setVisibility(!isCropThere && !isSnapshotPlacesThere ? View.VISIBLE : GONE);
-		mBinding.expandMoreBtn.setVisibility(!isCropThere && !isSnapshotPlacesThere ? View.VISIBLE : GONE);
-		mBinding.expandLessBtn.setVisibility(!isCropThere && !isSnapshotPlacesThere ? View.VISIBLE : GONE);
+		ViewCompat.animate(mBinding.expandMoreBtn).alpha(!isCropThere && !isSnapshotPlacesThere ? 1 : 0);
+		ViewCompat.animate(mBinding.expandLessBtn).alpha(!isCropThere && !isSnapshotPlacesThere ? 1 : 0);
 	}
 
 	@Override
