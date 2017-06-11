@@ -4,7 +4,7 @@
         <item>@drawable/ic_from_web_button</item>
         <item>@drawable/ic_capture_button</item>
         <item>@drawable/ic_from_local_button</item>
-        <item>@null</item>"
+        <item>@drawable/ic_from_videocam_button</item>
     </array>
     <item name="glowpadview_target_handle_drawable" type="drawable">@drawable/ic_touch_app_button</item>
     <!-- Default target placement radius for GlowPadView. Should be 1/2 of outerring diameter. -->

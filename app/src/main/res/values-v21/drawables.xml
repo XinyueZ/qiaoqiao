@@ -11,6 +11,7 @@
     <item name="ic_settings" type="drawable">@drawable/ic_settings_vec</item>
     <item name="ic_from_web" type="drawable">@drawable/ic_from_web_vec</item>
     <item name="ic_locating" type="drawable">@drawable/ic_locating_vec</item>
+    <item name="ic_videocam" type="drawable">@drawable/ic_videocam_vec</item>
     <item name="ic_touch_app" type="drawable">@drawable/ic_touch_app_vec</item>
     <item name="ic_translate" type="drawable">@drawable/ic_translate_vec</item>
     <item name="ic_direction" type="drawable">@drawable/ic_direction_vec</item>
