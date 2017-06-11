@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -65,6 +66,7 @@ import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
+import com.qiaoqiao.utils.LL;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +82,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.os.Bundle.EMPTY;
+import static android.view.View.GONE;
 import static com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment.REQ_SETTING_LOCATING;
 import static com.qiaoqiao.repository.web.ui.WebLinkActivity.REQ_WEB_LINK;
 
@@ -161,6 +164,20 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private void setupControlPad() {
 		mBinding.controlPad.setOnTriggerListener(new SimpleOnTriggerListener() {
 			@Override
+			public void onGrabbed(@org.jetbrains.annotations.Nullable View p0, int p1) {
+				super.onGrabbed(p0, p1);
+				ViewCompat.animate(mBinding.expandMoreBtn).alpha(0).start();
+				mBinding.expandMoreBtn.setEnabled(false);
+			}
+
+			@Override
+			public void onReleased(@org.jetbrains.annotations.Nullable View p0, int p1) {
+				super.onReleased(p0, p1);
+				ViewCompat.animate(mBinding.expandMoreBtn).alpha(1).start();
+				mBinding.expandMoreBtn.setEnabled(true);
+			}
+
+			@Override
 			public void onTrigger(View v, int target) {
 				super.onTrigger(v, target);
 				mBinding.controlPad.reset(true);
@@ -173,6 +190,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 						break;
 					case 2:
 						showLoadFromLocal(v);
+						break;
+					case 3:
+						showLoadFromWebcam(v);
 						break;
 				}
 			}
@@ -299,16 +319,16 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	private void showVisionOnly() {
 		mBinding.appbar.setExpanded(false, true);
-		mBinding.expandMoreBtn.setVisibility(View.GONE);
+		mBinding.expandMoreBtn.setVisibility(GONE);
 		mBinding.expandLessBtn.setVisibility(View.VISIBLE);
 	}
 
 	private void toggleVisionCameraShowButtons() {
 		if (!mOnBottom) {
 			mBinding.expandMoreBtn.setVisibility(View.VISIBLE);
-			mBinding.expandLessBtn.setVisibility(View.GONE);
+			mBinding.expandLessBtn.setVisibility(GONE);
 		} else {
-			mBinding.expandMoreBtn.setVisibility(View.GONE);
+			mBinding.expandMoreBtn.setVisibility(GONE);
 			mBinding.expandLessBtn.setVisibility(View.VISIBLE);
 		}
 	}
@@ -337,8 +357,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mConfidencePresenter.end(this);
 	}
 
+	@Override
+	public void showLoadFromWebcam(@NonNull View v) {
+		LL.d("not yet");
+	}
 
-	@SuppressLint("RestrictedApi")
 	@Override
 	public void showInputFromWeb(@NonNull android.view.View v) {
 		WebLinkActivity.showInstance(this, v);

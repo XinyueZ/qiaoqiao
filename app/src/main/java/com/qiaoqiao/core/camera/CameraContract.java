@@ -23,9 +23,9 @@ import android.support.annotation.NonNull;
 
 import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
+import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
-import com.qiaoqiao.databinding.ActivityCameraBinding;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -33,6 +33,8 @@ import com.qiaoqiao.databinding.ActivityCameraBinding;
 public interface CameraContract {
 
 	interface View extends BaseView<CameraPresenter, ActivityCameraBinding> {
+		void showLoadFromWebcam(@NonNull android.view.View v);
+
 		void showLoadFromLocal(@NonNull android.view.View v);
 
 		void showInputFromWeb(@NonNull android.view.View v);
@@ -57,7 +59,7 @@ public interface CameraContract {
 
 		ActivityCameraBinding getBinding();
 
-		void openCrop(@NonNull  byte[] data);
+		void openCrop(@NonNull byte[] data);
 	}
 
 	interface Presenter extends BasePresenter {
