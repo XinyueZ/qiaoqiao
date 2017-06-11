@@ -19,4 +19,6 @@ public interface PrefsKeys {
 
 	String KEY_GEOSEARCH_RADIUS = "geosearchRadius";
 	int DEFAULT_GEOSEARCH_RADIUS = 500;
+
+	long COMMON_DELAY_SEC = 2;
 }

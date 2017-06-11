@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.qiaoqiao.R
+import com.qiaoqiao.app.PrefsKeys.COMMON_DELAY_SEC
 import com.qiaoqiao.core.camera.ui.CameraActivity
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
@@ -81,7 +82,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
             return
         }
         binding.launchImageIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.size))
-        Handler().postDelayed({ -> requirePermission() }, TimeUnit.SECONDS.toMillis(3))
+        Handler().postDelayed({ -> requirePermission() }, TimeUnit.SECONDS.toMillis(COMMON_DELAY_SEC))
     }
 
     override fun onStop() {

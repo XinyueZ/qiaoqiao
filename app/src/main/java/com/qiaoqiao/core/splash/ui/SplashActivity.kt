@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.qiaoqiao.R
 import com.qiaoqiao.app.App
+import com.qiaoqiao.app.PrefsKeys.COMMON_DELAY_SEC
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.SplashBinding
@@ -34,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
 
     @Inject
     fun injected() {
-        Handler().postDelayed({ -> gotoLaunchImage() }, TimeUnit.SECONDS.toMillis(3))
+        Handler().postDelayed({ -> gotoLaunchImage() }, TimeUnit.SECONDS.toMillis(COMMON_DELAY_SEC))
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
