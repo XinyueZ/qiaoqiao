@@ -33,6 +33,17 @@
 
         </FrameLayout>
 
+
+        <ImageButton
+            android:id="@+id/crop_rotate_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end|right"
+            android:layout_margin="@dimen/small"
+            android:background="@color/colorTransparent"
+            android:contentDescription="@string/action_crop_rotate"
+            android:src="@drawable/ic_crop_rotate"/>
+
     </FrameLayout>
 
 </layout>

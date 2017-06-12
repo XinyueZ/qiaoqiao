@@ -59,6 +59,7 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		showImage();
+		mBinding.cropRotateBtn.setOnClickListener(this::onClick);
 	}
 
 	@Override
@@ -94,16 +95,23 @@ public final class CropFragment extends Fragment implements CropContract.View,
 
 	@Override
 	public void onClick(View view) {
-		if (mCropViewFragment == null || !mCropViewFragment.isAdded()) {
-			return;
+		switch (view.getId()) {
+			case R.id.crop_rotate_btn:
+				rotate();
+				break;
+			default:
+				if (mCropViewFragment == null || !mCropViewFragment.isAdded()) {
+					return;
+				}
+				mVibrator.vibrate(VIB_LNG);
+				final Drawable drawable = mBinding.cropFbPb.getDrawable();
+				if (drawable instanceof Animatable) {
+					((Animatable) drawable).start();
+					mBinding.cropFbPb.setVisibility(VISIBLE);
+				}
+				mCropViewFragment.crop();
+				break;
 		}
-		mVibrator.vibrate(VIB_LNG);
-		final Drawable drawable = mBinding.cropFbPb.getDrawable();
-		if (drawable instanceof Animatable) {
-			((Animatable) drawable).start();
-			mBinding.cropFbPb.setVisibility(VISIBLE);
-		}
-		mCropViewFragment.crop();
 	}
 
 	@Override
