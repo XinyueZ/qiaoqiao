@@ -83,6 +83,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment.REQ_SETTING_LOCATING;
 import static com.qiaoqiao.repository.web.ui.WebLinkActivity.REQ_WEB_LINK;
 
@@ -166,14 +167,24 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			@Override
 			public void onGrabbed(@org.jetbrains.annotations.Nullable View p0, int p1) {
 				super.onGrabbed(p0, p1);
-				ViewCompat.animate(mBinding.expandMoreBtn).alpha(0).start();
+				ViewCompat.animate(mBinding.expandMoreBtn)
+				          .alpha(0)
+				          .start();
+				ViewCompat.animate(mBinding.cameraDirectionBtn)
+				          .alpha(0)
+				          .start();
 				mBinding.expandMoreBtn.setEnabled(false);
 			}
 
 			@Override
 			public void onReleased(@org.jetbrains.annotations.Nullable View p0, int p1) {
 				super.onReleased(p0, p1);
-				ViewCompat.animate(mBinding.expandMoreBtn).alpha(1).start();
+				ViewCompat.animate(mBinding.expandMoreBtn)
+				          .alpha(1)
+				          .start();
+				ViewCompat.animate(mBinding.cameraDirectionBtn)
+				          .alpha(1)
+				          .start();
 				mBinding.expandMoreBtn.setEnabled(true);
 			}
 
@@ -422,6 +433,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			case R.id.expand_more_btn:
 				showVisionOnly();
 				break;
+			case R.id.camera_direction_btn:
+				mBinding.camera.setFacing(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
+				                          CameraView.FACING_FRONT :
+				                          CameraView.FACING_BACK);
+				mBinding.cameraDirectionBtn.setImageResource(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
+				                                             R.drawable.ic_camera_front :
+				                                             R.drawable.ic_camera_rear);
+				break;
 			default:
 				if (mSnackbar == null) {
 					return;
@@ -594,8 +613,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	private void adjustUIForDifferentFragmentSenario(Menu menu) {
 		boolean isSnapshotPlacesThere = ((SnapshotPlacesFragment) mSnapshotPlacesFragment).isAdded();
-		mBinding.navView.getMenu().findItem(R.id.action_places)
-		    .setVisible(!isSnapshotPlacesThere);
+		mBinding.navView.getMenu()
+		                .findItem(R.id.action_places)
+		                .setVisible(!isSnapshotPlacesThere);
 		//When user doesn't crop anything just back, we need stop progressbar on main-control.
 		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
 		if (isCropThere) {
@@ -603,11 +623,21 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		}
 		menu.findItem(R.id.action_crop_rotate)
 		    .setVisible(isCropThere && !isSnapshotPlacesThere);
-		menu.findItem(R.id.action_camera_direction)
-		    .setVisible(!isCropThere && !isSnapshotPlacesThere);
-		mBinding.controlPad.setVisibility(!isCropThere && !isSnapshotPlacesThere ? View.VISIBLE : GONE);
-		ViewCompat.animate(mBinding.expandMoreBtn).alpha(!isCropThere && !isSnapshotPlacesThere ? 1 : 0);
-		ViewCompat.animate(mBinding.expandLessBtn).alpha(!isCropThere && !isSnapshotPlacesThere ? 1 : 0);
+		mBinding.controlPad.setVisibility(!isCropThere && !isSnapshotPlacesThere ?
+		                                  View.VISIBLE :
+		                                  GONE);
+		ViewCompat.animate(mBinding.cameraDirectionBtn)
+		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
+		                 1 :
+		                 0).start();
+		ViewCompat.animate(mBinding.expandMoreBtn)
+		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
+		                 1 :
+		                 0).start();
+		ViewCompat.animate(mBinding.expandLessBtn)
+		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
+		                 1 :
+		                 0).start();
 	}
 
 	@Override
@@ -619,14 +649,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		switch (item.getItemId()) {
 			case R.id.action_crop_rotate:
 				mCropFragment.rotate();
-				break;
-			case R.id.action_camera_direction:
-				mBinding.camera.setFacing(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
-				                          CameraView.FACING_FRONT :
-				                          CameraView.FACING_BACK);
-				item.setIcon(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
-				             R.drawable.ic_camera_front :
-				             R.drawable.ic_camera_rear);
 				break;
 		}
 		return super.onOptionsItemSelected(item);

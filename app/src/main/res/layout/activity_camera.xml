@@ -87,11 +87,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginBottom="@dimen/small"
                             android:background="@drawable/selector_round_green_rectangle_item_background"
                             android:onClick="@{clickHandler::onClick}"
                             android:tint="@color/colorWhite"
-                            android:layout_marginBottom="@dimen/small"
                             app:srcCompat="@drawable/ic_expand_more"/>
+
+                        <ImageButton
+                            android:id="@+id/camera_direction_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|end|right"
+                            android:layout_margin="@dimen/small"
+                            android:contentDescription="@string/action_camera_direction"
+                            android:onClick="@{clickHandler::onClick}"
+                            android:src="@drawable/ic_camera_front"/>
                     </FrameLayout>
 
                     <android.support.v7.widget.Toolbar
@@ -150,10 +160,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="@dimen/small"
                     android:background="@drawable/selector_round_green_rectangle_item_background"
                     android:onClick="@{clickHandler::onClick}"
                     android:tint="@color/colorWhite"
-                    android:layout_marginBottom="@dimen/small"
                     app:srcCompat="@drawable/ic_expand_less"/>
             </FrameLayout>
 
