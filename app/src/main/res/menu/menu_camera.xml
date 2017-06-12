@@ -8,11 +8,7 @@
         android:title="@string/action_camera_direction"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/action_places"
-        android:icon="@drawable/ic_place"
-        android:title="@string/action_my_place"
-        app:showAsAction="always"/>
+
 
 
     <item

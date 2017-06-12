@@ -594,7 +594,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	private void adjustUIForDifferentFragmentSenario(Menu menu) {
 		boolean isSnapshotPlacesThere = ((SnapshotPlacesFragment) mSnapshotPlacesFragment).isAdded();
-		menu.findItem(R.id.action_places)
+		mBinding.navView.getMenu().findItem(R.id.action_places)
 		    .setVisible(!isSnapshotPlacesThere);
 		//When user doesn't crop anything just back, we need stop progressbar on main-control.
 		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
@@ -617,9 +617,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		}
 
 		switch (item.getItemId()) {
-			case R.id.action_places:
-				requireFineLocationPermission();
-				break;
 			case R.id.action_crop_rotate:
 				mCropFragment.rotate();
 				break;
@@ -640,6 +637,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		mBinding.drawerLayout.closeDrawers();
 		switch (item.getItemId()) {
+			case R.id.action_places:
+				requireFineLocationPermission();
+				break;
 			case R.id.action_confidence:
 				((ConfidenceDialogFragment) mConfidenceFragment).show(getSupportFragmentManager(), null);
 				break;
