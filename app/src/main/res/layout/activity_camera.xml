@@ -99,6 +99,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|end|right"
                             android:layout_margin="@dimen/small"
+                            android:background="@color/colorTransparent"
                             android:contentDescription="@string/action_camera_direction"
                             android:onClick="@{clickHandler::onClick}"
                             android:src="@drawable/ic_camera_front"/>
@@ -119,8 +120,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/app_name"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:textColor="@color/colorYellow"/>
+                                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                                android:textColor="@color/colorWhite"
+                                android:textColorHighlight="@color/colorWhite"/>
                         </com.facebook.shimmer.ShimmerFrameLayout>
                     </android.support.v7.widget.Toolbar>
 
