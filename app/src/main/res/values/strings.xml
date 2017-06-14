@@ -111,4 +111,8 @@
     <string name="confidence_label">Label sensitive</string>
     <string name="confidence_logo">Logo sensitive</string>
     <string name="confidence_image">Image sensitive</string>
+
+
+    <string name="software_licenses_count">Total %1$d licenses for %2$d libraries and software.</string>
+
 </resources>

@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.qiaoqiao">
 
-    <uses-feature android:name="android.hardware.camera"
-                  android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"/>
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
@@ -53,8 +54,6 @@
         </activity>
 
 
-
-
         <activity
             android:name=".core.camera.ui.CameraActivity"
             android:configChanges="orientation|screenSize"
@@ -87,7 +86,7 @@
             android:name=".settings.SettingsActivity"
             android:label="@string/preference_title"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Settings">
+            android:theme="@style/NoCore">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".core.camera.ui.CameraActivity"/>
@@ -99,6 +98,13 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"
             android:theme="@style/Login"/>
+
+
+        <activity
+            android:name=".licenses.LicensesActivity"
+            android:label="@string/action_source_license"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/NoCore"/>
     </application>
 
 </manifest>

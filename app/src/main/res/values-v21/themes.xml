@@ -39,7 +39,7 @@
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
-    <style name="Settings" parent="AppTheme">
+    <style name="NoCore" parent="AppTheme">
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
     </style>
 

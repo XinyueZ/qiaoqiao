@@ -62,6 +62,7 @@ import com.qiaoqiao.core.confidence.ui.ConfidenceDialogFragment;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
 import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
+import com.qiaoqiao.licenses.LicensesActivity;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
@@ -670,6 +671,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				break;
 			case R.id.action_settings:
 				SettingsActivity.showInstance(this);
+				break;
+			case R.id.action_source_license:
+				LicensesActivity.Companion.showInstance(this);
 				break;
 		}
 		return true;
