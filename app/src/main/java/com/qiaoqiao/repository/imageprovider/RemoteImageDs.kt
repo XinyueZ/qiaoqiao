@@ -22,7 +22,7 @@ class RemoteImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvid
                         val edit = prefs.edit()
                         edit.putLong("remote-launch-image-time", System.currentTimeMillis())
                         SharedPreferencesCompat.EditorCompat.getInstance().apply(edit)
-                    }
+                    } else callback.onImageLoad(ByteArray(0))
                 }, { e ->
                     e.printStackTrace()
                     callback.onImageLoad(ByteArray(0))
