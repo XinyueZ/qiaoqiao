@@ -7,11 +7,12 @@ import android.os.Bundle
 import android.os.Bundle.EMPTY
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import com.qiaoqiao.R
 import com.qiaoqiao.databinding.ActivityLicensesBinding
 
 class LicensesActivity : AppCompatActivity() {
-
+    lateinit var binding: ActivityLicensesBinding
 
     companion object {
         fun showInstance(cxt: Activity) {
@@ -21,9 +22,22 @@ class LicensesActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DataBindingUtil.setContentView<ActivityLicensesBinding>(this, R.layout.activity_licenses)
+        binding = DataBindingUtil.setContentView<ActivityLicensesBinding>(this, R.layout.activity_licenses)
+        setupBar()
+    }
+
+    fun setupBar() {
+        setSupportActionBar(binding.appToolbar)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) : Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> supportFinishAfterTransition()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
