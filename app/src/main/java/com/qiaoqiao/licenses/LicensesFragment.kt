@@ -115,13 +115,9 @@ private class LicencesListAdapter(licenses: Licenses) : BaseExpandableListAdapte
         licencesCount = libraryList.size
     }
 
-    override fun getGroupCount(): Int {
-        return licencesCount
-    }
+    override fun getGroupCount() = licencesCount
 
-    override fun getChildrenCount(groupPosition: Int): Int {
-        return 1
-    }
+    override fun getChildrenCount(groupPosition: Int) = 1
 
     override fun getGroup(groupPosition: Int): Any {
         throw UnsupportedOperationException("This adapter doesn't need group.")
@@ -131,17 +127,11 @@ private class LicencesListAdapter(licenses: Licenses) : BaseExpandableListAdapte
         throw UnsupportedOperationException("This adapter doesn't need children.")
     }
 
-    override fun getGroupId(groupPosition: Int): Long {
-        return groupPosition.toLong()
-    }
+    override fun getGroupId(groupPosition: Int) = groupPosition.toLong()
 
-    override fun getChildId(groupPosition: Int, childPosition: Int): Long {
-        return (childPosition * childPosition).toLong()
-    }
+    override fun getChildId(groupPosition: Int, childPosition: Int) = (childPosition * childPosition).toLong()
 
-    override fun hasStableIds(): Boolean {
-        return true
-    }
+    override fun hasStableIds() = true
 
     override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup): View {
         var cv = convertView
@@ -206,7 +196,7 @@ private class LicencesListAdapter(licenses: Licenses) : BaseExpandableListAdapte
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int) = true
 
-    companion object {
+    private companion object {
         private val LICENCES_BOX = "licenses-box"
         private val COPYRIGHT_HOLDERS = "<copyright holders>"
         private val YEAR = "<year>"
