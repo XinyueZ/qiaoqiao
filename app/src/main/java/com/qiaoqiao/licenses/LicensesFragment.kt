@@ -27,8 +27,14 @@ import java.io.IOException
 import java.io.InputStreamReader
 
 private const val LAYOUT = R.layout.fragment_licenses
+private const val LAYOUT_GROUP = R.layout.list_licenses_item_group
+private const val LAYOUT_CHILD = R.layout.list_licenses_item_child
 private const val ID_LOAD_LICENCES_TASK = 0x54
 private const val LICENCES_LIST_JSON = "licenses-list.json"
+private const val LICENCES_BOX = "licenses-box"
+private const val COPYRIGHT_HOLDERS = "<copyright holders>"
+private const val YEAR = "<year>"
+private const val LICENCE_BOX_LOCATION_FORMAT = "%s/%s.txt"
 
 class LicensesFragment : AppCompatDialogFragment() {
     private lateinit var binding: FragmentLicensesBinding
@@ -196,17 +202,11 @@ private class LicencesListAdapter(licenses: Licenses) : BaseExpandableListAdapte
     override fun isChildSelectable(groupPosition: Int, childPosition: Int) = true
 
     private companion object {
-        private val LICENCES_BOX = "licenses-box"
-        private val COPYRIGHT_HOLDERS = "<copyright holders>"
-        private val YEAR = "<year>"
-        private val LICENCE_BOX_LOCATION_FORMAT = "%s/%s.txt"
-        private val LAYOUT_GROUP = R.layout.list_licenses_item_group
-        private val LAYOUT_CHILD = R.layout.list_licenses_item_child
 
-        private fun loadLicencesContent(cxt: Context, licenceName: String?) = try {
+        private fun loadLicencesContent(cxt: Context, licenceName: String?): String? = try {
             val licenceLocation = String.format(LICENCE_BOX_LOCATION_FORMAT, LICENCES_BOX, licenceName)
 
-            LicensesUtils.readTextFile(cxt.assets
+            readTextFile(cxt.assets
                     .open(licenceLocation))
         } catch (e: IOException) {
             null
