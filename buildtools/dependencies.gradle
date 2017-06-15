@@ -54,7 +54,7 @@ ext {
     firebase = "10.2.6"
 
     //Others
-    apacheIO = "2.4"
+    apacheIO = "2.5"
     textDrawable = "1.0.1"
     glowPadBackport = "2.1.1"
 
