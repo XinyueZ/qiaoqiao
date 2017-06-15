@@ -80,8 +80,7 @@ class LicensesFragment : AppCompatDialogFragment() {
                             licenses.licenses
                                     .size,
                             adapter.groupCount)
-                    val expListView = binding.licencesList
-                    expListView.setAdapter(adapter)
+                    binding.licencesList.setAdapter(adapter)
                 }
             }
 
