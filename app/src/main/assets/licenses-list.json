@@ -5,22 +5,10 @@
       "description": "The Android Open Source Project",
       "libraries": [
         {
-          "name": "com.android.support:design"
+          "name": "Android Support-*"
         },
         {
-          "name": "com.android.support:support-v4"
-        },
-        {
-          "name": "com.android.support:recyclerview-v7"
-        },
-        {
-          "name": "com.android.support:appcompat-v7"
-        },
-        {
-          "name": "com.android.support:cardview-v7"
-        },
-        {
-          "name": "com.android.support:transition"
+          "name": "Android Play-Service-*"
         }
       ]
     },
@@ -28,6 +16,14 @@
       "name": "Apache-LICENSE-2.0",
       "description": "Apache License, Version 2.0",
       "libraries": [
+        {
+          "name": "com.google.firebase:firebase-*",
+          "owner": "Firebase, Google"
+        },
+        {
+          "name": "google-api-java-client-*",
+          "owner": "Google"
+        },
         {
           "name": "io.reactivex:rxjava",
           "owner": "Netflix, Inc.",
@@ -55,31 +51,44 @@
         {
           "name": "com.squareup.retrofit2",
           "owner": "Square, Inc.",
-          "copyright":"2013"
+          "copyright": "2013"
         },
         {
           "name": "com.squareup.retrofit:converter-gson",
           "owner": "Square, Inc.",
-          "copyright":"2013"
+          "copyright": "2013"
         },
         {
           "name": "okhttp",
           "owner": "Square, Inc.",
-          "copyright":"2016"
+          "copyright": "2016"
         },
         {
-          "name": "jp.wasabeef:recyclerview-animators",
-          "owner": "Wasabeef",
-          "copyright":"2015"
+          "name": "Dagger2",
+          "owner": "The Dagger Authors",
+          "copyright": "2012"
         },
         {
-          "name": "com.orhanobut:logger",
-          "owner": "Orhan Obut",
-          "copyright":"2015"
+          "name": "easypermissions",
+          "owner": "github.com/googlesamples/easypermissions"
         },
         {
-          "name": "net.steamcrafted:load-toast",
-          "owner": "code-mc"
+          "name": "android-maps-utils",
+          "owner": "github.com/googlemaps/android-maps-utils"
+        },
+        {
+          "name": "CircleImageView",
+          "owner": "Henning Dodenhof",
+          "copyright": "2014-2017"
+        },
+        {
+          "name": "GlowPadBackport",
+          "owner": "Frakbot (Sebastiano Poggi and Francesco Pontillo)",
+          "copyright": "2015"
+        },
+        {
+          "name": "Apache Common IO",
+          "owner": "Apache"
         }
       ]
     },
@@ -88,9 +97,13 @@
       "description": "The MIT License (MIT)",
       "libraries": [
         {
-          "name": "org.jsoup:jsoup",
-          "owner": "https://jsoup.org/",
-          "copyright": "2009-2016"
+          "name": "SimpleCropView",
+          "owner": "Issei Aoki",
+          "copyright": "2015"
+        },
+        {
+          "name": "TextDrawable",
+          "owner": "github.com/amulyakhare/TextDrawable"
         }
       ]
     },
@@ -99,9 +112,9 @@
       "description": "BSD License",
       "libraries": [
         {
-          "name": "highlight.js for CodeView",
-          "owner": "Ivan Sagalaev",
-          "copyright": "2006"
+          "name": "shimmer-android software",
+          "owner": "Facebook, Inc. All rights reserved",
+          "copyright": "2015"
         }
       ]
     }
