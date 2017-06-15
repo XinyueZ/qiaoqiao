@@ -107,13 +107,11 @@ private class LicencesListAdapter(licenses: Licenses) : BaseExpandableListAdapte
     private val licenceContentList: ArrayMap<String, String> = ArrayMap()
 
     init {
-        val licencesList = licenses.licenses
-        licencesList.forEach({ license ->
+        licenses.licenses.forEach({ license ->
             license.libraries.forEach({ library ->
                 libraryList.put(library, Pair(license.name, license.description))
             })
         })
-
         licencesCount = libraryList.size
     }
 
