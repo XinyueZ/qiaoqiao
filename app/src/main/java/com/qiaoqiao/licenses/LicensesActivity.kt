@@ -11,6 +11,7 @@ import android.view.MenuItem
 import com.qiaoqiao.R
 import com.qiaoqiao.databinding.ActivityLicensesBinding
 
+private const val LAYOUT: Int = R.layout.activity_licenses
 class LicensesActivity : AppCompatActivity() {
     lateinit var binding: ActivityLicensesBinding
 
@@ -24,7 +25,7 @@ class LicensesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<ActivityLicensesBinding>(this, R.layout.activity_licenses)
+        binding = DataBindingUtil.setContentView<ActivityLicensesBinding>(this, LAYOUT)
         setupBar()
     }
 
