@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
@@ -18,29 +17,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.isseiaoki.simplecropview.CropImageView;
-import com.isseiaoki.simplecropview.callback.CropCallback;
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.databinding.FragmentCropBinding;
-import com.qiaoqiao.databinding.FragmentCropViewBinding;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
-
-import java.io.File;
 
 import static android.view.View.VISIBLE;
 
 public final class CropFragment extends Fragment implements CropContract.View,
                                                             View.OnClickListener,
-                                                            CropCallback {
+                                                            CropImageView.OnCropImageCompleteListener {
 
 	private static final int VIB_LNG = 50;
 	private Vibrator mVibrator;
 	private FragmentCropBinding mBinding;
 	private @Nullable CropContract.Presenter mPresenter;
 	private byte[] mData;
-	private CropViewFragment mCropViewFragment;
 
 	public static CropFragment newInstance(@NonNull Context cxt) {
 		return (CropFragment) CropFragment.instantiate(cxt, CropFragment.class.getName());
@@ -52,27 +46,34 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		mVibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
 		mBinding = FragmentCropBinding.inflate(inflater, container, false);
 		mBinding.cropFb.setOnClickListener(this);
+		mBinding.cropIv.setOnCropImageCompleteListener(this);
 		return mBinding.getRoot();
 	}
 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		setupCropImageView();
 		showImage();
-		mBinding.cropRotateBtn.setOnClickListener(this::onClick);
+		mBinding.cropRotateBtn.setOnClickListener(this);
 	}
 
-	@Override
-	public void onDestroyView() {
-		mCropViewFragment = null;
-		super.onDestroyView();
-	}
 
 	@Override
 	public void setPresenter(@NonNull CropContract.Presenter presenter) {
 		mPresenter = presenter;
 	}
 
+	private void setupCropImageView() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+		String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
+		String[] aspectRatioXY = aspectRatio.split(":");
+		int x = Integer.parseInt(aspectRatioXY[0]);
+		int y = Integer.parseInt(aspectRatioXY[1]);
+		mBinding.cropIv.setAspectRatio(x, y);
+	}
+
+	@Override
 	public FragmentCropBinding getBinding() {
 		return mBinding;
 	}
@@ -86,10 +87,7 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		if (mData == null || mData.length <= 0) {
 			return;
 		}
-		getChildFragmentManager().beginTransaction()
-		                         .replace(R.id.crop_container, mCropViewFragment = CropViewFragment.newInstance(getContext(), mData), CropViewFragment.class.getName())
-		                         .commitNow();
-		mCropViewFragment.setTargetFragment(this, 0x09);
+		mBinding.cropIv.setImageBitmap(BitmapFactory.decodeByteArray(mData, 0, mData.length));
 	}
 
 
@@ -100,22 +98,32 @@ public final class CropFragment extends Fragment implements CropContract.View,
 				rotate();
 				break;
 			default:
-				if (mCropViewFragment == null || !mCropViewFragment.isAdded()) {
-					return;
-				}
 				mVibrator.vibrate(VIB_LNG);
 				final Drawable drawable = mBinding.cropFbPb.getDrawable();
 				if (drawable instanceof Animatable) {
 					((Animatable) drawable).start();
 					mBinding.cropFbPb.setVisibility(VISIBLE);
 				}
-				mCropViewFragment.crop();
+				mBinding.cropIv.getCroppedImageAsync();
 				break;
 		}
 	}
 
 	@Override
-	public void onSuccess(Bitmap bitmap) {
+	public void rotate() {
+		mBinding.cropIv.rotateImage(90);
+	}
+
+	@Override
+	public void onCropImageComplete(CropImageView cropImageView, CropImageView.CropResult cropResult) {
+		if (cropResult.isSuccessful()) {
+			onSuccess(cropResult.getBitmap());
+		} else {
+			onError();
+		}
+	}
+
+	private void onSuccess(Bitmap bitmap) {
 		//Cropped
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -129,67 +137,9 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	}
 
 
-	@Override
-	public void onError() {
+	private void onError() {
 		if (mPresenter != null) {
 			mPresenter.croppedFail();
-		}
-	}
-
-	@Override
-	public void rotate() {
-		if (mCropViewFragment == null || !mCropViewFragment.isAdded()) {
-			return;
-		}
-		mCropViewFragment.rotate();
-	}
-
-	public static final class CropViewFragment extends Fragment {
-		private FragmentCropViewBinding mBinding;
-
-		private static CropViewFragment newInstance(@NonNull Context cxt, @NonNull byte[] data) {
-			Bundle args = new Bundle(1);
-			args.putByteArray("data", data);
-			return (CropViewFragment) CropViewFragment.instantiate(cxt, CropViewFragment.class.getName(), args);
-		}
-
-		@Nullable
-		@Override
-		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-			mBinding = FragmentCropViewBinding.inflate(inflater, container, false);
-			return mBinding.getRoot();
-		}
-
-		@Override
-		public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-			super.onViewCreated(view, savedInstanceState);
-
-			byte[] data = getArguments().getByteArray("data");
-			if (data == null) {
-				return;
-			}
-			mBinding.cropIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
-
-			setupCamera();
-		}
-
-		private void setupCamera() {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-			String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
-			String[] aspectRatioXY = aspectRatio.split(":");
-			int x = Integer.parseInt(aspectRatioXY[0]);
-			int y = Integer.parseInt(aspectRatioXY[1]);
-			mBinding.cropIv.setCustomRatio(x, y);
-		}
-
-		private void crop() {
-			if (mBinding.cropIv.getCroppedBitmap() != null) {
-				mBinding.cropIv.startCrop(Uri.fromFile(new File(getActivity().getCacheDir(), "cropped")), (CropCallback) getTargetFragment(), null);
-			}
-		}
-
-		private void rotate() {
-			mBinding.cropIv.rotateImage(CropImageView.RotateDegrees.ROTATE_90D);
 		}
 	}
 }
