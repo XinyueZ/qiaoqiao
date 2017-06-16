@@ -65,8 +65,6 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	}
 
 	private void setupCropImageView() {
-		mBinding.cropIv.setShowProgressBar(true);
-		mBinding.cropIv.setShowCropOverlay(true);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
 		String[] aspectRatioXY = aspectRatio.split(":");
@@ -107,6 +105,7 @@ public final class CropFragment extends Fragment implements CropContract.View,
 					mBinding.cropFbPb.setVisibility(VISIBLE);
 				}
 				mBinding.cropIv.getCroppedImageAsync();
+				mBinding.cropFb.setEnabled(false);
 				break;
 		}
 	}
@@ -136,12 +135,14 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		if (!bitmap.isRecycled()) {
 			bitmap.recycle();
 		}
+		mBinding.cropFb.setEnabled(true);
 	}
 
 
 	private void onError() {
 		if (mPresenter != null) {
 			mPresenter.croppedFail();
+			mBinding.cropFb.setEnabled(true);
 		}
 	}
 }

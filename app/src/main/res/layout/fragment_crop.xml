@@ -12,25 +12,31 @@
         <com.theartofdev.edmodo.cropper.CropImageView
             android:id="@+id/crop_iv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:soundEffectsEnabled="true"
+            app:cropAutoZoomEnabled="true"
+            app:cropBackgroundColor="@color/colorGrey80"
+            app:cropMultiTouchEnabled="true"
+            app:cropShowCropOverlay="true"
+            app:cropShowProgressBar="true"/>
 
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom">
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="@dimen/small">
 
 
             <ImageView
                 android:id="@+id/crop_fb_pb"
                 style="@style/ButtonProgressBar"
-                app:srcCompat="@drawable/ic_animated_loading_small_pb"/>
+                app:srcCompat="@drawable/ic_animated_loading_pb"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/crop_fb"
                 style="@style/MainControlButton"
                 app:backgroundTint="@color/colorTealDark"
-                app:fabSize="mini"
                 app:srcCompat="@drawable/ic_cropped"/>
 
         </FrameLayout>
