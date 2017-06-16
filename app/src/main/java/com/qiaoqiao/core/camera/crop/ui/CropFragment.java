@@ -65,6 +65,8 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	}
 
 	private void setupCropImageView() {
+		mBinding.cropIv.setShowProgressBar(true);
+		mBinding.cropIv.setShowCropOverlay(true);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 		String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
 		String[] aspectRatioXY = aspectRatio.split(":");
