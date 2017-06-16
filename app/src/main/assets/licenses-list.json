@@ -87,6 +87,11 @@
           "copyright": "2015"
         },
         {
+          "name": "Android-Image-Cropper",
+          "owner": "Arthur Teplitzki, Edmodo, Inc.",
+          "copyright": "2013, 2016"
+        },
+        {
           "name": "Apache Common IO",
           "owner": "Apache"
         }
@@ -96,11 +101,6 @@
       "name": "MIT",
       "description": "The MIT License (MIT)",
       "libraries": [
-        {
-          "name": "SimpleCropView",
-          "owner": "Issei Aoki",
-          "copyright": "2015"
-        },
         {
           "name": "TextDrawable",
           "owner": "github.com/amulyakhare/TextDrawable"

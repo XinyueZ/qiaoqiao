@@ -10,11 +10,12 @@ internal fun readTextFile(inputStream: InputStream): String? = try {
     val buffreader = BufferedReader(inputreader)
     val text = StringBuilder()
 
-    var line: String = buffreader.readLine()
-    while (line != null) {
+    var line: String?
+    while (true) {
+        line = buffreader.readLine()
+        if (line == null) break
         text.append(line)
         text.append('\n')
-        line = buffreader.readLine()
     }
     text.toString()
 } catch (ex: IOException) {
