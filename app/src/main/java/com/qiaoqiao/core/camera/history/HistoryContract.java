@@ -19,9 +19,10 @@ package com.qiaoqiao.core.camera.history;
 
 import android.support.annotation.NonNull;
 
+import com.qiaoqiao.databinding.FragmentHistoryBinding;
+import com.qiaoqiao.databinding.FragmentStackviewHistoryBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
-import com.qiaoqiao.databinding.FragmentHistoryBinding;
 import com.qiaoqiao.repository.database.HistoryItem;
 
 import java.util.List;
@@ -30,16 +31,33 @@ import java.util.List;
  * This specifies the contract between the view and the presenter.
  */
 public interface HistoryContract {
-
-	interface View extends BaseView<HistoryPresenter, FragmentHistoryBinding> {
-		FragmentHistoryBinding getBinding();
+	interface ListView {
 
 		void showList(@NonNull List<HistoryItem> results);
 
 		void updateList(@NonNull List<HistoryItem> historyItemList);
 	}
 
+	interface View extends BaseView<HistoryPresenter, FragmentHistoryBinding>,
+	                       ListView {
+		FragmentHistoryBinding getBinding();
+
+	}
+
+
 	interface Presenter extends BasePresenter {
+		void loadHistory();
+	}
+
+
+	interface View2 extends BaseView<HistoryPresenter2, FragmentStackviewHistoryBinding>,
+	                        ListView {
+		FragmentStackviewHistoryBinding getBinding();
+
+	}
+
+
+	interface Presenter2 extends BasePresenter {
 		void loadHistory();
 	}
 }
