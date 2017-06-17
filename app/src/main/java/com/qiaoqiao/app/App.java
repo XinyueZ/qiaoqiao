@@ -83,7 +83,7 @@ public final class App extends MultiDexApplication {
 		                     .appComponent(application.mAppComponent)
 		                     .dsRepositoryComponent(application.mRepositoryComponent)
 		                     .cameraModule(new CameraModule(cameraActivity))
-		                     .historyModule(new HistoryModule())
+		                     .historyModule(new HistoryModule(cameraActivity.getSupportFragmentManager()))
 		                     .visionModule(new VisionModule())
 		                     .awarenessModule(new AwarenessModule())
 		                     .cropModule(new CropModule())

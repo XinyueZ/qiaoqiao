@@ -54,6 +54,7 @@ import com.qiaoqiao.core.camera.crop.ui.CropFragment;
 import com.qiaoqiao.core.camera.history.HistoryCallback;
 import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
+import com.qiaoqiao.core.camera.history.HistoryPresenter2;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.core.confidence.ConfidenceContract;
@@ -108,12 +109,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject CameraPresenter mCameraPresenter;
 	@Inject VisionPresenter mVisionPresenter;
 	@Inject HistoryPresenter mHistoryPresenter;
+	@Inject HistoryPresenter2 mHistoryPresenter2;
 	@Inject AwarenessPresenter mAwarenessPresenter;
 	@Inject ConfidencePresenter mConfidencePresenter;
 
 	@Inject CropContract.View mCropFragment;
 	@Inject VisionContract.View mVisionFragment;
 	@Inject HistoryContract.View mHistoryFragment;
+	@Inject HistoryContract.View2 mHistoryFragment2;
 	@Inject ConfidenceContract.View mConfidenceFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
 
@@ -349,6 +352,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mCameraPresenter.begin(this);
 		mVisionPresenter.begin(this);
 		mHistoryPresenter.begin(this);
+		mHistoryPresenter2.begin(this);
 		mAwarenessPresenter.begin(this);
 		mConfidencePresenter.begin(this);
 	}
@@ -365,6 +369,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mCameraPresenter.end(this);
 		mVisionPresenter.end(this);
 		mHistoryPresenter.end(this);
+		mHistoryPresenter2.end(this);
 		mAwarenessPresenter.end(this);
 		mConfidencePresenter.end(this);
 	}

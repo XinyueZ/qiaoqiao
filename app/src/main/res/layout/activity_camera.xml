@@ -94,28 +94,25 @@
                             app:srcCompat="@drawable/ic_expand_more"/>
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <fragment
+                            android:id="@+id/stackview_history_fg"
+                            android:name="com.qiaoqiao.core.camera.history.ui.HistoryStackViewFragment"
+                            android:layout_width="@dimen/stackview_item_size"
+                            android:layout_height="@dimen/stackview_item_size"
                             android:layout_gravity="bottom|end|right"
                             android:layout_margin="@dimen/small"
-                            android:orientation="vertical">
+                            android:layout_marginBottom="@dimen/small"/>
 
-                            <fragment
-                                android:name="com.qiaoqiao.core.camera.history.ui.HistoryStackViewFragment"
-                                android:id="@+id/stackview_history_fg"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-
-                            <ImageButton
-                                android:id="@+id/camera_direction_btn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/colorTransparent"
-                                android:contentDescription="@string/action_camera_direction"
-                                android:onClick="@{clickHandler::onClick}"
-                                android:src="@drawable/ic_camera_front"/>
-                        </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/camera_direction_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|start|left"
+                            android:layout_margin="@dimen/small"
+                            android:background="@color/colorTransparent"
+                            android:contentDescription="@string/action_camera_direction"
+                            android:onClick="@{clickHandler::onClick}"
+                            android:src="@drawable/ic_camera_front"/>
                     </FrameLayout>
 
                     <android.support.v7.widget.Toolbar
