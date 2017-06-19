@@ -177,6 +177,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				ViewCompat.animate(mBinding.cameraDirectionBtn)
 				          .alpha(0)
 				          .start();
+				final View view = getSupportFragmentManager().findFragmentById(R.id.stackview_history_fg)
+				                                             .getView();
+				ViewCompat.animate(view)
+				          .alpha(0)
+				          .start();
 				mBinding.expandMoreBtn.setEnabled(false);
 			}
 
@@ -187,6 +192,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				          .alpha(1)
 				          .start();
 				ViewCompat.animate(mBinding.cameraDirectionBtn)
+				          .alpha(1)
+				          .start();
+				final View view = getSupportFragmentManager().findFragmentById(R.id.stackview_history_fg)
+				                                             .getView();
+				ViewCompat.animate(view)
 				          .alpha(1)
 				          .start();
 				mBinding.expandMoreBtn.setEnabled(true);
@@ -635,15 +645,25 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		ViewCompat.animate(mBinding.cameraDirectionBtn)
 		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
 		                 1 :
-		                 0).start();
+		                 0)
+		          .start();
 		ViewCompat.animate(mBinding.expandMoreBtn)
 		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
 		                 1 :
-		                 0).start();
+		                 0)
+		          .start();
 		ViewCompat.animate(mBinding.expandLessBtn)
 		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
 		                 1 :
-		                 0).start();
+		                 0)
+		          .start();
+		final View view = getSupportFragmentManager().findFragmentById(R.id.stackview_history_fg)
+		                                             .getView();
+		ViewCompat.animate(view)
+		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
+		                 1 :
+		                 0)
+		          .start();
 	}
 
 	@Override
