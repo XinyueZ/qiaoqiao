@@ -34,14 +34,18 @@ class HistoryStackViewFragment : Fragment(), HistoryContract.View2 {
     override fun showList(results: MutableList<HistoryItem>) {
         adapter = HistoryStackViewAdapter(results, activity.layoutInflater)
         binding?.historyStv?.adapter = adapter
+        binding?.historyStv?.setSelection(results.size - 1)
     }
 
     override fun updateList(historyItemList: MutableList<HistoryItem>) {
         adapter?.notifyDataSetChanged()
-        binding?.historyStv?.visibility = if (!historyItemList.isEmpty())
+        binding?.historyStv?.visibility = if (!historyItemList.isEmpty()) {
             View.VISIBLE
-        else
+        } else
             View.GONE
+
+        if (historyItemList.isEmpty()) return
+        binding?.historyStv?.setSelection(historyItemList.size - 1)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
