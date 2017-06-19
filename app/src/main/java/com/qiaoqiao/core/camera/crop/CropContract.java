@@ -42,5 +42,7 @@ public interface CropContract {
 		void cropped(@NonNull byte[] bytes);
 
 		void croppedFail();
+
+		void openCrop(@NonNull byte[] data);
 	}
 }

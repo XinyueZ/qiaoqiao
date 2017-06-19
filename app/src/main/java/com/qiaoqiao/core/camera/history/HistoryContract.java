@@ -18,7 +18,9 @@ package com.qiaoqiao.core.camera.history;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.qiaoqiao.core.camera.crop.CropPresenter;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
 import com.qiaoqiao.databinding.FragmentStackviewHistoryBinding;
 import com.qiaoqiao.mvp.BasePresenter;
@@ -59,5 +61,7 @@ public interface HistoryContract {
 
 	interface Presenter2 extends BasePresenter {
 		void loadHistory();
+
+		void setCropPresenter(@Nullable CropPresenter cropPresenter);
 	}
 }

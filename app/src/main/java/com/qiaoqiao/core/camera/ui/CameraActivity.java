@@ -359,10 +359,11 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void presentersBegin() {
+		mCropPresenter.begin(this);
 		mCameraPresenter.begin(this);
 		mVisionPresenter.begin(this);
 		mHistoryPresenter.begin(this);
-		mHistoryPresenter2.begin(this);
+		mHistoryPresenter2.begin(this);mHistoryPresenter2.setCropPresenter(mCropPresenter);
 		mAwarenessPresenter.begin(this);
 		mConfidencePresenter.begin(this);
 	}
@@ -376,6 +377,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void presentersEnd() {
+		mCropPresenter.end(this);
 		mCameraPresenter.end(this);
 		mVisionPresenter.end(this);
 		mHistoryPresenter.end(this);

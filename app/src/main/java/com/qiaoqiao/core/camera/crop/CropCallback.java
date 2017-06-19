@@ -7,4 +7,6 @@ public interface CropCallback {
 	void onCropped(@NonNull byte[] bytes);
 
 	void onCroppedFail();
+
+	void openCrop(@NonNull byte[] data);
 }

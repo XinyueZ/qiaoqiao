@@ -43,4 +43,9 @@ public final class CropPresenter implements CropContract.Presenter {
 	public void croppedFail() {
 		mCropCallback.onCroppedFail();
 	}
+
+	@Override
+	public void openCrop(@NonNull byte[] data) {
+		mCropCallback.openCrop(data);
+	}
 }
