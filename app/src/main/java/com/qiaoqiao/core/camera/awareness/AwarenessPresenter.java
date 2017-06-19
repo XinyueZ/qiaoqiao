@@ -194,10 +194,10 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 	}
 
 	private void createPlaceWrappers(@NonNull List<PlaceLikelihood> likelihoodList, @NonNull List<ClusterItem> outputList) {
-		if (mGoogleApiClient == null) {
-			return;
-		}
 		for (PlaceLikelihood placeLikelihood : likelihoodList) {
+			if (mGoogleApiClient == null) {
+				return;
+			}
 			PlacePhotoMetadataResult result = Places.GeoDataApi.getPlacePhotos(mGoogleApiClient,
 			                                                                   placeLikelihood.getPlace()
 			                                                                                  .getId())
@@ -223,7 +223,7 @@ public final class AwarenessPresenter implements AwarenessContract.Presenter,
 		mView.showAdjust(Adjust.Factory.createAdjust(cxt,
 		                                             KEY_GEOSEARCH_RADIUS,
 		                                             PreferenceManager.getDefaultSharedPreferences(cxt)
-		                                                                 .getInt(KEY_GEOSEARCH_RADIUS, DEFAULT_GEOSEARCH_RADIUS)));
+		                                                              .getInt(KEY_GEOSEARCH_RADIUS, DEFAULT_GEOSEARCH_RADIUS)));
 
 	}
 }
