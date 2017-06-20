@@ -104,8 +104,7 @@
                             android:layout_marginLeft="@dimen/medium"
                             android:layout_marginRight="@dimen/medium"
                             android:layout_marginStart="@dimen/medium"
-                            android:padding="@dimen/small"
-                            android:layout_marginTop="?attr/actionBarSize"/>
+                            android:layout_marginTop="@dimen/position_stackview"/>
 
                         <ImageButton
                             android:id="@+id/camera_direction_btn"
