@@ -117,7 +117,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
     override fun onPermissionsDenied(i: Int, list: List<String>) {
         if (!hasPermission()) {
             AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-                    .setNegativeButton(getString(R.string.exit_app)) { dialogInterface, i1 -> activity.supportFinishAfterTransition() }
+                    .setNegativeButton(getString(R.string.exit_app)) { _, _ -> activity.supportFinishAfterTransition() }
                     .build()
                     .show()
         } else {
