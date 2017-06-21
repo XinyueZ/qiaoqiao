@@ -3,9 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".core.splash.ui.SplashActivity">
+
     <data class="SplashBinding">
 
+        <variable
+            name="buildConfig"
+            type="com.qiaoqiao.BuildConfig"/>
     </data>
+
     <FrameLayout
         android:id="@+id/splash_root_fl"
         android:layout_width="match_parent"
@@ -18,5 +23,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@mipmap/ic_launcher_foreground"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="@dimen/larger"
+            android:text="@{buildConfig.VERSION_NAME}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorWhite"/>
     </FrameLayout>
 </layout>
