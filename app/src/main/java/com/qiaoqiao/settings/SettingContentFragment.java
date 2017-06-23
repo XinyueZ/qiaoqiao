@@ -38,6 +38,10 @@ public final class SettingContentFragment extends AbstractSettingFragment {
 				}
 			}
 		}
+
+		if (preference instanceof PermissionPreference) {
+			return;
+		}
 		super.onDisplayPreferenceDialog(preference);
 	}
 
@@ -64,6 +68,9 @@ public final class SettingContentFragment extends AbstractSettingFragment {
 						break;
 					case HEADER_DATASTORE:
 						addPreferencesFromResource(R.xml.preferences_datastore);
+						break;
+					case HEADER_PERMISSION:
+						addPreferencesFromResource(R.xml.preferences_permission);
 						break;
 				}
 			}

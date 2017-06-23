@@ -16,6 +16,7 @@ abstract class AbstractSettingFragment extends PreferenceFragmentCompat {
 	static final String INDEX = "index";
 	static final String HEADER_CAMERA = "preferences_camera";
 	static final String HEADER_DATASTORE = "preferences_datastore";
+	static final String HEADER_PERMISSION = "preferences_permission";
 	static final String HEADER_PREFERENCE_TITLE_DATASTORE_CLEAR_CACHE = "preference_title_datastore_clear_cache";
 
 

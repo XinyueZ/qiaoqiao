@@ -23,6 +23,17 @@
     <string name="preference_dialogcancel_datastore_clear_cache">Abbrechen</string>
     <string name="preference_feedback_cleared_cache">Speicherung entleert</string>
 
+    <string name="preference_title_permission">Berechtigung</string>
+    <string name="preference_summary_permission">App-Berechtigung für einige Feature</string>
+    <string name="preference_title_write_external_storage">Schreibe externe Speicherung</string>
+    <string name="preference_summary_write_external_storage">Schreibe externe Speicherung: android.permission.WRITE_EXTERNAL_STORAGE</string>
+    <string name="preference_title_read_external_storage">Externe Lagerung lesen</string>
+    <string name="preference_summary_read_external_storage">Externe Lagerung lesen: android.permission.READ_EXTERNAL_STORAGE</string>
+    <string name="preference_title_fine_location">Ort</string>
+    <string name="preference_summary_fine_location">Ort: android.permission.ACCESS_FINE_LOCATION</string>
+    <string name="preference_title_camera_usage">Kamera</string>
+    <string name="preference_summary_camera_usage">Kamera: android.permission.CAMERA</string>
+
     <string name="preference_title_camera">Kamera</string>
     <string name="preference_summary_camera">Kamera einstellen</string>
     <string name="preference_title_camera_flash_options">Blitzen</string>

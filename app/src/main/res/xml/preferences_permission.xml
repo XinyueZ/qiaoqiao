@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <com.qiaoqiao.settings.PermissionPreference
+        android:summary="@string/preference_summary_write_external_storage"
+        android:title="@string/preference_title_write_external_storage"
+        >
+        <extra
+            android:name="header"
+            android:value="preference_title_write_external_storage"/>
+    </com.qiaoqiao.settings.PermissionPreference>
+
+
+    <com.qiaoqiao.settings.PermissionPreference
+        android:summary="@string/preference_summary_read_external_storage"
+        android:title="@string/preference_title_read_external_storage"
+        >
+        <extra
+            android:name="header"
+            android:value="preference_title_read_external_storage"/>
+    </com.qiaoqiao.settings.PermissionPreference>
+
+    <com.qiaoqiao.settings.PermissionPreference
+        android:summary="@string/preference_summary_fine_location"
+        android:title="@string/preference_title_fine_location"
+        >
+        <extra
+            android:name="header"
+            android:value="preference_title_fine_location"/>
+    </com.qiaoqiao.settings.PermissionPreference>
+
+
+    <com.qiaoqiao.settings.PermissionPreference
+        android:summary="@string/preference_summary_camera_usage"
+        android:title="@string/preference_title_camera_usage"
+        >
+        <extra
+            android:name="header"
+            android:value="preference_title_camera_usage"/>
+    </com.qiaoqiao.settings.PermissionPreference>
+
+</android.support.v7.preference.PreferenceScreen>

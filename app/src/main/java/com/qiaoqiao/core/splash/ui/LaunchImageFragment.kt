@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -118,7 +119,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
     override fun onPermissionsDenied(i: Int, list: List<String>) {
         if (!hasPermission()) {
             AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-                    .setNegativeButton(getString(R.string.exit_app)) { _, _ -> activity.supportFinishAfterTransition() }
+                    .setNegativeButton(getString(R.string.exit_app)) { _, _ -> ActivityCompat.finishAffinity(activity) }
                     .build()
                     .show()
         } else {
