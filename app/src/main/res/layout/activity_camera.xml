@@ -80,7 +80,7 @@
                             app:pointDrawable="@drawable/ic_lockscreen_glowdot"
                             app:snapMargin="@dimen/glowpadview_snap_margin"
                             app:targetDrawables="@array/glowpadview_target_drawables"
-                            app:vibrationDuration="20"/>
+                            app:vibrationDuration="500"/>
 
                         <ImageButton
                             android:id="@+id/expand_more_btn"

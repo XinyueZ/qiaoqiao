@@ -10,6 +10,7 @@
     <string name="permission_setting">Set permission</string>
     <string name="permission_relation_to_camera_text">ViApp needs device permission \"CAMERA\", consider to grant this permission.</string>
     <string name="permission_relation_to_read_external_storage_text">ViApp needs device permission to read your \"READ_EXTERNAL_STORAGE\", consider to grant this permission.</string>
+    <string name="permission_relation_to_write_external_storage_text">ViApp needs device permission to write your \"WRITE_EXTERNAL_STORAGE\", consider to grant this permission.</string>
     <string name="permission_relation_to_location_text">ViApp needs  \"ACCESS_FINE_LOCATION\" to find your places round you.</string>
 
     <string name="hint_link_image">Link to an image</string>

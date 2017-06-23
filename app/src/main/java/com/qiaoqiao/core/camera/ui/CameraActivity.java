@@ -70,7 +70,6 @@ import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
 import com.qiaoqiao.utils.LL;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -83,6 +82,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -363,7 +363,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mCameraPresenter.begin(this);
 		mVisionPresenter.begin(this);
 		mHistoryPresenter.begin(this);
-		mHistoryPresenter2.begin(this);mHistoryPresenter2.setCropPresenter(mCropPresenter);
+		mHistoryPresenter2.begin(this);
+		mHistoryPresenter2.setCropPresenter(mCropPresenter);
 		mAwarenessPresenter.begin(this);
 		mConfidencePresenter.begin(this);
 	}
@@ -388,7 +389,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void showLoadFromWebcam(@NonNull View v) {
-		LL.d("not yet");
+		requireWriteExternalStoragePermission();
 	}
 
 	@Override
@@ -398,7 +399,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void showLoadFromLocal(@NonNull android.view.View v) {
-		requireExternalStoragePermission();
+		requireReadExternalStoragePermission();
 	}
 
 
@@ -472,6 +473,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private void openLocalDir() {
 		Intent openPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(openPhotoIntent, REQ_FILE_SELECTOR);
+	}
+
+	private void makeVideo() {
+		LL.d("makeVideo not yet");
 	}
 
 	private void openPlaces() {
@@ -750,19 +755,32 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	//--Begin permission--
 
-	private static final int RC_EXTERNAL_STORAGE_PERMISSIONS = 123;
-	private static final int RC_FINE_LOCATION_PERMISSIONS = 124;
+	private static final int RC_READ_EXTERNAL_STORAGE_PERMISSIONS = 123;
+	private static final int RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS = RC_READ_EXTERNAL_STORAGE_PERMISSIONS + 1;
+	private static final int RC_FINE_LOCATION_PERMISSIONS = RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS + 1;
 
 	@SuppressLint("InlinedApi")
-	@AfterPermissionGranted(RC_EXTERNAL_STORAGE_PERMISSIONS)
-	private void requireExternalStoragePermission() {
+	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
+	private void requireReadExternalStoragePermission() {
 		if (EasyPermissions.hasPermissions(this, READ_EXTERNAL_STORAGE)) {
 			openLocalDir();
 		} else {
 			// Ask for one permission
-			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_read_external_storage_text), RC_EXTERNAL_STORAGE_PERMISSIONS, READ_EXTERNAL_STORAGE);
+			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_read_external_storage_text), RC_READ_EXTERNAL_STORAGE_PERMISSIONS, READ_EXTERNAL_STORAGE);
 		}
 	}
+
+	@SuppressLint("InlinedApi")
+	@AfterPermissionGranted(RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS)
+	private void requireWriteExternalStoragePermission() {
+		if (EasyPermissions.hasPermissions(this, WRITE_EXTERNAL_STORAGE)) {
+			makeVideo();
+		} else {
+			// Ask for one permission
+			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_write_external_storage_text), RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS, WRITE_EXTERNAL_STORAGE);
+		}
+	}
+
 
 	@SuppressLint("InlinedApi")
 	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
@@ -781,6 +799,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		if (list.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 			openLocalDir();
 		}
+		if (list.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+			makeVideo();
+		}
 //		if (list.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
 //			openPlaces();
 //		}
@@ -788,18 +809,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 	@Override
-	public void onPermissionsDenied(int i, List<String> list) {
-		if (EasyPermissions.somePermissionPermanentlyDenied(this, new ArrayList<String>() {{
-			add(Manifest.permission.READ_EXTERNAL_STORAGE);
-		}})) {
-			new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-			                                   .build()
-			                                   .show();
-			return;
-		}
-		if (EasyPermissions.somePermissionPermanentlyDenied(this, new ArrayList<String>() {{
-			add(Manifest.permission.ACCESS_FINE_LOCATION);
-		}})) {
+	public void onPermissionsDenied(int i, List<String> perms) {
+		if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
 			new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
 			                                   .build()
 			                                   .show();
