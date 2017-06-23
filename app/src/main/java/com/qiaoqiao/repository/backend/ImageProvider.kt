@@ -5,6 +5,6 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 
 interface ImageProvider {
-    @GET("prefetch-launch-images/1080*1920")
+    @GET("images/daily")
     fun getLaunchImages(): Observable<LaunchImages>
 }

@@ -60,6 +60,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(false)
                 .crossFade()
+                .centerCrop()
                 .listener(this)
                 .into(binding.launchImageIv)
     }

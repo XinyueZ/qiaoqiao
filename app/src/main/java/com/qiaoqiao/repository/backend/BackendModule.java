@@ -56,7 +56,7 @@ public final class BackendModule {
 	@RepositoryScope
 	@Provides
 	ImageProvider provideImageProvider(@NonNull Context cxt) {
-		Retrofit r = new Retrofit.Builder().baseUrl(cxt.getString(R.string.base_url_zhihu))
+		Retrofit r = new Retrofit.Builder().baseUrl(cxt.getString(R.string.base_url_knowledge))
 		                                   .client(new OkHttpClient().newBuilder()
 		                                                             .connectTimeout(15, TimeUnit.SECONDS)
 		                                                             .readTimeout(15, TimeUnit.SECONDS)
