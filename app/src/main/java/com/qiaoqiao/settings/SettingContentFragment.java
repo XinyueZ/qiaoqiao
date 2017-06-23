@@ -38,10 +38,6 @@ public final class SettingContentFragment extends AbstractSettingFragment {
 				}
 			}
 		}
-
-		if (preference instanceof PermissionPreference) {
-			return;
-		}
 		super.onDisplayPreferenceDialog(preference);
 	}
 
