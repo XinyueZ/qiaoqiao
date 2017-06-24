@@ -1,14 +1,11 @@
 package com.qiaoqiao.core.splash.ui
 
-import android.Manifest.permission.CAMERA
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,22 +14,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.qiaoqiao.R
 import com.qiaoqiao.app.PrefsKeys.COMMON_DELAY_SEC
 import com.qiaoqiao.core.camera.ui.CameraActivity
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.LaunchImageBinding
-import com.qiaoqiao.settings.RC_CAMERA_PERMISSIONS
 import com.qiaoqiao.utils.ImageUtils
-import pub.devrel.easypermissions.AfterPermissionGranted
-import pub.devrel.easypermissions.AppSettingsDialog
-import pub.devrel.easypermissions.EasyPermissions
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
-
-class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPermissions.PermissionCallbacks, RequestListener<Uri, Bitmap> {
+class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestListener<Uri, Bitmap> {
 
     private var presenter: SplashContract.Presenter? = null
     private lateinit var binding: LaunchImageBinding
@@ -48,9 +39,10 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
         return binding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        this.presenter?.loadLaunchImage(context)
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter?. loadLaunchImage (context)
     }
 
     override fun getBinding(): LaunchImageBinding = this.binding
@@ -67,7 +59,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
     }
 
     override fun onResourceReady(resource: Bitmap?, model: Uri?, target: Target<Bitmap>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-        requirePermission()
+        goToHome()
 
         if (resource == null) return true
         presenter?.saveLoadedLaunchImage(ImageUtils.convertImage2Bytes(resource))
@@ -80,11 +72,11 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
 
     override fun showLaunchImage(data: ByteArray) {
         if (data.isEmpty()) {
-            requirePermission()
+            goToHome()
             return
         }
         binding.launchImageIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.size))
-        Handler().postDelayed({ -> requirePermission() }, TimeUnit.SECONDS.toMillis(COMMON_DELAY_SEC))
+        Handler().postDelayed({ -> goToHome() }, TimeUnit.SECONDS.toMillis(COMMON_DELAY_SEC))
     }
 
     override fun onStop() {
@@ -99,40 +91,5 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
     private fun goToHome() {
         CameraActivity.showInstance(activity)
         activity.finish()
-    }
-
-    @AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
-    override fun requirePermission() {
-        if (hasPermission()) {
-            goToHome()
-        } else {
-            // Ask for one permission
-            EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA)
-        }
-    }
-
-    @SuppressLint("InlinedApi")
-    private fun hasPermission(): Boolean {
-        return EasyPermissions.hasPermissions(activity, CAMERA)
-    }
-
-    override fun onPermissionsDenied(i: Int, list: List<String>) {
-        if (!hasPermission()) {
-            AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-                    .setNegativeButton(getString(R.string.exit_app)) { _, _ -> ActivityCompat.finishAffinity(activity) }
-                    .build()
-                    .show()
-        } else {
-            goToHome()
-        }
-    }
-
-    override fun onPermissionsGranted(i: Int, list: List<String>) {
-        goToHome()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }

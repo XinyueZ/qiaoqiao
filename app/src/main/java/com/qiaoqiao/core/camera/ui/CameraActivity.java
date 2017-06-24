@@ -1,11 +1,11 @@
 package com.qiaoqiao.core.camera.ui;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -81,6 +81,7 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Bundle.EMPTY;
@@ -88,6 +89,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment.REQ_SETTING_LOCATING;
 import static com.qiaoqiao.repository.web.ui.WebLinkActivity.REQ_WEB_LINK;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS;
@@ -264,8 +266,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onResume() {
-		setupCamera();
+		requireCameraPermission();
+
 		super.onResume();
+
 		CustomTabUtils.HELPER.bindCustomTabsService(this);
 		EventBus.getDefault()
 		        .register(this);
@@ -571,12 +575,18 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Override
 	public void cameraBegin(@NonNull CameraView.Callback callback) {
 		mBinding.camera.addCallback(callback);
+		if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+			return;
+		}
 		mBinding.camera.start();
 	}
 
 	@Override
 	public void cameraEnd(@NonNull CameraView.Callback callback) {
 		mBinding.camera.removeCallback(callback);
+		if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+			return;
+		}
 		mBinding.camera.stop();
 	}
 
@@ -758,7 +768,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	//--Begin permission--
 
-	@SuppressLint("InlinedApi")
+	@AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
+	private void requireCameraPermission() {
+		if (!EasyPermissions.hasPermissions(this, CAMERA)) {
+			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA);
+		}
+	}
+
+
 	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
 	private void requireReadExternalStoragePermission() {
 		if (EasyPermissions.hasPermissions(this, READ_EXTERNAL_STORAGE)) {
@@ -769,7 +786,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		}
 	}
 
-	@SuppressLint("InlinedApi")
 	@AfterPermissionGranted(RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS)
 	private void requireWriteExternalStoragePermission() {
 		if (EasyPermissions.hasPermissions(this, WRITE_EXTERNAL_STORAGE)) {
@@ -781,7 +797,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 
-	@SuppressLint("InlinedApi")
 	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
 	private void requireFineLocationPermission() {
 		if (EasyPermissions.hasPermissions(this, ACCESS_FINE_LOCATION)) {
@@ -801,9 +816,10 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		if (list.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 			makeVideo();
 		}
-//		if (list.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
-//			openPlaces();
-//		}
+		if (list.contains(Manifest.permission.CAMERA)) {
+			mBinding.camera.start();
+			setupCamera();
+		}
 	}
 
 
