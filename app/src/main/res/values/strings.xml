@@ -58,12 +58,16 @@
 
     <string name="preference_title_permission">Permissions</string>
     <string name="preference_summary_permission">Grant permissions for some features</string>
+    <string name="preference_key_write_external_storage">prefs_write_external_storage</string>
     <string name="preference_title_write_external_storage">Write external storage</string>
     <string name="preference_summary_write_external_storage">Write external storage: android.permission.WRITE_EXTERNAL_STORAGE</string>
+    <string name="preference_key_read_external_storage">prefs_read_external_storage</string>
     <string name="preference_title_read_external_storage">Read external storage</string>
     <string name="preference_summary_read_external_storage">Read external storage: android.permission.READ_EXTERNAL_STORAGE</string>
+    <string name="preference_key_fine_location">prefs_fine_location</string>
     <string name="preference_title_fine_location">Location</string>
     <string name="preference_summary_fine_location">Location: android.permission.ACCESS_FINE_LOCATION</string>
+    <string name="preference_key_camera_usage">prefs_camera_usage</string>
     <string name="preference_title_camera_usage">Camera</string>
     <string name="preference_summary_camera_usage">Camera: android.permission.CAMERA</string>
 

@@ -1,17 +1,31 @@
 package com.qiaoqiao.settings;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.SwitchPreferenceCompat;
 import android.text.TextUtils;
 
 import com.qiaoqiao.R;
 
+import java.util.List;
 
-public final class SettingContentFragment extends AbstractSettingFragment {
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+
+public final class SettingContentFragment extends AbstractSettingFragment implements EasyPermissions.PermissionCallbacks,
+                                                                                     Preference.OnPreferenceClickListener {
 
 
 	public static Fragment newInstance(@NonNull Context cxt, @NonNull Bundle args) {
@@ -46,6 +60,7 @@ public final class SettingContentFragment extends AbstractSettingFragment {
 	public void onResume() {
 		super.onResume();
 		notifyShown();
+		initPermissionPreferences();
 	}
 
 
@@ -73,6 +88,36 @@ public final class SettingContentFragment extends AbstractSettingFragment {
 		}
 	}
 
+	private void initPermissionPreferences() {
+		Bundle args = getArguments();
+		if (args != null && !TextUtils.isEmpty(args.getString(HEADER))) {
+			String value = args.getString(HEADER);
+			if (value == null || !TextUtils.equals(value, HEADER_PERMISSION)) {
+				return;
+			}
+		}
+		initPermissionPreference(R.string.preference_key_write_external_storage, WRITE_EXTERNAL_STORAGE);
+		initPermissionPreference(R.string.preference_key_read_external_storage, READ_EXTERNAL_STORAGE);
+		initPermissionPreference(R.string.preference_key_fine_location, ACCESS_FINE_LOCATION);
+		initPermissionPreference(R.string.preference_key_camera_usage, CAMERA);
+	}
+
+
+	private void initPermissionPreference(@StringRes int preferenceKeyResId, @NonNull String permission) {
+		SwitchPreferenceCompat preference = (SwitchPreferenceCompat) findPreference(getString(preferenceKeyResId));
+		preference.setChecked(EasyPermissions.hasPermissions(getContext(), permission));
+		preference.setOnPreferenceClickListener(this);
+	}
+
+	private void checkPermissionPreference(@StringRes int preferenceKeyResId, boolean check) {
+		SwitchPreferenceCompat preference = (SwitchPreferenceCompat) findPreference(getString(preferenceKeyResId));
+		preference.setChecked(check);
+	}
+
+	private boolean isPermissionPreferenceChecked(@StringRes int preferenceKeyResId) {
+		SwitchPreferenceCompat preference = (SwitchPreferenceCompat) findPreference(getString(preferenceKeyResId));
+		return preference.isChecked();
+	}
 
 	private void notifyShown() {
 		Bundle args = getArguments();
@@ -88,6 +133,92 @@ public final class SettingContentFragment extends AbstractSettingFragment {
 			targetFragment.onShowSettingContent(index, args.getString(TITLE));
 		}
 	}
+
+	private static final int RC_CAMERA_PERMISSIONS = 123;
+	private static final int RC_READ_EXTERNAL_STORAGE_PERMISSIONS = RC_CAMERA_PERMISSIONS + 1;
+	private static final int RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS = RC_READ_EXTERNAL_STORAGE_PERMISSIONS + 1;
+	private static final int RC_FINE_LOCATION_PERMISSIONS = RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS + 1;
+
+
+	@Override
+	public boolean onPreferenceClick(Preference preference) {
+		if (TextUtils.equals(getString(R.string.preference_key_write_external_storage), preference.getKey())) {
+			if (isPermissionPreferenceChecked(R.string.preference_key_write_external_storage)) {
+				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_write_external_storage_text), RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS, WRITE_EXTERNAL_STORAGE);
+				return false;
+			} else {
+				new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
+				                                   .build()
+				                                   .show();
+				return false;
+			}
+		} else if (TextUtils.equals(getString(R.string.preference_key_read_external_storage), preference.getKey())) {
+			if (isPermissionPreferenceChecked(R.string.preference_key_read_external_storage)) {
+				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_read_external_storage_text), RC_READ_EXTERNAL_STORAGE_PERMISSIONS, READ_EXTERNAL_STORAGE);
+				return false;
+			} else {
+				new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
+				                                   .build()
+				                                   .show();
+				return false;
+			}
+		} else if (TextUtils.equals(getString(R.string.preference_key_fine_location), preference.getKey())) {
+			if (isPermissionPreferenceChecked(R.string.preference_key_fine_location)) {
+				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_location_text), RC_FINE_LOCATION_PERMISSIONS, ACCESS_FINE_LOCATION);
+				return false;
+			} else {
+				new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
+				                                   .build()
+				                                   .show();
+				return false;
+			}
+		} else if (TextUtils.equals(getString(R.string.preference_key_camera_usage), preference.getKey())) {
+			if (isPermissionPreferenceChecked(R.string.preference_key_camera_usage)) {
+				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA);
+				return false;
+			} else {
+				new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
+				                                   .build()
+				                                   .show();
+				return false;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void onPermissionsGranted(int i, List<String> list) {
+		if (list.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+			checkPermissionPreference(R.string.preference_key_read_external_storage, true);
+		}
+		if (list.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+			checkPermissionPreference(R.string.preference_key_write_external_storage, true);
+		}
+		if (list.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
+			checkPermissionPreference(R.string.preference_key_fine_location, true);
+		}
+		if (list.contains(Manifest.permission.CAMERA)) {
+			checkPermissionPreference(R.string.preference_key_camera_usage, true);
+		}
+	}
+
+
+	@Override
+	public void onPermissionsDenied(int i, List<String> perms) {
+		if (EasyPermissions.permissionPermanentlyDenied(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+			checkPermissionPreference(R.string.preference_key_read_external_storage, false);
+		}
+		if (EasyPermissions.permissionPermanentlyDenied(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+			checkPermissionPreference(R.string.preference_key_write_external_storage, false);
+		}
+		if (EasyPermissions.permissionPermanentlyDenied(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+			checkPermissionPreference(R.string.preference_key_fine_location, false);
+		}
+		if (EasyPermissions.permissionPermanentlyDenied(this, Manifest.permission.CAMERA)) {
+			checkPermissionPreference(R.string.preference_key_fine_location, false);
+		}
+	}
+
 
 	interface SettingContentCallback {
 		void onShowSettingContent(int index, String title);

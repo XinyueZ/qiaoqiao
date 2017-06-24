@@ -5,6 +5,7 @@
     <com.qiaoqiao.settings.PermissionPreference
         android:summary="@string/preference_summary_write_external_storage"
         android:title="@string/preference_title_write_external_storage"
+        android:key="@string/preference_key_write_external_storage"
         >
         <extra
             android:name="header"
@@ -15,6 +16,7 @@
     <com.qiaoqiao.settings.PermissionPreference
         android:summary="@string/preference_summary_read_external_storage"
         android:title="@string/preference_title_read_external_storage"
+        android:key="@string/preference_key_read_external_storage"
         >
         <extra
             android:name="header"
@@ -24,6 +26,7 @@
     <com.qiaoqiao.settings.PermissionPreference
         android:summary="@string/preference_summary_fine_location"
         android:title="@string/preference_title_fine_location"
+        android:key="@string/preference_key_fine_location"
         >
         <extra
             android:name="header"
@@ -34,6 +37,7 @@
     <com.qiaoqiao.settings.PermissionPreference
         android:summary="@string/preference_summary_camera_usage"
         android:title="@string/preference_title_camera_usage"
+        android:key="@string/preference_key_camera_usage"
         >
         <extra
             android:name="header"
