@@ -23,6 +23,7 @@ import com.qiaoqiao.core.camera.ui.CameraActivity
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.LaunchImageBinding
+import com.qiaoqiao.settings.RC_CAMERA_PERMISSIONS
 import com.qiaoqiao.utils.ImageUtils
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -30,7 +31,6 @@ import pub.devrel.easypermissions.EasyPermissions
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
-private const val RC_PERMISSIONS = 123
 
 class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPermissions.PermissionCallbacks, RequestListener<Uri, Bitmap> {
 
@@ -101,13 +101,13 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, EasyPerm
         activity.finish()
     }
 
-    @AfterPermissionGranted(RC_PERMISSIONS)
+    @AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
     override fun requirePermission() {
         if (hasPermission()) {
             goToHome()
         } else {
             // Ask for one permission
-            EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_PERMISSIONS, CAMERA)
+            EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA)
         }
     }
 

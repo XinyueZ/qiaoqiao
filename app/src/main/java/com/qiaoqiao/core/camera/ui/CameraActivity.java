@@ -88,6 +88,9 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment.REQ_SETTING_LOCATING;
 import static com.qiaoqiao.repository.web.ui.WebLinkActivity.REQ_WEB_LINK;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS;
 
 public final class CameraActivity extends AppCompatActivity implements CameraContract.View,
                                                                        View.OnClickListener,
@@ -754,10 +757,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 	//--Begin permission--
-
-	private static final int RC_READ_EXTERNAL_STORAGE_PERMISSIONS = 123;
-	private static final int RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS = RC_READ_EXTERNAL_STORAGE_PERMISSIONS + 1;
-	private static final int RC_FINE_LOCATION_PERMISSIONS = RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS + 1;
 
 	@SuppressLint("InlinedApi")
 	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)

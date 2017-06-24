@@ -22,6 +22,10 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS;
 
 
 public final class SettingContentFragment extends AbstractSettingFragment implements EasyPermissions.PermissionCallbacks,
@@ -136,10 +140,6 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 		}
 	}
 
-	private static final int RC_CAMERA_PERMISSIONS = 123;
-	private static final int RC_READ_EXTERNAL_STORAGE_PERMISSIONS = RC_CAMERA_PERMISSIONS + 1;
-	private static final int RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS = RC_READ_EXTERNAL_STORAGE_PERMISSIONS + 1;
-	private static final int RC_FINE_LOCATION_PERMISSIONS = RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS + 1;
 	private AppSettingsDialog mAppSettingsDialog;
 
 	@Override
