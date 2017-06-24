@@ -96,6 +96,8 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 				return;
 			}
 		}
+		mAppSettingsDialog = new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
+		                                                        .build();
 		initPermissionPreference(R.string.preference_key_write_external_storage, WRITE_EXTERNAL_STORAGE);
 		initPermissionPreference(R.string.preference_key_read_external_storage, READ_EXTERNAL_STORAGE);
 		initPermissionPreference(R.string.preference_key_fine_location, ACCESS_FINE_LOCATION);
@@ -138,7 +140,7 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 	private static final int RC_READ_EXTERNAL_STORAGE_PERMISSIONS = RC_CAMERA_PERMISSIONS + 1;
 	private static final int RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS = RC_READ_EXTERNAL_STORAGE_PERMISSIONS + 1;
 	private static final int RC_FINE_LOCATION_PERMISSIONS = RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS + 1;
-
+	private AppSettingsDialog mAppSettingsDialog;
 
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
@@ -147,9 +149,7 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_write_external_storage_text), RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS, WRITE_EXTERNAL_STORAGE);
 				return false;
 			} else {
-				new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-				                                   .build()
-				                                   .show();
+				mAppSettingsDialog.show();
 				return false;
 			}
 		} else if (TextUtils.equals(getString(R.string.preference_key_read_external_storage), preference.getKey())) {
@@ -157,9 +157,7 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_read_external_storage_text), RC_READ_EXTERNAL_STORAGE_PERMISSIONS, READ_EXTERNAL_STORAGE);
 				return false;
 			} else {
-				new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-				                                   .build()
-				                                   .show();
+				mAppSettingsDialog.show();
 				return false;
 			}
 		} else if (TextUtils.equals(getString(R.string.preference_key_fine_location), preference.getKey())) {
@@ -167,9 +165,7 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_location_text), RC_FINE_LOCATION_PERMISSIONS, ACCESS_FINE_LOCATION);
 				return false;
 			} else {
-				new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-				                                   .build()
-				                                   .show();
+				mAppSettingsDialog.show();
 				return false;
 			}
 		} else if (TextUtils.equals(getString(R.string.preference_key_camera_usage), preference.getKey())) {
@@ -177,9 +173,7 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA);
 				return false;
 			} else {
-				new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-				                                   .build()
-				                                   .show();
+				mAppSettingsDialog.show();
 				return false;
 			}
 		}
