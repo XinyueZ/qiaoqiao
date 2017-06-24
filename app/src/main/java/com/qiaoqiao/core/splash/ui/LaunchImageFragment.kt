@@ -20,6 +20,7 @@ import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.LaunchImageBinding
 import com.qiaoqiao.utils.ImageUtils
+import com.qiaoqiao.utils.LL
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
@@ -60,13 +61,13 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
 
     override fun onResourceReady(resource: Bitmap?, model: Uri?, target: Target<Bitmap>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
         goToHome()
-
-        if (resource == null) return true
+        if (resource == null) return false
         presenter?.saveLoadedLaunchImage(ImageUtils.convertImage2Bytes(resource))
         return false
     }
 
     override fun onException(e: Exception?, model: Uri?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+        goToHome()
         return false
     }
 
