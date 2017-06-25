@@ -68,7 +68,7 @@ class VisionListFragment : AbstractVisionFragment(), VisionContract.View {
     }
 
     override fun addEntities(visionEntityList: MutableList<VisionEntity>) {
-        visionListAdapter.addVisionEntityList(visionEntityList);
+        visionListAdapter.addVisionEntityList(visionEntityList)
         setRefreshing(false)
     }
 

@@ -55,7 +55,7 @@ class VisionListAdapter(private var key: Key, private val entities: LinkedList<V
     }
 
     override fun getItemViewType(position: Int): Int {
-        val entity = entities.get(position)
+        val entity = entities[position]
         if (TextUtils.equals(entity.readableName, "WEB_DETECTION")) {
             return ITEM_TYPE_WEB
         }
