@@ -17,8 +17,8 @@ public final class VisionModule {
 
 	@CameraScoped
 	@Provides
-	VisionContract.View provideVisionContractView(@NonNull Context cxt,  @NonNull Key key) {
-		return VisionListFragment.newInstance(cxt, key);
+	VisionContract.View provideVisionContractView(@NonNull Context cxt, @NonNull Key key) {
+		return VisionListFragment.Companion.newInstance(cxt, key);
 	}
 
 
