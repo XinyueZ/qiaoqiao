@@ -70,6 +70,7 @@ import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
 import com.qiaoqiao.utils.LL;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -597,9 +598,13 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment historyFragment) {
-		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-		adapter.addFragment(visionFragment, getString(R.string.tab_vision));
-		adapter.addFragment(historyFragment, getString(R.string.tab_history));
+		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), new ArrayList<Fragment>() {{
+			add(visionFragment);
+			add(historyFragment);
+		}}, new ArrayList<String>() {{
+			add(getString(R.string.tab_vision));
+			add(getString(R.string.tab_history));
+		}});
 		mBinding.viewpager.setAdapter(adapter);
 		mBinding.tabs.setupWithViewPager(mBinding.viewpager);
 	}
