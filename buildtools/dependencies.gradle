@@ -154,37 +154,37 @@ ext {
 
 
     appDependencies = [
-            [configuration: "compile", dependency: fileTree(dir: 'libs', include: ['*.jar'])],
-            [configuration: "compile", dependency: project(':cameraview')],
+            [configuration: "implementation", dependency: fileTree(dir: 'libs', include: ['*.jar'])],
+            [configuration: "implementation", dependency: project(':cameraview')],
 
             //support-lib
-            [configuration: "compile", dependency: libs.core],
-            [configuration: "compile", dependency: libs.media],
-            [configuration: "compile", dependency: libs.design],
-            [configuration: "compile", dependency: libs.compat],
-            [configuration: "compile", dependency: libs.palette],
-            [configuration: "compile", dependency: libs.multidex],
-            [configuration: "compile", dependency: libs.cardview],
-            [configuration: "compile", dependency: libs.fragment],
-            [configuration: "compile", dependency: libs.coreUtils],
-            [configuration: "compile", dependency: libs.appcompat],
-            [configuration: "compile", dependency: libs.preference],
-            [configuration: "compile", dependency: libs.customtabs],
-            [configuration: "compile", dependency: libs.annotations],
-            [configuration: "compile", dependency: libs.recyclerview],
+            [configuration: "implementation", dependency: libs.core],
+            [configuration: "implementation", dependency: libs.media],
+            [configuration: "implementation", dependency: libs.design],
+            [configuration: "implementation", dependency: libs.compat],
+            [configuration: "implementation", dependency: libs.palette],
+            [configuration: "implementation", dependency: libs.multidex],
+            [configuration: "implementation", dependency: libs.cardview],
+            [configuration: "implementation", dependency: libs.fragment],
+            [configuration: "implementation", dependency: libs.coreUtils],
+            [configuration: "implementation", dependency: libs.appcompat],
+            [configuration: "implementation", dependency: libs.preference],
+            [configuration: "implementation", dependency: libs.customtabs],
+            [configuration: "implementation", dependency: libs.annotations],
+            [configuration: "implementation", dependency: libs.recyclerview],
 
             //Apache
-            [configuration: "compile", dependency: libs.apacheIO],
+            [configuration: "implementation", dependency: libs.apacheIO],
 
             //Retrofit
-            [configuration: "compile", dependency: libs.retrofit],
-            [configuration: "compile", dependency: libs.retrofitMock],
-            [configuration: "compile", dependency: libs.converterGson],
+            [configuration: "implementation", dependency: libs.retrofit],
+            [configuration: "implementation", dependency: libs.retrofitMock],
+            [configuration: "implementation", dependency: libs.converterGson],
 
             //Dagger
-            [configuration: "compile", dependency: libs.dagger],
-            [configuration: "compile", dependency: libs.daggerAndroid],
-            [configuration: "compile", dependency: libs.daggerAndroidSupport],
+            [configuration: "implementation", dependency: libs.dagger],
+            [configuration: "implementation", dependency: libs.daggerAndroid],
+            [configuration: "implementation", dependency: libs.daggerAndroidSupport],
             [configuration: "kapt", dependency: libs.daggerCompiler],
             [configuration: "kapt", dependency: libs.daggerAndroidProcessor],
 
@@ -192,26 +192,26 @@ ext {
             [configuration: "kapt", dependency: libs.dataBinding],
 
             //Image, loader
-            [configuration: "compile", dependency: libs.glide],
-            [configuration: "compile", dependency: libs.circleImageView],
+            [configuration: "implementation", dependency: libs.glide],
+            [configuration: "implementation", dependency: libs.circleImageView],
 
             //Bus
-            [configuration: "compile", dependency: libs.eventbus],
+            [configuration: "implementation", dependency: libs.eventbus],
 
             //Parser
-            [configuration: "compile", dependency: libs.gson],
+            [configuration: "implementation", dependency: libs.gson],
 
             //Permission
-            [configuration: "compile", dependency: libs.easypermissions],
+            [configuration: "implementation", dependency: libs.easypermissions],
 
             //Util
-            [configuration: "compile", dependency: libs.mapsUtils],
+            [configuration: "implementation", dependency: libs.mapsUtils],
 
             //Facebook
-            [configuration: "compile", dependency: libs.shimmer],
+            [configuration: "implementation", dependency: libs.shimmer],
 
-            //Google API, cloud-service etc.
-            [configuration: "compile", dependency: libs.vision,
+            //Google API, cloud etc.
+            [configuration: "implementation", dependency: libs.vision,
              options      : {
                  exclude module: 'httpclient'
                  exclude group: 'org.json', module: 'json'
@@ -219,7 +219,7 @@ ext {
                  exclude group: 'org.apache.httpcomponents', module: 'httpclient'
              }],
 
-            [configuration: "compile", dependency: libs.httpClientGson,
+            [configuration: "implementation", dependency: libs.httpClientGson,
              options      : {
                  exclude module: 'httpclient'
                  exclude group: 'org.json', module: 'json'
@@ -227,7 +227,7 @@ ext {
                  exclude group: 'org.apache.httpcomponents', module: 'httpclient'
              }],
 
-            [configuration: "compile", dependency: libs.apiClientAndroid,
+            [configuration: "implementation", dependency: libs.apiClientAndroid,
              options      : {
                  exclude module: 'httpclient'
                  exclude group: 'org.json', module: 'json'
@@ -236,34 +236,34 @@ ext {
              }],
 
             //Cropper for image
-            [configuration: "compile", dependency: libs.cropper],
+            [configuration: "implementation", dependency: libs.cropper],
 
             //Play
-            [configuration: "compile", dependency: libs.maps],
-            [configuration: "compile", dependency: libs.location],
-            [configuration: "compile", dependency: libs.awareness],
-            [configuration: "compile", dependency: libs.googleAuth],
+            [configuration: "implementation", dependency: libs.maps],
+            [configuration: "implementation", dependency: libs.location],
+            [configuration: "implementation", dependency: libs.awareness],
+            [configuration: "implementation", dependency: libs.googleAuth],
 
             //Firebase
-            [configuration: "compile", dependency: libs.fireAuth],
-            [configuration: "compile", dependency: libs.fireInvite],
-            [configuration: "compile", dependency: libs.fireDatabase],
+            [configuration: "implementation", dependency: libs.fireAuth],
+            [configuration: "implementation", dependency: libs.fireInvite],
+            [configuration: "implementation", dependency: libs.fireDatabase],
 
             //Text-drawable
-            [configuration: "compile", dependency: libs.textDrawable],
+            [configuration: "implementation", dependency: libs.textDrawable],
 
             //Rx
-            [configuration: "compile", dependency: libs.rxandroid],
-            [configuration: "compile", dependency: libs.rxAdapter],
+            [configuration: "implementation", dependency: libs.rxandroid],
+            [configuration: "implementation", dependency: libs.rxAdapter],
 
             //Kotlin
-            [configuration: "compile", dependency: libs.kotlin],
+            [configuration: "implementation", dependency: libs.kotlin],
 
             //GlowPadBackport
-            [configuration: "compile", dependency: libs.glowPadBackport],
+            [configuration: "implementation", dependency: libs.glowPadBackport],
 
             //Video
-            [configuration: "compile", dependency: libs.makeVideo],
+            [configuration: "implementation", dependency: libs.makeVideo],
     ]
 }
 
