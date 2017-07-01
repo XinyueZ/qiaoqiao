@@ -73,7 +73,7 @@ class VisionListAdapter(private var key: Key, private val entities: LinkedList<V
 
     override fun onBindViewHolder(holder: AbstractVisionViewHolder?, position: Int) {
         holder?.onBindViewHolder()
-        holder?.mBinding?.executePendingBindings()
+        holder?.getBinding()?.executePendingBindings()
     }
 
     override fun onViewRecycled(holder: AbstractVisionViewHolder?) {
