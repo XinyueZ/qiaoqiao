@@ -52,7 +52,7 @@ public interface VisionContract {
 	abstract class Presenter implements BasePresenter {
 		public abstract void clear();
 
-		protected abstract void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
+		public abstract void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
 		protected final @NonNull DsRepository mDsRepository;
 
