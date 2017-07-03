@@ -74,6 +74,8 @@ ext {
             coreUtils             : [group: "com.android.support", name: "support-core-utils", version: appCompatVersion],
             annotations           : [group: "com.android.support", name: "support-annotations", version: appCompatVersion],
             media                 : [group: "com.android.support", name: "support-media-compat", version: appCompatVersion],
+            vectorDrawable        : [group: "com.android.support", name: "support-vector-drawable", version: appCompatVersion],
+            animatedVectorDrawable: [group: "com.android.support", name: "animated-vector-drawable", version: appCompatVersion],
 
             //Apache
             apacheIO              : [group: "commons-io", name: "commons-io", version: apacheIO],
@@ -172,6 +174,8 @@ ext {
             [configuration: "implementation", dependency: libs.customtabs],
             [configuration: "implementation", dependency: libs.annotations],
             [configuration: "implementation", dependency: libs.recyclerview],
+            [configuration: "implementation", dependency: libs.vectorDrawable],
+            [configuration: "implementation", dependency: libs.animatedVectorDrawable],
 
             //Apache
             [configuration: "implementation", dependency: libs.apacheIO],
