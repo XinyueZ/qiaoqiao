@@ -44,27 +44,27 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
         }
         Flowable.just(response.responses[0]).compose(Composer()).flatMap {
             val list = arrayListOf<VisionEntity>()
-            it.labelAnnotations.forEach({
+            it.labelAnnotations?.forEach({
                 if (!TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context,
                         KEY_CONFIDENCE_LABEL,
                         DEFAULT_CONFIDENCE_LABEL)) {
                     list.add(VisionEntity(it, "LABEL_DETECTION").setActivated(true))
                 }
             })
-            it.landmarkAnnotations.forEach({
+            it.landmarkAnnotations?.forEach({
                 if (!TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context,
                         KEY_CONFIDENCE_IMAGE,
                         DEFAULT_CONFIDENCE_IMAGE)) {
                     list.add(VisionEntity(it, "LANDMARK_DETECTION").setActivated(true))
                 }
             })
-            it.logoAnnotations.forEach({
+            it.logoAnnotations?.forEach({
                 if (!TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context, KEY_CONFIDENCE_LOGO,
                         DEFAULT_CONFIDENCE_LOGO)) {
                     list.add(VisionEntity(it, "LOGO_DETECTION").setActivated(true))
                 }
             })
-            it.webDetection.webEntities.forEach({
+            it.webDetection.webEntities?.forEach({
                 if (!TextUtils.isEmpty(it.description) && it.score > Confidence.createFromPrefs(contextReference.get() as Context, KEY_CONFIDENCE_IMAGE, DEFAULT_CONFIDENCE_IMAGE)
                         .value) {
                     list.add(VisionEntity(it, "WEB_DETECTION").setActivated(true))
