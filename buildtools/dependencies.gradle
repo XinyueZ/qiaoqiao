@@ -36,7 +36,7 @@ ext {
     //Google Service
     httpClientGson = "1.20.0"
     httpClientAndroid = "1.20.0"
-    playService = "10.2.6"
+    playService = project.PLAY_FIRE
     vision = "v1-rev358-1.22.0"
 
     //Image, loader, video
@@ -49,7 +49,7 @@ ext {
     shimmer = "0.1.0"
 
     //Firebase
-    firebase = "10.2.6"
+    firebase = project.PLAY_FIRE
 
     //Others
     apacheIO = "2.5"
