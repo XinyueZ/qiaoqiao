@@ -40,35 +40,35 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
     override fun addResponseToScreen(response: BatchAnnotateImagesResponse) {
         if (contextReference.get() == null || response.responses == null || response.responses.isEmpty() || response.responses[0] == null) {
             view.addEntities(arrayListOf<VisionEntity>())
-            return
+        } else {
+            Flowable.merge(
+                    response.responses[0].labelAnnotations?.let {
+                        Flowable.fromIterable(it).filter({
+                            !TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context,
+                                    KEY_CONFIDENCE_LABEL,
+                                    DEFAULT_CONFIDENCE_LABEL)
+                        }).map({ VisionEntity(it, "LABEL_DETECTION").setActivated(true) })
+                    } ?: run { Flowable.empty<VisionEntity>() },
+                    response.responses[0].landmarkAnnotations?.let {
+                        Flowable.fromIterable(it).filter({
+                            !TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context,
+                                    KEY_CONFIDENCE_IMAGE,
+                                    DEFAULT_CONFIDENCE_IMAGE)
+                        }).map({ VisionEntity(it, "LANDMARK_DETECTION").setActivated(true) })
+                    } ?: run { Flowable.empty<VisionEntity>() },
+                    response.responses[0].logoAnnotations?.let {
+                        Flowable.fromIterable(it).filter({
+                            !TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context, KEY_CONFIDENCE_LOGO,
+                                    DEFAULT_CONFIDENCE_LOGO)
+                        }).map({ VisionEntity(it, "LOGO_DETECTION").setActivated(true) })
+                    } ?: run { Flowable.empty<VisionEntity>() },
+                    response.responses[0].webDetection.webEntities?.let {
+                        Flowable.fromIterable(it).filter({
+                            !TextUtils.isEmpty(it.description) && it.score > Confidence.createFromPrefs(contextReference.get() as Context, KEY_CONFIDENCE_IMAGE, DEFAULT_CONFIDENCE_IMAGE)
+                                    .value
+                        }).map({ VisionEntity(it, "WEB_DETECTION").setActivated(true) })
+                    } ?: run { Flowable.empty<VisionEntity>() }
+            ).compose(Composer()).toList().subscribe({ it -> view.addEntities(it) })
         }
-        Flowable.just(response.responses[0]).compose(Composer()).flatMap {
-            val list = arrayListOf<VisionEntity>()
-
-            if (it.labelAnnotations != null) Flowable.fromIterable(it.labelAnnotations).filter({
-                (!TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context,
-                        KEY_CONFIDENCE_LABEL,
-                        DEFAULT_CONFIDENCE_LABEL))
-            }).subscribe({ list.add(VisionEntity(it, "LABEL_DETECTION").setActivated(true)) })
-
-            if (it.landmarkAnnotations != null) Flowable.fromIterable(it.landmarkAnnotations).filter({
-                !TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context,
-                        KEY_CONFIDENCE_IMAGE,
-                        DEFAULT_CONFIDENCE_IMAGE)
-            }).subscribe({ list.add(VisionEntity(it, "LANDMARK_DETECTION").setActivated(true)) })
-
-            if (it.logoAnnotations != null) Flowable.fromIterable(it.logoAnnotations).filter({
-                !TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context, KEY_CONFIDENCE_LOGO,
-                        DEFAULT_CONFIDENCE_LOGO)
-            }).subscribe({ list.add(VisionEntity(it, "LOGO_DETECTION").setActivated(true)) })
-
-            if (it.webDetection.webEntities != null) Flowable.fromIterable(it.webDetection.webEntities).filter({
-                !TextUtils.isEmpty(it.description) && it.score > Confidence.createFromPrefs(contextReference.get() as Context, KEY_CONFIDENCE_IMAGE, DEFAULT_CONFIDENCE_IMAGE)
-                        .value
-            }).subscribe({ list.add(VisionEntity(it, "WEB_DETECTION").setActivated(true)) })
-
-
-            Flowable.just(list)
-        }.subscribe({ t -> view.addEntities(t) })
     }
 }
