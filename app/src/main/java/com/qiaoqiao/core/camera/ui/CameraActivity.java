@@ -88,7 +88,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment.REQ_SETTING_LOCATING;
+import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTING_LOCATING;
 import static com.qiaoqiao.repository.web.ui.WebLinkActivity.REQ_WEB_LINK;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;

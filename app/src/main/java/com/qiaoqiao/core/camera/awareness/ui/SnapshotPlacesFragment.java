@@ -2,7 +2,6 @@ package com.qiaoqiao.core.camera.awareness.ui;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,7 +36,7 @@ import static android.view.View.VISIBLE;
 public final class SnapshotPlacesFragment extends Fragment implements AwarenessContract.View,
                                                                       OnMapReadyCallback,
                                                                       GoogleMap.OnMapClickListener {
-	public static final int REQ_SETTING_LOCATING = 0x78;
+
 	private static final int LAYOUT = R.layout.fragment_snapshot_places;
 	private @Nullable AwarenessContract.Presenter mPresenter;
 	private PlacesBinding mBinding;
@@ -81,7 +79,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		fragmentById.onStart();
 		fragmentById.getMapAsync(this);
 		if (mPresenter != null) {
-			mPresenter.settingLocating();
+			mPresenter.settingLocating(getActivity());
 		}
 	}
 
@@ -155,15 +153,6 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 		}
 		if (mPresenter != null && getContext() != null) {
 			mPresenter.searchAndSearch(getContext(), latLng);
-		}
-	}
-
-	@Override
-	public void solveSettingLocatingDialogProblem(@NonNull Status status) {
-		try {
-			status.startResolutionForResult(getActivity(), REQ_SETTING_LOCATING);
-		} catch (IntentSender.SendIntentException e) {
-			onLocatingError();
 		}
 	}
 

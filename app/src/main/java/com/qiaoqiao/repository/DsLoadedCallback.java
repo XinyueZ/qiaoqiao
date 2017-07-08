@@ -56,7 +56,7 @@ public abstract class DsLoadedCallback {
 		LL.d("response of wiki: " + result.toString());
 	}
 
-	public void onGeosearchResponse(GeoResult result) {
+	public void onGeosearchResponse(@NonNull  GeoResult result) {
 		LL.d("response of wiki: " + result.toString());
 	}
 

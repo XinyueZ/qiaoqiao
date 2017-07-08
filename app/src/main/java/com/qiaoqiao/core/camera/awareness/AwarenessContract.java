@@ -17,10 +17,10 @@
 package com.qiaoqiao.core.camera.awareness;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.core.camera.awareness.ui.Adjust;
@@ -46,7 +46,6 @@ public interface AwarenessContract {
 
 		void locating();
 
-		void solveSettingLocatingDialogProblem(@NonNull Status status);
 
 		void showAllGeoAndPlaces(@NonNull List<ClusterItem> clusterItemList);
 
@@ -56,7 +55,7 @@ public interface AwarenessContract {
 	interface Presenter extends BasePresenter {
 		void locating(@NonNull Context cxt);
 
-		void settingLocating();
+		void settingLocating(@NonNull Activity cxt);
 
 		void searchAndSearch(@NonNull Context cxt, @NonNull LatLng latLng);
 
