@@ -3,19 +3,21 @@ package com.qiaoqiao.repository.backend.model.wikipedia.geo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public final class Query {
 	@SerializedName("geosearch")
-	private  Geosearch[] mGeosearches;
+	private List<Geosearch> mGeosearches;
 
-	public Query(Geosearch[] geosearches) {
+	public Query(List<Geosearch> geosearches) {
 		mGeosearches = geosearches;
 	}
 
-	public Geosearch[] getGeosearches() {
+	public List<Geosearch> getGeosearches() {
 		return mGeosearches;
 	}
 
-	public void setGeosearches(Geosearch[] geosearches) {
+	public void setGeosearches(List<Geosearch> geosearches) {
 		mGeosearches = geosearches;
 	}
 }

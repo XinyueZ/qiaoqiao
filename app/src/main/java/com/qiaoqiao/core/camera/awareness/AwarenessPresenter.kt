@@ -106,30 +106,19 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
                     override fun onGeosearchResponse(result: GeoResult) {
                         super.onGeosearchResponse(result)
                         Flowable.merge(
-                                Flowable.just(Awareness.SnapshotApi.getPlaces(apiClient)).subscribeOn(Schedulers.io()).map {
-                                    it.await()
-                                }.filter { it.status.isSuccess }.map { it.placeLikelihoods }.flatMap {
-                                    val clusterItems = arrayListOf<ClusterItem>()
-                                    it.forEach {
-                                        if (apiClient != null) {
+                                Flowable.just(Awareness.SnapshotApi.getPlaces(apiClient)).subscribeOn(Schedulers.io())
+                                        .map { it.await() }.filter { it.status.isSuccess }.flatMapIterable { it.placeLikelihoods }.filter { apiClient != null }
+                                        .map {
                                             val res = Places.GeoDataApi.getPlacePhotos(apiClient, it.place.id).await()
                                             if (res.status.isSuccess && res.photoMetadata.count > 0) {
                                                 val photo = res.photoMetadata[0]
-                                                val image = photo.getScaledPhoto(apiClient, photo.maxWidth, photo.maxHeight)
-                                                        .await()
-                                                        .bitmap
+                                                val image = photo.getScaledPhoto(apiClient, photo.maxWidth, photo.maxHeight).await().bitmap
                                                 res.photoMetadata.release()
-                                                clusterItems.add(PlaceWrapper(it.place, image))
-                                            }
-                                        }
-                                    }
-                                    Flowable.fromIterable(clusterItems)
-                                },
-                                Flowable.just(result).subscribeOn(Schedulers.io()).filter { it.query != null }.map { it.query.geosearches }.flatMap {
-                                    val clusterItems = arrayListOf<ClusterItem>()
-                                    it.forEach { clusterItems.add(it) }
-                                    Flowable.fromIterable(clusterItems)
-                                }
+                                                PlaceWrapper(it.place, image)
+                                            } else PlaceWrapper(it.place, null)
+                                        }.filter { it.bitmap != null }.map { it as ClusterItem },
+                                Flowable.just(result).subscribeOn(Schedulers.io()).filter { it.query != null }.map { it.query.geosearches }.flatMapIterable { it }
+                                        .map { it as ClusterItem }
                         ).compose(Composer()).toList().subscribe(Consumer { view.showAllGeoAndPlaces(it) })
                     }
                 })
