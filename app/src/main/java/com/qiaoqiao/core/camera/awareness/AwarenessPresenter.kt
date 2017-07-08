@@ -106,6 +106,8 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
                     override fun onGeosearchResponse(result: GeoResult) {
                         super.onGeosearchResponse(result)
                         Flowable.merge(
+                                Flowable.just(result).subscribeOn(Schedulers.io()).filter { it.query != null }.map { it.query.geosearches }.flatMapIterable { it }
+                                        .map { it as ClusterItem },
                                 Flowable.just(Awareness.SnapshotApi.getPlaces(apiClient)).subscribeOn(Schedulers.io())
                                         .map { it.await() }.filter { it.status.isSuccess }.flatMapIterable { it.placeLikelihoods }.filter { apiClient != null }
                                         .map {
@@ -116,9 +118,7 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
                                                 res.photoMetadata.release()
                                                 PlaceWrapper(it.place, image)
                                             } else PlaceWrapper(it.place, null)
-                                        }.filter { it.bitmap != null }.map { it as ClusterItem },
-                                Flowable.just(result).subscribeOn(Schedulers.io()).filter { it.query != null }.map { it.query.geosearches }.flatMapIterable { it }
-                                        .map { it as ClusterItem }
+                                        }.filter { it.bitmap != null }.map { it as ClusterItem }
                         ).compose(Composer()).toList().subscribe(Consumer { view.showAllGeoAndPlaces(it) })
                     }
                 })
