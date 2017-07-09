@@ -84,6 +84,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
@@ -775,8 +776,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
 	private void requireCameraPermission() {
-		if (!EasyPermissions.hasPermissions(this, CAMERA)) {
-			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA);
+		if (!EasyPermissions.hasPermissions(this, CAMERA, RECORD_AUDIO)) {
+			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA, RECORD_AUDIO);
 		}
 	}
 
@@ -821,7 +822,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		if (list.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 			makeVideo();
 		}
-		if (list.contains(Manifest.permission.CAMERA)) {
+		if (list.contains(Manifest.permission.CAMERA) && list.contains(Manifest.permission.RECORD_AUDIO)) {
 			mBinding.camera.start();
 			setupCamera();
 		}

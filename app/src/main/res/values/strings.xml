@@ -8,7 +8,7 @@
 
     <string name="exit_app">Exit app</string>
     <string name="permission_setting">Set permission</string>
-    <string name="permission_relation_to_camera_text">ViApp needs device permission \"CAMERA\", consider to grant this permission.</string>
+    <string name="permission_relation_to_camera_text">ViApp needs device permission \"CAMERA, RECORD_AUDIO\", consider to grant this permission.</string>
     <string name="permission_relation_to_read_external_storage_text">ViApp needs device permission to read your \"READ_EXTERNAL_STORAGE\", consider to grant this permission.</string>
     <string name="permission_relation_to_write_external_storage_text">ViApp needs device permission to write your \"WRITE_EXTERNAL_STORAGE\", consider to grant this permission.</string>
     <string name="permission_relation_to_location_text">ViApp needs  \"ACCESS_FINE_LOCATION\" to find your places round you.</string>
@@ -69,7 +69,7 @@
     <string name="preference_summary_fine_location">Location: android.permission.ACCESS_FINE_LOCATION</string>
     <string name="preference_key_camera_usage">prefs_camera_usage</string>
     <string name="preference_title_camera_usage">Camera</string>
-    <string name="preference_summary_camera_usage">Camera: android.permission.CAMERA</string>
+    <string name="preference_summary_camera_usage">Camera: android.permission.CAMERA, RECORD_AUDIO</string>
 
     <string name="preference_title_camera">Camera</string>
     <string name="preference_summary_camera">Camera options</string>
