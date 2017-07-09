@@ -4,7 +4,6 @@ allprojects {
         mavenCentral()
         maven { url 'https://maven.google.com' }
         maven { url "http://dl.bintray.com/frakbot/maven" }
-        maven { url "https://dl.bintray.com/drummer-aidan/maven" }
     }
 }
 
@@ -42,7 +41,6 @@ ext {
     //Image, loader, video
     glide = "3.8.0"
     cropper = "2.4.6"
-    makeVideo = "0.4.4"
     circleImageView = "2.1.0"
 
     //Facebook
@@ -142,8 +140,6 @@ ext {
             //GlowPadBackport
             glowPadBackport       : [group: "net.frakbot", name: "glowpadbackport", version: glowPadBackport],
 
-            //Video
-            makeVideo             : [group: "com.afollestad", name: "material-camera", version: makeVideo],
 
             //Rx
             //Instead this official rxAdapter, more info
@@ -266,8 +262,6 @@ ext {
             //GlowPadBackport
             [configuration: "implementation", dependency: libs.glowPadBackport],
 
-            //Video
-            [configuration: "implementation", dependency: libs.makeVideo],
     ]
 }
 
