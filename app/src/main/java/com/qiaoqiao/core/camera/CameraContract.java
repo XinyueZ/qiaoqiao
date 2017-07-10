@@ -21,7 +21,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.mvp.BasePresenter;
@@ -49,9 +48,6 @@ public interface CameraContract {
 
 		void openLocal();
 
-		void cameraBegin(@NonNull CameraView.Callback callback);
-
-		void cameraEnd(@NonNull CameraView.Callback callback);
 
 		void updateWhenResponse();
 

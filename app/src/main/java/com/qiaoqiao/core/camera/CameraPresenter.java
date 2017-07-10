@@ -8,13 +8,11 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
-import com.google.android.cameraview.CameraView;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.R;
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.DsRepository;
-import com.qiaoqiao.utils.LL;
 
 import java.io.File;
 
@@ -37,34 +35,32 @@ public final class CameraPresenter implements CameraContract.Presenter {
 
 	@Override
 	public void begin(@NonNull FragmentActivity hostActivity) {
-		mView.cameraBegin(mCameraCallback);
 	}
 
 	@Override
 	public void end(@NonNull FragmentActivity hostActivity) {
-		mView.cameraEnd(mCameraCallback);
 	}
 
 
-	private final CameraView.Callback mCameraCallback = new CameraView.Callback() {
-		@Override
-		public void onPictureTaken(final CameraView cameraView, final byte[] data) {
-			if (data == null) {
-				LL.e("The camera captured picture but the bytes is NULL.");
-				return;
-			}
-			mView.openCrop(data);
-
-		}
-
-		@Override
-		public void onCameraOpened(CameraView cameraView) {
-		}
-
-		@Override
-		public void onCameraClosed(CameraView cameraView) {
-		}
-	};
+//	private final CameraView.Callback mCameraCallback = new CameraView.Callback() {
+//		@Override
+//		public void onPictureTaken(final CameraView cameraView, final byte[] data) {
+//			if (data == null) {
+//				LL.e("The camera captured picture but the bytes is NULL.");
+//				return;
+//			}
+//			mView.openCrop(data);
+//
+//		}
+//
+//		@Override
+//		public void onCameraOpened(CameraView cameraView) {
+//		}
+//
+//		@Override
+//		public void onCameraClosed(CameraView cameraView) {
+//		}
+//	};
 
 	@Override
 	public void findAnnotateImages(@NonNull byte[] bytes) {

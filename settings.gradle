@@ -1,3 +1,4 @@
-include ':app', ':cameraview'
+include ':app'  , ':material-camera'
 
-project(':cameraview').projectDir = new File('submodules/cameraview/library')
+
+project(':material-camera').projectDir = new File('submodules/material-camera/library')

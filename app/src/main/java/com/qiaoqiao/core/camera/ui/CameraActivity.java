@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -25,15 +23,11 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.cameraview.AspectRatio;
-import com.google.android.cameraview.CameraView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -82,21 +76,18 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTING_LOCATING;
 import static com.qiaoqiao.repository.web.ui.WebLinkActivity.REQ_WEB_LINK;
-import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS;
 
-public final class CameraActivity extends AppCompatActivity implements CameraContract.View,
+public final class CameraActivity extends BaseCameraActivity implements CameraContract.View,
                                                                        View.OnClickListener,
                                                                        EasyPermissions.PermissionCallbacks,
                                                                        AppBarLayout.OnOffsetChangedListener,
@@ -268,8 +259,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onResume() {
-		requireCameraPermission();
-
 		super.onResume();
 
 		CustomTabUtils.HELPER.bindCustomTabsService(this);
@@ -283,13 +272,16 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 	private void setupCamera() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		boolean autoFocus = prefs.getBoolean(getString(R.string.preference_key_camera_auto_focus_allowed), true);
-		mBinding.camera.setAutoFocus(autoFocus);
-		int flash = Integer.valueOf(prefs.getString(getString(R.string.preference_key_camera_flash_options), "3"));
-		mBinding.camera.setFlash(flash);
-		String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
-		mBinding.camera.setAspectRatio(AspectRatio.parse(aspectRatio));
+//		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//
+//		boolean autoFocus = prefs.getBoolean(getString(R.string.preference_key_camera_auto_focus_allowed), true);
+//		mBinding.camera.setAutoFocus(autoFocus);
+//
+//		int flash = Integer.valueOf(prefs.getString(getString(R.string.preference_key_camera_flash_options), "3"));
+//		mBinding.camera.setFlash(flash);
+//
+//		String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
+//		mBinding.camera.setAspectRatio(AspectRatio.parse(aspectRatio));
 	}
 
 	@Override
@@ -462,12 +454,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				showVisionOnly();
 				break;
 			case R.id.camera_direction_btn:
-				mBinding.camera.setFacing(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
-				                          CameraView.FACING_FRONT :
-				                          CameraView.FACING_BACK);
-				mBinding.cameraDirectionBtn.setImageResource(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
-				                                             R.drawable.ic_camera_front :
-				                                             R.drawable.ic_camera_rear);
+//				mBinding.camera.setFacing(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
+//				                          CameraView.FACING_FRONT :
+//				                          CameraView.FACING_BACK);
+//				mBinding.cameraDirectionBtn.setImageResource(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
+//				                                             R.drawable.ic_camera_front :
+//				                                             R.drawable.ic_camera_rear);
 				break;
 			default:
 				if (mSnackbar == null) {
@@ -560,7 +552,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Override
 	public void capturePhoto(@NonNull android.view.View v) {
 		mBinding.controlPad.reset(true);
-		mBinding.camera.takePicture();
+//		mBinding.camera.takePicture();
 	}
 
 	@Override
@@ -574,23 +566,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 
-	@Override
-	public void cameraBegin(@NonNull CameraView.Callback callback) {
-		mBinding.camera.addCallback(callback);
-		if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-			return;
-		}
-		mBinding.camera.start();
-	}
-
-	@Override
-	public void cameraEnd(@NonNull CameraView.Callback callback) {
-		mBinding.camera.removeCallback(callback);
-		if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-			return;
-		}
-		mBinding.camera.stop();
-	}
 
 	@Override
 	public void updateWhenResponse() {
@@ -774,12 +749,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	//--Begin permission--
 
-	@AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
-	private void requireCameraPermission() {
-		if (!EasyPermissions.hasPermissions(this, CAMERA, RECORD_AUDIO)) {
-			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA, RECORD_AUDIO);
-		}
-	}
+
 
 
 	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
@@ -821,10 +791,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		}
 		if (list.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 			makeVideo();
-		}
-		if (list.contains(Manifest.permission.CAMERA) && list.contains(Manifest.permission.RECORD_AUDIO)) {
-			mBinding.camera.start();
-			setupCamera();
 		}
 	}
 

@@ -54,15 +54,10 @@
                         android:fitsSystemWindows="true"
                         app:layout_collapseMode="parallax">
 
-                        <com.google.android.cameraview.CameraView
-                            android:id="@+id/camera"
+                        <FrameLayout
+                            android:id="@+id/container"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:adjustViewBounds="true"
-                            app:aspectRatio="4:3"
-                            app:autoFocus="true"
-                            app:facing="back"
-                            app:flash="auto"/>
+                            android:layout_height="match_parent"/>
 
 
                         <net.frakbot.glowpadbackport.GlowPadView

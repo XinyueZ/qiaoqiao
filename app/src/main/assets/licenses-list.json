@@ -94,6 +94,11 @@
         {
           "name": "Apache Common IO",
           "owner": "Apache"
+        },
+        {
+          "name": "material-camera",
+          "owner": "Aidan Follestad",
+          "copyright": "2017"
         }
       ]
     },
