@@ -85,14 +85,12 @@
         <item>on</item>
         <item>torch</item>
         <item>auto</item>
-        <item>red eye</item>
     </string-array>
     <string-array name="preference_camera_flash_options_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
     </string-array>
     <string name="preference_key_camera_auto_focus_allowed">prefs_camera_auto_focus_allowed</string>
     <string name="preference_title_camera_auto_focus_allowed">Allow auto-focus</string>
