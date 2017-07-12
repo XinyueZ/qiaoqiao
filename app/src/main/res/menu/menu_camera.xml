@@ -6,4 +6,18 @@
         android:icon="@drawable/ic_crop_rotate"
         android:title="@string/action_crop_rotate"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_photo"
+        android:icon="@drawable/ic_capture"
+        android:title="@string/action_photo"
+        android:visible="false"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_video"
+        android:icon="@drawable/ic_videocam"
+        android:title="@string/action_video"
+        android:visible="false"
+        app:showAsAction="always"/>
 </menu>

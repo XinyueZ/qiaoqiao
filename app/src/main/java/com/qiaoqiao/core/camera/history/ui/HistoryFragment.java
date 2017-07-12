@@ -1,7 +1,6 @@
 package com.qiaoqiao.core.camera.history.ui;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import com.qiaoqiao.core.camera.history.HistoryContract;
 import com.qiaoqiao.core.camera.history.HistoryPresenter;
 import com.qiaoqiao.databinding.FragmentHistoryBinding;
 import com.qiaoqiao.repository.database.HistoryItem;
-import com.qiaoqiao.utils.LL;
 
 import java.util.List;
 
@@ -76,17 +74,5 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 		mBinding.historyRv.setVisibility(historyItemList.size() > 0 ?
 		                                 View.VISIBLE :
 		                                 View.GONE);
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		LL.d("onConfigurationChanged : " + newConfig.toString());
-
-
-		final int columns = getResources().getInteger(R.integer.num_columns);
-		mBinding.historyRv.setLayoutManager(new GridLayoutManager(getActivity(), columns));
-		mBinding.historyRv.getAdapter()
-		                  .notifyDataSetChanged();
 	}
 }

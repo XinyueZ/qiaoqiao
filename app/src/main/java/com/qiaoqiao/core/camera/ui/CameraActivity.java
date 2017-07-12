@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -28,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialcamera.internal.BaseCaptureActivity;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -78,26 +77,28 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.afollestad.materialcamera.internal.CameraIntentKey.STILL_SHOT;
 import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTING_LOCATING;
-import static com.qiaoqiao.repository.web.ui.WebLinkActivity.REQ_WEB_LINK;
+import static com.qiaoqiao.repository.web.ui.WebLinkActivityKt.REQ_WEB_LINK;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS;
 
-public final class CameraActivity extends BaseCameraActivity implements CameraContract.View,
-                                                                       View.OnClickListener,
-                                                                       EasyPermissions.PermissionCallbacks,
-                                                                       AppBarLayout.OnOffsetChangedListener,
-                                                                       FragmentManager.OnBackStackChangedListener,
-                                                                       CropCallback,
-                                                                       NavigationView.OnNavigationItemSelectedListener,
-                                                                       HistoryCallback {
+public abstract class CameraActivity extends BaseCaptureActivity implements CameraContract.View,
+                                                                            View.OnClickListener,
+                                                                            EasyPermissions.PermissionCallbacks,
+                                                                            AppBarLayout.OnOffsetChangedListener,
+                                                                            FragmentManager.OnBackStackChangedListener,
+                                                                            CropCallback,
+                                                                            NavigationView.OnNavigationItemSelectedListener,
+                                                                            HistoryCallback {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQ_FILE_SELECTOR = 0x19;
 	private static final int REQ_INVITE = 0x56;
+	private static final int REQ_CAMERA = 0x79;
+
 	private @Nullable Snackbar mSnackbar;
 	private ActivityCameraBinding mBinding;
 	private boolean mOnBottom;
@@ -142,15 +143,14 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 	}
 	//------------------------------------------------
 
-	/**
-	 * Show single instance of {@link CameraActivity}
-	 *
-	 * @param cxt {@link Activity}.
-	 */
-	public static void showInstance(@NonNull Activity cxt) {
-		Intent intent = new Intent(cxt, CameraActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		ActivityCompat.startActivity(cxt, intent, EMPTY);
+
+	public static void showInstance(@NonNull Activity cxt, boolean shotPoto) {
+		if (shotPoto) {
+			new Camera(cxt).stillShot()
+			               .start(REQ_CAMERA);
+		} else {
+			new Camera(cxt).start(REQ_CAMERA);
+		}
 	}
 
 	@Override
@@ -160,70 +160,17 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 		setupDataBinding();
 		setupAppBar();
 		setupNavigationDrawer();
-		setupControlPad();
 		App.inject(this);
 	}
 
-	private void setupControlPad() {
-		mBinding.controlPad.setOnTriggerListener(new SimpleOnTriggerListener() {
-			@Override
-			public void onGrabbed(@org.jetbrains.annotations.Nullable View p0, int p1) {
-				super.onGrabbed(p0, p1);
-				ViewCompat.animate(mBinding.expandMoreBtn)
-				          .alpha(0)
-				          .start();
-				ViewCompat.animate(mBinding.cameraDirectionBtn)
-				          .alpha(0)
-				          .start();
-				final View view = getSupportFragmentManager().findFragmentById(R.id.stackview_history_fg)
-				                                             .getView();
-				ViewCompat.animate(view)
-				          .alpha(0)
-				          .start();
-				mBinding.expandMoreBtn.setEnabled(false);
-			}
 
-			@Override
-			public void onReleased(@org.jetbrains.annotations.Nullable View p0, int p1) {
-				super.onReleased(p0, p1);
-				ViewCompat.animate(mBinding.expandMoreBtn)
-				          .alpha(1)
-				          .start();
-				ViewCompat.animate(mBinding.cameraDirectionBtn)
-				          .alpha(1)
-				          .start();
-				final View view = getSupportFragmentManager().findFragmentById(R.id.stackview_history_fg)
-				                                             .getView();
-				ViewCompat.animate(view)
-				          .alpha(1)
-				          .start();
-				mBinding.expandMoreBtn.setEnabled(true);
-			}
-
-			@Override
-			public void onTrigger(View v, int target) {
-				super.onTrigger(v, target);
-				mBinding.controlPad.reset(true);
-				switch (target) {
-					case 0:
-						showInputFromWeb(v);
-						break;
-					case 1:
-						capturePhoto(v);
-						break;
-					case 2:
-						showLoadFromLocal(v);
-						break;
-					case 3:
-						showLoadFromWebcam(v);
-						break;
-				}
-			}
-		});
+	@Override
+	protected int getLayout() {
+		return LAYOUT;
 	}
 
 	private void setupDataBinding() {
-		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
+		mBinding = DataBindingUtil.bind(findViewById(R.id.drawer_layout));
 		mBinding.setClickHandler(this);
 	}
 
@@ -273,13 +220,10 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 
 	private void setupCamera() {
 //		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//
 //		boolean autoFocus = prefs.getBoolean(getString(R.string.preference_key_camera_auto_focus_allowed), true);
 //		mBinding.camera.setAutoFocus(autoFocus);
-//
 //		int flash = Integer.valueOf(prefs.getString(getString(R.string.preference_key_camera_flash_options), "3"));
 //		mBinding.camera.setFlash(flash);
-//
 //		String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
 //		mBinding.camera.setAspectRatio(AspectRatio.parse(aspectRatio));
 	}
@@ -346,16 +290,16 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 	private void showVisionOnly() {
 		mBinding.appbar.setExpanded(false, true);
 		mBinding.expandMoreBtn.setVisibility(GONE);
-		mBinding.expandLessBtn.setVisibility(View.VISIBLE);
+		mBinding.expandLessBtn.setVisibility(VISIBLE);
 	}
 
 	private void toggleVisionCameraShowButtons() {
 		if (!mOnBottom) {
-			mBinding.expandMoreBtn.setVisibility(View.VISIBLE);
+			mBinding.expandMoreBtn.setVisibility(VISIBLE);
 			mBinding.expandLessBtn.setVisibility(GONE);
 		} else {
 			mBinding.expandMoreBtn.setVisibility(GONE);
-			mBinding.expandLessBtn.setVisibility(View.VISIBLE);
+			mBinding.expandLessBtn.setVisibility(VISIBLE);
 		}
 	}
 
@@ -395,7 +339,7 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 
 	@Override
 	public void showInputFromWeb(@NonNull android.view.View v) {
-		WebLinkActivity.showInstance(this, v);
+		WebLinkActivity.Companion.showInstance(this, v);
 	}
 
 	@Override
@@ -453,14 +397,6 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 			case R.id.expand_more_btn:
 				showVisionOnly();
 				break;
-			case R.id.camera_direction_btn:
-//				mBinding.camera.setFacing(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
-//				                          CameraView.FACING_FRONT :
-//				                          CameraView.FACING_BACK);
-//				mBinding.cameraDirectionBtn.setImageResource(mBinding.camera.getFacing() == CameraView.FACING_BACK ?
-//				                                             R.drawable.ic_camera_front :
-//				                                             R.drawable.ic_camera_rear);
-				break;
 			default:
 				if (mSnackbar == null) {
 					return;
@@ -483,7 +419,7 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 	private void openPlaces() {
 		getSupportFragmentManager().beginTransaction()
 		                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-		                           .add(R.id.camera_container_fl,
+		                           .add(R.id.container,
 		                                (Fragment) mSnapshotPlacesFragment,
 		                                mSnapshotPlacesFragment.getClass()
 		                                                       .getName())
@@ -494,7 +430,7 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 	private void openCropView(@NonNull byte[] data) {
 		mCropPresenter.setImageData(data);
 		getSupportFragmentManager().beginTransaction()
-		                           .add(R.id.camera_container_fl,
+		                           .add(R.id.container,
 		                                (Fragment) mCropFragment,
 		                                mCropFragment.getClass()
 		                                             .getName())
@@ -551,25 +487,23 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 
 	@Override
 	public void capturePhoto(@NonNull android.view.View v) {
-		mBinding.controlPad.reset(true);
-//		mBinding.camera.takePicture();
+//		mBinding.controlPad.reset(true);
 	}
 
 	@Override
 	public void openLink() {
-		mBinding.controlPad.reset(true);
+//		mBinding.controlPad.reset(true);
 	}
 
 	@Override
 	public void openLocal() {
-		mBinding.controlPad.reset(true);
+//		mBinding.controlPad.reset(true);
 	}
-
 
 
 	@Override
 	public void updateWhenResponse() {
-		mBinding.controlPad.reset(true);
+//		mBinding.controlPad.reset(true);
 		mBinding.barTitleLoadingPb.stopShimmerAnimation();
 	}
 
@@ -629,39 +563,41 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 	}
 
 	private void adjustUIForDifferentFragmentSenario(Menu menu) {
+		boolean isStillshot = getIntent().getBooleanExtra(STILL_SHOT, true);
 		boolean isSnapshotPlacesThere = ((SnapshotPlacesFragment) mSnapshotPlacesFragment).isAdded();
+		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
+
 		mBinding.navView.getMenu()
 		                .findItem(R.id.action_places)
 		                .setVisible(!isSnapshotPlacesThere);
-		//When user doesn't crop anything just back, we need stop progressbar on main-control.
-		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
-		if (isCropThere) {
-			mBinding.controlPad.reset(true);
-		}
+		mBinding.navView.getMenu()
+		                .findItem(R.id.action_from_local)
+		                .setVisible(!isSnapshotPlacesThere);
+		mBinding.navView.getMenu()
+		                .findItem(R.id.action_from_web)
+		                .setVisible(!isSnapshotPlacesThere);
+
 		menu.findItem(R.id.action_crop_rotate)
 		    .setVisible(isCropThere && !isSnapshotPlacesThere);
-		mBinding.controlPad.setVisibility(!isCropThere && !isSnapshotPlacesThere ?
-		                                  View.VISIBLE :
-		                                  GONE);
-		ViewCompat.animate(mBinding.cameraDirectionBtn)
-		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
-		                 1 :
-		                 0)
-		          .start();
+		menu.findItem(R.id.action_video)
+		    .setVisible(!isCropThere && !isSnapshotPlacesThere && isStillshot);
+		menu.findItem(R.id.action_photo)
+		    .setVisible(!isCropThere && !isSnapshotPlacesThere && !isStillshot);
+
 		ViewCompat.animate(mBinding.expandMoreBtn)
-		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
+		          .alpha(!isCropThere && !isSnapshotPlacesThere ?
 		                 1 :
 		                 0)
 		          .start();
 		ViewCompat.animate(mBinding.expandLessBtn)
-		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
+		          .alpha(!isCropThere && !isSnapshotPlacesThere ?
 		                 1 :
 		                 0)
 		          .start();
 		final View view = getSupportFragmentManager().findFragmentById(R.id.stackview_history_fg)
 		                                             .getView();
 		ViewCompat.animate(view)
-		          .alpha(mBinding.controlPad.getVisibility() == VISIBLE ?
+		          .alpha(!isCropThere && !isSnapshotPlacesThere ?
 		                 1 :
 		                 0)
 		          .start();
@@ -674,6 +610,12 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 		}
 
 		switch (item.getItemId()) {
+			case R.id.action_video:
+				CameraActivity.showInstance(this, false);
+				break;
+			case R.id.action_photo:
+				CameraActivity.showInstance(this, true);
+				break;
 			case R.id.action_crop_rotate:
 				mCropFragment.rotate();
 				break;
@@ -686,6 +628,12 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		mBinding.drawerLayout.closeDrawers();
 		switch (item.getItemId()) {
+			case R.id.action_from_local:
+				showLoadFromLocal(null);
+				break;
+			case R.id.action_from_web:
+				showInputFromWeb(null);
+				break;
 			case R.id.action_places:
 				requireFineLocationPermission();
 				break;
@@ -705,12 +653,6 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 		return true;
 	}
 
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		showCameraOnly();
-	}
 
 	@Override
 	public void cleared() {
@@ -748,8 +690,6 @@ public final class CameraActivity extends BaseCameraActivity implements CameraCo
 
 
 	//--Begin permission--
-
-
 
 
 	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
