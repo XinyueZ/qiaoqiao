@@ -612,9 +612,11 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		switch (item.getItemId()) {
 			case R.id.action_video:
 				CameraActivity.showInstance(this, false);
+				finish();
 				break;
 			case R.id.action_photo:
 				CameraActivity.showInstance(this, true);
+				finish();
 				break;
 			case R.id.action_crop_rotate:
 				mCropFragment.rotate();

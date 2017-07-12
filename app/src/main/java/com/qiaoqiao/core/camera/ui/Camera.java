@@ -24,9 +24,6 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
-import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
-
 /** @author Aidan Follestad (afollestad) */
 @SuppressWarnings("WeakerAccess")
 public class Camera {
@@ -361,7 +358,6 @@ public class Camera {
     if (mLabelRetry != 0) intent.putExtra(CameraIntentKey.LABEL_RETRY, mLabelRetry);
     if (mLabelConfirm != 0) intent.putExtra(CameraIntentKey.LABEL_CONFIRM, mLabelConfirm);
 
-    intent.setFlags(FLAG_ACTIVITY_SINGLE_TOP | FLAG_ACTIVITY_CLEAR_TOP);
     return intent;
   }
 
