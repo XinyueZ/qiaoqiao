@@ -33,22 +33,26 @@ class HistoryStackViewAdapter(val list: MutableList<HistoryItem>, val layoutInfl
         }
         val cxt = holder.binding.root.context
         if (historyItem.byteArray != null && historyItem.byteArray.isNotEmpty()) {
+            try {
             Glide.with(cxt)
                     .load(historyItem.byteArray)
                     .centerCrop()
                     .placeholder(R.drawable.ic_default_image)
                     .crossFade()
                     .into(holder.binding.historyItemIv)
+            }catch (e: IllegalArgumentException) {}
         } else {
             if (TextUtils.isEmpty(historyItem.imageUri)) {
                 holder.binding.historyItemIv.setImageResource(R.drawable.ic_default_image)
             } else {
+                try {
                 Glide.with(cxt)
                         .load(historyItem.imageUri)
                         .centerCrop()
                         .placeholder(R.drawable.ic_default_image)
                         .crossFade()
                         .into(holder.binding.historyItemIv)
+                }catch (e: IllegalArgumentException) {}
             }
         }
         holder.binding.viewholder = holder
