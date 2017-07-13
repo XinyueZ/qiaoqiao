@@ -83,7 +83,6 @@
 
         <activity
             android:name=".repository.web.ui.WebLinkActivity"
-            android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"
             android:theme="@style/DialogStyle"/>
 
