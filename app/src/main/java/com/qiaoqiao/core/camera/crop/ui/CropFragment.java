@@ -58,7 +58,6 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		super.onViewCreated(view, savedInstanceState);
 		setupCropImageView();
 		showImage();
-		mBinding.cropRotateBtn.setOnClickListener(this);
 	}
 
 
@@ -103,9 +102,6 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.crop_rotate_btn:
-				rotate();
-				break;
 			default:
 				mVibrator.vibrate(VIB_LNG);
 				final Drawable drawable = mBinding.cropFbPb.getDrawable();
