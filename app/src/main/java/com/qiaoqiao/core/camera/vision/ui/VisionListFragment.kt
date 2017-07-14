@@ -1,7 +1,6 @@
 package com.qiaoqiao.core.camera.vision.ui
 
 import android.content.Context
-import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -43,19 +42,21 @@ class VisionListFragment : AbstractVisionFragment(), VisionContract.View {
         super.onViewCreated(view, savedInstanceState)
         retainInstance = true
         setRefreshing(false)
-        val key = arguments.getSerializable(EXTRAS_KEY) as Key
-        binding?.loadingPb?.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
-        val columns = resources.getInteger(R.integer.num_columns)
-        binding?.visionRv?.layoutManager = GridLayoutManager(activity, columns)
-        visionListAdapter = VisionListAdapter(key)
-        binding?.visionRv?.adapter = visionListAdapter
-        val dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-        val divideDrawable = AppCompatResources.getDrawable(activity, R.drawable.divider_drawable)
-        if (divideDrawable != null) {
-            dividerItemDecoration.setDrawable(divideDrawable)
+        binding?.let {
+            val key = arguments.getSerializable(EXTRAS_KEY) as Key
+            it.loadingPb.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
+            val columns = resources.getInteger(R.integer.num_columns)
+            it.visionRv.layoutManager = GridLayoutManager(activity, columns)
+            visionListAdapter = VisionListAdapter(key)
+            it.visionRv.adapter = visionListAdapter
+            val dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+            val divideDrawable = AppCompatResources.getDrawable(activity, R.drawable.divider_drawable)
+            if (divideDrawable != null) {
+                dividerItemDecoration.setDrawable(divideDrawable)
+            }
+            it.visionRv.addItemDecoration(dividerItemDecoration)
+            presenter?.loadRecent()
         }
-        binding?.visionRv?.addItemDecoration(dividerItemDecoration)
-        presenter?.loadRecent()
     }
 
     override fun getBinding() = this.binding
@@ -78,7 +79,9 @@ class VisionListFragment : AbstractVisionFragment(), VisionContract.View {
     }
 
     override fun setRefreshing(refresh: Boolean) {
-        binding?.loadingPb?.isEnabled = refresh
-        binding?.loadingPb?.isRefreshing = refresh
+        binding?.let {
+            it.loadingPb.isEnabled = refresh
+            it.loadingPb.isRefreshing = refresh
+        }
     }
 }

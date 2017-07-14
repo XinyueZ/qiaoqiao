@@ -1,6 +1,5 @@
 package com.qiaoqiao.core.camera.history.ui
 
-import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -34,8 +33,10 @@ class HistoryStackViewFragment : Fragment(), HistoryContract.View2 {
 
     override fun showList(results: MutableList<HistoryItem>) {
         adapter = HistoryStackViewAdapter(results, activity.layoutInflater)
-        binding?.historyStv?.adapter = adapter
-        binding?.historyStv?.setSelection(results.size - 1)
+        binding?.let {
+          it.historyStv.adapter = adapter
+          it.historyStv.setSelection(results.size - 1)
+        }
     }
 
     override fun updateList(historyItemList: MutableList<HistoryItem>) {
