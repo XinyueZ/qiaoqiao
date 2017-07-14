@@ -134,7 +134,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 			return;
 		}
 		if (clusterItem instanceof PlaceWrapper) {
-			SnapshotPlaceInfoFragment.newInstance(this, (PlaceWrapper) clusterItem)
+			SnapshotPlaceInfoFragment.Companion.newInstance(this, (PlaceWrapper) clusterItem)
 			                         .show(getSupportFragmentManager(), null);
 		}
 	}
