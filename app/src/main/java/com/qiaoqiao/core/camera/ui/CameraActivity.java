@@ -333,12 +333,12 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 
 	@Override
-	public void showInputFromWeb(@NonNull android.view.View v) {
+	public void showInputFromWeb(@Nullable android.view.View v) {
 		WebLinkActivity.Companion.showInstance(this, v);
 	}
 
 	@Override
-	public void showLoadFromLocal(@NonNull android.view.View v) {
+	public void showLoadFromLocal(@Nullable android.view.View v) {
 		requireReadExternalStoragePermission();
 	}
 

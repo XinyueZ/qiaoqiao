@@ -74,6 +74,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		setRetainInstance(true);
 		final SupportMapFragment fragmentById = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 		fragmentById.onCreate(savedInstanceState);
 		fragmentById.onStart();
