@@ -21,7 +21,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.mvp.BasePresenter;
@@ -40,11 +39,9 @@ public interface CameraContract {
 
 		void showError(@NonNull String errorMessage);
 
-		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
+		void updateViewWhenResponse();
 
-		void updateWhenResponse();
-
-		void updateWhenRequest();
+		void updateViewWhenRequest();
 
 		ActivityCameraBinding getBinding();
 
@@ -52,6 +49,8 @@ public interface CameraContract {
 	}
 
 	interface Presenter extends BasePresenter {
+
+		void updateWhenResponse();
 
 		void findAnnotateImages(@NonNull byte[] bytes);
 

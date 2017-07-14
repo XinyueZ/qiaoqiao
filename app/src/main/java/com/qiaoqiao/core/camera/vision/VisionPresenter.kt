@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse
 import com.qiaoqiao.app.PrefsKeys.*
+import com.qiaoqiao.core.camera.CameraPresenter
 import com.qiaoqiao.core.camera.vision.bus.VisionEntityClickEvent
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.core.confidence.ui.Confidence
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract.View, dsRepository: DsRepository) : VisionContract.Presenter(dsRepository) {
     private val contextReference: Reference<Context> = WeakReference<Context>(cxt)
+    var cameraPresenter: CameraPresenter? = null
 
     @Inject
     fun onInjected() {
@@ -61,7 +63,8 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
                         !TextUtils.isEmpty(it.description) && it.score > Confidence.createFromPrefs(contextReference.get() as Context, KEY_CONFIDENCE_IMAGE, DEFAULT_CONFIDENCE_IMAGE)
                                 .value
                     }).map({ VisionEntity(it, "WEB_DETECTION").setActivated(true) })
-            ).compose(Composer()).toList().subscribe({ it -> view.addEntities(it) })
+            ).compose(Composer()).toList().subscribe({ it -> view.addEntities(it)
+                cameraPresenter?.updateWhenResponse() })
         }
     }
 }

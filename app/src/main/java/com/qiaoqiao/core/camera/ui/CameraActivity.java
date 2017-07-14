@@ -29,7 +29,6 @@ import android.view.View;
 import com.afollestad.materialcamera.internal.BaseCaptureActivity;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
@@ -306,6 +305,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	private void presentersBegin() {
 		mCropPresenter.begin(this);
 		mCameraPresenter.begin(this);
+		mCameraPresenter.setVisionPresenter(mVisionPresenter);
 		mVisionPresenter.begin(this);
 		mHistoryPresenter.begin(this);
 		mHistoryPresenter2.begin(this);
@@ -449,19 +449,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		openCropView(cropSource);
 	}
 
-	@Override
-	@Subscribe
-	public void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response) {
-		mVisionPresenter.addResponseToScreen(response);
-
-		closeCropView();
-
-		//Select first page ("VISION") and scroll view to top.
-		showVisionOnly();
-		mBinding.viewpager.setCurrentItem(0, true);
-
-	}
-
 	private void closeCropView() {
 		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
 		if (isCropThere) {
@@ -485,8 +472,11 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 
 	@Override
-	public void updateWhenResponse() {
+	public void updateViewWhenResponse() {
 		mBinding.barTitleLoadingPb.stopShimmerAnimation();
+		closeCropView();
+		showVisionOnly();
+		mBinding.viewpager.setCurrentItem(0);
 	}
 
 	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment historyFragment) {
@@ -502,7 +492,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 
 	@Override
-	public void updateWhenRequest() {
+	public void updateViewWhenRequest() {
 		mVisionPresenter.setRefreshing(true);
 		mBinding.barTitleLoadingPb.startShimmerAnimation();
 	}
