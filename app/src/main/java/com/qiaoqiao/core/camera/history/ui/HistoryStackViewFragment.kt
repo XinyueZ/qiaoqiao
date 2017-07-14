@@ -22,6 +22,7 @@ class HistoryStackViewFragment : Fragment(), HistoryContract.View2 {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<FragmentStackviewHistoryBinding>(inflater, LAYOUT, container, false)
+        retainInstance = true
         return binding?.root
     }
 
@@ -46,10 +47,5 @@ class HistoryStackViewFragment : Fragment(), HistoryContract.View2 {
 
         if (historyItemList.isEmpty()) return
         binding?.historyStv?.setSelection(historyItemList.size - 1)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-        adapter?.notifyDataSetChanged()
     }
 }
