@@ -167,7 +167,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 			});
 			return;
 		}
-		ClusterManager.showGeosearch(getActivity(), mGoogleMap, clusterItemList);
+		ClusterManager.Companion.showGeosearch(getActivity(), mGoogleMap, clusterItemList);
 		mBinding.locatingControl.stopLocalProgressBar();
 		if (isDetached()) {
 			return;
