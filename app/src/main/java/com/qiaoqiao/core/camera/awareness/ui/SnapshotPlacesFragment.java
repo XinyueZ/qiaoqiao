@@ -213,5 +213,6 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 	@Override
 	public void showAdjust(@NonNull Adjust adjust) {
 		mBinding.setAdjust(adjust);
+		mBinding.adjustRadiusSb.setThumb(adjust.createThumbDrawable());
 	}
 }

@@ -7,8 +7,9 @@ import android.support.v7.preference.PreferenceManager.getDefaultSharedPreferenc
 import android.widget.SeekBar
 import com.amulyakhare.textdrawable.TextDrawable
 import com.qiaoqiao.R
+import com.qiaoqiao.utils.LL
 
-class Adjust(val cxt: Context, val key: String, var value: Int) :
+class Adjust private constructor(val cxt: Context, val key: String, var value: Int) :
         SeekBar.OnSeekBarChangeListener {
     private var thumbWidth: Int = cxt.resources.getDimensionPixelSize(R.dimen.seek_bar_thumb_size)
 
@@ -36,8 +37,8 @@ class Adjust(val cxt: Context, val key: String, var value: Int) :
         val prefs = getDefaultSharedPreferences(cxt)
         val edit = prefs.edit()
         edit.putInt(key, value)
-        getInstance()
-                .apply(edit)
+        getInstance().apply(edit)
+        LL.d("save by thumb")
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

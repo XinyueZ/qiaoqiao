@@ -94,8 +94,9 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
     }
 
     override fun loadGeosearchAdjust(cxt: Context) {
-        view.showAdjust(Adjust.Factory.createAdjust(cxt, PrefsKeys.KEY_GEOSEARCH_RADIUS, PreferenceManager.getDefaultSharedPreferences(cxt)
-                .getInt(PrefsKeys.KEY_GEOSEARCH_RADIUS, PrefsKeys.DEFAULT_GEOSEARCH_RADIUS)))
+        view.showAdjust(Adjust.Factory.createAdjust(cxt,
+                PrefsKeys.KEY_GEOSEARCH_RADIUS,
+                PreferenceManager.getDefaultSharedPreferences(cxt).getInt(PrefsKeys.KEY_GEOSEARCH_RADIUS, PrefsKeys.DEFAULT_GEOSEARCH_RADIUS)))
     }
 
     @SuppressLint("MissingPermission")
