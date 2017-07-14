@@ -217,16 +217,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 
 
-	private void setupCamera() {
-//		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//		boolean autoFocus = prefs.getBoolean(getString(R.string.preference_key_camera_auto_focus_allowed), true);
-//		mBinding.camera.setAutoFocus(autoFocus);
-//		int flash = Integer.valueOf(prefs.getString(getString(R.string.preference_key_camera_flash_options), "3"));
-//		mBinding.camera.setFlash(flash);
-//		String aspectRatio = prefs.getString(getString(R.string.preference_key_camera_aspect_ratio), "4:3");
-//		mBinding.camera.setAspectRatio(AspectRatio.parse(aspectRatio));
-	}
-
 	@Override
 	protected void onPause() {
 		CustomTabUtils.HELPER.unbindCustomTabsService(this);
