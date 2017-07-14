@@ -36,8 +36,10 @@ class CropFragment : Fragment(), CropContract.View,
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCropBinding.inflate(inflater, container, false)
-        binding?.cropFb?.setOnClickListener(this)
-        binding?.cropIv?.setOnCropImageCompleteListener(this)
+        binding?.let {
+            it.cropFb.setOnClickListener(this@CropFragment)
+            it.cropIv.setOnCropImageCompleteListener(this@CropFragment)
+        }
         return binding?.root
     }
 
@@ -59,13 +61,13 @@ class CropFragment : Fragment(), CropContract.View,
     }
 
     private fun showImage() {
-        if (data == null) {
-            binding?.cropIv?.setImageUriAsync(uri)
-        } else {
-            val imgData = data as ByteArray
-            if (imgData.isNotEmpty())
-                binding?.cropIv?.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, imgData.size))
-
+        when (data) {
+            null -> binding?.cropIv?.setImageUriAsync(uri)
+            else -> {
+                val imgData = data as ByteArray
+                if (imgData.isNotEmpty())
+                    binding?.cropIv?.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, imgData.size))
+            }
         }
     }
 
@@ -74,18 +76,20 @@ class CropFragment : Fragment(), CropContract.View,
             else -> {
                 vibrator.vibrate(VIB_LNG)
                 val drawable = binding?.cropFbPb?.drawable
-                if (drawable is Animatable) {
-                    (drawable as Animatable).start()
-                    binding?.cropFbPb?.visibility = View.VISIBLE
+                binding?.let {
+                    if (drawable is Animatable) {
+                        (drawable as Animatable).start()
+                        it.cropFbPb.visibility = View.VISIBLE
+                    }
+                    it.cropIv.getCroppedImageAsync()
+                    it.cropFb.isEnabled = false
                 }
-                binding?.cropIv?.getCroppedImageAsync()
-                binding?.cropFb?.isEnabled = false
             }
         }
     }
 
     override fun rotate() {
-        binding?.cropIv?.rotateImage(90)
+        binding?.let { it.cropIv?.rotateImage(90) }
     }
 
     override fun onCropImageComplete(cropImageView: CropImageView, cropResult: CropImageView.CropResult) {

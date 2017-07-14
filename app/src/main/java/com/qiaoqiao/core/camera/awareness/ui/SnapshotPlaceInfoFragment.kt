@@ -36,10 +36,12 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         binding = FragmentSnapshotPlaceInfoBinding.bind(View.inflate(context, LAYOUT, null))
-        dialog.setContentView(binding?.root)
-        behavior = BottomSheetBehavior.from(binding?.root?.parent as View)
-        binding?.placeWrapper = arguments.getSerializable(EXTRAS_PLACE) as PlaceWrapper
-        binding?.clickHandler = this
+        binding?.let {
+            dialog.setContentView(it.root)
+            behavior = BottomSheetBehavior.from(it.root.parent as View)
+            it.placeWrapper = arguments.getSerializable(EXTRAS_PLACE) as PlaceWrapper
+            it.clickHandler = this@SnapshotPlaceInfoFragment
+        }
         return dialog
     }
 

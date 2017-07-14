@@ -17,12 +17,17 @@ class ClusterManager private constructor(activity: FragmentActivity, map: Google
     }
 
     companion object {
-        fun showGeosearch(activity: FragmentActivity?, googleMap: GoogleMap, clusterItems: List<ClusterItem>) {
+        fun showGeosearch(activity: FragmentActivity?, googleMap: GoogleMap?, clusterItems: List<ClusterItem>) {
             when (activity) {
                 null -> return
                 else -> {
-                    val ret = ClusterManager(activity, googleMap)
-                    ret.addItems(clusterItems)
+                    when (googleMap) {
+                        null -> return
+                        else -> {
+                            val ret = ClusterManager(activity, googleMap)
+                            ret.addItems(clusterItems)
+                        }
+                    }
                 }
             }
         }
