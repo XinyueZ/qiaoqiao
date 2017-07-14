@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
 import com.qiaoqiao.R;
+import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.DsRepository;
 
@@ -21,6 +22,7 @@ import javax.inject.Inject;
 public final class CameraPresenter implements CameraContract.Presenter {
 	private final @NonNull CameraContract.View mView;
 	private final @NonNull DsRepository mDsRepository;
+	private VisionPresenter mVisionPresenter;
 
 	@Inject
 	CameraPresenter(@NonNull CameraContract.View view, @NonNull DsRepository dsRepository) {
@@ -33,6 +35,11 @@ public final class CameraPresenter implements CameraContract.Presenter {
 		mView.setPresenter(this);
 	}
 
+	public void setVisionPresenter(VisionPresenter visionPresenter) {
+		mVisionPresenter = visionPresenter;
+		visionPresenter.setCameraPresenter(this);
+	}
+
 	@Override
 	public void begin(@NonNull FragmentActivity hostActivity) {
 	}
@@ -42,54 +49,57 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	}
 
 
+	@Override
+	public void updateWhenResponse() {
+		mView.updateViewWhenResponse();
+	}
 
 	@Override
 	public void findAnnotateImages(@NonNull byte[] bytes) {
-		mView.updateWhenRequest();
+		mView.updateViewWhenRequest();
 		mDsRepository.onBytes(bytes, new DsLoadedCallback() {
 			@Override
 			public void onVisionResponse(BatchAnnotateImagesResponse response) {
 				super.onVisionResponse(response);
-				mView.addResponseToScreen(response);
-				mView.updateWhenResponse();
+				mVisionPresenter.addResponseToScreen(response, true);
 			}
 
 			@Override
 			public void onError(@NonNull Status status) {
 				super.onError(status);
-				mView.updateWhenResponse();
-			}
-
-			@Override
-			public void onException(@NonNull Exception e) {
-				super.onException(e);
-				mView.updateWhenResponse();
-			}
-		});
-	}
-
-	@Override
-	public void openLink(@NonNull Uri uri) {
-		mView.updateWhenRequest();
-		mDsRepository.onUri(uri, new DsLoadedCallback() {
-			@Override
-			public void onVisionResponse(BatchAnnotateImagesResponse response) {
-				super.onVisionResponse(response);
-				mView.addResponseToScreen(response);
-				mView.updateWhenResponse();
-			}
-
-			@Override
-			public void onError(@NonNull Status status) {
-				super.onError(status);
-				mView.updateWhenResponse();
+				updateWhenResponse();
 			}
 
 			@Override
 			public void onException(@NonNull Exception e) {
 				super.onException(e);
 				mView.showError(e.toString());
-				mView.updateWhenResponse();
+				updateWhenResponse();
+			}
+		});
+	}
+
+	@Override
+	public void openLink(@NonNull Uri uri) {
+		mView.updateViewWhenRequest();
+		mDsRepository.onUri(uri, new DsLoadedCallback() {
+			@Override
+			public void onVisionResponse(BatchAnnotateImagesResponse response) {
+				super.onVisionResponse(response);
+				mVisionPresenter.addResponseToScreen(response, true);
+			}
+
+			@Override
+			public void onError(@NonNull Status status) {
+				super.onError(status);
+				updateWhenResponse();
+			}
+
+			@Override
+			public void onException(@NonNull Exception e) {
+				super.onException(e);
+				mView.showError(e.toString());
+				updateWhenResponse();
 			}
 		});
 	}
@@ -111,31 +121,30 @@ public final class CameraPresenter implements CameraContract.Presenter {
 				mView.showError(cxt.getString(R.string.error_can_not_find_file));
 				return;
 			}
-			mView.updateWhenRequest();
+			mView.updateViewWhenRequest();
 			mDsRepository.onFile(new File(cursor.getString(columnIndex)), new DsLoadedCallback() {
 				@Override
 				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
-					mView.addResponseToScreen(response);
-					mView.updateWhenResponse();
+					mVisionPresenter.addResponseToScreen(response, true);
 				}
 
 				@Override
 				public void onError(@NonNull Status status) {
 					super.onError(status);
-					mView.updateWhenResponse();
+					updateWhenResponse();
 				}
 
 				@Override
 				public void onException(@NonNull Exception e) {
 					super.onException(e);
 					mView.showError(e.toString());
-					mView.updateWhenResponse();
+					updateWhenResponse();
 				}
 			});
 		} catch (Exception e) {
 			mView.showError(cxt.getString(R.string.error_can_not_find_file));
-			mView.updateWhenResponse();
+			updateWhenResponse();
 		} finally {
 			if (cursor != null) {
 				cursor.close();

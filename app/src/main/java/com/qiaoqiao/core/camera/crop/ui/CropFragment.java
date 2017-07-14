@@ -56,6 +56,7 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		setRetainInstance(true);
 		setupCropImageView();
 		showImage();
 	}

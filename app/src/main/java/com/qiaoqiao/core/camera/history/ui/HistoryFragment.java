@@ -41,6 +41,7 @@ public final class HistoryFragment extends Fragment implements HistoryContract.V
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		setRetainInstance(true);
 		if (mPresenter == null) {
 			return;
 		}
