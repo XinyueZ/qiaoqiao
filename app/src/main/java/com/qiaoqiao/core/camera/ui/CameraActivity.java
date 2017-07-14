@@ -135,7 +135,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		}
 		if (clusterItem instanceof PlaceWrapper) {
 			SnapshotPlaceInfoFragment.Companion.newInstance(this, (PlaceWrapper) clusterItem)
-			                         .show(getSupportFragmentManager(), null);
+			                                   .show(getSupportFragmentManager(), null);
 		}
 	}
 	//------------------------------------------------
@@ -381,7 +381,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		super.onUseMedia(isStillshot, intent);
 		final Uri data = intent.getData();
 		openCrop(new CropSource(null, data));
-//		onRetry(data.toString());
 	}
 
 	@Override
@@ -474,9 +473,11 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	@Override
 	public void updateViewWhenResponse() {
 		mBinding.barTitleLoadingPb.stopShimmerAnimation();
-		closeCropView();
 		showVisionOnly();
-		mBinding.viewpager.setCurrentItem(0);
+		if (mBinding.viewpager.getCurrentItem() != 0) {
+			mBinding.viewpager.setCurrentItem(0);
+		}
+		closeCropView();
 	}
 
 	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment historyFragment) {
@@ -704,7 +705,5 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 			                                   .show();
 		}
 	}
-
-
 	//--End permission--
 }
