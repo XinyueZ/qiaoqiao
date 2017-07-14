@@ -61,7 +61,7 @@ public final class CameraPresenter implements CameraContract.Presenter {
 			@Override
 			public void onVisionResponse(BatchAnnotateImagesResponse response) {
 				super.onVisionResponse(response);
-				mVisionPresenter.addResponseToScreen(response);
+				mVisionPresenter.addResponseToScreen(response, true);
 			}
 
 			@Override
@@ -86,7 +86,7 @@ public final class CameraPresenter implements CameraContract.Presenter {
 			@Override
 			public void onVisionResponse(BatchAnnotateImagesResponse response) {
 				super.onVisionResponse(response);
-				mVisionPresenter.addResponseToScreen(response);
+				mVisionPresenter.addResponseToScreen(response, true);
 			}
 
 			@Override
@@ -126,7 +126,7 @@ public final class CameraPresenter implements CameraContract.Presenter {
 				@Override
 				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
-					mVisionPresenter.addResponseToScreen(response);
+					mVisionPresenter.addResponseToScreen(response, true);
 				}
 
 				@Override

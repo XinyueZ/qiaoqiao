@@ -40,7 +40,7 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
         view.clear()
     }
 
-    override fun addResponseToScreen(response: BatchAnnotateImagesResponse) {
+    override fun addResponseToScreen(response: BatchAnnotateImagesResponse, show: Boolean) {
         if (contextReference.get() == null || response.responses == null || response.responses.isEmpty() || response.responses[0] == null) {
             view.addEntities(arrayListOf<VisionEntity>())
         } else {
@@ -64,7 +64,7 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
                                 .value
                     }).map({ VisionEntity(it, "WEB_DETECTION").setActivated(true) })
             ).compose(Composer()).toList().subscribe({ it -> view.addEntities(it)
-                cameraPresenter?.updateWhenResponse() })
+                if(show) cameraPresenter?.updateWhenResponse() })
         }
     }
 }
