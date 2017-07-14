@@ -3,6 +3,7 @@ package com.qiaoqiao.core.camera.history;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
+import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.core.camera.history.bus.HistoryItemClickEvent;
 import com.qiaoqiao.repository.database.HistoryItem;
 import com.qiaoqiao.utils.ImageUtils;
@@ -40,7 +42,7 @@ public final class HistoryPresenter2 implements HistoryContract.Presenter2 {
 		final HistoryItem historyItem = e.getHistoryItem();
 		if (historyItem != null) {
 			if (historyItem.getByteArray() != null && historyItem.getByteArray().length != 0) {
-				mCropPresenter.openCrop(historyItem.getByteArray());
+				mCropPresenter.openCrop(new CropSource(historyItem.getByteArray(), Uri.EMPTY));
 			} else {
 				if (mContextRef.get() == null) {
 					return;
@@ -53,7 +55,7 @@ public final class HistoryPresenter2 implements HistoryContract.Presenter2 {
 				     .into(new SimpleTarget<Bitmap>() {
 					     @Override
 					     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-						     mCropPresenter.openCrop(ImageUtils.convertImage2Bytes(resource));
+						     mCropPresenter.openCrop(new CropSource(ImageUtils.convertImage2Bytes(resource), Uri.EMPTY));
 					     }
 				     });
 			}

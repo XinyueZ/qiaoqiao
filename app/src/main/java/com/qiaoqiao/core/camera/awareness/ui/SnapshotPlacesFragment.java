@@ -104,8 +104,7 @@ public final class SnapshotPlacesFragment extends Fragment implements AwarenessC
 
 
 	public void onPlayServiceConnectionFailed() {
-		Toast.makeText(getActivity(), R.string.play_service_fail, Toast.LENGTH_LONG)
-		     .show();
+
 	}
 
 

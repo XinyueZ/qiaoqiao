@@ -43,6 +43,7 @@ import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment;
 import com.qiaoqiao.core.camera.crop.CropCallback;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
+import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.core.camera.crop.ui.CropFragment;
 import com.qiaoqiao.core.camera.history.HistoryCallback;
 import com.qiaoqiao.core.camera.history.HistoryContract;
@@ -61,7 +62,6 @@ import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
-import com.qiaoqiao.utils.LL;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.afollestad.materialcamera.internal.CameraIntentKey.STILL_SHOT;
@@ -84,7 +83,6 @@ import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTIN
 import static com.qiaoqiao.repository.web.ui.WebLinkActivityKt.REQ_WEB_LINK;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
-import static com.qiaoqiao.settings.PermissionRcKt.RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS;
 
 public abstract class CameraActivity extends BaseCaptureActivity implements CameraContract.View,
                                                                             View.OnClickListener,
@@ -147,9 +145,11 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	public static void showInstance(@NonNull Activity cxt, boolean shotPoto) {
 		if (shotPoto) {
 			new Camera(cxt).stillShot()
+			               .showPortraitWarning(false)
 			               .start(REQ_CAMERA);
 		} else {
-			new Camera(cxt).start(REQ_CAMERA);
+			new Camera(cxt).showPortraitWarning(false)
+			               .start(REQ_CAMERA);
 		}
 	}
 
@@ -333,11 +333,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 
 	@Override
-	public void showLoadFromWebcam(@NonNull View v) {
-		requireWriteExternalStoragePermission();
-	}
-
-	@Override
 	public void showInputFromWeb(@NonNull android.view.View v) {
 		WebLinkActivity.Companion.showInstance(this, v);
 	}
@@ -382,6 +377,14 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 
 	@Override
+	protected void onUseMedia(boolean isStillshot, @NonNull Intent intent) {
+		super.onUseMedia(isStillshot, intent);
+		final Uri data = intent.getData();
+		openCrop(new CropSource(null, data));
+//		onRetry(data.toString());
+	}
+
+	@Override
 	public void showError(@NonNull String errorMessage) {
 		mSnackbar = Snackbar.make(mBinding.root, errorMessage, Snackbar.LENGTH_LONG)
 		                    .setAction(android.R.string.ok, this);
@@ -412,10 +415,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		startActivityForResult(openPhotoIntent, REQ_FILE_SELECTOR);
 	}
 
-	private void makeVideo() {
-		LL.d("makeVideo not yet");
-	}
-
 	private void openPlaces() {
 		getSupportFragmentManager().beginTransaction()
 		                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
@@ -427,8 +426,8 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		                           .commit();
 	}
 
-	private void openCropView(@NonNull byte[] data) {
-		mCropPresenter.setImageData(data);
+	private void openCropView(@NonNull CropSource cropSource) {
+		mCropPresenter.setCropSource(cropSource);
 		getSupportFragmentManager().beginTransaction()
 		                           .add(R.id.container,
 		                                (Fragment) mCropFragment,
@@ -444,9 +443,10 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
 	}
 
+
 	@Override
-	public void openCrop(@NonNull byte[] data) {
-		openCropView(data);
+	public void openCrop(@NonNull CropSource cropSource) {
+		openCropView(cropSource);
 	}
 
 	@Override
@@ -455,7 +455,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		mVisionPresenter.addResponseToScreen(response);
 
 		closeCropView();
-
 
 		//Select first page ("VISION") and scroll view to top.
 		showVisionOnly();
@@ -486,24 +485,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 
 	@Override
-	public void capturePhoto(@NonNull android.view.View v) {
-//		mBinding.controlPad.reset(true);
-	}
-
-	@Override
-	public void openLink() {
-//		mBinding.controlPad.reset(true);
-	}
-
-	@Override
-	public void openLocal() {
-//		mBinding.controlPad.reset(true);
-	}
-
-
-	@Override
 	public void updateWhenResponse() {
-//		mBinding.controlPad.reset(true);
 		mBinding.barTitleLoadingPb.stopShimmerAnimation();
 	}
 
@@ -704,16 +686,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		}
 	}
 
-	@AfterPermissionGranted(RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS)
-	private void requireWriteExternalStoragePermission() {
-		if (EasyPermissions.hasPermissions(this, WRITE_EXTERNAL_STORAGE)) {
-			makeVideo();
-		} else {
-			// Ask for one permission
-			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_write_external_storage_text), RC_WRITE_EXTERNAL_STORAGE_PERMISSIONS, WRITE_EXTERNAL_STORAGE);
-		}
-	}
-
 
 	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
 	private void requireFineLocationPermission() {
@@ -730,9 +702,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	public void onPermissionsGranted(int i, List<String> list) {
 		if (list.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 			openLocalDir();
-		}
-		if (list.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-			makeVideo();
 		}
 	}
 

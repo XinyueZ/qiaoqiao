@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
+import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
@@ -32,7 +33,6 @@ import com.qiaoqiao.mvp.BaseView;
 public interface CameraContract {
 
 	interface View extends BaseView<CameraPresenter, ActivityCameraBinding> {
-		void showLoadFromWebcam(@NonNull android.view.View v);
 
 		void showLoadFromLocal(@NonNull android.view.View v);
 
@@ -42,24 +42,16 @@ public interface CameraContract {
 
 		void addResponseToScreen(@NonNull BatchAnnotateImagesResponse response);
 
-		void capturePhoto(@NonNull android.view.View v);
-
-		void openLink();
-
-		void openLocal();
-
-
 		void updateWhenResponse();
 
 		void updateWhenRequest();
 
 		ActivityCameraBinding getBinding();
 
-		void openCrop(@NonNull byte[] data);
+		void openCrop(@NonNull CropSource cropSource);
 	}
 
 	interface Presenter extends BasePresenter {
-
 
 		void findAnnotateImages(@NonNull byte[] bytes);
 

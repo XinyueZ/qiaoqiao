@@ -42,25 +42,6 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	}
 
 
-//	private final CameraView.Callback mCameraCallback = new CameraView.Callback() {
-//		@Override
-//		public void onPictureTaken(final CameraView cameraView, final byte[] data) {
-//			if (data == null) {
-//				LL.e("The camera captured picture but the bytes is NULL.");
-//				return;
-//			}
-//			mView.openCrop(data);
-//
-//		}
-//
-//		@Override
-//		public void onCameraOpened(CameraView cameraView) {
-//		}
-//
-//		@Override
-//		public void onCameraClosed(CameraView cameraView) {
-//		}
-//	};
 
 	@Override
 	public void findAnnotateImages(@NonNull byte[] bytes) {
@@ -89,7 +70,6 @@ public final class CameraPresenter implements CameraContract.Presenter {
 
 	@Override
 	public void openLink(@NonNull Uri uri) {
-		mView.openLink();
 		mView.updateWhenRequest();
 		mDsRepository.onUri(uri, new DsLoadedCallback() {
 			@Override
@@ -118,7 +98,6 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	public void openLocal(@NonNull Context cxt, @NonNull Uri uri) {
 		Cursor cursor = null;
 		try {
-			mView.openLocal();
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			cursor = cxt.getContentResolver()
 			            .query(uri, filePathColumn, null, null, null);

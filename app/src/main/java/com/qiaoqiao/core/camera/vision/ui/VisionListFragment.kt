@@ -22,7 +22,7 @@ private val EXTRAS_KEY = VisionListFragment::class.java.name + ".EXTRAS.key"
 
 class VisionListFragment : AbstractVisionFragment(), VisionContract.View {
     private var binding: FragmentListVisionBinding? = null
-    private lateinit var visionListAdapter: VisionListAdapter
+    private var visionListAdapter: VisionListAdapter? = null
     private var presenter: VisionContract.Presenter? = null
 
     companion object {
@@ -64,11 +64,11 @@ class VisionListFragment : AbstractVisionFragment(), VisionContract.View {
     }
 
     override fun clear() {
-        visionListAdapter.clear()
+        visionListAdapter?.clear()
     }
 
     override fun addEntities(visionEntityList: MutableList<VisionEntity>) {
-        visionListAdapter.addVisionEntityList(visionEntityList)
+        visionListAdapter?.addVisionEntityList(visionEntityList)
         setRefreshing(false)
     }
 

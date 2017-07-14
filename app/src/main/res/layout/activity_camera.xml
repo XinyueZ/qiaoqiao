@@ -62,9 +62,8 @@
                         <ImageButton
                             android:id="@+id/expand_more_btn"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|end|right"
-                            android:layout_marginBottom="@dimen/small"
+                            android:layout_height="20dp"
+                            android:layout_gravity="bottom|center_horizontal"
                             android:background="@drawable/selector_round_green_rectangle_item_background"
                             android:onClick="@{clickHandler::onClick}"
                             android:tint="@color/colorWhite"
@@ -140,7 +139,7 @@
                 <ImageButton
                     android:id="@+id/expand_less_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginBottom="@dimen/small"
                     android:background="@drawable/selector_round_green_rectangle_item_background"
