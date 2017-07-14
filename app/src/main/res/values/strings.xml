@@ -8,7 +8,7 @@
 
     <string name="exit_app">Exit app</string>
     <string name="permission_setting">Set permission</string>
-    <string name="permission_relation_to_camera_text">ViApp needs device permission \"CAMERA\", consider to grant this permission.</string>
+    <string name="permission_relation_to_camera_text">ViApp needs device permission \"CAMERA, RECORD_AUDIO\", consider to grant this permission.</string>
     <string name="permission_relation_to_read_external_storage_text">ViApp needs device permission to read your \"READ_EXTERNAL_STORAGE\", consider to grant this permission.</string>
     <string name="permission_relation_to_write_external_storage_text">ViApp needs device permission to write your \"WRITE_EXTERNAL_STORAGE\", consider to grant this permission.</string>
     <string name="permission_relation_to_location_text">ViApp needs  \"ACCESS_FINE_LOCATION\" to find your places round you.</string>
@@ -22,6 +22,10 @@
 
     <string name="temp_degree">%1$.0f °C</string>
 
+    <string name="action_photo">Capture photo</string>
+    <string name="action_video">Make video</string>
+    <string name="action_from_local">From local</string>
+    <string name="action_from_web">From internet</string>
     <string name="action_my_place">Discover</string>
     <string name="action_settings">Settings</string>
     <string name="action_crop_rotate">Rotate</string>
@@ -69,7 +73,7 @@
     <string name="preference_summary_fine_location">Location: android.permission.ACCESS_FINE_LOCATION</string>
     <string name="preference_key_camera_usage">prefs_camera_usage</string>
     <string name="preference_title_camera_usage">Camera</string>
-    <string name="preference_summary_camera_usage">Camera: android.permission.CAMERA</string>
+    <string name="preference_summary_camera_usage">Camera: android.permission.CAMERA, RECORD_AUDIO</string>
 
     <string name="preference_title_camera">Camera</string>
     <string name="preference_summary_camera">Camera options</string>
@@ -81,14 +85,12 @@
         <item>on</item>
         <item>torch</item>
         <item>auto</item>
-        <item>red eye</item>
     </string-array>
     <string-array name="preference_camera_flash_options_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
     </string-array>
     <string name="preference_key_camera_auto_focus_allowed">prefs_camera_auto_focus_allowed</string>
     <string name="preference_title_camera_auto_focus_allowed">Allow auto-focus</string>

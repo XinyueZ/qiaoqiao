@@ -4,6 +4,8 @@ package com.qiaoqiao.core.camera.crop;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
+import com.qiaoqiao.core.camera.crop.model.CropSource;
+
 import javax.inject.Inject;
 
 public final class CropPresenter implements CropContract.Presenter {
@@ -30,8 +32,8 @@ public final class CropPresenter implements CropContract.Presenter {
 	}
 
 	@Override
-	public void setImageData(@NonNull byte[] data) {
-		mView.setImageData(data);
+	public void setCropSource(@NonNull CropSource cropSource) {
+		mView.setCropSource(cropSource);
 	}
 
 	@Override
@@ -44,8 +46,9 @@ public final class CropPresenter implements CropContract.Presenter {
 		mCropCallback.onCroppedFail();
 	}
 
+
 	@Override
-	public void openCrop(@NonNull byte[] data) {
-		mCropCallback.openCrop(data);
+	public void openCrop(@NonNull CropSource cropSource) {
+		mCropCallback.openCrop(cropSource);
 	}
 }

@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_from_local"
+        android:icon="@drawable/ic_from_local"
+        android:title="@string/action_from_local"
+        app:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/action_from_web"
+        android:icon="@drawable/ic_from_web"
+        android:title="@string/action_from_web"
+        app:showAsAction="always"/>
+
+
+
     <item
         android:id="@+id/action_places"
         android:icon="@drawable/ic_place"

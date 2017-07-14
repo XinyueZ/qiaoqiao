@@ -1,6 +1,5 @@
 package com.qiaoqiao.settings;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
@@ -170,7 +170,9 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 			}
 		} else if (TextUtils.equals(getString(R.string.preference_key_camera_usage), preference.getKey())) {
 			if (isPermissionPreferenceChecked(R.string.preference_key_camera_usage)) {
-				EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA);
+				if (!EasyPermissions.hasPermissions(getContext(), CAMERA, RECORD_AUDIO)) {
+					EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA, RECORD_AUDIO);
+				}
 				return false;
 			} else {
 				mAppSettingsDialog.show();
@@ -182,16 +184,16 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 
 	@Override
 	public void onPermissionsGranted(int i, List<String> list) {
-		if (list.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+		if (list.contains(READ_EXTERNAL_STORAGE)) {
 			checkPermissionPreference(R.string.preference_key_read_external_storage, true);
 		}
-		if (list.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+		if (list.contains(WRITE_EXTERNAL_STORAGE)) {
 			checkPermissionPreference(R.string.preference_key_write_external_storage, true);
 		}
-		if (list.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
+		if (list.contains(ACCESS_FINE_LOCATION)) {
 			checkPermissionPreference(R.string.preference_key_fine_location, true);
 		}
-		if (list.contains(Manifest.permission.CAMERA)) {
+		if (list.contains(CAMERA) && list.contains(RECORD_AUDIO)) {
 			checkPermissionPreference(R.string.preference_key_camera_usage, true);
 		}
 	}
@@ -199,17 +201,17 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 
 	@Override
 	public void onPermissionsDenied(int i, List<String> perms) {
-		if (EasyPermissions.permissionPermanentlyDenied(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+		if (EasyPermissions.permissionPermanentlyDenied(this, READ_EXTERNAL_STORAGE)) {
 			checkPermissionPreference(R.string.preference_key_read_external_storage, false);
 		}
-		if (EasyPermissions.permissionPermanentlyDenied(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+		if (EasyPermissions.permissionPermanentlyDenied(this, WRITE_EXTERNAL_STORAGE)) {
 			checkPermissionPreference(R.string.preference_key_write_external_storage, false);
 		}
-		if (EasyPermissions.permissionPermanentlyDenied(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+		if (EasyPermissions.permissionPermanentlyDenied(this, ACCESS_FINE_LOCATION)) {
 			checkPermissionPreference(R.string.preference_key_fine_location, false);
 		}
-		if (EasyPermissions.permissionPermanentlyDenied(this, Manifest.permission.CAMERA)) {
-			checkPermissionPreference(R.string.preference_key_fine_location, false);
+		if (EasyPermissions.permissionPermanentlyDenied(this, CAMERA) || EasyPermissions.permissionPermanentlyDenied(this, RECORD_AUDIO)) {
+			checkPermissionPreference(R.string.preference_key_camera_usage, false);
 		}
 	}
 

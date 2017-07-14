@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.qiaoqiao.R;
 import com.qiaoqiao.core.camera.crop.CropContract;
+import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.databinding.FragmentCropBinding;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -34,7 +36,8 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	private Vibrator mVibrator;
 	private FragmentCropBinding mBinding;
 	private @Nullable CropContract.Presenter mPresenter;
-	private byte[] mData;
+	private @Nullable byte[] mData;
+	private Uri mUri = Uri.EMPTY;
 
 	public static CropFragment newInstance(@NonNull Context cxt) {
 		return (CropFragment) CropFragment.instantiate(cxt, CropFragment.class.getName());
@@ -55,7 +58,6 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		super.onViewCreated(view, savedInstanceState);
 		setupCropImageView();
 		showImage();
-		mBinding.cropRotateBtn.setOnClickListener(this);
 	}
 
 
@@ -78,13 +80,19 @@ public final class CropFragment extends Fragment implements CropContract.View,
 		return mBinding;
 	}
 
+
 	@Override
-	public void setImageData(@NonNull byte[] data) {
-		mData = data;
+	public void setCropSource(@NonNull CropSource cropSource) {
+		mUri = cropSource.getUri();
+		mData = cropSource.getData();
 	}
 
 	private void showImage() {
-		if (mData == null || mData.length <= 0) {
+		if (mData == null) {
+			mBinding.cropIv.setImageUriAsync(mUri);
+			return;
+		}
+		if (mData.length <= 0) {
 			return;
 		}
 		mBinding.cropIv.setImageBitmap(BitmapFactory.decodeByteArray(mData, 0, mData.length));
@@ -94,9 +102,6 @@ public final class CropFragment extends Fragment implements CropContract.View,
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.crop_rotate_btn:
-				rotate();
-				break;
 			default:
 				mVibrator.vibrate(VIB_LNG);
 				final Drawable drawable = mBinding.cropFbPb.getDrawable();

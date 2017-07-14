@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -56,10 +57,13 @@
 
 
         <activity
-            android:name=".core.camera.ui.CameraActivity"
-            android:configChanges="orientation|screenSize"
+            android:name=".core.camera.ui.Camera1Activity"
             android:screenOrientation="fullSensor"/>
 
+
+        <activity
+            android:name=".core.camera.ui.Camera2Activity"
+            android:screenOrientation="fullSensor"/>
 
         <activity
             android:name=".core.location.MapActivity"
@@ -79,7 +83,6 @@
 
         <activity
             android:name=".repository.web.ui.WebLinkActivity"
-            android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"
             android:theme="@style/DialogStyle"/>
 
