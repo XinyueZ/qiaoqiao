@@ -130,6 +130,7 @@ ext {
 
             //Firebase
             fireAuth              : [group: "com.google.firebase", name: "firebase-auth", version: firebase],
+            fireStorage           : [group: "com.google.firebase", name: "firebase-storage", version: firebase],
             fireInvite            : [group: "com.google.firebase", name: "firebase-invites", version: firebase],
             fireDatabase          : [group: "com.google.firebase", name: "firebase-database", version: firebase],
 
@@ -143,7 +144,7 @@ ext {
             glowPadBackport       : [group: "net.frakbot", name: "glowpadbackport", version: glowPadBackport],
 
             //Support for video maker:
-            easyVideo       : [group: "com.afollestad", name: "easyvideoplayer", version: easyVideo],
+            easyVideo             : [group: "com.afollestad", name: "easyvideoplayer", version: easyVideo],
 
             //Rx
             //Instead this official rxAdapter, more info
@@ -251,6 +252,7 @@ ext {
             //Firebase
             [configuration: "implementation", dependency: libs.fireAuth],
             [configuration: "implementation", dependency: libs.fireInvite],
+            [configuration: "implementation", dependency: libs.fireStorage],
             [configuration: "implementation", dependency: libs.fireDatabase],
 
             //Text-drawable
