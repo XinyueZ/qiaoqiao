@@ -65,7 +65,7 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 	}
 
 	private void signIn() {
-		ConnectGoogleActivity.showInstance(getActivity(), false);
+		ConnectGoogleActivity.Companion.showInstance(getActivity(), false);
 	}
 
 	private void signOut() {
@@ -76,7 +76,7 @@ public final class GPlusFragment extends Fragment implements OnClickListener {
 		edit.putString(KEY_GOOGLE_DISPLAY_NAME, DEFAULT_GOOGLE_DISPLAY_NAME);
 		SharedPreferencesCompat.EditorCompat.getInstance()
 		                                    .apply(edit);
-		ConnectGoogleActivity.showInstance(getActivity(), true);
+		ConnectGoogleActivity.Companion.showInstance(getActivity(), true);
 	}
 
 
