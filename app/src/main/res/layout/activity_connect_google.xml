@@ -120,7 +120,7 @@
                     android:layout_marginLeft="@dimen/larger"
                     android:layout_marginRight="@dimen/larger"
                     android:layout_marginStart="@dimen/larger"
-                    android:layout_weight="1.3"
+                    android:layout_weight="0.7"
                     android:background="@color/colorTransparent"
                     android:onClick="@{clickHandler::onClick}"
                     android:src="@android:drawable/ic_media_play"

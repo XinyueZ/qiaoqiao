@@ -90,7 +90,9 @@ class ConnectGoogleActivity : AppCompatActivity(), View.OnClickListener,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQ_SIGN_GOOGLE -> {
-                handleSignInResult(Auth.GoogleSignInApi.getSignInResultFromIntent(intent))
+                val res = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+                if (res != null)
+                    handleSignInResult(res)
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
@@ -159,7 +161,7 @@ class ConnectGoogleActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun close() {
         setResult(Activity.RESULT_OK)
-        ActivityCompat.finishAfterTransition(this)
+        supportFinishAfterTransition()
     }
 
     override fun onDestroy() {
