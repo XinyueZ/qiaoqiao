@@ -292,7 +292,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		mCameraPresenter.setVisionPresenter(mVisionPresenter);
 		mVisionPresenter.begin(this);
 		mHistoryPresenter2.begin(this);
-		mHistoryPresenter2.setCropPresenter(mCropPresenter);
+		mHistoryPresenter2.setVisionPresenter(mVisionPresenter);
 		mAwarenessPresenter.begin(this);
 		mConfidencePresenter.begin(this);
 	}

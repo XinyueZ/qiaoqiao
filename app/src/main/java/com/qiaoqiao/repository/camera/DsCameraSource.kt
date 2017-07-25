@@ -10,12 +10,16 @@ import com.qiaoqiao.repository.backend.Google
 @RepositoryScope
 class DsCameraSource(google: Google) : AbstractDsSource(google) {
     override fun onBytes(bytes: ByteArray, callback: DsLoadedCallback) {
-        callback.onSaveHistory(bytes, OnSuccessListener<UploadTask.TaskSnapshot> {
+        callback.pushOnFirebase(bytes, OnSuccessListener<UploadTask.TaskSnapshot> {
             it.downloadUrl?.let {
-                google.getAnnotateImageResponse(Google.UriImageBuilder.newBuilder(it)) { response ->
+                val uri = it
+                google.getAnnotateImageResponse(Google.UriImageBuilder.newBuilder(uri)) {
                     when {
-                        response.responses[0].error != null -> callback.onError(response.responses[0].error)
-                        else -> callback.onVisionResponse(response)
+                        it.responses[0].error != null -> callback.onError(it.responses[0].error)
+                        else -> {
+                            callback.onVisionResponse(it)
+                            callback.saveOnLocalHistory(uri, it.toPrettyString())
+                        }
                     }
                 }
             }

@@ -5,7 +5,6 @@ import io.realm.RealmObject;
 
 public   class HistoryItem extends RealmObject{
 	private long savedTime;
-	private byte[] byteArray;
 	private String imageUri;
 	private String jsonText;
 
@@ -15,14 +14,6 @@ public   class HistoryItem extends RealmObject{
 
 	public void setSavedTime(long savedTime) {
 		this.savedTime = savedTime;
-	}
-
-	public byte[] getByteArray() {
-		return byteArray;
-	}
-
-	public void setByteArray(byte[] byteArray) {
-		this.byteArray = byteArray;
 	}
 
 	public String getImageUri() {

@@ -12,17 +12,29 @@ import com.google.firebase.storage.UploadTask
 import com.qiaoqiao.repository.backend.model.translate.Data
 import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult
+import com.qiaoqiao.repository.database.HistoryItem
 import com.qiaoqiao.utils.LL
+import io.realm.Realm
 import java.io.IOException
 
 abstract class DsLoadedCallback {
-    inline fun onSaveHistory(bytes: ByteArray, l: OnSuccessListener<UploadTask.TaskSnapshot>) {
+    fun pushOnFirebase(bytes: ByteArray, l: OnSuccessListener<UploadTask.TaskSnapshot>) {
         val currentUser = FirebaseAuth.getInstance()
                 .currentUser ?: return
         val rootRef = FirebaseStorage.getInstance().reference
         val imageRef = rootRef.child("images/" + currentUser.uid + "/" + System.currentTimeMillis() + ".jpg")
         val uploadTask = imageRef.putBytes(bytes)
         uploadTask.addOnFailureListener { LL.d("upload image unsuccessfully") }.addOnSuccessListener(l)
+    }
+
+    fun saveOnLocalHistory(imageUri: Uri, json: String) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync({ bgRealm ->
+            val historyItem = bgRealm.createObject(HistoryItem::class.java)
+            historyItem.imageUri = imageUri.toString()
+            historyItem.jsonText = json
+            historyItem.savedTime = System.currentTimeMillis()
+        }, { LL.d("Saved history successfully.") }, { LL.d("Saved history fail.") })
     }
 
     open fun onVisionResponse(response: BatchAnnotateImagesResponse?) {

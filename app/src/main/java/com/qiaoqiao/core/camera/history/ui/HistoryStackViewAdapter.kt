@@ -32,27 +32,17 @@ class HistoryStackViewAdapter(val list: MutableList<HistoryItem>, val layoutInfl
             holder = cv.tag as ViewHolder
         }
         val cxt = holder.binding.root.context
-        if (historyItem.byteArray != null && historyItem.byteArray.isNotEmpty()) {
-            try {
-            Glide.with(cxt)
-                    .load(historyItem.byteArray)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_default_image)
-                    .crossFade()
-                    .into(holder.binding.historyItemIv)
-            }catch (e: IllegalArgumentException) {}
+        if (TextUtils.isEmpty(historyItem.imageUri)) {
+            holder.binding.historyItemIv.setImageResource(R.drawable.ic_default_image)
         } else {
-            if (TextUtils.isEmpty(historyItem.imageUri)) {
-                holder.binding.historyItemIv.setImageResource(R.drawable.ic_default_image)
-            } else {
-                try {
+            try {
                 Glide.with(cxt)
                         .load(historyItem.imageUri)
                         .centerCrop()
                         .placeholder(R.drawable.ic_default_image)
                         .crossFade()
                         .into(holder.binding.historyItemIv)
-                }catch (e: IllegalArgumentException) {}
+            } catch (e: IllegalArgumentException) {
             }
         }
         holder.binding.viewholder = holder
