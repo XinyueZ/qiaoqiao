@@ -44,9 +44,7 @@ import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
 import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.core.camera.crop.ui.CropFragment;
-import com.qiaoqiao.core.camera.history.HistoryCallback;
 import com.qiaoqiao.core.camera.history.HistoryContract;
-import com.qiaoqiao.core.camera.history.HistoryPresenter;
 import com.qiaoqiao.core.camera.history.HistoryPresenter2;
 import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
@@ -88,8 +86,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
                                                                             AppBarLayout.OnOffsetChangedListener,
                                                                             FragmentManager.OnBackStackChangedListener,
                                                                             CropCallback,
-                                                                            NavigationView.OnNavigationItemSelectedListener,
-                                                                            HistoryCallback {
+                                                                            NavigationView.OnNavigationItemSelectedListener {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQ_FILE_SELECTOR = 0x19;
 	private static final int REQ_INVITE = 0x56;
@@ -103,14 +100,12 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	@Inject CropPresenter mCropPresenter;
 	@Inject CameraPresenter mCameraPresenter;
 	@Inject VisionPresenter mVisionPresenter;
-	@Inject HistoryPresenter mHistoryPresenter;
 	@Inject HistoryPresenter2 mHistoryPresenter2;
 	@Inject AwarenessPresenter mAwarenessPresenter;
 	@Inject ConfidencePresenter mConfidencePresenter;
 
 	@Inject CropContract.View mCropFragment;
 	@Inject VisionContract.View mVisionFragment;
-	@Inject HistoryContract.View mHistoryFragment;
 	@Inject HistoryContract.View2 mHistoryFragment2;
 	@Inject ConfidenceContract.View mConfidenceFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
@@ -175,7 +170,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	@Inject
 	void onInjected() {
 		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
-		setupViewPager((Fragment) mVisionFragment, (Fragment) mHistoryFragment);
+		setupViewPager((Fragment) mVisionFragment);
 		presentersBegin();
 	}
 
@@ -296,7 +291,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		mCameraPresenter.begin(this);
 		mCameraPresenter.setVisionPresenter(mVisionPresenter);
 		mVisionPresenter.begin(this);
-		mHistoryPresenter.begin(this);
 		mHistoryPresenter2.begin(this);
 		mHistoryPresenter2.setCropPresenter(mCropPresenter);
 		mAwarenessPresenter.begin(this);
@@ -315,7 +309,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		mCropPresenter.end(this);
 		mCameraPresenter.end(this);
 		mVisionPresenter.end(this);
-		mHistoryPresenter.end(this);
 		mHistoryPresenter2.end(this);
 		mAwarenessPresenter.end(this);
 		mConfidencePresenter.end(this);
@@ -452,13 +445,11 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		closeCropView();
 	}
 
-	private void setupViewPager(@NonNull Fragment visionFragment, @NonNull Fragment historyFragment) {
+	private void setupViewPager(@NonNull Fragment visionFragment ) {
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), new ArrayList<Fragment>() {{
 			add(visionFragment);
-			add(historyFragment);
 		}}, new ArrayList<String>() {{
 			add(getString(R.string.tab_vision));
-			add(getString(R.string.tab_history));
 		}});
 		mBinding.viewpager.setAdapter(adapter);
 		mBinding.tabs.setupWithViewPager(mBinding.viewpager);
@@ -598,12 +589,6 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 				break;
 		}
 		return true;
-	}
-
-
-	@Override
-	public void cleared() {
-		mVisionPresenter.clear();
 	}
 
 
