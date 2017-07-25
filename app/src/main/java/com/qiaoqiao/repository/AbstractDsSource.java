@@ -2,7 +2,6 @@ package com.qiaoqiao.repository;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -12,8 +11,6 @@ import com.qiaoqiao.repository.backend.Wikipedia;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.repository.database.LastLaunchImage;
 import com.qiaoqiao.utils.LL;
-
-import java.io.File;
 
 import io.realm.Realm;
 
@@ -56,11 +53,7 @@ public abstract class AbstractDsSource {
 	public void onBytes(@NonNull byte[] bytes, @NonNull DsLoadedCallback callback) {
 	}
 
-	public void onFile(@NonNull File file, @NonNull DsLoadedCallback callback) {
-	}
 
-	public void onUri(@NonNull Uri uri, @NonNull DsLoadedCallback callback) {
-	}
 
 	public void onKnowledgeQuery(int pageId, @NonNull DsLoadedCallback callback) {
 

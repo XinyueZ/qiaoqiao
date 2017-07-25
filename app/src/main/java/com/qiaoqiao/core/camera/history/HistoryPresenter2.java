@@ -42,7 +42,7 @@ public final class HistoryPresenter2 implements HistoryContract.Presenter2 {
 		final HistoryItem historyItem = e.getHistoryItem();
 		if (historyItem != null) {
 			if (historyItem.getByteArray() != null && historyItem.getByteArray().length != 0) {
-				mCropPresenter.openCrop(new CropSource(historyItem.getByteArray(), Uri.EMPTY));
+				mCropPresenter.openCrop(new CropSource(Uri.EMPTY));
 			} else {
 				if (mContextRef.get() == null) {
 					return;
@@ -55,7 +55,7 @@ public final class HistoryPresenter2 implements HistoryContract.Presenter2 {
 				     .into(new SimpleTarget<Bitmap>() {
 					     @Override
 					     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-						     mCropPresenter.openCrop(new CropSource(ImageUtils.convertImage2Bytes(resource), Uri.EMPTY));
+						     mCropPresenter.openCrop(new CropSource(Uri.EMPTY));
 					     }
 				     });
 			}

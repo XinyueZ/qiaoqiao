@@ -82,7 +82,7 @@
             android:screenOrientation="fullSensor"/>
 
         <activity
-            android:name=".repository.web.ui.WebLinkActivity"
+            android:name=".core.camera.ui.WebLinkActivity"
             android:screenOrientation="fullSensor"
             android:theme="@style/DialogStyle"/>
 

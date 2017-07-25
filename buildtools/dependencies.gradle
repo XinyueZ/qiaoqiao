@@ -41,7 +41,7 @@ ext {
 
     //Image, loader, video
     glide = "3.8.0"
-    cropper = "2.4.6"
+    cropper = "2.4.7"
     circleImageView = "2.1.0"
     easyVideo = "0.3.0"
 

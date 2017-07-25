@@ -58,7 +58,6 @@ import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.licenses.LicensesActivity;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
-import com.qiaoqiao.repository.web.ui.WebLinkActivity;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
 
@@ -79,7 +78,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.afollestad.materialcamera.internal.CameraIntentKey.STILL_SHOT;
 import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTING_LOCATING;
-import static com.qiaoqiao.repository.web.ui.WebLinkActivityKt.REQ_WEB_LINK;
+import static com.qiaoqiao.core.camera.ui.WebLinkActivityKt.REQ_WEB_LINK;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
 
@@ -341,12 +340,14 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-			case REQ_SETTING_LOCATING:
-				mAwarenessPresenter.locating(this);
-				break;
 			case REQ_WEB_LINK:
 				if (data != null && data.getData() != null) {
-					mCameraPresenter.openLink(data.getData());
+					openCrop(new CropSource(data.getData()));
+				}
+				break;
+			case REQ_FILE_SELECTOR:
+				if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+					openCrop(new CropSource(data.getData()));
 				}
 				break;
 			case REQ_INVITE:
@@ -356,12 +357,9 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 					mSnackbar.show();
 				}
 				break;
-			case REQ_FILE_SELECTOR:
-				if (!(resultCode == Activity.RESULT_OK && data != null && data.getData() != null)) {
-					super.onActivityResult(requestCode, resultCode, data);
-					return;
-				}
-				mCameraPresenter.openLocal(getApplicationContext(), data.getData());
+			case REQ_SETTING_LOCATING:
+				mAwarenessPresenter.locating(this);
+				break;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -370,7 +368,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	protected void onUseMedia(boolean isStillshot, @NonNull Intent intent) {
 		super.onUseMedia(isStillshot, intent);
 		final Uri data = intent.getData();
-		openCrop(new CropSource(null, data));
+		openCrop(new CropSource(data));
 	}
 
 	@Override
@@ -400,31 +398,9 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 
 
 	private void openLocalDir() {
-		Intent openPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(openPhotoIntent, REQ_FILE_SELECTOR);
+		startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), REQ_FILE_SELECTOR);
 	}
 
-	private void openPlaces() {
-		getSupportFragmentManager().beginTransaction()
-		                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-		                           .add(R.id.container,
-		                                (Fragment) mSnapshotPlacesFragment,
-		                                mSnapshotPlacesFragment.getClass()
-		                                                       .getName())
-		                           .addToBackStack(null)
-		                           .commit();
-	}
-
-	private void openCropView(@NonNull CropSource cropSource) {
-		mCropPresenter.setCropSource(cropSource);
-		getSupportFragmentManager().beginTransaction()
-		                           .add(R.id.container,
-		                                (Fragment) mCropFragment,
-		                                mCropFragment.getClass()
-		                                             .getName())
-		                           .addToBackStack(null)
-		                           .commit();
-	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -435,13 +411,19 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 
 	@Override
 	public void openCrop(@NonNull CropSource cropSource) {
-		openCropView(cropSource);
+		mCropPresenter.setCropSource(cropSource);
+		getSupportFragmentManager().beginTransaction()
+		                           .add(R.id.container,
+		                                (Fragment) mCropFragment,
+		                                mCropFragment.getClass()
+		                                             .getName())
+		                           .addToBackStack(null)
+		                           .commitAllowingStateLoss();
 	}
 
 	private void closeCropView() {
-		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
-		if (isCropThere) {
-			getSupportFragmentManager().popBackStack();
+		if (((CropFragment) mCropFragment).isAdded()) {
+			getSupportFragmentManager().popBackStackImmediate();
 		}
 	}
 
@@ -671,7 +653,14 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
 	private void requireFineLocationPermission() {
 		if (EasyPermissions.hasPermissions(this, ACCESS_FINE_LOCATION)) {
-			openPlaces();
+			getSupportFragmentManager().beginTransaction()
+			                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+			                           .add(R.id.container,
+			                                (Fragment) mSnapshotPlacesFragment,
+			                                mSnapshotPlacesFragment.getClass()
+			                                                       .getName())
+			                           .addToBackStack(null)
+			                           .commit();
 		} else {
 			// Ask for one permission
 			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_location_text), RC_FINE_LOCATION_PERMISSIONS, ACCESS_FINE_LOCATION);

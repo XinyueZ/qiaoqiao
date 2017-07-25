@@ -52,7 +52,7 @@ public final class Google {
 		callAnnotateImageResponse(builder, consumer);
 	}
 
-	private static abstract class AbstractImageBuilder {
+	public static abstract class AbstractImageBuilder {
 		abstract @NonNull
 		Image build();
 	}

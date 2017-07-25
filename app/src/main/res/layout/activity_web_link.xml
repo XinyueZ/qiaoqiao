@@ -2,7 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.qiaoqiao.repository.web.ui.WebLinkActivity">
+    tools:context="com.qiaoqiao.core.camera.ui.WebLinkActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
 
             <fragment
                 android:id="@+id/weblink_fg"
-                android:name="com.qiaoqiao.repository.web.ui.WebLinkFragment"
+                android:name="com.qiaoqiao.core.camera.ui.WebLinkFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </android.support.v7.widget.CardView>

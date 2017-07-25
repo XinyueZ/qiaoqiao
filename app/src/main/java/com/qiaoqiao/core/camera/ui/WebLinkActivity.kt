@@ -1,4 +1,4 @@
-package com.qiaoqiao.repository.web.ui
+package com.qiaoqiao.core.camera.ui
 
 import android.app.Activity
 import android.content.Intent

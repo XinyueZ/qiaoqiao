@@ -1,4 +1,4 @@
-package com.qiaoqiao.repository.web.ui
+package com.qiaoqiao.core.camera.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -24,11 +24,13 @@ class WebLinkFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val data = Intent()
-        data.data = Uri.parse(binding?.uriTv?.text.toString())
-        with(activity) {
-            setResult(Activity.RESULT_OK, data)
-            supportFinishAfterTransition()
+        binding?.let {
+            val data = Intent()
+            data.data = Uri.parse(it.uriTv.text.toString())
+            with(activity) {
+                setResult(Activity.RESULT_OK, data)
+                supportFinishAfterTransition()
+            }
         }
     }
 }

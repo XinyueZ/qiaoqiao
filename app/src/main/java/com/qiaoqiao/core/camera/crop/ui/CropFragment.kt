@@ -2,7 +2,6 @@ package com.qiaoqiao.core.camera.crop.ui
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.os.Bundle
@@ -11,9 +10,14 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.target.SimpleTarget
 import com.qiaoqiao.core.camera.crop.CropContract
 import com.qiaoqiao.core.camera.crop.model.CropSource
 import com.qiaoqiao.databinding.FragmentCropBinding
+import com.qiaoqiao.utils.LL
 import com.theartofdev.edmodo.cropper.CropImageView
 import org.apache.commons.io.output.ByteArrayOutputStream
 
@@ -24,7 +28,6 @@ class CropFragment : Fragment(), CropContract.View,
         CropImageView.OnCropImageCompleteListener {
     private var binding: FragmentCropBinding? = null
     private var presenter: CropContract.Presenter? = null
-    private var data: ByteArray? = null
     private var uri = Uri.EMPTY
     private val vibrator: Vibrator by lazy {
         context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -57,17 +60,27 @@ class CropFragment : Fragment(), CropContract.View,
 
     override fun setCropSource(cropSource: CropSource) {
         uri = cropSource.uri
-        data = cropSource.data
     }
 
     private fun showImage() {
-        when (data) {
-            null -> binding?.cropIv?.setImageUriAsync(uri)
-            else -> {
-                val imgData = data as ByteArray
-                if (imgData.isNotEmpty())
-                    binding?.cropIv?.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, imgData.size))
+        when (uri.toString().startsWith("http")) {
+            true -> {
+                LL.d(uri.toString())
+                Glide.with(this)
+                        .load("https://www.simponi.com/sites/www.simponi.com/files/logo.png").asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .skipMemoryCache(false)
+                        .into(object : SimpleTarget<Bitmap>() {
+                            override fun onResourceReady(resource: Bitmap?, glideAnimation: GlideAnimation<in Bitmap>?) {
+                                LL.d("onResourceReady")
+                                when (resource) {
+                                    null -> return
+                                    else -> binding?.cropIv?.setImageBitmap(resource)
+                                }
+                            }
+                        })
             }
+            else -> binding?.cropIv?.setImageUriAsync(uri)
         }
     }
 

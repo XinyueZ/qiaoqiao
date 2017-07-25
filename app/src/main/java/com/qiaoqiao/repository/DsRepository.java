@@ -19,7 +19,6 @@ package com.qiaoqiao.repository;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.preference.PreferenceManager;
 
@@ -28,23 +27,17 @@ import com.qiaoqiao.repository.annotation.RepositoryScope;
 import com.qiaoqiao.repository.annotation.target.Camera;
 import com.qiaoqiao.repository.annotation.target.Database;
 import com.qiaoqiao.repository.annotation.target.Knowledge;
-import com.qiaoqiao.repository.annotation.target.Local;
 import com.qiaoqiao.repository.annotation.target.LocalImage;
 import com.qiaoqiao.repository.annotation.target.RemoteImage;
-import com.qiaoqiao.repository.annotation.target.Web;
 import com.qiaoqiao.repository.backend.Google;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.utils.NetworkUtils;
-
-import java.io.File;
 
 import static com.qiaoqiao.utils.NetworkUtils.CONNECTION_FAST;
 
 
 @RepositoryScope
 public final class DsRepository extends AbstractDsSource {
-	private @NonNull  final AbstractDsSource mWebDs;
-	private @NonNull  final AbstractDsSource mLocalDs;
 	private @NonNull  final AbstractDsSource mCameraDs;
 	private @NonNull  final AbstractDsSource mKnowledgeRemoteDs;
 	private @NonNull  final AbstractDsSource mDatabaseDs;
@@ -53,16 +46,12 @@ public final class DsRepository extends AbstractDsSource {
 
 	DsRepository(@NonNull Google google,
 	             @NonNull com.qiaoqiao.repository.backend.Wikipedia wikipedia,
-	             @NonNull @Web AbstractDsSource webDs,
-	             @NonNull @Local AbstractDsSource localDs,
 	             @NonNull @Camera AbstractDsSource cameraDs,
 	             @NonNull @Knowledge AbstractDsSource knowledgeRemoteDs,
 	             @NonNull @Database AbstractDsSource databaseDs,
 	             @NonNull @RemoteImage AbstractDsSource remoteImageDs,
 	             @NonNull @LocalImage AbstractDsSource localImageDs) {
 		super(google, wikipedia);
-		mWebDs = webDs;
-		mLocalDs = localDs;
 		mCameraDs = cameraDs;
 		mKnowledgeRemoteDs = knowledgeRemoteDs;
 		mDatabaseDs = databaseDs;
@@ -97,15 +86,6 @@ public final class DsRepository extends AbstractDsSource {
 		mCameraDs.onBytes(bytes, callback);
 	}
 
-	@Override
-	public void onFile(@NonNull File file, @NonNull DsLoadedCallback callback) {
-		mLocalDs.onFile(file, callback);
-	}
-
-	@Override
-	public void onUri(@NonNull Uri uri, @NonNull DsLoadedCallback callback) {
-		mWebDs.onUri(uri, callback);
-	}
 
 	@Override
 	public void onTranslate(@NonNull String q, @NonNull DsLoadedCallback callback) {

@@ -7,10 +7,8 @@ import com.qiaoqiao.repository.annotation.RepositoryScope;
 import com.qiaoqiao.repository.annotation.target.Camera;
 import com.qiaoqiao.repository.annotation.target.Database;
 import com.qiaoqiao.repository.annotation.target.Knowledge;
-import com.qiaoqiao.repository.annotation.target.Local;
 import com.qiaoqiao.repository.annotation.target.LocalImage;
 import com.qiaoqiao.repository.annotation.target.RemoteImage;
-import com.qiaoqiao.repository.annotation.target.Web;
 import com.qiaoqiao.repository.backend.Google;
 import com.qiaoqiao.repository.backend.ImageProvider;
 import com.qiaoqiao.repository.backend.Wikipedia;
@@ -19,8 +17,6 @@ import com.qiaoqiao.repository.database.DsDatabaseSource;
 import com.qiaoqiao.repository.imageprovider.LocalImageDs;
 import com.qiaoqiao.repository.imageprovider.RemoteImageDs;
 import com.qiaoqiao.repository.knowledge.DsKnowledgeRemoteSource;
-import com.qiaoqiao.repository.local.DsLocalSource;
-import com.qiaoqiao.repository.web.DsWebSource;
 
 import dagger.Module;
 import dagger.Provides;
@@ -28,20 +24,6 @@ import dagger.Provides;
 
 @Module
 final class DsRepositoryModule {
-	@RepositoryScope
-	@Web
-	@Provides
-	AbstractDsSource provideWebDataSource(@NonNull Google google) {
-		return new DsWebSource(google);
-	}
-
-
-	@RepositoryScope
-	@Local
-	@Provides
-	AbstractDsSource provideLocalDataSource(@NonNull Google google) {
-		return new DsLocalSource(google);
-	}
 
 
 	@RepositoryScope
@@ -87,13 +69,11 @@ final class DsRepositoryModule {
 	@Provides
 	DsRepository provideRepository(@NonNull Google google,
 	                               @NonNull Wikipedia wikipedia,
-	                               @Web AbstractDsSource webDs,
-	                               @Local AbstractDsSource localDs,
 	                               @Camera AbstractDsSource cameraDs,
 	                               @Knowledge AbstractDsSource knowledgeRemoteDs,
 	                               @Database AbstractDsSource databaseDs,
 	                               @RemoteImage AbstractDsSource remoteImageDs,
 	                               @LocalImage AbstractDsSource localImageDs) {
-		return new DsRepository(google, wikipedia, webDs, localDs, cameraDs, knowledgeRemoteDs, databaseDs, remoteImageDs, localImageDs);
+		return new DsRepository(google, wikipedia,  cameraDs, knowledgeRemoteDs, databaseDs, remoteImageDs, localImageDs);
 	}
 }

@@ -17,8 +17,6 @@
 package com.qiaoqiao.core.camera;
 
 
-import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.core.camera.crop.model.CropSource;
@@ -53,9 +51,5 @@ public interface CameraContract {
 		void updateWhenResponse();
 
 		void findAnnotateImages(@NonNull byte[] bytes);
-
-		void openLink(@NonNull Uri uri);
-
-		void openLocal(@NonNull Context cxt, @NonNull Uri uri);
 	}
 }
