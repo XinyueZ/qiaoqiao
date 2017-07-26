@@ -13,7 +13,7 @@ class DsCameraSource(google: Google) : AbstractDsSource(google) {
         callback.pushOnFirebase(bytes, OnSuccessListener<UploadTask.TaskSnapshot> {
             it.downloadUrl?.let {
                 val uri = it
-                google.getAnnotateImageResponse(Google.UriImageBuilder.newBuilder(uri)) {
+                google?.getAnnotateImageResponse(Google.UriImageBuilder.newBuilder(uri)) {
                     when {
                         it.responses[0].error != null -> callback.onError(it.responses[0].error)
                         else -> {

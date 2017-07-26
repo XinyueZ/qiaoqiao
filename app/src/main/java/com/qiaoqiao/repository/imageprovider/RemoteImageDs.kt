@@ -12,9 +12,9 @@ import io.reactivex.schedulers.Schedulers
 
 class RemoteImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvider) {
     override fun onImage(cxt: Context, callback: DsLoadedCallback) {
-        imageProvider.getLaunchImages().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ res ->
+        imageProvider?.getLaunchImages()?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe({ res ->
                     if (res.creatives.isNotEmpty()) {
                         callback.onImageLoad(Uri.parse(res.creatives[0].url))
 
