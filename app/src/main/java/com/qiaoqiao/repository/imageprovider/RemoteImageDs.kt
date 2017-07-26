@@ -12,20 +12,22 @@ import io.reactivex.schedulers.Schedulers
 
 class RemoteImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvider) {
     override fun onImage(cxt: Context, callback: DsLoadedCallback) {
-        imageProvider?.getLaunchImages()?.subscribeOn(Schedulers.io())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe({ res ->
-                    if (res.creatives.isNotEmpty()) {
-                        callback.onImageLoad(Uri.parse(res.creatives[0].url))
+        imageProvider?.let {
+            it.getLaunchImages().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        if (it.creatives.isNotEmpty()) {
+                            callback.onImageLoad(Uri.parse(it.creatives[0].url))
 
-                        val prefs = PreferenceManager.getDefaultSharedPreferences(cxt)
-                        val edit = prefs.edit()
-                        edit.putLong("remote-launch-image-time", System.currentTimeMillis())
-                        SharedPreferencesCompat.EditorCompat.getInstance().apply(edit)
-                    } else callback.onImageLoad(ByteArray(0))
-                }, { e ->
-                    e.printStackTrace()
-                    callback.onImageLoad(ByteArray(0))
-                })
+                            val prefs = PreferenceManager.getDefaultSharedPreferences(cxt)
+                            val edit = prefs.edit()
+                            edit.putLong("remote-launch-image-time", System.currentTimeMillis())
+                            SharedPreferencesCompat.EditorCompat.getInstance().apply(edit)
+                        } else callback.onImageLoad(ByteArray(0))
+                    }, {
+                        it.printStackTrace()
+                        callback.onImageLoad(ByteArray(0))
+                    })
+        }
     }
 }

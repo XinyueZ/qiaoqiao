@@ -34,8 +34,8 @@ class SplashPresenter @Inject constructor(private var launchImageView: SplashCon
         dsRepository.onImage(cxt, loadLaunchImageCallback)
     }
 
-    override fun saveLoadedLaunchImage(imageData: ByteArray) {
-        dsRepository.saveLoadedLaunchImage(imageData)
+    override fun saveLoadedLaunchImage(imageData: ByteArray, callback: DsLoadedCallback) {
+        dsRepository.onLoadedLaunchImage(imageData, callback)
     }
 
     override fun begin(hostActivity: FragmentActivity) {

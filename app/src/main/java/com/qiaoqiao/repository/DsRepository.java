@@ -33,7 +33,9 @@ import com.qiaoqiao.repository.backend.Google;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.utils.NetworkUtils;
 
-import static com.qiaoqiao.utils.NetworkUtils.CONNECTION_FAST;
+import static com.qiaoqiao.utils.NetworkUtils.CONNECTION_OFFLINE;
+import static com.qiaoqiao.utils.NetworkUtils.CONNECTION_ROAMING;
+import static com.qiaoqiao.utils.NetworkUtils.CONNECTION_SLOW;
 
 
 @RepositoryScope
@@ -99,7 +101,9 @@ public final class DsRepository extends AbstractDsSource {
 
 	@Override
 	public void onImage(@NonNull Context cxt, @NonNull DsLoadedCallback callback) {
-		if (!NetworkUtils.isOnline(cxt) || NetworkUtils.isAirplaneModeOn(cxt) || NetworkUtils.getCurrentNetworkType(cxt) != CONNECTION_FAST) {
+		if (!NetworkUtils.isOnline(cxt) || NetworkUtils.isAirplaneModeOn(cxt) || NetworkUtils.getCurrentNetworkType(cxt) == CONNECTION_SLOW || NetworkUtils.getCurrentNetworkType(cxt) ==
+				CONNECTION_ROAMING || NetworkUtils.getCurrentNetworkType(
+				cxt) == CONNECTION_OFFLINE) {
 			mLocalImageDs.onImage(cxt, callback);
 			return;
 		}

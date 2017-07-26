@@ -8,7 +8,6 @@ import com.qiaoqiao.repository.backend.ImageProvider
 import com.qiaoqiao.repository.backend.Wikipedia
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
 import com.qiaoqiao.repository.database.LastLaunchImage
-import com.qiaoqiao.utils.LL
 import io.realm.Realm
 
 abstract class AbstractDsSource() {
@@ -29,13 +28,13 @@ abstract class AbstractDsSource() {
         this.wikipedia = wikipedia
     }
 
-    fun saveLoadedLaunchImage(imageData: ByteArray) {
+    fun onLoadedLaunchImage(imageData: ByteArray, callback: DsLoadedCallback) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransactionAsync({
             it.delete(LastLaunchImage::class.java)
             val lastLaunchImage = it.createObject(LastLaunchImage::class.java)
-            lastLaunchImage.setByteArray(imageData)
-        }, { LL.d("Saved last launch-image successfully.") }, { error -> LL.d("Saved launch-image fail.") })
+            lastLaunchImage.byteArray = imageData
+        }, { callback.onSomeThingUnsuccessfully() }, { callback.onSomeThingSuccessfully() })
     }
 
     open fun onBytes(bytes: ByteArray, callback: DsLoadedCallback) {}

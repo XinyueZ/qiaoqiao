@@ -58,7 +58,7 @@ abstract class DsLoadedCallback {
         LL.d("response of wiki: " + result.toString())
     }
 
-    open fun onError(@NonNull status: Status) {
+    open fun onVisionApiError(@NonNull status: Status) {
         if (!TextUtils.isEmpty(status.message)) {
             LL.e(status.message)
         } else {
@@ -89,5 +89,13 @@ abstract class DsLoadedCallback {
 
     open fun onImageLoad(@NonNull imageBytes: ByteArray) {
         LL.d("loaded an image with size: " + imageBytes.size)
+    }
+
+    open fun onSomeThingSuccessfully() {
+
+    }
+
+    open fun onSomeThingUnsuccessfully() {
+
     }
 }

@@ -58,8 +58,8 @@ public final class CameraPresenter implements CameraContract.Presenter {
 			}
 
 			@Override
-			public void onError(@NonNull Status status) {
-				super.onError(status);
+			public void onVisionApiError(@NonNull Status status) {
+				super.onVisionApiError(status);
 				updateWhenResponse();
 			}
 

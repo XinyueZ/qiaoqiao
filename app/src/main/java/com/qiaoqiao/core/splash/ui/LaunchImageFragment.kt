@@ -19,6 +19,8 @@ import com.qiaoqiao.core.camera.ui.CameraActivity
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.LaunchImageBinding
+import com.qiaoqiao.repository.DsLoadedCallback
+import com.qiaoqiao.utils.DeviceUtils
 import com.qiaoqiao.utils.ImageUtils
 import com.qiaoqiao.utils.LL
 import java.lang.Exception
@@ -40,17 +42,19 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
         return binding.root
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter?. loadLaunchImage (context)
+        presenter?.loadLaunchImage(context)
     }
 
     override fun getBinding(): LaunchImageBinding = this.binding
 
     override fun showLaunchImage(uri: Uri) {
+        val screenSize = DeviceUtils.getScreenSize(context)
+        val imageUri = Uri.parse(uri.toString() + "/" + screenSize.Width + "x" + screenSize.Height)
+        LL.d(imageUri.toString())
         Glide.with(this)
-                .load(uri).asBitmap()
+                .load(imageUri).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(false)
                 .crossFade()
@@ -60,9 +64,16 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
     }
 
     override fun onResourceReady(resource: Bitmap?, model: Uri?, target: Target<Bitmap>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-        goToHome()
         if (resource == null) return false
-        presenter?.saveLoadedLaunchImage(ImageUtils.convertImage2Bytes(resource))
+        presenter?.saveLoadedLaunchImage(ImageUtils.convertImage2Bytes(resource), object : DsLoadedCallback() {
+            override fun onSomeThingSuccessfully() {
+                goToHome()
+            }
+
+            override fun onSomeThingUnsuccessfully() {
+                goToHome()
+            }
+        })
         return false
     }
 
@@ -77,7 +88,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
             return
         }
         binding.launchImageIv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.size))
-        Handler().postDelayed({ -> goToHome() }, TimeUnit.SECONDS.toMillis(COMMON_DELAY_SEC))
+        Handler().postDelayed({ goToHome() }, TimeUnit.SECONDS.toMillis(COMMON_DELAY_SEC))
     }
 
     override fun onStop() {

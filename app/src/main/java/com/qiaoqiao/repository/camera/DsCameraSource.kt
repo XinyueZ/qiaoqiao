@@ -13,7 +13,7 @@ class DsCameraSource(google: Google) : AbstractDsSource(google) {
                 val uri = it
                 google?.getAnnotateImageResponse(Google.UriImageBuilder.newBuilder(uri)) {
                     when {
-                        it.responses[0].error != null -> callback.onError(it.responses[0].error)
+                        it.responses[0].error != null -> callback.onVisionApiError(it.responses[0].error)
                         else -> {
                             callback.onVisionResponse(it)
                             callback.saveOnLocalHistory(uri, it.toPrettyString())
