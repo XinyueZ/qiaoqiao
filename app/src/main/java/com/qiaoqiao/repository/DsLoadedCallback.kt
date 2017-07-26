@@ -3,7 +3,6 @@ package com.qiaoqiao.repository
 import android.net.Uri
 import android.support.annotation.NonNull
 import android.text.TextUtils
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse
 import com.google.api.services.vision.v1.model.Status
 import com.google.firebase.auth.FirebaseAuth
@@ -18,13 +17,13 @@ import io.realm.Realm
 import java.io.IOException
 
 abstract class DsLoadedCallback {
-    fun pushOnFirebase(bytes: ByteArray, l: OnSuccessListener<UploadTask.TaskSnapshot>) {
+    inline fun pushOnFirebase(bytes: ByteArray, noinline err: (Exception) -> Unit, crossinline succ: (UploadTask.TaskSnapshot) -> Unit) {
         val currentUser = FirebaseAuth.getInstance()
                 .currentUser ?: return
         val rootRef = FirebaseStorage.getInstance().reference
         val imageRef = rootRef.child("images/" + currentUser.uid + "/" + System.currentTimeMillis() + ".jpg")
         val uploadTask = imageRef.putBytes(bytes)
-        uploadTask.addOnFailureListener { LL.d("upload image unsuccessfully") }.addOnSuccessListener(l)
+        uploadTask.addOnFailureListener { err(it) }.addOnSuccessListener { succ(it) }
     }
 
     fun saveOnLocalHistory(imageUri: Uri, json: String) {
@@ -68,7 +67,7 @@ abstract class DsLoadedCallback {
             for (mapDetail in details) {
                 val mapDetailKeys = mapDetail.keys
                 for (key in mapDetailKeys) {
-                    LL.e(mapDetail.get(key)
+                    LL.e(mapDetail[key]
                             .toString())
                 }
             }
