@@ -132,6 +132,7 @@ ext {
             fireAuth              : [group: "com.google.firebase", name: "firebase-auth", version: firebase],
             fireStorage           : [group: "com.google.firebase", name: "firebase-storage", version: firebase],
             fireInvite            : [group: "com.google.firebase", name: "firebase-invites", version: firebase],
+            fireVision            : [group: "com.google.firebase", name: "firebase-database", version: firebase],
             fireDatabase          : [group: "com.google.firebase", name: "firebase-database", version: firebase],
 
             //text-drawable
@@ -252,6 +253,7 @@ ext {
             //Firebase
             [configuration: "implementation", dependency: libs.fireAuth],
             [configuration: "implementation", dependency: libs.fireInvite],
+            [configuration: "implementation", dependency: libs.fireVision],
             [configuration: "implementation", dependency: libs.fireStorage],
             [configuration: "implementation", dependency: libs.fireDatabase],
 
