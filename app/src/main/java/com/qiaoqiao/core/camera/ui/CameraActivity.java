@@ -39,6 +39,7 @@ import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlaceInfoFragment;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment;
+import com.qiaoqiao.core.camera.barcode.BarcodeReader;
 import com.qiaoqiao.core.camera.crop.CropCallback;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
@@ -172,6 +173,8 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
 		setupViewPager((Fragment) mVisionFragment);
 		presentersBegin();
+		BarcodeReader barcodeReader = new BarcodeReader(mBinding.barcodeDetectorOverlay);
+		barcodeReader.startCameraSource(this);
 	}
 
 

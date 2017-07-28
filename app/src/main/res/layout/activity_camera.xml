@@ -58,6 +58,11 @@
                             android:layout_height="match_parent"
                             android:keepScreenOn="true"/>
 
+                        <com.qiaoqiao.core.camera.barcode.ui.GraphicOverlay
+                            android:id="@+id/barcode_detector_overlay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
 
                         <ImageButton
                             android:id="@+id/expand_more_btn"
