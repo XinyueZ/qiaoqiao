@@ -99,4 +99,6 @@
 
     <string name="software_licenses_count">Total %1$d licenses for %2$d libraries and software.</string>
 
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+
 </resources>
