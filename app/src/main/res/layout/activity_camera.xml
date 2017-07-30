@@ -47,27 +47,39 @@
                     app:titleEnabled="false"
                     app:toolbarId="@+id/toolbar">
 
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fitsSystemWindows="true"
                         app:layout_collapseMode="parallax">
+
+
+                        <com.qiaoqiao.core.camera.barcode.CameraSourcePreview
+                            android:id="@+id/preview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:keepScreenOn="true">
+
+                            <com.qiaoqiao.core.camera.barcode.GraphicOverlay
+                                android:id="@+id/barcode_detector_overlay"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+
+                        </com.qiaoqiao.core.camera.barcode.CameraSourcePreview>
 
                         <FrameLayout
                             android:id="@+id/container"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:keepScreenOn="true"/>
-
-                        <com.qiaoqiao.core.camera.barcode.ui.GraphicOverlay
-                            android:id="@+id/barcode_detector_overlay"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
+                            />
 
                         <ImageButton
                             android:id="@+id/expand_more_btn"
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/small"
                             android:layout_gravity="bottom|center_horizontal"
                             android:background="@drawable/selector_round_green_rectangle_item_background"
                             android:onClick="@{clickHandler::onClick}"
@@ -144,7 +156,7 @@
                 <ImageButton
                     android:id="@+id/expand_less_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginBottom="@dimen/small"
                     android:background="@drawable/selector_round_green_rectangle_item_background"

@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qiaoqiao.core.camera.barcode.ui;
+package com.qiaoqiao.core.camera.barcode;
 
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.barcode.Barcode;
-import com.qiaoqiao.core.camera.barcode.ui.BarcodeGraphic;
-import com.qiaoqiao.core.camera.barcode.ui.GraphicOverlay;
 
 /**
  * Generic tracker which is used for tracking or reading a barcode (and can really be used for

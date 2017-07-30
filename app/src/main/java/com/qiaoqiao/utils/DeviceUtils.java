@@ -5,7 +5,6 @@ import android.support.v4.hardware.display.DisplayManagerCompat;
 import android.util.DisplayMetrics;
 import android.view.Display;
 
-
 /**
  * Utils for device i.e access a logical of device-id, get screen size etc.
  */

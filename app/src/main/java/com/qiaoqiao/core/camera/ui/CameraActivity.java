@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -21,14 +23,18 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-import com.afollestad.materialcamera.internal.BaseCaptureActivity;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
@@ -39,7 +45,7 @@ import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlaceInfoFragment;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment;
-import com.qiaoqiao.core.camera.barcode.BarcodeReader;
+import com.qiaoqiao.core.camera.barcode.BarcodeTrackerFactory;
 import com.qiaoqiao.core.camera.crop.CropCallback;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
@@ -59,7 +65,9 @@ import com.qiaoqiao.licenses.LicensesActivity;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
+import com.qiaoqiao.utils.DeviceUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,21 +81,23 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.afollestad.materialcamera.internal.CameraIntentKey.STILL_SHOT;
 import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTING_LOCATING;
 import static com.qiaoqiao.core.camera.ui.WebLinkActivityKt.REQ_WEB_LINK;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
 
-public abstract class CameraActivity extends BaseCaptureActivity implements CameraContract.View,
-                                                                            View.OnClickListener,
-                                                                            EasyPermissions.PermissionCallbacks,
-                                                                            AppBarLayout.OnOffsetChangedListener,
-                                                                            FragmentManager.OnBackStackChangedListener,
-                                                                            CropCallback,
-                                                                            NavigationView.OnNavigationItemSelectedListener {
+public class CameraActivity extends AppCompatActivity implements CameraContract.View,
+                                                                 View.OnClickListener,
+                                                                 EasyPermissions.PermissionCallbacks,
+                                                                 AppBarLayout.OnOffsetChangedListener,
+                                                                 FragmentManager.OnBackStackChangedListener,
+                                                                 CropCallback,
+                                                                 NavigationView.OnNavigationItemSelectedListener {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQ_FILE_SELECTOR = 0x19;
 	private static final int REQ_INVITE = 0x56;
@@ -135,16 +145,10 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 	//------------------------------------------------
 
-
-	public static void showInstance(@NonNull Activity cxt, boolean shotPoto) {
-		if (shotPoto) {
-			new Camera(cxt).stillShot()
-			               .showPortraitWarning(false)
-			               .start(REQ_CAMERA);
-		} else {
-			new Camera(cxt).showPortraitWarning(false)
-			               .start(REQ_CAMERA);
-		}
+	public static void showInstance(@NonNull Activity cxt) {
+		Intent intent = new Intent(cxt, CameraActivity.class);
+		intent.setFlags(FLAG_ACTIVITY_SINGLE_TOP | FLAG_ACTIVITY_CLEAR_TOP);
+		ActivityCompat.startActivity(cxt, intent, EMPTY);
 	}
 
 	@Override
@@ -155,16 +159,13 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		setupAppBar();
 		setupNavigationDrawer();
 		App.inject(this);
+
+		showCamera();
 	}
 
-
-	@Override
-	protected int getLayout() {
-		return LAYOUT;
-	}
 
 	private void setupDataBinding() {
-		mBinding = DataBindingUtil.bind(findViewById(R.id.drawer_layout));
+		mBinding = DataBindingUtil.setContentView(this, LAYOUT);
 		mBinding.setClickHandler(this);
 	}
 
@@ -173,8 +174,35 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
 		setupViewPager((Fragment) mVisionFragment);
 		presentersBegin();
-		BarcodeReader barcodeReader = new BarcodeReader(mBinding.barcodeDetectorOverlay);
-		barcodeReader.startCameraSource(this);
+	}
+
+
+	protected void showCamera() {
+		BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(getApplicationContext()).build();
+		BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(mBinding.barcodeDetectorOverlay);
+		barcodeDetector.setProcessor(new MultiProcessor.Builder<>(barcodeFactory).build());
+
+		if (!barcodeDetector.isOperational()) {
+			IntentFilter lowstorageFilter = new IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW);
+			boolean hasLowStorage = registerReceiver(null, lowstorageFilter) != null;
+			if (hasLowStorage) {
+				Toast.makeText(this, R.string.low_storage_error, Toast.LENGTH_LONG)
+				     .show();
+			}
+		}
+
+		CameraSource cameraSource  = new CameraSource.Builder(getApplicationContext(), barcodeDetector)
+				.setFacing(CameraSource.CAMERA_FACING_BACK)
+				.setAutoFocusEnabled(true)
+				.setRequestedFps(15.0f)
+				.build();
+
+		try {
+			mBinding.preview.start(cameraSource, mBinding.barcodeDetectorOverlay);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 
@@ -220,6 +248,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		EventBus.getDefault()
 		        .unregister(this);
 		super.onPause();
+		mBinding.preview.stop();
 	}
 
 	@Override
@@ -306,6 +335,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		setDownAppBar();
 		presentersEnd();
 		super.onDestroy();
+		mBinding.preview.release();
 	}
 
 	private void presentersEnd() {
@@ -360,9 +390,9 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	@Override
+	//	@Override
 	protected void onUseMedia(boolean isStillshot, @NonNull Intent intent) {
-		super.onUseMedia(isStillshot, intent);
+//		super.onUseMedia(isStillshot, intent);
 		final Uri data = intent.getData();
 		openCrop(new CropSource(data));
 	}
@@ -448,7 +478,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 		closeCropView();
 	}
 
-	private void setupViewPager(@NonNull Fragment visionFragment ) {
+	private void setupViewPager(@NonNull Fragment visionFragment) {
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), new ArrayList<Fragment>() {{
 			add(visionFragment);
 		}}, new ArrayList<String>() {{
@@ -502,7 +532,7 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 	}
 
 	private void adjustUIForDifferentFragmentSenario(Menu menu) {
-		boolean isStillshot = getIntent().getBooleanExtra(STILL_SHOT, true);
+		boolean isStillshot = true;
 		boolean isSnapshotPlacesThere = ((SnapshotPlacesFragment) mSnapshotPlacesFragment).isAdded();
 		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
 
@@ -550,11 +580,11 @@ public abstract class CameraActivity extends BaseCaptureActivity implements Came
 
 		switch (item.getItemId()) {
 			case R.id.action_video:
-				CameraActivity.showInstance(this, false);
+				CameraActivity.showInstance(this);
 				finish();
 				break;
 			case R.id.action_photo:
-				CameraActivity.showInstance(this, true);
+				CameraActivity.showInstance(this);
 				finish();
 				break;
 			case R.id.action_crop_rotate:
