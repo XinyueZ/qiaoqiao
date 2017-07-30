@@ -1,6 +1,5 @@
 package com.qiaoqiao.core.camera.ui;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -80,12 +79,9 @@ import javax.inject.Inject;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
+import com.qiaoqiao.core.camera.ui.PermissionHelper;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static android.os.Bundle.EMPTY;
@@ -97,13 +93,14 @@ import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
 
+
 public final class CameraActivity extends AppCompatActivity implements CameraContract.View,
-                                                                 View.OnClickListener,
-                                                                 EasyPermissions.PermissionCallbacks,
-                                                                 AppBarLayout.OnOffsetChangedListener,
-                                                                 FragmentManager.OnBackStackChangedListener,
-                                                                 CropCallback,
-                                                                 NavigationView.OnNavigationItemSelectedListener {
+                                                                       View.OnClickListener,
+                                                                       EasyPermissions.PermissionCallbacks,
+                                                                       AppBarLayout.OnOffsetChangedListener,
+                                                                       FragmentManager.OnBackStackChangedListener,
+                                                                       CropCallback,
+                                                                       NavigationView.OnNavigationItemSelectedListener {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQ_FILE_SELECTOR = 0x19;
 	private static final int REQ_INVITE = 0x56;
@@ -183,7 +180,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 	@SuppressLint("ClickableViewAccessibility")
-	protected void setupCamera() {
+	void setupCamera() {
 		BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(getApplicationContext()).build();
 		BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(mBinding.barcodeDetectorOverlay);
 		barcodeDetector.setProcessor(new MultiProcessor.Builder<>(barcodeFactory).build());
@@ -205,7 +202,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			mBinding.setCameraSource(cameraSource);
 			mBinding.setScaleDetector(new ScaleGestureDetector(this, new ScaleListener(cameraSource)));
 			mBinding.setGestureDetector(new GestureDetectorCompat(this, new CaptureGestureListener(this, mBinding.barcodeDetectorOverlay)));
-			mBinding.collapsingToolbar.setOnTouchListener((View var1, MotionEvent e)->{
+			mBinding.collapsingToolbar.setOnTouchListener((View var1, MotionEvent e) -> {
 				boolean b = mBinding.getScaleDetector()
 				                    .onTouchEvent(e);
 				boolean c = mBinding.getGestureDetector()
@@ -436,15 +433,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 
-	private void openLocalDir() {
+	void openLocalDir() {
 		startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), REQ_FILE_SELECTOR);
-	}
-
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
 	}
 
 
@@ -668,62 +658,41 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 	//--Begin permission--
-
+	private final PermissionHelper mPermissionHelper = new PermissionHelper(this);
 	@AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
 	private void requireCameraPermission() {
-		if (!EasyPermissions.hasPermissions(this, CAMERA)) {
-			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA);
-		}
+		mPermissionHelper.requireCameraPermission();
 	}
 
 
 	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
 	private void requireReadExternalStoragePermission() {
-		if (EasyPermissions.hasPermissions(this, READ_EXTERNAL_STORAGE)) {
-			openLocalDir();
-		} else {
-			// Ask for one permission
-			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_read_external_storage_text), RC_READ_EXTERNAL_STORAGE_PERMISSIONS, READ_EXTERNAL_STORAGE);
-		}
+		mPermissionHelper.requireReadExternalStoragePermission();
 	}
 
 
 	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
 	private void requireFineLocationPermission() {
-		if (EasyPermissions.hasPermissions(this, ACCESS_FINE_LOCATION)) {
-			getSupportFragmentManager().beginTransaction()
-			                           .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-			                           .add(R.id.container,
-			                                (Fragment) mSnapshotPlacesFragment,
-			                                mSnapshotPlacesFragment.getClass()
-			                                                       .getName())
-			                           .addToBackStack(null)
-			                           .commit();
-		} else {
-			// Ask for one permission
-			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_location_text), RC_FINE_LOCATION_PERMISSIONS, ACCESS_FINE_LOCATION);
-		}
+		mPermissionHelper.requireFineLocationPermission((Fragment) mSnapshotPlacesFragment);
 	}
 
 
 	@Override
 	public void onPermissionsGranted(int i, List<String> list) {
-		if (list.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-			openLocalDir();
-		}
-		if (list.contains(CAMERA)) {
-			setupCamera();
-		}
+		mPermissionHelper.onPermissionsGranted(i, list);
 	}
 
 
 	@Override
 	public void onPermissionsDenied(int i, List<String> perms) {
-		if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-			new AppSettingsDialog.Builder(this).setPositiveButton(R.string.permission_setting)
-			                                   .build()
-			                                   .show();
-		}
+		mPermissionHelper.onPermissionsDenied(i, perms);
+	}
+
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
 	}
 	//--End permission--
 }
