@@ -55,15 +55,10 @@
             </intent-filter>
         </activity>
 
-
         <activity
-            android:name=".core.camera.ui.Camera1Activity"
+            android:name=".core.camera.ui.CameraActivity"
             android:screenOrientation="fullSensor"/>
 
-
-        <activity
-            android:name=".core.camera.ui.Camera2Activity"
-            android:screenOrientation="fullSensor"/>
 
         <activity
             android:name=".core.location.MapActivity"

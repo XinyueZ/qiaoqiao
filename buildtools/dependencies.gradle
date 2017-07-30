@@ -3,8 +3,6 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://maven.google.com' }
-        maven { url "http://dl.bintray.com/frakbot/maven" }
-        maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
     }
 }
 
@@ -43,7 +41,6 @@ ext {
     glide = "3.8.0"
     cropper = "2.4.7"
     circleImageView = "2.1.0"
-    easyVideo = "0.3.0"
 
     //Facebook
     shimmer = "0.1.0"
@@ -54,7 +51,6 @@ ext {
     //Others
     apacheIO = "2.5"
     textDrawable = "1.0.1"
-    glowPadBackport = "2.1.1"
 
     kotlin = project.KOTLIN
 
@@ -141,11 +137,7 @@ ext {
             //Kotlin
             kotlin                : [group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre7", version: kotlin],
 
-            //GlowPadBackport
-            glowPadBackport       : [group: "net.frakbot", name: "glowpadbackport", version: glowPadBackport],
 
-            //Support for video maker:
-            easyVideo             : [group: "com.afollestad", name: "easyvideoplayer", version: easyVideo],
 
             //Rx
             //Instead this official rxAdapter, more info
@@ -159,7 +151,6 @@ ext {
 
     appDependencies = [
             [configuration: "implementation", dependency: fileTree(dir: 'libs', include: ['*.jar'])],
-            [configuration: "implementation", dependency: project(':material-camera')],
 
             //support-lib
             [configuration: "implementation", dependency: libs.core],
@@ -267,11 +258,7 @@ ext {
             //Kotlin
             [configuration: "implementation", dependency: libs.kotlin],
 
-            //GlowPadBackport
-            [configuration: "implementation", dependency: libs.glowPadBackport],
 
-            //Video
-            [configuration: "implementation", dependency: libs.easyVideo],
     ]
 }
 
