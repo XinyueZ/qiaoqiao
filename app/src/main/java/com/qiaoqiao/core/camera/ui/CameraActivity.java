@@ -84,6 +84,7 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
@@ -92,10 +93,11 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTING_LOCATING;
 import static com.qiaoqiao.core.camera.ui.WebLinkActivityKt.REQ_WEB_LINK;
+import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
 
-public class CameraActivity extends AppCompatActivity implements CameraContract.View,
+public final class CameraActivity extends AppCompatActivity implements CameraContract.View,
                                                                  View.OnClickListener,
                                                                  EasyPermissions.PermissionCallbacks,
                                                                  AppBarLayout.OnOffsetChangedListener,
@@ -105,7 +107,6 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQ_FILE_SELECTOR = 0x19;
 	private static final int REQ_INVITE = 0x56;
-	private static final int REQ_CAMERA = 0x79;
 
 	private @Nullable Snackbar mSnackbar;
 	private ActivityCameraBinding mBinding;
@@ -164,7 +165,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 		setupNavigationDrawer();
 		App.inject(this);
 
-		showCamera();
+		requireCameraPermission();
 	}
 
 
@@ -182,7 +183,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 
 
 	@SuppressLint("ClickableViewAccessibility")
-	protected void showCamera() {
+	protected void setupCamera() {
 		BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(getApplicationContext()).build();
 		BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(mBinding.barcodeDetectorOverlay);
 		barcodeDetector.setProcessor(new MultiProcessor.Builder<>(barcodeFactory).build());
@@ -668,6 +669,13 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 
 	//--Begin permission--
 
+	@AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
+	private void requireCameraPermission() {
+		if (!EasyPermissions.hasPermissions(this, CAMERA)) {
+			EasyPermissions.requestPermissions(this, getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA);
+		}
+	}
+
 
 	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
 	private void requireReadExternalStoragePermission() {
@@ -702,6 +710,9 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 	public void onPermissionsGranted(int i, List<String> list) {
 		if (list.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 			openLocalDir();
+		}
+		if (list.contains(CAMERA)) {
+			setupCamera();
 		}
 	}
 
