@@ -10,6 +10,14 @@
         <variable
             name="clickHandler"
             type="android.view.View.OnClickListener"/>
+
+        <variable
+            name="cameraSource"
+            type="com.qiaoqiao.core.camera.barcode.CameraSource"/>
+
+        <variable
+            name="scaleDetector"
+            type="android.view.ScaleGestureDetector"/>
     </data>
 
     <android.support.v4.widget.DrawerLayout

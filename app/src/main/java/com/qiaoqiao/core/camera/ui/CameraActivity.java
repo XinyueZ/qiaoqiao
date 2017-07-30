@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,12 +28,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.maps.android.clustering.ClusterItem;
@@ -46,6 +48,7 @@ import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlaceInfoFragment;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment;
 import com.qiaoqiao.core.camera.barcode.BarcodeTrackerFactory;
+import com.qiaoqiao.core.camera.barcode.CameraSource;
 import com.qiaoqiao.core.camera.crop.CropCallback;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
@@ -65,7 +68,6 @@ import com.qiaoqiao.licenses.LicensesActivity;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.settings.SettingsActivity;
 import com.qiaoqiao.utils.AppUtils;
-import com.qiaoqiao.utils.DeviceUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -190,19 +192,27 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 				     .show();
 			}
 		}
-
-		CameraSource cameraSource  = new CameraSource.Builder(getApplicationContext(), barcodeDetector)
-				.setFacing(CameraSource.CAMERA_FACING_BACK)
-				.setAutoFocusEnabled(true)
-				.setRequestedFps(15.0f)
-				.build();
-
+		CameraSource cameraSource = new CameraSource.Builder(getApplicationContext(), barcodeDetector).setFacing(CameraSource.CAMERA_FACING_BACK)
+		                                                                                              .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
+		                                                                                              .setFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
+		                                                                                              .setRequestedFps(15.0f)
+		                                                                                              .build();
 		try {
+			mBinding.setCameraSource(cameraSource);
+			mBinding.setScaleDetector(new ScaleGestureDetector(this, new ScaleListener(cameraSource)));
 			mBinding.preview.start(cameraSource, mBinding.barcodeDetectorOverlay);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent e) {
+		boolean b =mBinding.getScaleDetector().onTouchEvent(e);
+//		boolean c = gestureDetector.onTouchEvent(e);
+//		return b || c || super.onTouchEvent(e);
+		return b ||  super.onTouchEvent(e);
 	}
 
 
