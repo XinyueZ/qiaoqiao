@@ -101,7 +101,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
     }
 
     private fun goToHome() {
-        CameraActivity.showInstance(activity, true)
+        CameraActivity.showInstance(activity)
         activity.finish()
     }
 }
