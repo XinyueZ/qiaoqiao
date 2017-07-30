@@ -1,6 +1,7 @@
 package com.qiaoqiao.core.camera.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
@@ -179,6 +181,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 	}
 
 
+	@SuppressLint("ClickableViewAccessibility")
 	protected void showCamera() {
 		BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(getApplicationContext()).build();
 		BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(mBinding.barcodeDetectorOverlay);
@@ -200,21 +203,20 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 		try {
 			mBinding.setCameraSource(cameraSource);
 			mBinding.setScaleDetector(new ScaleGestureDetector(this, new ScaleListener(cameraSource)));
+			mBinding.setGestureDetector(new GestureDetectorCompat(this, new CaptureGestureListener(this, mBinding.barcodeDetectorOverlay)));
+			mBinding.collapsingToolbar.setOnTouchListener((View var1, MotionEvent e)->{
+				boolean b = mBinding.getScaleDetector()
+				                    .onTouchEvent(e);
+				boolean c = mBinding.getGestureDetector()
+				                    .onTouchEvent(e);
+				return b || c || super.onTouchEvent(e);
+			});
 			mBinding.preview.start(cameraSource, mBinding.barcodeDetectorOverlay);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent e) {
-		boolean b =mBinding.getScaleDetector().onTouchEvent(e);
-//		boolean c = gestureDetector.onTouchEvent(e);
-//		return b || c || super.onTouchEvent(e);
-		return b ||  super.onTouchEvent(e);
-	}
-
 
 	private void setupNavigationDrawer() {
 		ActionBar actionBar = getSupportActionBar();

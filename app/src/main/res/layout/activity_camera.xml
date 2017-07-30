@@ -18,6 +18,10 @@
         <variable
             name="scaleDetector"
             type="android.view.ScaleGestureDetector"/>
+
+        <variable
+            name="gestureDetector"
+            type="android.support.v4.view.GestureDetectorCompat"/>
     </data>
 
     <android.support.v4.widget.DrawerLayout
