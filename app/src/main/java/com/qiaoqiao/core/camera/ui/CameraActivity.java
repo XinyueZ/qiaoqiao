@@ -19,7 +19,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -77,9 +76,6 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTING_LOCATING;
-import static com.qiaoqiao.core.camera.ui.AppInvitationKt.REQ_INVITE;
-import static com.qiaoqiao.core.camera.ui.WebLinkActivityKt.REQ_WEB_LINK;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
@@ -93,12 +89,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
                                                                        CropCallback,
                                                                        NavigationView.OnNavigationItemSelectedListener {
 	private static final int LAYOUT = R.layout.activity_camera;
-	private static final int REQ_FILE_SELECTOR = 0x19;
+	public static final int REQ_FILE_SELECTOR = 0x19;
 
 
-	private @Nullable Snackbar mSnackbar;
+	@Nullable Snackbar mSnackbar;
 	ActivityCameraBinding mBinding;
-	private boolean mOnBottom;
+	boolean mOnBottom;
 	ActionBarDrawerToggle mDrawerToggle;
 
 	@Inject CropPresenter mCropPresenter;
@@ -152,8 +148,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupAppBar();
 		setupNavigationDrawer();
 		App.inject(this);
-
 		requireCameraPermission();
+		getSupportFragmentManager().addOnBackStackChangedListener(this);
 	}
 
 
@@ -249,20 +245,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		EventBus.getDefault()
 		        .unregister(this);
 		super.onPause();
-		mBinding.preview.stop();
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		getSupportFragmentManager().addOnBackStackChangedListener(this);
-	}
-
-	@Override
-	protected void onStop() {
-		getSupportFragmentManager().removeOnBackStackChangedListener(this);
-		super.onStop();
-	}
 
 	@Override
 	public void onBackStackChanged() {
@@ -298,26 +282,17 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		mBinding.appbar.removeOnOffsetChangedListener(this);
 	}
 
-	private void showCameraOnly() {
+	void showCameraOnly() {
 		mBinding.appbar.setExpanded(true, true);
 	}
 
 
-	private void showVisionOnly() {
+	void showVisionOnly() {
 		mBinding.appbar.setExpanded(false, true);
 		mBinding.expandMoreBtn.setVisibility(GONE);
 		mBinding.expandLessBtn.setVisibility(VISIBLE);
 	}
 
-	private void toggleVisionCameraShowButtons() {
-		if (!mOnBottom) {
-			mBinding.expandMoreBtn.setVisibility(VISIBLE);
-			mBinding.expandLessBtn.setVisibility(GONE);
-		} else {
-			mBinding.expandMoreBtn.setVisibility(GONE);
-			mBinding.expandLessBtn.setVisibility(VISIBLE);
-		}
-	}
 
 	private void presentersBegin() {
 		mCropPresenter.begin(this);
@@ -332,10 +307,13 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onDestroy() {
+		getSupportFragmentManager().removeOnBackStackChangedListener(this);
 		setDownNavigationDrawer();
 		setDownAppBar();
 		presentersEnd();
 		super.onDestroy();
+
+		mBinding.preview.stop();
 		mBinding.preview.release();
 	}
 
@@ -366,27 +344,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-			case REQ_WEB_LINK:
-				if (data != null && data.getData() != null) {
-					openCrop(new CropSource(data.getData()));
-				}
-				break;
-			case REQ_FILE_SELECTOR:
-				if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-					openCrop(new CropSource(data.getData()));
-				}
-				break;
-			case REQ_INVITE:
-				if (resultCode != RESULT_OK) {
-					mSnackbar = Snackbar.make(mBinding.root, R.string.invitation_send_failed, Snackbar.LENGTH_LONG)
-					                    .setAction(android.R.string.cancel, this);
-					mSnackbar.show();
-				}
-				break;
-			case REQ_SETTING_LOCATING:
-				mAwarenessPresenter.locating(this);
-				break;
+		if (Scenario.INSTANCE.onActivityResult(this, requestCode, resultCode, data)) {
+			return;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -407,20 +366,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.expand_less_btn:
-				showCameraOnly();
-				break;
-			case R.id.expand_more_btn:
-				showVisionOnly();
-				break;
-			default:
-				if (mSnackbar == null) {
-					return;
-				}
-				mSnackbar.dismiss();
-
-		}
+		ClickHandler.INSTANCE.onClick(this, v);
 	}
 
 
@@ -490,23 +436,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-		mOnBottom = (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange());
-		toggleVisionCameraShowButtons();
+		Scenario.INSTANCE.onOffsetChanged(this, appBarLayout, verticalOffset);
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-			mBinding.drawerLayout.closeDrawer(GravityCompat.START);
+		if (BackPressHandler.INSTANCE.onBackPressed(this)) {
 			return;
 		}
-
-		if (mOnBottom) {
-			mBinding.viewpager.setCurrentItem(0, true);
-			showCameraOnly();
-			return;
-		}
-
 		super.onBackPressed();
 	}
 
@@ -528,10 +465,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (!MenuHandler.INSTANCE.onOptionsItemSelected(this, item)) {
-			return super.onOptionsItemSelected(item);
-		}
-		return true;
+		return MenuHandler.INSTANCE.onOptionsItemSelected(this, item) || super.onOptionsItemSelected(item);
 	}
 
 
