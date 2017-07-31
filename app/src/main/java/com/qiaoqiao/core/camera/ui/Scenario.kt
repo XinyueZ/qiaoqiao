@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.qiaoqiao.R
 import com.qiaoqiao.core.camera.awareness.REQ_SETTING_LOCATING
@@ -20,39 +21,34 @@ internal object Scenario {
             val isSnapshotPlacesThere = (cxt.mSnapshotPlacesFragment as Fragment).isAdded
             val isCropThere = (cxt.mCropFragment as Fragment).isAdded
 
-            navView.menu
-                    .findItem(R.id.action_places).isVisible = !isSnapshotPlacesThere
-            navView.menu
-                    .findItem(R.id.action_from_local).isVisible = !isSnapshotPlacesThere
-            navView.menu
-                    .findItem(R.id.action_from_web).isVisible = !isSnapshotPlacesThere
-
-            menu.findItem(R.id.action_crop_rotate).isVisible = isCropThere && !isSnapshotPlacesThere
-            menu.findItem(R.id.action_video).isVisible = !isCropThere && !isSnapshotPlacesThere && isStillshot
-            menu.findItem(R.id.action_photo).isVisible = !isCropThere && !isSnapshotPlacesThere && !isStillshot
-
-            ViewCompat.animate(expandMoreBtn)
-                    .alpha((if (!isCropThere && !isSnapshotPlacesThere)
-                        1
-                    else
-                        0).toFloat())
-                    .start()
-            ViewCompat.animate(expandLessBtn)
-                    .alpha((if (!isCropThere && !isSnapshotPlacesThere)
-                        1
-                    else
-                        0).toFloat())
-                    .start()
-
-            val view = cxt.supportFragmentManager.findFragmentById(R.id.stackview_history_fg)
-                    .view
-            ViewCompat.animate(view)
-                    .alpha((if (!isCropThere && !isSnapshotPlacesThere)
-                        1
-                    else
-                        0).toFloat())
-                    .start()
+            with(navView.menu) {
+                //Navigation-drawer
+                setMenuVisible(findItem(R.id.action_places), !isSnapshotPlacesThere)
+                setMenuVisible(findItem(R.id.action_from_local), !isSnapshotPlacesThere)
+                setMenuVisible(findItem(R.id.action_from_web), !isSnapshotPlacesThere)
+            }
+            //Normal menu
+            setMenuVisible(menu.findItem(R.id.action_crop_rotate), isCropThere && !isSnapshotPlacesThere)
+            //Views
+            val show = (!isCropThere && !isSnapshotPlacesThere)
+            animateViews(captureFab, show)
+            animateViews(expandMoreBtn, show)
+            animateViews(expandLessBtn, show)
+            animateViews(cxt.supportFragmentManager.findFragmentById(R.id.stackview_history_fg).view, show)
         }
+    }
+
+    private fun setMenuVisible(item: MenuItem, show: Boolean) {
+        item.isVisible = show
+    }
+
+    private fun animateViews(view: View?, show: Boolean) {
+        ViewCompat.animate(view)
+                .alpha((if (show)
+                    1
+                else
+                    0).toFloat())
+                .start()
     }
 
     fun onOffsetChanged(cxt: CameraActivity, appBarLayout: AppBarLayout, verticalOffset: Int) {

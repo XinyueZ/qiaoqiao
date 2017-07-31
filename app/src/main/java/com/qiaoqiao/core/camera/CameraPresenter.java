@@ -1,14 +1,22 @@
 package com.qiaoqiao.core.camera;
 
 
+import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Status;
+import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.repository.DsLoadedCallback;
 import com.qiaoqiao.repository.DsRepository;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -45,6 +53,13 @@ public final class CameraPresenter implements CameraContract.Presenter {
 	@Override
 	public void updateWhenResponse() {
 		mView.updateViewWhenResponse();
+	}
+
+	@Override
+	public void capturedByteArray(@NonNull Context cxt, @NonNull byte[] bytes) throws IOException {
+		File file = File.createTempFile("captured", "jpeg", cxt.getCacheDir());
+		FileUtils.writeByteArrayToFile(file, bytes);
+		mView.openCrop(new CropSource(Uri.fromFile(file)));
 	}
 
 	@Override

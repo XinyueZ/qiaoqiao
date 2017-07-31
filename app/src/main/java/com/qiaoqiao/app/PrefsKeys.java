@@ -21,4 +21,6 @@ public interface PrefsKeys {
 	int DEFAULT_GEOSEARCH_RADIUS = 500;
 
 	long COMMON_DELAY_SEC = 2;
+
+	long VIB_LNG = 50L;
 }

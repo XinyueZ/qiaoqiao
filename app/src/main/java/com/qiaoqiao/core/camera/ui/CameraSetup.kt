@@ -1,9 +1,11 @@
 package com.qiaoqiao.core.camera.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.Camera
+import android.os.Vibrator
 import android.support.v4.view.GestureDetectorCompat
 import android.view.ScaleGestureDetector
 import android.widget.Toast
@@ -11,6 +13,7 @@ import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.qiaoqiao.R
+import com.qiaoqiao.app.PrefsKeys
 import com.qiaoqiao.core.camera.barcode.BarcodeGraphic
 import com.qiaoqiao.core.camera.barcode.BarcodeTrackerFactory
 import com.qiaoqiao.core.camera.barcode.CameraSource
@@ -20,8 +23,11 @@ import java.io.IOException
 
 @SuppressLint("MissingPermission")
 internal object CameraSetup {
+    private lateinit var vibrator: Vibrator
+
     fun setup(cxt: CameraActivity) {
         with(cxt) {
+            vibrator = cxt.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             val barcodeDetector = BarcodeDetector.Builder(applicationContext).build()
             val barcodeFactory = BarcodeTrackerFactory(mBinding.barcodeDetectorOverlay as GraphicOverlay<BarcodeGraphic>?)
             barcodeDetector.setProcessor(MultiProcessor.Builder<Barcode>(barcodeFactory).build())
@@ -57,6 +63,11 @@ internal object CameraSetup {
             } catch (e: IOException) {
                 LL.w(e.toString())
             }
+            mBinding.captureFab.setOnClickListener({
+                cameraSource.takePicture({ vibrator.vibrate(PrefsKeys.VIB_LNG) }, {
+                    mCameraPresenter.capturedByteArray(this, it)
+                })
+            })
         }
     }
 }

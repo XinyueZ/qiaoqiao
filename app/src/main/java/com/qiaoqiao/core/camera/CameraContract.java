@@ -17,12 +17,15 @@
 package com.qiaoqiao.core.camera;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
+
+import java.io.IOException;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -51,5 +54,7 @@ public interface CameraContract {
 		void updateWhenResponse();
 
 		void findAnnotateImages(@NonNull byte[] bytes);
+
+		void capturedByteArray(@NonNull Context cxt, @NonNull byte[] bytes) throws IOException;
 	}
 }
