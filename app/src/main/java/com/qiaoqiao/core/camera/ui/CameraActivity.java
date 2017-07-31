@@ -2,7 +2,6 @@ package com.qiaoqiao.core.camera.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
@@ -21,10 +20,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,7 +31,6 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -47,7 +43,6 @@ import com.qiaoqiao.core.camera.awareness.AwarenessContract;
 import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlaceInfoFragment;
-import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlacesFragment;
 import com.qiaoqiao.core.camera.barcode.BarcodeTrackerFactory;
 import com.qiaoqiao.core.camera.barcode.CameraSource;
 import com.qiaoqiao.core.camera.crop.CropCallback;
@@ -68,7 +63,6 @@ import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.licenses.LicensesActivity;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.settings.SettingsActivity;
-import com.qiaoqiao.utils.AppUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,7 +74,6 @@ import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
-import com.qiaoqiao.core.camera.ui.PermissionHelper;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
@@ -88,6 +81,7 @@ import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.qiaoqiao.core.camera.awareness.AwarenessPresenterKt.REQ_SETTING_LOCATING;
+import static com.qiaoqiao.core.camera.ui.AppInvitationKt.REQ_INVITE;
 import static com.qiaoqiao.core.camera.ui.WebLinkActivityKt.REQ_WEB_LINK;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
 import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
@@ -103,7 +97,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
                                                                        NavigationView.OnNavigationItemSelectedListener {
 	private static final int LAYOUT = R.layout.activity_camera;
 	private static final int REQ_FILE_SELECTOR = 0x19;
-	private static final int REQ_INVITE = 0x56;
+
 
 	private @Nullable Snackbar mSnackbar;
 	private ActivityCameraBinding mBinding;
@@ -123,6 +117,8 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject ConfidenceContract.View mConfidenceFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
 
+
+	private @Nullable Scenario mScenario;
 	//------------------------------------------------
 	//Subscribes, event-handlers
 	//------------------------------------------------
@@ -176,6 +172,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
 		setupViewPager((Fragment) mVisionFragment);
 		presentersBegin();
+		mScenario = new Scenario(mBinding, (Fragment) mSnapshotPlacesFragment, (Fragment) mCropFragment);
 	}
 
 
@@ -530,50 +527,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		adjustUIForDifferentFragmentSenario(menu);
+		if (mScenario != null) {
+			mScenario.adjustUIForDifferentFragmentScenario(getSupportFragmentManager(), menu);
+		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	private void adjustUIForDifferentFragmentSenario(Menu menu) {
-		boolean isStillshot = true;
-		boolean isSnapshotPlacesThere = ((SnapshotPlacesFragment) mSnapshotPlacesFragment).isAdded();
-		boolean isCropThere = ((CropFragment) mCropFragment).isAdded();
-
-		mBinding.navView.getMenu()
-		                .findItem(R.id.action_places)
-		                .setVisible(!isSnapshotPlacesThere);
-		mBinding.navView.getMenu()
-		                .findItem(R.id.action_from_local)
-		                .setVisible(!isSnapshotPlacesThere);
-		mBinding.navView.getMenu()
-		                .findItem(R.id.action_from_web)
-		                .setVisible(!isSnapshotPlacesThere);
-
-		menu.findItem(R.id.action_crop_rotate)
-		    .setVisible(isCropThere && !isSnapshotPlacesThere);
-		menu.findItem(R.id.action_video)
-		    .setVisible(!isCropThere && !isSnapshotPlacesThere && isStillshot);
-		menu.findItem(R.id.action_photo)
-		    .setVisible(!isCropThere && !isSnapshotPlacesThere && !isStillshot);
-
-		ViewCompat.animate(mBinding.expandMoreBtn)
-		          .alpha(!isCropThere && !isSnapshotPlacesThere ?
-		                 1 :
-		                 0)
-		          .start();
-		ViewCompat.animate(mBinding.expandLessBtn)
-		          .alpha(!isCropThere && !isSnapshotPlacesThere ?
-		                 1 :
-		                 0)
-		          .start();
-		final View view = getSupportFragmentManager().findFragmentById(R.id.stackview_history_fg)
-		                                             .getView();
-		ViewCompat.animate(view)
-		          .alpha(!isCropThere && !isSnapshotPlacesThere ?
-		                 1 :
-		                 0)
-		          .start();
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -615,7 +574,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 				((ConfidenceDialogFragment) mConfidenceFragment).show(getSupportFragmentManager(), null);
 				break;
 			case R.id.action_app_invite:
-				sendAppInvitation();
+				AppInvitation.INSTANCE.sendAppInvitation(this);
 				break;
 			case R.id.action_settings:
 				SettingsActivity.showInstance(this);
@@ -628,37 +587,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 
-	private void sendAppInvitation() {
-		String invitationTitle = getString(R.string.invitation_title);
-		String invitationMessage = getString(R.string.invitation_message);
-		String invitationDeepLink = getString(R.string.invitation_link);
-		String invitationCustomImage = getString(R.string.invitation_image);
-		String invitationCta = getString(R.string.invitation_cta);
-
-
-		Intent intent = new AppInviteInvitation.IntentBuilder(invitationTitle).setMessage(invitationMessage)
-		                                                                      .setDeepLink(Uri.parse(invitationDeepLink))
-		                                                                      .setCustomImage(Uri.parse(invitationCustomImage))
-		                                                                      .setCallToActionText(invitationCta)
-		                                                                      .build();
-		try {
-			startActivityForResult(intent, REQ_INVITE);
-		} catch (ActivityNotFoundException | NullPointerException ex) {
-			new AlertDialog.Builder(this).setTitle(R.string.invitation_title)
-			                             .setMessage(R.string.invitation_error)
-			                             .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
-				                             dialog.dismiss();
-				                             AppUtils.goToPlayServiceDownload(getApplicationContext());
-			                             })
-			                             .setCancelable(true)
-			                             .create()
-			                             .show();
-		}
-	}
-
-
 	//--Begin permission--
 	private final PermissionHelper mPermissionHelper = new PermissionHelper(this);
+
 	@AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
 	private void requireCameraPermission() {
 		mPermissionHelper.requireCameraPermission();
