@@ -56,13 +56,10 @@ import com.qiaoqiao.core.camera.vision.VisionContract;
 import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.core.confidence.ConfidenceContract;
 import com.qiaoqiao.core.confidence.ConfidencePresenter;
-import com.qiaoqiao.core.confidence.ui.ConfidenceDialogFragment;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
 import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
-import com.qiaoqiao.licenses.LicensesActivity;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
-import com.qiaoqiao.settings.SettingsActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -100,9 +97,9 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 	private @Nullable Snackbar mSnackbar;
-	private ActivityCameraBinding mBinding;
+	ActivityCameraBinding mBinding;
 	private boolean mOnBottom;
-	private ActionBarDrawerToggle mDrawerToggle;
+	ActionBarDrawerToggle mDrawerToggle;
 
 	@Inject CropPresenter mCropPresenter;
 	@Inject CameraPresenter mCameraPresenter;
@@ -117,8 +114,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	@Inject ConfidenceContract.View mConfidenceFragment;
 	@Inject AwarenessContract.View mSnapshotPlacesFragment;
 
-
-	private @Nullable Scenario mScenario;
 	//------------------------------------------------
 	//Subscribes, event-handlers
 	//------------------------------------------------
@@ -172,7 +167,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		//Views(Fragments), presenters of vision, history are already created but they should be shown on screen.
 		setupViewPager((Fragment) mVisionFragment);
 		presentersBegin();
-		mScenario = new Scenario(mBinding, (Fragment) mSnapshotPlacesFragment, (Fragment) mCropFragment);
 	}
 
 
@@ -527,62 +521,23 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (mScenario != null) {
-			mScenario.adjustUIForDifferentFragmentScenario(getSupportFragmentManager(), menu);
-		}
+		Scenario.INSTANCE.adjustUIForDifferentFragmentScenario(this, menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
+		if (!MenuHandler.INSTANCE.onOptionsItemSelected(this, item)) {
+			return super.onOptionsItemSelected(item);
 		}
-
-		switch (item.getItemId()) {
-			case R.id.action_video:
-				CameraActivity.showInstance(this);
-				finish();
-				break;
-			case R.id.action_photo:
-				CameraActivity.showInstance(this);
-				finish();
-				break;
-			case R.id.action_crop_rotate:
-				mCropFragment.rotate();
-				break;
-		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 
 
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-		mBinding.drawerLayout.closeDrawers();
-		switch (item.getItemId()) {
-			case R.id.action_from_local:
-				showLoadFromLocal(null);
-				break;
-			case R.id.action_from_web:
-				showInputFromWeb(null);
-				break;
-			case R.id.action_places:
-				requireFineLocationPermission();
-				break;
-			case R.id.action_confidence:
-				((ConfidenceDialogFragment) mConfidenceFragment).show(getSupportFragmentManager(), null);
-				break;
-			case R.id.action_app_invite:
-				AppInvitation.INSTANCE.sendAppInvitation(this);
-				break;
-			case R.id.action_settings:
-				SettingsActivity.showInstance(this);
-				break;
-			case R.id.action_source_license:
-				LicensesActivity.Companion.showInstance(this);
-				break;
-		}
+		MenuHandler.INSTANCE.onNavigationItemSelected(this, item);
 		return true;
 	}
 
@@ -591,19 +546,19 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	private final PermissionHelper mPermissionHelper = new PermissionHelper(this);
 
 	@AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
-	private void requireCameraPermission() {
+	void requireCameraPermission() {
 		mPermissionHelper.requireCameraPermission();
 	}
 
 
 	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
-	private void requireReadExternalStoragePermission() {
+	void requireReadExternalStoragePermission() {
 		mPermissionHelper.requireReadExternalStoragePermission();
 	}
 
 
 	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
-	private void requireFineLocationPermission() {
+	void requireFineLocationPermission() {
 		mPermissionHelper.requireFineLocationPermission((Fragment) mSnapshotPlacesFragment);
 	}
 

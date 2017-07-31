@@ -18,10 +18,10 @@ internal class PermissionHelper(cxt: CameraActivity) {
     fun requireCameraPermission() {
         if (activity.get() == null) return
         val act = activity.get() as CameraActivity
-        if (!EasyPermissions.hasPermissions(act, CAMERA)) {
-            EasyPermissions.requestPermissions(act, act.getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA)
-        } else {
+        if (EasyPermissions.hasPermissions(act, CAMERA)) {
             act.setupCamera()
+        } else {
+            EasyPermissions.requestPermissions(act, act.getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA)
         }
     }
 
