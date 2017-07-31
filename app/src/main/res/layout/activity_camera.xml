@@ -87,16 +87,35 @@
                             android:layout_height="match_parent"
                             />
 
-                        <ImageButton
-                            android:id="@+id/expand_more_btn"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/small"
                             android:layout_gravity="bottom|center_horizontal"
-                            android:background="@drawable/selector_round_green_rectangle_item_background"
-                            android:onClick="@{clickHandler::onClick}"
-                            android:tint="@color/colorWhite"
-                            app:srcCompat="@drawable/ic_expand_more"/>
+                            android:orientation="vertical">
+
+
+                            <android.support.design.widget.FloatingActionButton
+                                android:id="@+id/capture_fab"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center_horizontal"
+                                android:layout_marginBottom="@dimen/medium"
+                                app:backgroundTint="@color/colorRed"
+                                app:fabSize="normal"
+                                app:rippleColor="@color/colorPink"
+                                app:srcCompat="@drawable/ic_capture"/>
+
+                            <ImageButton
+                                android:id="@+id/expand_more_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center_horizontal"
+                                android:layout_marginBottom="@dimen/small"
+                                android:background="@drawable/selector_round_green_rectangle_item_background"
+                                android:onClick="@{clickHandler::onClick}"
+                                android:tint="@color/colorWhite"
+                                app:srcCompat="@drawable/ic_expand_more"/>
+                        </LinearLayout>
 
 
                         <fragment

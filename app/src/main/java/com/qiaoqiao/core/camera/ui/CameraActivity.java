@@ -1,11 +1,8 @@
 package com.qiaoqiao.core.camera.ui;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,21 +15,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.vision.MultiProcessor;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.maps.android.clustering.ClusterItem;
 import com.qiaoqiao.R;
 import com.qiaoqiao.app.App;
@@ -42,8 +33,6 @@ import com.qiaoqiao.core.camera.awareness.AwarenessContract;
 import com.qiaoqiao.core.camera.awareness.AwarenessPresenter;
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper;
 import com.qiaoqiao.core.camera.awareness.ui.SnapshotPlaceInfoFragment;
-import com.qiaoqiao.core.camera.barcode.BarcodeTrackerFactory;
-import com.qiaoqiao.core.camera.barcode.CameraSource;
 import com.qiaoqiao.core.camera.crop.CropCallback;
 import com.qiaoqiao.core.camera.crop.CropContract;
 import com.qiaoqiao.core.camera.crop.CropPresenter;
@@ -60,7 +49,6 @@ import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,42 +154,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 
 
-	@SuppressLint("ClickableViewAccessibility")
-	void setupCamera() {
-		BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(getApplicationContext()).build();
-		BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(mBinding.barcodeDetectorOverlay);
-		barcodeDetector.setProcessor(new MultiProcessor.Builder<>(barcodeFactory).build());
 
-		if (!barcodeDetector.isOperational()) {
-			IntentFilter lowstorageFilter = new IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW);
-			boolean hasLowStorage = registerReceiver(null, lowstorageFilter) != null;
-			if (hasLowStorage) {
-				Toast.makeText(this, R.string.low_storage_error, Toast.LENGTH_LONG)
-				     .show();
-			}
-		}
-		CameraSource cameraSource = new CameraSource.Builder(getApplicationContext(), barcodeDetector).setFacing(CameraSource.CAMERA_FACING_BACK)
-		                                                                                              .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
-		                                                                                              .setFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
-		                                                                                              .setRequestedFps(15.0f)
-		                                                                                              .build();
-		try {
-			mBinding.setCameraSource(cameraSource);
-			mBinding.setScaleDetector(new ScaleGestureDetector(this, new ScaleListener(cameraSource)));
-			mBinding.setGestureDetector(new GestureDetectorCompat(this, new CaptureGestureListener(this, mBinding.barcodeDetectorOverlay)));
-			mBinding.collapsingToolbar.setOnTouchListener((View var1, MotionEvent e) -> {
-				boolean b = mBinding.getScaleDetector()
-				                    .onTouchEvent(e);
-				boolean c = mBinding.getGestureDetector()
-				                    .onTouchEvent(e);
-				return b || c || super.onTouchEvent(e);
-			});
-			mBinding.preview.start(cameraSource, mBinding.barcodeDetectorOverlay);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
 
 	private void setupNavigationDrawer() {
 		ActionBar actionBar = getSupportActionBar();

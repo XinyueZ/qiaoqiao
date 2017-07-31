@@ -19,7 +19,7 @@ internal class PermissionHelper(cxt: CameraActivity) {
         if (activity.get() == null) return
         val act = activity.get() as CameraActivity
         if (EasyPermissions.hasPermissions(act, CAMERA)) {
-            act.setupCamera()
+            CameraSetup.setup(act)
         } else {
             EasyPermissions.requestPermissions(act, act.getString(R.string.permission_relation_to_camera_text), RC_CAMERA_PERMISSIONS, CAMERA)
         }
@@ -60,7 +60,7 @@ internal class PermissionHelper(cxt: CameraActivity) {
             act.openLocalDir()
         }
         if (list.contains(CAMERA)) {
-            act.setupCamera()
+            CameraSetup.setup(act)
         }
     }
 
