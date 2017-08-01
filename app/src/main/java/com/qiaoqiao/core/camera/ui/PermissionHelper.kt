@@ -8,13 +8,16 @@ import com.qiaoqiao.R
 import com.qiaoqiao.settings.RC_CAMERA_PERMISSIONS
 import com.qiaoqiao.settings.RC_FINE_LOCATION_PERMISSIONS
 import com.qiaoqiao.settings.RC_READ_EXTERNAL_STORAGE_PERMISSIONS
+import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.lang.ref.WeakReference
 
-internal class PermissionHelper(cxt: CameraActivity) {
+internal class PermissionHelper(cxt: CameraActivity) : EasyPermissions.PermissionCallbacks {
+
     private val activity: WeakReference<CameraActivity> = WeakReference(cxt)
 
+    @AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
     fun requireCameraPermission() {
         if (activity.get() == null) return
         val act = activity.get() as CameraActivity
@@ -25,6 +28,7 @@ internal class PermissionHelper(cxt: CameraActivity) {
         }
     }
 
+    @AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
     fun requireReadExternalStoragePermission() {
         if (activity.get() == null) return
         val act = activity.get() as CameraActivity
@@ -36,15 +40,17 @@ internal class PermissionHelper(cxt: CameraActivity) {
         }
     }
 
-    fun requireFineLocationPermission(fragment: Fragment) {
+    @AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
+    fun requireFineLocationPermission() {
         if (activity.get() == null) return
-        val act = activity.get() as AppCompatActivity
+        val act = activity.get() as CameraActivity
+        var frg = act.mSnapshotPlacesFragment as Fragment
         if (EasyPermissions.hasPermissions(act, ACCESS_FINE_LOCATION)) {
             act.supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                     .add(R.id.container,
-                            fragment,
-                            fragment.javaClass.name)
+                            frg,
+                            frg.javaClass.name)
                     .addToBackStack(null)
                     .commit()
         } else {
@@ -53,7 +59,7 @@ internal class PermissionHelper(cxt: CameraActivity) {
         }
     }
 
-    fun onPermissionsGranted(i: Int, list: List<String>) {
+    override fun onPermissionsGranted(i: Int, list: List<String>) {
         if (activity.get() == null) return
         val act = activity.get() as CameraActivity
         if (list.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -64,7 +70,7 @@ internal class PermissionHelper(cxt: CameraActivity) {
         }
     }
 
-    fun onPermissionsDenied(i: Int, perms: List<String>) {
+    override fun onPermissionsDenied(i: Int, perms: List<String>) {
         if (activity.get() == null) return
         val act = activity.get() as AppCompatActivity
         if (EasyPermissions.somePermissionPermanentlyDenied(act, perms)) {
@@ -72,5 +78,9 @@ internal class PermissionHelper(cxt: CameraActivity) {
                     .build()
                     .show()
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }

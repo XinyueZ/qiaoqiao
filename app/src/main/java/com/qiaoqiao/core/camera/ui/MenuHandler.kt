@@ -35,7 +35,7 @@ internal object MenuHandler {
         when (item.itemId) {
             R.id.action_from_local -> cxt.showLoadFromLocal(null)
             R.id.action_from_web -> cxt.showInputFromWeb(null)
-            R.id.action_places -> cxt.requireFineLocationPermission()
+            R.id.action_places -> cxt.mPermissionHelper.requireFineLocationPermission()
             R.id.action_confidence -> (cxt.mConfidenceFragment as ConfidenceDialogFragment).show(cxt.supportFragmentManager, null)
             R.id.action_app_invite -> AppInvitation.sendAppInvitation(cxt)
             R.id.action_settings -> SettingsActivity.showInstance(cxt)

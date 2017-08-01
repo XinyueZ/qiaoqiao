@@ -50,28 +50,21 @@ import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.qiaoqiao.settings.PermissionRcKt.RC_CAMERA_PERMISSIONS;
-import static com.qiaoqiao.settings.PermissionRcKt.RC_FINE_LOCATION_PERMISSIONS;
-import static com.qiaoqiao.settings.PermissionRcKt.RC_READ_EXTERNAL_STORAGE_PERMISSIONS;
 
 
 public final class CameraActivity extends AppCompatActivity implements CameraContract.View,
                                                                        View.OnClickListener,
-                                                                       EasyPermissions.PermissionCallbacks,
                                                                        AppBarLayout.OnOffsetChangedListener,
                                                                        FragmentManager.OnBackStackChangedListener,
                                                                        CropCallback,
@@ -136,7 +129,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupAppBar();
 		setupNavigationDrawer();
 		App.inject(this);
-		requireCameraPermission();
+		mPermissionHelper.requireCameraPermission();
 		getSupportFragmentManager().addOnBackStackChangedListener(this);
 	}
 
@@ -152,8 +145,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupViewPager((Fragment) mVisionFragment);
 		presentersBegin();
 	}
-
-
 
 
 	private void setupNavigationDrawer() {
@@ -286,7 +277,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	public void showLoadFromLocal(@Nullable android.view.View v) {
-		requireReadExternalStoragePermission();
+		mPermissionHelper.requireReadExternalStoragePermission();
 	}
 
 
@@ -430,42 +421,13 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 
 	//--Begin permission--
-	private final PermissionHelper mPermissionHelper = new PermissionHelper(this);
-
-	@AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
-	void requireCameraPermission() {
-		mPermissionHelper.requireCameraPermission();
-	}
-
-
-	@AfterPermissionGranted(RC_READ_EXTERNAL_STORAGE_PERMISSIONS)
-	void requireReadExternalStoragePermission() {
-		mPermissionHelper.requireReadExternalStoragePermission();
-	}
-
-
-	@AfterPermissionGranted(RC_FINE_LOCATION_PERMISSIONS)
-	void requireFineLocationPermission() {
-		mPermissionHelper.requireFineLocationPermission((Fragment) mSnapshotPlacesFragment);
-	}
-
-
-	@Override
-	public void onPermissionsGranted(int i, List<String> list) {
-		mPermissionHelper.onPermissionsGranted(i, list);
-	}
-
-
-	@Override
-	public void onPermissionsDenied(int i, List<String> perms) {
-		mPermissionHelper.onPermissionsDenied(i, perms);
-	}
+	final PermissionHelper mPermissionHelper = new PermissionHelper(this);
 
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+		mPermissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 	//--End permission--
 }
