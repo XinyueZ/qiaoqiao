@@ -3,7 +3,6 @@ package com.qiaoqiao.core.camera.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -292,13 +291,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 			return;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	//	@Override
-	protected void onUseMedia(boolean isStillshot, @NonNull Intent intent) {
-//		super.onUseMedia(isStillshot, intent);
-		final Uri data = intent.getData();
-		openCrop(new CropSource(data));
 	}
 
 	@Override
