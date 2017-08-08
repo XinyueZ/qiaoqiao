@@ -14,7 +14,8 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
     private var binding: FragmentProductListBinding? = null
 
     companion object {
-        fun newInstance(cxt: Context): ProductListFragment = instantiate(cxt, ProductListFragment::class.java.name) as ProductListFragment
+        val EXTRAS_KEYWORD = ProductListFragment::class.java.name + ".EXTRAS.keyword"
+        fun newInstance(cxt: Context): ProductListFragment = instantiate(cxt, ProductListFragment::class.java.name, Bundle()) as ProductListFragment
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -22,6 +23,15 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
         binding?.fragment = this
         setHasOptionsMenu(true)
         return binding?.root
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter?.showProductList(arguments.getString(EXTRAS_KEYWORD))
+    }
+
+    override fun showProductList(keyword: String) {
+        getBinding().testTv.text = keyword
     }
 
     override fun getBinding() = binding!!

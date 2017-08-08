@@ -8,8 +8,10 @@ interface ProductContract {
 
     interface ListView : BaseView<ListPresenter, FragmentProductListBinding> {
         override fun getBinding(): FragmentProductListBinding
-
+        fun showProductList(keyword: String)
     }
 
-    interface ListPresenter : BasePresenter
+    interface ListPresenter : BasePresenter {
+        fun showProductList(keyword: String)
+    }
 }

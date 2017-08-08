@@ -8,6 +8,7 @@ import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
 import com.qiaoqiao.core.camera.barcode.BarcodeGraphic
 import com.qiaoqiao.core.camera.barcode.GraphicOverlay
+import com.qiaoqiao.core.product.ui.ProductListActivity
 import java.lang.ref.WeakReference
 
 internal class CaptureGestureListener(cxt: Activity, private val graphicOverlay: GraphicOverlay<BarcodeGraphic>) : GestureDetector.SimpleOnGestureListener() {
@@ -47,7 +48,8 @@ internal class CaptureGestureListener(cxt: Activity, private val graphicOverlay:
             val data = Intent()
             data.putExtra("barcode", best)
             act?.setResult(CommonStatusCodes.SUCCESS, data)
-            act?.finish()
+//            act?.finish()
+            ProductListActivity.showInstance(act!!, best.displayValue)
             return true
         }
         return false
