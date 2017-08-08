@@ -46,6 +46,9 @@ import com.qiaoqiao.core.confidence.ConfidenceModule;
 import com.qiaoqiao.core.detail.DaggerDetailComponent;
 import com.qiaoqiao.core.detail.DetailModule;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
+import com.qiaoqiao.core.product.DaggerProductComponent;
+import com.qiaoqiao.core.product.ProductModule;
+import com.qiaoqiao.core.product.ui.ProductListActivity;
 import com.qiaoqiao.core.splash.DaggerSplashComponent;
 import com.qiaoqiao.core.splash.SplashModule;
 import com.qiaoqiao.core.splash.ui.SplashActivity;
@@ -112,4 +115,14 @@ public final class App extends MultiDexApplication {
 		                     .injectSplashActivity(splashActivity);
 	}
 
+
+	public static void inject(@NonNull ProductListActivity productListActivity) {
+		final App application = (App) productListActivity.getApplication();
+		DaggerProductComponent.builder()
+		                      .appComponent(application.mAppComponent)
+		                      .dsRepositoryComponent(application.mRepositoryComponent)
+		                      .productModule(new ProductModule())
+		                      .build()
+		                      .injectProductList(productListActivity);
+	}
 }

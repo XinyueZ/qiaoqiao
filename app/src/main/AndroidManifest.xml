@@ -76,6 +76,12 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"/>
 
+
+        <activity
+            android:name=".core.product.ui.ProductListActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="fullSensor"/>
+
         <activity
             android:name=".core.camera.ui.WebLinkActivity"
             android:screenOrientation="fullSensor"
