@@ -9,4 +9,5 @@ class Product(@SerializedName("status") val status: Int,
               @SerializedName("barcodeSource") val barcodeSource: String,
               @SerializedName("company") val company: Company,
               @SerializedName("people") val people: String,
-              @SerializedName("source") val source: String)
+              @SerializedName("source") val source: String,
+              @SerializedName("product_image_list") val productImageList: List<ProductImage>)
