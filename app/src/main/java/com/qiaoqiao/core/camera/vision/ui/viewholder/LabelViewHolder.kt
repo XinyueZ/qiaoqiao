@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.databinding.LabelViewBinding
 
-class LabelViewHolder(private val itemVisionLabelBinding: LabelViewBinding, entities: List<VisionEntity>) : AbstractVisionViewHolder(itemVisionLabelBinding.root, entities) {
+internal class LabelViewHolder(private val itemVisionLabelBinding: LabelViewBinding, entities: List<VisionEntity>) : AbstractVisionViewHolder(itemVisionLabelBinding.root, entities) {
 
     override fun onBindViewHolder() {
         val entity = entities[adapterPosition]

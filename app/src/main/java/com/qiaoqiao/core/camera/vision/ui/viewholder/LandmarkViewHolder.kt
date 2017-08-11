@@ -10,7 +10,7 @@ import com.qiaoqiao.app.Key
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.databinding.LandmarkViewBinding
 
-class LandmarkViewHolder(private val itemVisionLandmarkBinding: LandmarkViewBinding, entities: List<VisionEntity>, private val key: Key) : AbstractVisionViewHolder(itemVisionLandmarkBinding.root, entities) {
+internal class LandmarkViewHolder(private val itemVisionLandmarkBinding: LandmarkViewBinding, entities: List<VisionEntity>, private val key: Key) : AbstractVisionViewHolder(itemVisionLandmarkBinding.root, entities) {
 
     override fun loadImage(cxt: Context, entity: VisionEntity, imageView: ImageView) {
         val latLng = entity.location

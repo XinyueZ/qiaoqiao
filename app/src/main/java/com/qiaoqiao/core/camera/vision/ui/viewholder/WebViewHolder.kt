@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.databinding.WebViewBinding
 
-class WebViewHolder(private val itemVisionWebBinding: WebViewBinding, entities: List<VisionEntity>) : AbstractVisionViewHolder(itemVisionWebBinding.root, entities) {
+internal class WebViewHolder(private val itemVisionWebBinding: WebViewBinding, entities: List<VisionEntity>) : AbstractVisionViewHolder(itemVisionWebBinding.root, entities) {
     override fun onBindViewHolder() {
         val entity = entities[adapterPosition]
         itemVisionWebBinding.visionTv.text = entity.description

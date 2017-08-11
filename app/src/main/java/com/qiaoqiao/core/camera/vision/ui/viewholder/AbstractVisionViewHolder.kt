@@ -14,7 +14,7 @@ import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import de.greenrobot.event.EventBus
 import java.util.*
 
-abstract class AbstractVisionViewHolder(rootView: View, protected val entities: List<VisionEntity>) : RecyclerView.ViewHolder(rootView) {
+internal abstract class AbstractVisionViewHolder(rootView: View, protected val entities: List<VisionEntity>) : RecyclerView.ViewHolder(rootView) {
     private val visionEntityClickEvent: VisionEntityClickEvent = VisionEntityClickEvent()
 
     protected open fun loadImage(cxt: Context, entity: VisionEntity, imageView: ImageView) {

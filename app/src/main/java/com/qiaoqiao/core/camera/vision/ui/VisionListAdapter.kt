@@ -24,7 +24,7 @@ private const val ITEM_TYPE_LANDMARK = 0x91
 private const val ITEM_TYPE_LOGO = 0x92
 private const val ITEM_TYPE_LABEL = 0x93
 
-class VisionListAdapter(private var key: Key, private val entities: LinkedList<VisionEntity> = LinkedList<VisionEntity>()) : RecyclerView.Adapter<AbstractVisionViewHolder>() {
+internal class VisionListAdapter(private var key: Key, private val entities: LinkedList<VisionEntity> = LinkedList<VisionEntity>()) : RecyclerView.Adapter<AbstractVisionViewHolder>() {
 
     override fun getItemCount() = entities.size
 
