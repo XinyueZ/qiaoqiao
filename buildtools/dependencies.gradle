@@ -15,7 +15,7 @@ ext {
     retrofit = "2.+"
     rxandroid = "2.+"
     easypermissions = "0.4.2"
-    multidexVersion = "1.0.1"
+    multidexVersion = "1.0.2"
     mapsUtilsVersion = "0.5+"
     rxandroidAdapter = "1.0.0"
     appCompatVersion = project.SUPPORT
