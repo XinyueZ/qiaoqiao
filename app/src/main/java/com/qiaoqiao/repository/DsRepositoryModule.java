@@ -11,6 +11,7 @@ import com.qiaoqiao.repository.annotation.target.LocalImage;
 import com.qiaoqiao.repository.annotation.target.RemoteImage;
 import com.qiaoqiao.repository.backend.Google;
 import com.qiaoqiao.repository.backend.ImageProvider;
+import com.qiaoqiao.repository.backend.ProductsService;
 import com.qiaoqiao.repository.backend.Wikipedia;
 import com.qiaoqiao.repository.camera.DsCameraSource;
 import com.qiaoqiao.repository.database.DsDatabaseSource;
@@ -37,8 +38,8 @@ final class DsRepositoryModule {
 	@RepositoryScope
 	@Knowledge
 	@Provides
-	AbstractDsSource provideWikipediaDataSource(@NonNull Key key, @NonNull Google google, @NonNull com.qiaoqiao.repository.backend.Wikipedia wikipedia) {
-		return new DsKnowledgeRemoteSource(key, google, wikipedia);
+	AbstractDsSource provideWikipediaDataSource(@NonNull Key key, @NonNull Google google, @NonNull com.qiaoqiao.repository.backend.Wikipedia wikipedia, @NonNull ProductsService productsService) {
+		return new DsKnowledgeRemoteSource(key, google, wikipedia, productsService);
 	}
 
 
@@ -69,11 +70,12 @@ final class DsRepositoryModule {
 	@Provides
 	DsRepository provideRepository(@NonNull Google google,
 	                               @NonNull Wikipedia wikipedia,
+	                               @NonNull ProductsService productsService,
 	                               @Camera AbstractDsSource cameraDs,
 	                               @Knowledge AbstractDsSource knowledgeRemoteDs,
 	                               @Database AbstractDsSource databaseDs,
 	                               @RemoteImage AbstractDsSource remoteImageDs,
 	                               @LocalImage AbstractDsSource localImageDs) {
-		return new DsRepository(google, wikipedia,  cameraDs, knowledgeRemoteDs, databaseDs, remoteImageDs, localImageDs);
+		return new DsRepository(google, wikipedia, productsService, cameraDs, knowledgeRemoteDs, databaseDs, remoteImageDs, localImageDs);
 	}
 }

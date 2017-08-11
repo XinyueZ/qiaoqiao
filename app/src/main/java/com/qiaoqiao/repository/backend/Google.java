@@ -20,12 +20,14 @@ import com.google.api.services.vision.v1.model.Image;
 import com.google.api.services.vision.v1.model.ImageSource;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.qiaoqiao.app.Key;
+import com.qiaoqiao.repository.backend.model.translate.Response;
 import com.qiaoqiao.utils.ImageUtils;
 import com.qiaoqiao.utils.LL;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -173,7 +175,7 @@ public final class Google {
 
 	public interface TranslateService {
 		@POST("v2/")
-		Observable<com.qiaoqiao.repository.backend.model.translate.Response> translate(@Query("q") String q, @Query("target") String target, @Query("format") String format, @Query("key") String key);
+		Flowable<Response> translate(@Query("q") String q, @Query("target") String target, @Query("format") String format, @Query("key") String key);
 
 		@POST("v2/")
 		Call<com.qiaoqiao.repository.backend.model.translate.Response> getTranslator(@Query("q") String q, @Query("target") String target, @Query("format") String format, @Query("key") String key);

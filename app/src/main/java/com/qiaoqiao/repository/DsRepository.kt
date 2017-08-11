@@ -5,9 +5,11 @@ import android.content.Context
 import android.support.annotation.NonNull
 import android.support.v7.preference.PreferenceManager
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.vision.barcode.Barcode
 import com.qiaoqiao.repository.annotation.RepositoryScope
 import com.qiaoqiao.repository.annotation.target.*
 import com.qiaoqiao.repository.backend.Google
+import com.qiaoqiao.repository.backend.ProductsService
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
 import com.qiaoqiao.utils.NetworkUtils
 import com.qiaoqiao.utils.NetworkUtils.*
@@ -15,11 +17,12 @@ import com.qiaoqiao.utils.NetworkUtils.*
 @RepositoryScope
 class DsRepository(google: Google,
                    wikipedia: com.qiaoqiao.repository.backend.Wikipedia,
+                   productsService: ProductsService,
                    @Camera val cameraDs: AbstractDsSource,
                    @Knowledge val knowledgeRemoteDs: AbstractDsSource,
                    @Database val databaseDs: AbstractDsSource,
                    @RemoteImage val remoteImageDs: AbstractDsSource,
-                   @LocalImage val localImageDs: AbstractDsSource) : AbstractDsSource(google, wikipedia) {
+                   @LocalImage val localImageDs: AbstractDsSource) : AbstractDsSource(google, wikipedia, productsService) {
 
     override fun onGeosearchQuery(@NonNull latLng: LatLng, radius: Long, @NonNull callback: DsLoadedCallback) {
         knowledgeRemoteDs.onGeosearchQuery(latLng, radius, callback)
@@ -35,6 +38,10 @@ class DsRepository(google: Google,
 
     override fun onKnowledgeQuery(@NonNull langLink: LangLink, @NonNull callback: DsLoadedCallback) {
         knowledgeRemoteDs.onKnowledgeQuery(langLink, callback)
+    }
+
+    override fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback) {
+        knowledgeRemoteDs.onKnowledgeQuery(barcode, callback)
     }
 
     override fun onBytes(@NonNull bytes: ByteArray, @NonNull callback: DsLoadedCallback) {
