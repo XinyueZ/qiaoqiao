@@ -1,10 +1,11 @@
 package com.qiaoqiao.repository.backend
 
 import com.qiaoqiao.repository.backend.model.product.Products
-import io.reactivex.Observable
-import retrofit2.http.GET
+import io.reactivex.Flowable
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 interface ProductsService {
-    @GET("product/upc")
-    fun getProducts(): Observable<Products>
+    @POST("product/upc")
+    fun getProducts(@Body body: KnowledgeRequest): Flowable<Products>
 }

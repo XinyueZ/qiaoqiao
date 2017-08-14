@@ -6,6 +6,7 @@ import com.qiaoqiao.app.Key
 import com.qiaoqiao.repository.AbstractDsSource
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.backend.Google
+import com.qiaoqiao.repository.backend.KnowledgeRequest
 import com.qiaoqiao.repository.backend.ProductsService
 import com.qiaoqiao.repository.backend.Wikipedia
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
@@ -21,22 +22,22 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
                             "text",
                             key.toString())
                     .compose(Composer())
-                    .subscribe { response -> callback.onTranslateData(response.data) }
+                    .subscribe { callback.onTranslateData(it.data) }
         }
     }
 
     override fun onKnowledgeQuery(keyword: String, callback: DsLoadedCallback) {
         wikipedia?.let {
-            it.getResult(Wikipedia.WikiReqBody(Locale.getDefault()
+            it.getResult(KnowledgeRequest(Locale.getDefault()
                     .language, keyword))
                     .compose(Composer())
-                    .subscribe { result1 ->
+                    .subscribe {
                         try {
-                            if (result1.query
+                            if (it.query
                                     .pages
                                     .list
                                     .size > 0) {
-                                callback.onKnowledgeResponse(result1)
+                                callback.onKnowledgeResponse(it)
                             }
                         } catch (e: Exception) {
                             callback.onException(e)
@@ -47,15 +48,15 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
 
     override fun onKnowledgeQuery(langLink: LangLink, callback: DsLoadedCallback) {
         wikipedia?.let {
-            it.getResult(Wikipedia.WikiReqBody(langLink.language, langLink.query))
+            it.getResult(KnowledgeRequest(langLink.language, langLink.query))
                     .compose(Composer())
-                    .subscribe { result1 ->
+                    .subscribe {
                         try {
-                            if (result1.query
+                            if (it.query
                                     .pages
                                     .list
                                     .size > 0) {
-                                callback.onKnowledgeResponse(result1)
+                                callback.onKnowledgeResponse(it)
                             }
                         } catch (e: Exception) {
                             callback.onException(e)
@@ -69,10 +70,10 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
             it.getResult(wikiQuery(Locale.getDefault()
                     .language, pageId.toString() + ""))
                     .compose(Composer())
-                    .subscribe({ result1 ->
+                    .subscribe({
                         try {
-                            if (!result1.query.pages.list.isEmpty()) {
-                                callback.onKnowledgeResponse(result1)
+                            if (!it.query.pages.list.isEmpty()) {
+                                callback.onKnowledgeResponse(it)
                             }
                         } catch (e: Exception) {
                             callback.onException(e)
@@ -87,10 +88,10 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
             it.getGeosearch(wikiGeosearch(Locale.getDefault()
                     .language, radius, geoLoc))
                     .compose(Composer())
-                    .subscribe { result1 ->
+                    .subscribe {
                         try {
-                            if (result1.query != null) {
-                                callback.onGeosearchResponse(result1)
+                            if (it.query != null) {
+                                callback.onGeosearchResponse(it)
                             }
                         } catch (e: Exception) {
                             callback.onException(e)
@@ -100,6 +101,16 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
     }
 
     override fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback) {
+        productsService?.let {
+            it.getProducts(KnowledgeRequest(Locale.getDefault().language, barcode.displayValue)).compose(Composer())
+                    .subscribe {
+                        try {
+                            callback.onKnowledgeResponse(it)
+                        } catch (e: Exception) {
+                            callback.onException(e)
+                        }
+                    }
+        }
     }
 }
 

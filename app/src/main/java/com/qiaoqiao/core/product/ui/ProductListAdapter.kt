@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.qiaoqiao.databinding.ItemProductListBinding
 import com.qiaoqiao.repository.backend.model.product.Products
 
-internal class ProductListAdpater(private val products: Products) : RecyclerView.Adapter<ProductListAdapterViewHolder>() {
+internal class ProductListAdapter(private val products: Products) : RecyclerView.Adapter<ProductListAdapterViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = ProductListAdapterViewHolder(ItemProductListBinding.inflate(LayoutInflater.from(parent?.context)))
     override fun getItemCount() = products.result.size
     override fun onBindViewHolder(holder: ProductListAdapterViewHolder?, position: Int) {

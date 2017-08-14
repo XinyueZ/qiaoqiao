@@ -49,7 +49,7 @@ internal class CaptureGestureListener(cxt: Activity, private val graphicOverlay:
             data.putExtra("barcode", best)
             act?.setResult(CommonStatusCodes.SUCCESS, data)
 //            act?.finish()
-            ProductListActivity.showInstance(act!!, best.displayValue)
+            ProductListActivity.showInstance(act!!, best)
             return true
         }
         return false

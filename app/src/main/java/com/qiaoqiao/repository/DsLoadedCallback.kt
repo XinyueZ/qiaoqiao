@@ -1,13 +1,13 @@
 package com.qiaoqiao.repository
 
 import android.net.Uri
-import android.support.annotation.NonNull
 import android.text.TextUtils
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse
 import com.google.api.services.vision.v1.model.Status
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.qiaoqiao.repository.backend.model.product.Products
 import com.qiaoqiao.repository.backend.model.translate.Data
 import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult
@@ -54,11 +54,11 @@ abstract class DsLoadedCallback {
         LL.d("response of wiki: " + result.toString())
     }
 
-    open fun onGeosearchResponse(@NonNull result: GeoResult) {
+    open fun onGeosearchResponse(result: GeoResult) {
         LL.d("response of wiki: " + result.toString())
     }
 
-    open fun onVisionApiError(@NonNull status: Status) {
+    open fun onVisionApiError(status: Status) {
         if (!TextUtils.isEmpty(status.message)) {
             LL.e(status.message)
         } else {
@@ -74,20 +74,24 @@ abstract class DsLoadedCallback {
         }
     }
 
-    open fun onException(@NonNull e: Exception) {
+    open fun onKnowledgeResponse(products: Products) {
+        LL.e(products.toString())
+    }
+
+    open fun onException(e: Exception) {
         LL.e(e.toString())
     }
 
-    open fun onTranslateData(@NonNull translateData: Data) {
+    open fun onTranslateData(translateData: Data) {
         LL.d("size of responses of cloud translate: " + translateData.translations.size)
     }
 
-    open fun onImageLoad(@NonNull imageLocation: Uri) {
+    open fun onImageLoad(imageLocation: Uri) {
         LL.d("loaded an image at location: " + imageLocation.toString())
 
     }
 
-    open fun onImageLoad(@NonNull imageBytes: ByteArray) {
+    open fun onImageLoad(imageBytes: ByteArray) {
         LL.d("loaded an image with size: " + imageBytes.size)
     }
 
