@@ -1,4 +1,4 @@
-package com.qiaoqiao.core.camera.ui
+package com.qiaoqiao.views
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

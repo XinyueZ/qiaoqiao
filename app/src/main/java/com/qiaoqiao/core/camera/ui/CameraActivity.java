@@ -47,6 +47,7 @@ import com.qiaoqiao.core.detail.ui.DetailActivity;
 import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
+import com.qiaoqiao.views.ViewPagerAdapter;
 
 import java.util.ArrayList;
 
