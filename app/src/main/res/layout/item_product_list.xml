@@ -23,18 +23,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@{product.product}"/>
+            bind:autoText="@{product.product}"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:text="@{product.company.name}"/>
+            bind:autoText="@{product.company.name}"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:text="@{product.people}"/>
+            bind:autoText="@{product.people}"/>
     </LinearLayout>
 </layout>
