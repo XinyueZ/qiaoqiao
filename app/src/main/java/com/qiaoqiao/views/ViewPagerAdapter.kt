@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
-class ViewPagerAdapter(fm: FragmentManager, private val fragments: ArrayList<Fragment> = ArrayList(), private val titles: ArrayList<String> = ArrayList()) : FragmentPagerAdapter(fm) {
+class ViewPagerAdapter(fm: FragmentManager, private val fragments: List<Fragment>, private val titles: ArrayList<String> = ArrayList(fragments.size)) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int) = fragments[position]
 
