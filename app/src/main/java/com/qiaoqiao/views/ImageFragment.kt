@@ -1,6 +1,7 @@
 package com.qiaoqiao.views
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -13,10 +14,10 @@ class ImageFragment : Fragment() {
     private var binding: FragmentImageBinding? = null
 
     companion object {
-        val EXTRAS_IMAGE_URL = ProductListFragment::class.java.name + ".EXTRAS.url"
-        fun newInstance(cxt: Context, imageUrl: String): ImageFragment {
+        val EXTRAS_IMAGE_URI = ProductListFragment::class.java.name + ".EXTRAS.uri"
+        fun newInstance(cxt: Context, imageUri: Uri): ImageFragment {
             val args = Bundle(1)
-            args.putString(EXTRAS_IMAGE_URL, imageUrl)
+            args.putParcelable(EXTRAS_IMAGE_URI, imageUri)
             return Fragment.instantiate(cxt, ImageFragment::class.java.name, args) as ImageFragment
         }
     }
@@ -29,7 +30,7 @@ class ImageFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.let {
-            it.imageUrl = arguments.getString(EXTRAS_IMAGE_URL)
+            it.imageUri = arguments.getParcelable(EXTRAS_IMAGE_URI)
             it.executePendingBindings()
         }
     }

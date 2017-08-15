@@ -3,6 +3,7 @@ package com.qiaoqiao.repository.knowledge
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.vision.barcode.Barcode
 import com.qiaoqiao.app.Key
+import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.repository.AbstractDsSource
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.backend.Google
@@ -11,6 +12,7 @@ import com.qiaoqiao.repository.backend.ProductsService
 import com.qiaoqiao.repository.backend.Wikipedia
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
 import com.qiaoqiao.rx.Composer
+import io.reactivex.Flowable
 import java.util.*
 
 class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: Wikipedia, productsService: ProductsService) : AbstractDsSource(google, wikipedia, productsService) {
@@ -105,7 +107,8 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
             it.getProducts(KnowledgeRequest(Locale.getDefault().language, barcode.displayValue)).compose(Composer())
                     .subscribe {
                         try {
-                            callback.onKnowledgeResponse(it)
+                            callback.onKnowledgeResponse(
+                                    Flowable.just(it).flatMapIterable { it.result }.map { ProductEntity(it) }.toList().blockingGet())
                         } catch (e: Exception) {
                             callback.onException(e)
                         }

@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.vision.barcode.Barcode
 import com.qiaoqiao.core.product.ProductContract
+import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.databinding.FragmentProductListBinding
-import com.qiaoqiao.repository.backend.model.product.Products
 
 class ProductListFragment : Fragment(), ProductContract.ListView {
     private var presenter: ProductContract.ListPresenter? = null
@@ -44,7 +44,7 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
         this.presenter = presenter
     }
 
-    override fun showProductList(products: Products) {
+    override fun showProductList(products: List<ProductEntity>) {
         binding?.let {
             it.productListRv.adapter = ProductListAdapter(products)
         }

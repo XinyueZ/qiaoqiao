@@ -7,7 +7,7 @@ import com.google.api.services.vision.v1.model.Status
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.qiaoqiao.repository.backend.model.product.Products
+import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.repository.backend.model.translate.Data
 import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult
@@ -74,8 +74,7 @@ abstract class DsLoadedCallback {
         }
     }
 
-    open fun onKnowledgeResponse(products: Products) {
-        LL.e(products.toString())
+    open fun onKnowledgeResponse(products: List<ProductEntity>) {
     }
 
     open fun onException(e: Exception) {

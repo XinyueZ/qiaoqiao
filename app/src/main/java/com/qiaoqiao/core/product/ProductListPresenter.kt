@@ -3,10 +3,10 @@ package com.qiaoqiao.core.product
 import android.support.v4.app.FragmentActivity
 import com.google.android.gms.vision.barcode.Barcode
 import com.qiaoqiao.R
+import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.core.product.ui.ProductListFragment
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.DsRepository
-import com.qiaoqiao.repository.backend.model.product.Products
 import javax.inject.Inject
 
 class ProductListPresenter @Inject constructor(private var view: ProductContract.ListView,
@@ -33,7 +33,7 @@ class ProductListPresenter @Inject constructor(private var view: ProductContract
 
     override fun showProductList(barcode: Barcode) {
         dsRepository.onKnowledgeQuery(barcode, object : DsLoadedCallback() {
-            override fun onKnowledgeResponse(products: Products) {
+            override fun onKnowledgeResponse(products: List<ProductEntity>) {
                 view.showProductList(products)
             }
         })

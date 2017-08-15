@@ -6,36 +6,41 @@
 
         <variable
             name="product"
-            type="com.qiaoqiao.repository.backend.model.product.Product"/>
+            type="com.qiaoqiao.core.product.model.ProductEntity"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/product_image_vp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/product_image_height"
-            bind:product="@{product}"/>
+        <ImageView
+            android:layout_width="@dimen/product_thumbnail_size"
+            android:layout_height="@dimen/product_thumbnail_size"
+            bind:imageUri="@{product.thumbnail}"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            bind:autoText="@{product.product}"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            bind:autoText="@{product.company.name}"/>
+            <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/product_image_vp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/product_image_height"-->
+            <!--bind:product="@{product}"/>-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            bind:autoText="@{product.people}"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                bind:autoText="@{product.name}"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                bind:autoText="@{product.provider}"/>
+        </LinearLayout>
     </LinearLayout>
 </layout>
