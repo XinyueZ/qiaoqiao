@@ -35,6 +35,7 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
         binding?.let {
             it.productListRv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             it.productListRv.setHasFixedSize(true)
+            it.shimmerFl.startShimmerAnimation()
         }
     }
 
@@ -47,6 +48,8 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
     override fun showProductList(products: List<ProductEntity>) {
         binding?.let {
             it.productListRv.adapter = ProductListAdapter(products)
+            it.shimmerFl.stopShimmerAnimation()
+            it.showProduct = true
         }
     }
 }
