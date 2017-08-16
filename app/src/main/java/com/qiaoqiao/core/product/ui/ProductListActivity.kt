@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.ActivityCompat.startActivity
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import com.google.android.gms.vision.barcode.Barcode
 import com.qiaoqiao.R
 import com.qiaoqiao.app.App
@@ -54,5 +55,15 @@ class ProductListActivity : AppCompatActivity() {
     override fun onDestroy() {
         presenter.end(this)
         super.onDestroy()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                supportFinishAfterTransition()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

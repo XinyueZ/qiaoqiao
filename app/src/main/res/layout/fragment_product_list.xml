@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".core.product.ui.ProductListFragment">
 
@@ -16,35 +17,63 @@
         <import type="android.view.View"/>
     </data>
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_fl"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/product_list_rv"
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinator_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{showProduct ? View.VISIBLE : View.GONE}"/>
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/larger"
-            android:orientation="vertical"
-            android:visibility="@{!showProduct ? View.VISIBLE : View.GONE}">
-
-            <include
-                layout="@layout/layout_loading"
+            <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
 
-            <include
-                layout="@layout/layout_loading"
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    style="@style/AppBar"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:titleTextColor="@color/colorWhite"/>
+
+            </android.support.design.widget.AppBarLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_fl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/product_list_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="@{showProduct ? View.VISIBLE : View.GONE}"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/larger"
+                    android:orientation="vertical"
+                    android:visibility="@{!showProduct ? View.VISIBLE : View.GONE}">
+
+                    <include
+                        layout="@layout/layout_loading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <include
+                        layout="@layout/layout_loading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </android.support.v4.widget.DrawerLayout>
 </layout>

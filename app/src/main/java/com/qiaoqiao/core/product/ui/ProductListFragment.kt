@@ -3,6 +3,7 @@ package com.qiaoqiao.core.product.ui
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,12 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
             it.productListRv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             it.productListRv.setHasFixedSize(true)
             it.shimmerFl.startShimmerAnimation()
+            if (activity is AppCompatActivity) {
+                (activity as AppCompatActivity).setSupportActionBar(it.toolbar)
+                (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+
+            }
         }
     }
 
