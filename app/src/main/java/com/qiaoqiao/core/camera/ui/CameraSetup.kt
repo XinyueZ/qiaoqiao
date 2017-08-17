@@ -12,12 +12,14 @@ import android.widget.Toast
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.firebase.auth.FirebaseAuth
 import com.qiaoqiao.R
 import com.qiaoqiao.app.PrefsKeys
 import com.qiaoqiao.core.camera.barcode.BarcodeGraphic
 import com.qiaoqiao.core.camera.barcode.BarcodeTrackerFactory
 import com.qiaoqiao.core.camera.barcode.CameraSource
 import com.qiaoqiao.core.camera.barcode.GraphicOverlay
+import com.qiaoqiao.core.splash.ui.ConnectGoogleActivity
 import com.qiaoqiao.utils.LL
 import java.io.IOException
 
@@ -64,9 +66,12 @@ internal object CameraSetup {
                 LL.w(e.toString())
             }
             mBinding.captureFab.setOnClickListener({
-                cameraSource.takePicture({ vibrator.vibrate(PrefsKeys.VIB_LNG) }, {
-                    mCameraPresenter.capturedByteArray(this, it)
-                })
+                if (FirebaseAuth.getInstance().currentUser == null)
+                    ConnectGoogleActivity.showInstance(cxt, false)
+                else
+                    cameraSource.takePicture({ vibrator.vibrate(PrefsKeys.VIB_LNG) }, {
+                        mCameraPresenter.capturedByteArray(this, it)
+                    })
             })
         }
     }
