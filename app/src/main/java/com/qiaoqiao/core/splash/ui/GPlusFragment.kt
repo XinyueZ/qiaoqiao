@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.qiaoqiao.R
 import com.qiaoqiao.app.PrefsKeys
 import com.qiaoqiao.app.PrefsKeys.*
@@ -56,8 +57,7 @@ class GPlusFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn -> {
-                val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                if (TextUtils.isEmpty(prefs.getString(PrefsKeys.KEY_GOOGLE_ID, DEFAULT_GOOGLE_ID))) {
+                if (FirebaseAuth.getInstance().currentUser == null) {
                     signIn()
                 } else {
                     signOut()
@@ -68,14 +68,14 @@ class GPlusFragment : Fragment(), View.OnClickListener {
 
     private fun showUIStatus() {
         binding?.let {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            if (TextUtils.isEmpty(prefs.getString(PrefsKeys.KEY_GOOGLE_ID, DEFAULT_GOOGLE_ID))) {
+            if (FirebaseAuth.getInstance().currentUser == null) {
                 it.btn.setText(R.string.login_google)
                 it.root.setBackgroundResource(R.color.colorBlueGrey)
                 it.peopleNameTv.text = ""
                 it.peoplePhotoIv.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_people))
 
             } else {
+                val prefs = PreferenceManager.getDefaultSharedPreferences(context)
                 it.btn.setText(R.string.logout_google)
                 val name = prefs.getString(PrefsKeys.KEY_GOOGLE_DISPLAY_NAME, null)
                 val thumbnailUrl = prefs.getString(KEY_GOOGLE_PHOTO_URL, null)
