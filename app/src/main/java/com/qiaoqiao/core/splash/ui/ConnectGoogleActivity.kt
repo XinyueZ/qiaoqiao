@@ -122,10 +122,6 @@ class ConnectGoogleActivity : AppCompatActivity(), View.OnClickListener,
                                 .apply(edit)
 
                         it.helloTv.text = getString(R.string.connect_successfully, acct.displayName)
-                        it.loginPb.visibility = View.GONE
-                        it.closeBtn.visibility = View.VISIBLE
-                        val shake = AnimationUtils.loadAnimation(applicationContext, R.anim.shake)
-                        it.closeBtn.startAnimation(shake)
                         firebaseAuthWithGoogle(acct)
                     }
                 }
@@ -186,6 +182,13 @@ class ConnectGoogleActivity : AppCompatActivity(), View.OnClickListener,
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
             LL.d("Firebase is ready.")
+
+            binding?.let {
+                it.loginPb.visibility = View.GONE
+                it.closeBtn.visibility = View.VISIBLE
+                val shake = AnimationUtils.loadAnimation(applicationContext, R.anim.shake)
+                it.closeBtn.startAnimation(shake)
+            }
         }
     }
 
