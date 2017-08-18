@@ -3,6 +3,9 @@
     <string name="no_map_app_title">Route nicht möglich</string>
     <string name="no_map_apps">Bitte laden Sie einen Browser oder einen Kartendienst aus dem App Store, um die Route anzuzeigen.</string>
 
+    <string name="loading">… Laden …</string>
+
+
     <string name="action_photo">Foto machen</string>
     <string name="action_video">Video machen</string>
     <string name="action_from_local">Lokale Bilder</string>

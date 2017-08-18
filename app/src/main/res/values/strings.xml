@@ -42,7 +42,7 @@
 
     <string name="transition_share_item_name">shareView</string>
 
-
+    <string name="loading">… Loading …</string>
     <string name="loading_detail_fail">Cannot load page, close this and try it later.</string>
     <string name="locating_fail">Cannot locate…</string>
     <string name="play_service_fail">PlayService cannot be connected.</string>
