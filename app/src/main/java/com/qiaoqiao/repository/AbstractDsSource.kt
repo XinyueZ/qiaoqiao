@@ -3,13 +3,13 @@ package com.qiaoqiao.repository
 import android.content.Context
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.vision.barcode.Barcode
+import com.qiaoqiao.app.App
 import com.qiaoqiao.repository.backend.Google
 import com.qiaoqiao.repository.backend.ImageProvider
 import com.qiaoqiao.repository.backend.ProductsService
 import com.qiaoqiao.repository.backend.Wikipedia
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
 import com.qiaoqiao.repository.database.LastLaunchImage
-import io.realm.Realm
 
 abstract class AbstractDsSource() {
     protected var google: Google? = null
@@ -32,8 +32,7 @@ abstract class AbstractDsSource() {
     }
 
     fun onLoadedLaunchImage(imageData: ByteArray, callback: DsLoadedCallback) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransactionAsync({
+        App.getRealm().executeTransactionAsync({
             it.delete(LastLaunchImage::class.java)
             val lastLaunchImage = it.createObject(LastLaunchImage::class.java)
             lastLaunchImage.byteArray = imageData

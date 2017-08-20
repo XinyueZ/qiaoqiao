@@ -58,6 +58,7 @@ import com.qiaoqiao.repository.backend.BackendModule;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 
 public final class App extends MultiDexApplication {
@@ -79,6 +80,11 @@ public final class App extends MultiDexApplication {
 		                                                  .build();
 	}
 
+
+	public static Realm getRealm() {
+		return Realm.getInstance(new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded()
+		                                                         .build());
+	}
 
 	public static void inject(@NonNull CameraActivity cameraActivity) {
 		final App application = (App) cameraActivity.getApplication();

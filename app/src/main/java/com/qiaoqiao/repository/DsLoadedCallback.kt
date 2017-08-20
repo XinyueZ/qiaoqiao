@@ -7,13 +7,13 @@ import com.google.api.services.vision.v1.model.Status
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.qiaoqiao.app.App
 import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.repository.backend.model.translate.Data
 import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult
 import com.qiaoqiao.repository.database.HistoryItem
 import com.qiaoqiao.utils.LL
-import io.realm.Realm
 import java.io.IOException
 
 abstract class DsLoadedCallback {
@@ -27,8 +27,7 @@ abstract class DsLoadedCallback {
     }
 
     fun saveOnLocalHistory(imageUri: Uri, json: String) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransactionAsync({ bgRealm ->
+        App.getRealm().executeTransactionAsync({ bgRealm ->
             val historyItem = bgRealm.createObject(HistoryItem::class.java)
             historyItem.imageUri = imageUri.toString()
             historyItem.jsonText = json

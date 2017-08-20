@@ -8,8 +8,7 @@ import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.widget.Toast;
 
 import com.qiaoqiao.R;
-
-import io.realm.Realm;
+import com.qiaoqiao.app.App;
 
 
 public class CacheClearPreferenceDialog extends PreferenceDialogFragmentCompat {
@@ -25,7 +24,7 @@ public class CacheClearPreferenceDialog extends PreferenceDialogFragmentCompat {
 	@Override
 	public void onDialogClosed(boolean b) {
 		if (b) {
-			Realm.getDefaultInstance().executeTransaction(realm -> {
+			App.getRealm().executeTransaction(realm -> {
 				realm.deleteAll();
 				Toast.makeText(getContext(), R.string.preference_feedback_cleared_cache, Toast.LENGTH_LONG)
 				     .show();

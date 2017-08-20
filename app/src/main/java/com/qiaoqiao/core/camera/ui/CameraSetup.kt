@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.hardware.Camera
 import android.os.Vibrator
 import android.support.v4.view.GestureDetectorCompat
+import android.text.TextUtils
 import android.view.ScaleGestureDetector
 import android.widget.Toast
 import com.google.android.gms.vision.MultiProcessor
@@ -45,7 +46,7 @@ internal object CameraSetup {
             val cameraSource = CameraSource.Builder(applicationContext, barcodeDetector)
                     .setFacing(CameraSource.CAMERA_FACING_BACK)
                     .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
-                    //.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
+                    .setFlashMode(Camera.Parameters.FLASH_MODE_OFF)
                     .setRequestedFps(15.0f)
                     .build()
             try {
@@ -65,14 +66,23 @@ internal object CameraSetup {
             } catch (e: IOException) {
                 LL.w(e.toString())
             }
-            mBinding.captureFab.setOnClickListener({
+            mBinding.captureFab.setOnClickListener {
                 if (FirebaseAuth.getInstance().currentUser == null)
                     ConnectGoogleActivity.showInstance(cxt, false)
                 else
                     cameraSource.takePicture({ vibrator.vibrate(PrefsKeys.VIB_LNG) }, {
                         mCameraPresenter.capturedByteArray(this, it)
                     })
-            })
+            }
+            mBinding.flashFab.setOnClickListener {
+                mBinding.cameraSource?.let {
+                    var mode = if (TextUtils.equals(it.flashMode, Camera.Parameters.FLASH_MODE_ON))
+                        Camera.Parameters.FLASH_MODE_OFF else Camera.Parameters.FLASH_MODE_ON
+                    if (it.setFlashMode(mode))
+                        mBinding.flashFab.setImageResource(if (TextUtils.equals(it.flashMode, Camera.Parameters.FLASH_MODE_OFF))
+                            R.drawable.ic_flash_on else R.drawable.ic_flash_off)
+                }
+            }
         }
     }
 }

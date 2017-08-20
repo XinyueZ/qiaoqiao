@@ -124,7 +124,7 @@
                                     app:srcCompat="@drawable/ic_capture"/>
 
                                 <android.support.design.widget.FloatingActionButton
-                                    android:id="@+id/camera_direction_fab"
+                                    android:id="@+id/camera_face_fab"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"

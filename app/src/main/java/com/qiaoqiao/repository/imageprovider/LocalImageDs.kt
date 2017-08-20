@@ -1,17 +1,17 @@
 package com.qiaoqiao.repository.imageprovider
 
 import android.content.Context
+import com.qiaoqiao.app.App
 import com.qiaoqiao.repository.AbstractDsSource
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.backend.ImageProvider
 import com.qiaoqiao.repository.database.LastLaunchImage
-import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 
 class LocalImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvider) {
     override fun onImage(cxt: Context, callback: DsLoadedCallback) {
-        Realm.getDefaultInstance()
+       App.getRealm()
                 .where(LastLaunchImage::class.java)
                 .findAllAsync()
                 .addChangeListener(object : RealmChangeListener<RealmResults<LastLaunchImage>> {
