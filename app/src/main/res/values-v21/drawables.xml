@@ -26,6 +26,7 @@
     <item name="ic_expand_less" type="drawable">@drawable/ic_expand_less_vec</item>
     <item name="ic_expand_more" type="drawable">@drawable/ic_expand_more_vec</item>
     <item name="ic_camera_rear" type="drawable">@drawable/ic_camera_rear_vec</item>
+    <item name="ic_camera_front" type="drawable">@drawable/ic_camera_front_vec</item>
     <item name="ic_location_pin" type="drawable">@drawable/ic_location_pin_vec</item>
     <item name="ic_default_image" type="drawable">@drawable/ic_default_image_vec</item>
     <item name="ic_knowledge_link_open" type="drawable">@drawable/ic_knowledge_link_open_vec</item>

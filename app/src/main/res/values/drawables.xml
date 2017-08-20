@@ -26,8 +26,8 @@
     <item name="ic_expand_more" type="drawable">@drawable/ic_expand_more_compat</item>
     <item name="ic_crop_rotate" type="drawable">@drawable/ic_crop_rotate_compat</item>
     <item name="ic_camera_rear" type="drawable">@drawable/ic_camera_rear_compat</item>
+    <item name="ic_camera_front" type="drawable">@drawable/ic_camera_front_compat</item>
     <item name="ic_location_pin" type="drawable">@drawable/ic_location_pin_compat</item>
     <item name="ic_default_image" type="drawable">@drawable/ic_default_image_compat</item>
-    <item name="ic_knowledge_link_open" type="drawable">@drawable/ic_knowledge_link_open_compat
-    </item>
+    <item name="ic_knowledge_link_open" type="drawable">@drawable/ic_knowledge_link_open_compat</item>
 </resources>
