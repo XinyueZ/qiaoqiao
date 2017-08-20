@@ -93,17 +93,47 @@
                             android:layout_gravity="bottom|center_horizontal"
                             android:orientation="vertical">
 
-
-                            <android.support.design.widget.FloatingActionButton
-                                android:id="@+id/capture_fab"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|center_horizontal"
-                                android:layout_marginBottom="@dimen/larger"
-                                app:backgroundTint="@color/colorRed"
-                                app:fabSize="normal"
-                                app:rippleColor="@color/colorPink"
-                                app:srcCompat="@drawable/ic_capture"/>
+                                android:layout_margin="@dimen/larger"
+                                android:gravity="center" >
+
+                                <android.support.design.widget.FloatingActionButton
+                                    android:id="@+id/flash_fab"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="@dimen/larger"
+                                    app:backgroundTint="@color/colorGreyTransparent"
+                                    app:fabSize="mini"
+                                    app:rippleColor="@color/colorGrey"
+                                    app:srcCompat="@drawable/ic_flash_on"/>
+
+
+                                <android.support.design.widget.FloatingActionButton
+                                    android:id="@+id/capture_fab"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="@dimen/larger"
+                                    app:backgroundTint="@color/colorRed"
+                                    app:fabSize="normal"
+                                    app:rippleColor="@color/colorPink"
+                                    app:srcCompat="@drawable/ic_capture"/>
+
+                                <android.support.design.widget.FloatingActionButton
+                                    android:id="@+id/camera_direction_fab"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="@dimen/larger"
+                                    app:backgroundTint="@color/colorGreyTransparent"
+                                    app:fabSize="mini"
+                                    app:rippleColor="@color/colorGrey"
+                                    app:srcCompat="@drawable/ic_camera_front"/>
+                            </LinearLayout>
 
                             <ImageButton
                                 android:id="@+id/expand_more_btn"
