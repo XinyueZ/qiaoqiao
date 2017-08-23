@@ -77,7 +77,7 @@ internal object CameraSetup {
             mBinding.flashFab.setOnClickListener {
                 vibrator.vibrate(PrefsKeys.VIB_LNG)
                 mBinding.cameraSource?.let {
-                    var mode = if (TextUtils.equals(it.flashMode, Camera.Parameters.FLASH_MODE_ON))
+                    val mode = if (TextUtils.equals(it.flashMode, Camera.Parameters.FLASH_MODE_ON))
                         Camera.Parameters.FLASH_MODE_OFF else Camera.Parameters.FLASH_MODE_ON
                     if (it.setFlashMode(mode))
                         mBinding.flashFab.setImageResource(if (TextUtils.equals(it.flashMode, Camera.Parameters.FLASH_MODE_OFF))
