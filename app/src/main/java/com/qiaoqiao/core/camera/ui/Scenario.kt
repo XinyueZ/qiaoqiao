@@ -34,6 +34,8 @@ internal object Scenario {
             animateViews(captureFab, show)
             animateViews(expandMoreBtn, show)
             animateViews(expandLessBtn, show)
+            animateViews(cameraFaceFab, show)
+            animateViews(flashFab, show)
             animateViews(cxt.supportFragmentManager.findFragmentById(R.id.stackview_history_fg).view, show)
         }
     }
