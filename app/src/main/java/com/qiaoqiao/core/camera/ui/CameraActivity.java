@@ -116,6 +116,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public static void showInstance(@NonNull Activity cxt, boolean backCamera) {
 		Intent intent = new Intent(cxt, CameraActivity.class);
 		intent.putExtra(EXTRAS_BACK_CAMERA, backCamera);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		ActivityCompat.startActivity(cxt, intent, EMPTY);
 	}
 

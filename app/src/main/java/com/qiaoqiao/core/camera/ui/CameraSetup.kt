@@ -94,7 +94,6 @@ internal object CameraSetup {
                     CameraActivity.showInstance(cxt, it.cameraFacing == CameraSource.CAMERA_FACING_FRONT)
                     it.stop()
                     it.release()
-                    cxt.finish()
                 }
             }
         }
