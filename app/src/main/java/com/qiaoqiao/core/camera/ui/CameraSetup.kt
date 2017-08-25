@@ -43,8 +43,9 @@ internal object CameraSetup {
                             .show()
                 }
             }
+            val face=if(cxt.isBackCamera) CameraSource.CAMERA_FACING_BACK else CameraSource.CAMERA_FACING_FRONT
             val cameraSource = CameraSource.Builder(applicationContext, barcodeDetector)
-                    .setFacing(CameraSource.CAMERA_FACING_BACK)
+                    .setFacing(face)
                     .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
                     .setFlashMode(Camera.Parameters.FLASH_MODE_OFF)
                     .setRequestedFps(15.0f)
@@ -87,6 +88,12 @@ internal object CameraSetup {
 
             mBinding.cameraFaceFab.setOnClickListener {
                 vibrator.vibrate(PrefsKeys.VIB_LNG)
+                mBinding.cameraSource?.let {
+                    CameraActivity.showInstance(cxt, it.cameraFacing == CameraSource.CAMERA_FACING_FRONT)
+                    it.stop()
+                    it.release()
+                    cxt.finish()
+                }
             }
         }
     }

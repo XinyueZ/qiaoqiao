@@ -13,12 +13,12 @@ internal object MenuHandler {
         }
         when (item.itemId) {
             R.id.action_video -> {
-                CameraActivity.showInstance(cxt)
+                CameraActivity.showInstance(cxt, true)
                 cxt.finish()
                 return true
             }
             R.id.action_photo -> {
-                CameraActivity.showInstance(cxt)
+                CameraActivity.showInstance(cxt, true)
                 cxt.finish()
                 return true
             }

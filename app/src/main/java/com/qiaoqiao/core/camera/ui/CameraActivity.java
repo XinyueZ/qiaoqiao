@@ -56,8 +56,6 @@ import javax.inject.Inject;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
-import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static android.os.Bundle.EMPTY;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -71,7 +69,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
                                                                        NavigationView.OnNavigationItemSelectedListener {
 	private static final int LAYOUT = R.layout.activity_camera;
 	public static final int REQ_FILE_SELECTOR = 0x19;
-
+	private static final String EXTRAS_BACK_CAMERA = CameraActivity.class.getName() + ".EXTRAS.back";
 
 	@Nullable Snackbar mSnackbar;
 	ActivityCameraBinding mBinding;
@@ -115,10 +113,14 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	}
 	//------------------------------------------------
 
-	public static void showInstance(@NonNull Activity cxt) {
+	public static void showInstance(@NonNull Activity cxt, boolean backCamera) {
 		Intent intent = new Intent(cxt, CameraActivity.class);
-		intent.setFlags(FLAG_ACTIVITY_SINGLE_TOP | FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra(EXTRAS_BACK_CAMERA, backCamera);
 		ActivityCompat.startActivity(cxt, intent, EMPTY);
+	}
+
+	boolean isBackCamera() {
+		return getIntent().getBooleanExtra(EXTRAS_BACK_CAMERA, true);
 	}
 
 	@Override
@@ -257,8 +259,12 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		presentersEnd();
 		super.onDestroy();
 
-		mBinding.preview.stop();
-		mBinding.preview.release();
+		try{
+			mBinding.preview.stop();
+			mBinding.preview.release();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void presentersEnd() {
