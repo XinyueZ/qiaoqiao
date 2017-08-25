@@ -44,6 +44,8 @@ internal object CameraSetup {
                 }
             }
             val face=if(cxt.isBackCamera) CameraSource.CAMERA_FACING_BACK else CameraSource.CAMERA_FACING_FRONT
+            val icon=if(cxt.isBackCamera) R.drawable.ic_camera_front else R.drawable.ic_camera_rear
+            mBinding.cameraFaceFab.setImageResource(icon)
             val cameraSource = CameraSource.Builder(applicationContext, barcodeDetector)
                     .setFacing(face)
                     .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
