@@ -9,7 +9,7 @@ import java.io.IOException
 
 class DsDatabaseSource : AbstractDsSource() {
     override fun onRecentRequest(callback: DsLoadedCallback) {
-        App.getRealm()
+        App.realm
                 .where(HistoryItem::class.java)
                 .findAll().forEach {
             try {

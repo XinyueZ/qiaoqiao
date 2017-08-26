@@ -1,5 +1,6 @@
 package com.qiaoqiao.core.camera.awareness.ui
 
+import CustomTabUtils
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -13,9 +14,9 @@ import android.text.TextUtils
 import android.view.View
 import com.bumptech.glide.Glide
 import com.qiaoqiao.R
+import com.qiaoqiao.app.App
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper
 import com.qiaoqiao.core.location.MapActivity
-import com.qiaoqiao.customtabs.CustomTabUtils
 import com.qiaoqiao.databinding.FragmentSnapshotPlaceInfoBinding
 
 private const val LAYOUT = R.layout.fragment_snapshot_place_info
@@ -45,6 +46,19 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
         return dialog
     }
 
+
+
+    override fun onStart() {
+        super.onStart()
+        val placeWrapper = arguments.getSerializable(EXTRAS_PLACE) as PlaceWrapper
+        CustomTabUtils.warmUp(activity,  (placeWrapper.place.websiteUri))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        CustomTabUtils.clean(activity)
+    }
+
     override fun onResume() {
         super.onResume()
         binding?.openMapFl?.isActivated = true
@@ -54,10 +68,11 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
         if (v == null) return
         val placeWrapper = arguments.getSerializable(EXTRAS_PLACE) as PlaceWrapper
         when (v.id) {
-            R.id.web_tv -> CustomTabUtils.openWeb(this,
-                    placeWrapper.title,
-                    placeWrapper.place
-                            .websiteUri)
+            R.id.web_tv -> {
+                val app = context.applicationContext as App
+                CustomTabUtils.openWeb(activity, placeWrapper.place
+                        .websiteUri, app.customTabConfig.builder)
+            }
             R.id.tel_tv -> callPhoneNumber(context,
                     placeWrapper.place
                             .phoneNumber

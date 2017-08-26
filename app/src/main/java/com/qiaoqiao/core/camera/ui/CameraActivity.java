@@ -44,7 +44,6 @@ import com.qiaoqiao.core.camera.vision.VisionPresenter;
 import com.qiaoqiao.core.confidence.ConfidenceContract;
 import com.qiaoqiao.core.confidence.ConfidencePresenter;
 import com.qiaoqiao.core.detail.ui.DetailActivity;
-import com.qiaoqiao.customtabs.CustomTabUtils;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.Geosearch;
 import com.qiaoqiao.views.ViewPagerAdapter;
@@ -131,7 +130,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 		setupDataBinding();
 		setupAppBar();
 		setupNavigationDrawer();
-		App.inject(this);
+		App.Companion.inject(this);
 		mPermissionHelper.requireCameraPermission();
 		getSupportFragmentManager().addOnBackStackChangedListener(this);
 	}
@@ -176,7 +175,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	protected void onResume() {
 		super.onResume();
 
-		CustomTabUtils.HELPER.bindCustomTabsService(this);
 		EventBus.getDefault()
 		        .register(this);
 
@@ -188,7 +186,6 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 
 	@Override
 	protected void onPause() {
-		CustomTabUtils.HELPER.unbindCustomTabsService(this);
 		EventBus.getDefault()
 		        .unregister(this);
 		super.onPause();

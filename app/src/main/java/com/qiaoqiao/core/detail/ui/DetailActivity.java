@@ -49,7 +49,7 @@ public final class DetailActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DataBindingUtil.setContentView(this, LAYOUT);
-		App.inject(this);
+		App.Companion.inject(this);
 	}
 
 	@Inject

@@ -32,7 +32,7 @@ abstract class AbstractDsSource() {
     }
 
     fun onLoadedLaunchImage(imageData: ByteArray, callback: DsLoadedCallback) {
-        App.getRealm().executeTransactionAsync({
+        App.realm.executeTransactionAsync({
             it.delete(LastLaunchImage::class.java)
             val lastLaunchImage = it.createObject(LastLaunchImage::class.java)
             lastLaunchImage.byteArray = imageData

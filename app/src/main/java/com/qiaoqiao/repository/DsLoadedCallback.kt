@@ -27,7 +27,7 @@ abstract class DsLoadedCallback {
     }
 
     fun saveOnLocalHistory(imageUri: Uri, json: String) {
-        App.getRealm().executeTransactionAsync({ bgRealm ->
+        App.realm.executeTransactionAsync({ bgRealm ->
             val historyItem = bgRealm.createObject(HistoryItem::class.java)
             historyItem.imageUri = imageUri.toString()
             historyItem.jsonText = json

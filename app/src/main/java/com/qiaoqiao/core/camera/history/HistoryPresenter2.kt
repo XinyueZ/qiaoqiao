@@ -44,7 +44,7 @@ class HistoryPresenter2 @Inject constructor(private val view: HistoryContract.Vi
     }
 
     override fun loadHistory() {
-        App.getRealm()
+        App.realm
                 .where(HistoryItem::class.java)
                 .findAllAsync()?.let {
             view.showList(it)

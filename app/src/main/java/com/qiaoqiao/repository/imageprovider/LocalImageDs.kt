@@ -11,7 +11,7 @@ import io.realm.RealmResults
 
 class LocalImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvider) {
     override fun onImage(cxt: Context, callback: DsLoadedCallback) {
-       App.getRealm()
+        App.realm
                 .where(LastLaunchImage::class.java)
                 .findAllAsync()
                 .addChangeListener(object : RealmChangeListener<RealmResults<LastLaunchImage>> {
