@@ -199,6 +199,10 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	private void detailImageLoaded(GlideBitmapDrawable resource) {
 		setRefreshing(false);
+		createPalette(resource);
+	}
+
+	private void createPalette(GlideBitmapDrawable resource) {
 		Palette.Builder b = new Palette.Builder(resource.getBitmap());
 		b.maximumColorCount(1);
 		b.generate(DetailFragment.this);
