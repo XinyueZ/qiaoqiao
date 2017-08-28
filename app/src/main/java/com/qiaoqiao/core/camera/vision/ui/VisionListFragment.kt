@@ -44,7 +44,6 @@ class VisionListFragment : AbstractVisionFragment(), VisionContract.View {
         setRefreshing(false)
         binding?.let {
             val key = arguments.getSerializable(EXTRAS_KEY) as Key
-            it.loadingPb.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
             val columns = resources.getInteger(R.integer.num_columns)
             it.visionRv.layoutManager = GridLayoutManager(activity, columns)
             visionListAdapter = VisionListAdapter(key)
@@ -80,8 +79,7 @@ class VisionListFragment : AbstractVisionFragment(), VisionContract.View {
 
     override fun setRefreshing(refresh: Boolean) {
         binding?.let {
-            it.loadingPb.isEnabled = refresh
-            it.loadingPb.isRefreshing = refresh
+            it.loadingPb.visibility = if (refresh) View.VISIBLE else View.GONE
         }
     }
 }

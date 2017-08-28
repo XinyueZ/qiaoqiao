@@ -10,8 +10,7 @@
             type="android.support.v4.app.Fragment"/>
     </data>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/loading_pb"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="1dp"
@@ -19,10 +18,30 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/vision_rv"
-            android:scrollbarStyle="outsideOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:scrollbarStyle="outsideOverlay"/>
+
+        <LinearLayout
+            android:id="@+id/loading_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading_visions"
+                android:textAlignment="center"/>
+
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"/>
+        </LinearLayout>
+
+    </FrameLayout>
 
 </layout>
