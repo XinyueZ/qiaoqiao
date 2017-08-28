@@ -73,10 +73,10 @@ abstract class DsLoadedCallback {
         }
     }
 
-    open fun onKnowledgeResponse(products: List<ProductEntity>) {
+    open fun onKnowledgeResponse(product: ProductEntity) {
     }
 
-    open fun onException(e: Exception) {
+    open fun onException(e: Throwable) {
         LL.e(e.toString())
     }
 

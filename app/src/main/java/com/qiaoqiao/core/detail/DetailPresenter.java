@@ -9,6 +9,8 @@ import com.qiaoqiao.repository.DsRepository;
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 import com.qiaoqiao.repository.backend.model.wikipedia.WikiResult;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.inject.Inject;
 
 public final class DetailPresenter implements DetailContract.Presenter {
@@ -48,7 +50,7 @@ public final class DetailPresenter implements DetailContract.Presenter {
 		}
 
 		@Override
-		public void onException(@NonNull Exception e) {
+		public void onException(@NotNull Throwable e) {
 			super.onException(e);
 			mView.onError();
 		}

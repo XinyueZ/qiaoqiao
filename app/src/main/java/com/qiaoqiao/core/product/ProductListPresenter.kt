@@ -33,8 +33,8 @@ class ProductListPresenter @Inject constructor(private var view: ProductContract
 
     override fun showProductList(barcode: Barcode) {
         dsRepository.onKnowledgeQuery(barcode, object : DsLoadedCallback() {
-            override fun onKnowledgeResponse(products: List<ProductEntity>) {
-                view.showProductList(products)
+            override fun onKnowledgeResponse(product: ProductEntity) {
+                view.showProductList(product)
             }
         })
     }

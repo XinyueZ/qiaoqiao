@@ -4,15 +4,16 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.vision.barcode.Barcode
+import com.qiaoqiao.BR
 import com.qiaoqiao.R
 import com.qiaoqiao.core.product.ProductContract
 import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.databinding.FragmentProductListBinding
+import com.qiaoqiao.utils.DeviceUtils
 
 class ProductListFragment : Fragment(), ProductContract.ListView {
     private var presenter: ProductContract.ListPresenter? = null
@@ -36,17 +37,20 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
         val searchedCode: Barcode = arguments.getParcelable(EXTRAS_BARCODE)
         presenter?.showProductList(searchedCode)
         binding?.let {
-            it.productListRv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            it.productListRv.setHasFixedSize(true)
-            if (activity is AppCompatActivity) {
-                val activity = activity as AppCompatActivity
-                activity.setSupportActionBar(it.toolbar)
-                activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                activity.supportActionBar?.setDisplayShowHomeEnabled(true)
-
-            }
             it.loadingPbTv.text = String.format(getString(R.string.loading_product_by_upc), searchedCode.rawValue)
+            it.appbar.layoutParams.height = Math.ceil((DeviceUtils.getScreenSize(context).Height * 0.618f).toDouble()).toInt()
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val activity = activity as AppCompatActivity
+        activity.setSupportActionBar(binding?.toolbar)
+        if (activity.supportActionBar == null) {
+            return
+        }
+        activity.supportActionBar!!
+                .setDisplayHomeAsUpEnabled(true)
     }
 
     override fun getBinding() = binding!!
@@ -55,9 +59,10 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
         this.presenter = presenter
     }
 
-    override fun showProductList(products: List<ProductEntity>) {
+    override fun showProductList(product: ProductEntity) {
         binding?.let {
-            it.productListRv.adapter = ProductListAdapter(products)
+            it.setVariable(BR.product, product)
+            it.executePendingBindings()
             it.showProduct = true
         }
     }

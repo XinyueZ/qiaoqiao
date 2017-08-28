@@ -53,7 +53,7 @@ class CameraPresenter
                 updateWhenResponse()
             }
 
-            override fun onException(e: Exception) {
+            override fun onException(e: Throwable) {
                 super.onException(e)
                 view.showError(e.toString())
                 updateWhenResponse()

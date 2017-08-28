@@ -10,7 +10,7 @@ interface ProductContract {
 
     interface ListView : BaseView<ListPresenter, FragmentProductListBinding> {
         override fun getBinding(): FragmentProductListBinding
-        fun showProductList(products: List<ProductEntity>)
+        fun showProductList(product: ProductEntity)
     }
 
     interface ListPresenter : BasePresenter {
