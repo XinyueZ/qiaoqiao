@@ -104,7 +104,7 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
 
     override fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback) {
         productsService?.let {
-            it.getProducts(KnowledgeRequest(Locale.getDefault().language, barcode.displayValue)).compose(Composer())
+            it.getProducts(KnowledgeRequest(Locale.getDefault().language, barcode.rawValue)).compose(Composer())
                     .subscribe {
                         try {
                             callback.onKnowledgeResponse(

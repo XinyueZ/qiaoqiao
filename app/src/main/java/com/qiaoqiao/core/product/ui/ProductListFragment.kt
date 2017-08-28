@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.vision.barcode.Barcode
+import com.qiaoqiao.R
 import com.qiaoqiao.core.product.ProductContract
 import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.databinding.FragmentProductListBinding
@@ -32,17 +33,19 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter?.showProductList(arguments.getParcelable<Barcode>(EXTRAS_BARCODE))
+        val searchedCode: Barcode = arguments.getParcelable(EXTRAS_BARCODE)
+        presenter?.showProductList(searchedCode)
         binding?.let {
             it.productListRv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             it.productListRv.setHasFixedSize(true)
-            it.shimmerFl.startShimmerAnimation()
             if (activity is AppCompatActivity) {
-                (activity as AppCompatActivity).setSupportActionBar(it.toolbar)
-                (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+                val activity = activity as AppCompatActivity
+                activity.setSupportActionBar(it.toolbar)
+                activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                activity.supportActionBar?.setDisplayShowHomeEnabled(true)
 
             }
+            it.loadingPbTv.text = String.format(getString(R.string.loading_product_by_upc), searchedCode.rawValue)
         }
     }
 
@@ -55,7 +58,6 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
     override fun showProductList(products: List<ProductEntity>) {
         binding?.let {
             it.productListRv.adapter = ProductListAdapter(products)
-            it.shimmerFl.stopShimmerAnimation()
             it.showProduct = true
         }
     }

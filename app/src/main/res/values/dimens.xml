@@ -22,4 +22,5 @@
     <dimen name="position_stackview">70dp</dimen>
     <dimen name="product_image_height">125dp</dimen>
     <dimen name="product_thumbnail_size">75dp</dimen>
+    <dimen name="loading_pb_size">255dp</dimen>
 </resources>

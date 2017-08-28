@@ -40,46 +40,39 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_fl"
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/product_list_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/product_list_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="@{showProduct ? View.VISIBLE : View.GONE}"/>
+            <LinearLayout
+                android:id="@+id/initialLoadingContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{!showProduct ? View.VISIBLE : View.GONE}">
 
+                <TextView
+                    android:id="@+id/loading_pb_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/loading"
+                    android:textAlignment="center"/>
 
-                <LinearLayout
-                    android:id="@+id/initialLoadingContainer"
-                    android:layout_width="match_parent"
+                <ProgressBar
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="@dimen/loading_pb_size"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:paddingLeft="100dp"
-                    android:paddingRight="100dp"
-                    android:visibility="@{!showProduct ? View.VISIBLE : View.GONE}">
+                    android:indeterminate="true"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/loading"
-                        android:textAlignment="center"/>
+            </LinearLayout>
 
-                    <ProgressBar
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:indeterminate="true"/>
-
-                </LinearLayout>
-
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
 
         </android.support.design.widget.CoordinatorLayout>
 

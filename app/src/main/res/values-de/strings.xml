@@ -4,8 +4,8 @@
     <string name="no_map_apps">Bitte laden Sie einen Browser oder einen Kartendienst aus dem App Store, um die Route anzuzeigen.</string>
 
     <string name="loading">… Laden …</string>
-    <string name="loading_visions">… Die Visionen werden geladen …</string>
-    <string name="loading_product_by_upc">… Das Produkt mit der Code %s werden geladen …</string>
+    <string name="loading_visions">Nehme Vision auf</string>
+    <string name="loading_product_by_upc">Das Produkt mit der Code\n%s werden geladen</string>
 
 
     <string name="action_photo">Foto machen</string>
