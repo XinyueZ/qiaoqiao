@@ -38,7 +38,7 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
         presenter?.showProductList(searchedCode)
         binding?.let {
             it.loadingPbTv.text = String.format(getString(R.string.loading_product_by_upc), searchedCode.rawValue)
-            it.appbar.layoutParams.height = Math.ceil((DeviceUtils.getScreenSize(context).Height * 0.618f).toDouble()).toInt()
+            it.appbar.layoutParams.height = Math.ceil((DeviceUtils.getScreenSize(context).Height * 0.33333f).toDouble()).toInt()
         }
     }
 
@@ -46,11 +46,10 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
         super.onActivityCreated(savedInstanceState)
         val activity = activity as AppCompatActivity
         activity.setSupportActionBar(binding?.toolbar)
-        if (activity.supportActionBar == null) {
-            return
+        activity.supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowTitleEnabled(false)
         }
-        activity.supportActionBar!!
-                .setDisplayHomeAsUpEnabled(true)
     }
 
     override fun getBinding() = binding!!

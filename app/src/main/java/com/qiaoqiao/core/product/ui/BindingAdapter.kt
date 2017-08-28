@@ -19,9 +19,9 @@ import io.reactivex.Flowable
 @android.databinding.BindingAdapter("bind:product")
 fun setProductImageList(vp: ViewPager, product: ProductEntity?) {
     if (product == null) return
-    Flowable.just(product).flatMapIterable { product.largeImages }.map { ImageFragment.newInstance(vp.context, it) }.toList().subscribe { fragmentList, _ ->
+    Flowable.just(product).flatMapIterable { product.largeImages }.map { ImageFragment.newInstance(vp.context, it) }.toList().subscribe( { fragmentList, _ ->
         vp.adapter = ViewPagerAdapter((vp.context as AppCompatActivity).supportFragmentManager, fragmentList)
-    }
+    })
 }
 
 @android.databinding.BindingAdapter("bind:imageUri")
