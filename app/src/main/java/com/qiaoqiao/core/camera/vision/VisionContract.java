@@ -31,6 +31,8 @@ import com.qiaoqiao.repository.DsRepository;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -71,19 +73,31 @@ public interface VisionContract {
 		public void end(@NonNull FragmentActivity hostActivity) {
 			EventBus.getDefault()
 			        .unregister(this);
+			autoDispose();
+		}
+
+		private void addToAutoDispose(Disposable... disposables) {
+			mCompositeDisposable.addAll(disposables);
+		}
+
+		private void autoDispose() {
+			mCompositeDisposable.clear();
 		}
 
 
 		public abstract void setRefreshing(boolean refresh);
 
+
+		private final @NonNull CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+
 		public final void loadRecent() {
-			mDsRepository.onRecentRequest(new DsLoadedCallback() {
+			addToAutoDispose(mDsRepository.onRecentRequest(new DsLoadedCallback() {
 				@Override
 				public void onVisionResponse(BatchAnnotateImagesResponse response) {
 					super.onVisionResponse(response);
 					addResponseToScreen(response, false);
 				}
-			});
+			}));
 		}
 	}
 }

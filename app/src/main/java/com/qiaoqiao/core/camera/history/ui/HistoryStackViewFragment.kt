@@ -29,13 +29,18 @@ class HistoryStackViewFragment : Fragment(), HistoryContract.View2 {
         this.presenter = presenter
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter?.end(activity)
+    }
+
     override fun getBinding() = binding
 
     override fun showList(results: MutableList<HistoryItem>) {
         adapter = HistoryStackViewAdapter(results, activity.layoutInflater)
         binding?.let {
-          it.historyStv.adapter = adapter
-          it.historyStv.setSelection(results.size - 1)
+            it.historyStv.adapter = adapter
+            it.historyStv.setSelection(results.size - 1)
         }
     }
 

@@ -6,24 +6,27 @@ import com.qiaoqiao.repository.AbstractDsSource
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.backend.ImageProvider
 import com.qiaoqiao.repository.database.LastLaunchImage
-import io.realm.RealmChangeListener
-import io.realm.RealmResults
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 
 class LocalImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvider) {
-    override fun onImage(cxt: Context, callback: DsLoadedCallback) {
-        App.realm
-                .where(LastLaunchImage::class.java)
-                .findAllAsync()
-                .addChangeListener(object : RealmChangeListener<RealmResults<LastLaunchImage>> {
-                    override fun onChange(element: RealmResults<LastLaunchImage>) {
-                        if (element.isLoaded && element.size > 0) {
-                            element.removeChangeListener(this)
-                            callback.onImageLoad(element[0]
-                                    .byteArray)
-                        } else {
-                            callback.onImageLoad(ByteArray(0))
-                        }
-                    }
-                })
+    override fun onImage(cxt: Context, callback: DsLoadedCallback): Disposable {
+        val flowable: Flowable<ByteArray> = Flowable.create({ emitter ->
+            val res = App.realm
+                    .where(LastLaunchImage::class.java)
+                    .findAll()
+            if (res.isLoaded && res.size > 0) {
+                emitter.onNext(res[0]
+                        .byteArray)
+            } else {
+                emitter.onNext(ByteArray(0))
+            }
+        }, BackpressureStrategy.BUFFER)
+        return flowable.subscribe(
+                {
+                    callback.onImageLoad(it)
+                }
+        )
     }
 }

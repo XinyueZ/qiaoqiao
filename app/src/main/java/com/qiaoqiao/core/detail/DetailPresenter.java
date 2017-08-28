@@ -13,9 +13,14 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 public final class DetailPresenter implements DetailContract.Presenter {
 	private final @NonNull DetailContract.View mView;
 	private final @NonNull DsRepository mDsRepository;
+	private final @NonNull CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+
 	private final DsLoadedCallback mLoadedCallback = new DsLoadedCallback() {
 		@Override
 		public void onKnowledgeResponse(WikiResult result) {
@@ -26,10 +31,10 @@ public final class DetailPresenter implements DetailContract.Presenter {
 			                            .get(0)
 			                            .getThumbnail(),
 			                      result.getQuery()
-			                      .getPages()
-			                      .getList()
-			                      .get(0)
-			                      .getOriginal());
+			                            .getPages()
+			                            .getList()
+			                            .get(0)
+			                            .getOriginal());
 
 			mView.setMultiLanguage(result.getQuery()
 			                             .getPages()
@@ -67,6 +72,15 @@ public final class DetailPresenter implements DetailContract.Presenter {
 		mView.setPresenter(this);
 	}
 
+	private void addToAutoDispose(Disposable... disposables) {
+		mCompositeDisposable.addAll(disposables);
+	}
+
+	private void autoDispose() {
+		mCompositeDisposable.clear();
+	}
+
+
 	@Override
 	public void begin(@NonNull FragmentActivity hostActivity) {
 		mView.loadDetail();
@@ -74,22 +88,22 @@ public final class DetailPresenter implements DetailContract.Presenter {
 
 	@Override
 	public void end(@NonNull FragmentActivity hostActivity) {
-		//Still not impl.
+		autoDispose();
 	}
 
 	@Override
 	public void loadDetail(int pageId) {
-		mDsRepository.onKnowledgeQuery(pageId, mLoadedCallback);
+		addToAutoDispose(mDsRepository.onKnowledgeQuery(pageId, mLoadedCallback));
 	}
 
 	@Override
 	public void loadDetail(LangLink langLink) {
-		mDsRepository.onKnowledgeQuery(langLink, mLoadedCallback);
+		addToAutoDispose(mDsRepository.onKnowledgeQuery(langLink, mLoadedCallback));
 	}
 
 
 	@Override
 	public void loadDetail(String text) {
-		mDsRepository.onKnowledgeQuery(text, mLoadedCallback);
+		addToAutoDispose(mDsRepository.onKnowledgeQuery(text, mLoadedCallback));
 	}
 }

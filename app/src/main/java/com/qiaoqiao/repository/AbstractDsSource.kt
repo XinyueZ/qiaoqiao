@@ -10,6 +10,9 @@ import com.qiaoqiao.repository.backend.ProductsService
 import com.qiaoqiao.repository.backend.Wikipedia
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
 import com.qiaoqiao.repository.database.LastLaunchImage
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 
 abstract class AbstractDsSource() {
     protected var google: Google? = null
@@ -31,45 +34,53 @@ abstract class AbstractDsSource() {
         this.productsService = productsService
     }
 
-    fun onLoadedLaunchImage(imageData: ByteArray, callback: DsLoadedCallback) {
-        App.realm.executeTransactionAsync({
-            it.delete(LastLaunchImage::class.java)
-            val lastLaunchImage = it.createObject(LastLaunchImage::class.java)
-            lastLaunchImage.byteArray = imageData
-        }, { callback.onSomeThingUnsuccessfully() }, { callback.onSomeThingSuccessfully() })
+    fun onLoadedLaunchImage(imageData: ByteArray, callback: DsLoadedCallback): Disposable {
+        val flowable: Flowable<ByteArray> = Flowable.create({ emitter ->
+            App.realm.executeTransaction {
+                it.delete(LastLaunchImage::class.java)
+                val lastLaunchImage = it.createObject(LastLaunchImage::class.java)
+                lastLaunchImage.byteArray = imageData
+                emitter.onNext(imageData)
+            }
+        }, BackpressureStrategy.BUFFER)
+        return flowable.subscribe({
+            callback.onSomeThingSuccessfully()
+        }, { callback.onSomeThingUnsuccessfully() })
     }
 
-    open fun onBytes(bytes: ByteArray, callback: DsLoadedCallback) {}
-
-    open fun onKnowledgeQuery(pageId: Int, callback: DsLoadedCallback) {
-
+    open fun onBytes(bytes: ByteArray, callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
     }
 
-    open fun onKnowledgeQuery(keyword: String, callback: DsLoadedCallback) {
-
+    open fun onKnowledgeQuery(pageId: Int, callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
     }
 
-    open fun onKnowledgeQuery(langLink: LangLink, callback: DsLoadedCallback) {
-
+    open fun onKnowledgeQuery(keyword: String, callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
     }
 
-    open fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback) {
-
+    open fun onKnowledgeQuery(langLink: LangLink, callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
     }
 
-    open fun onGeosearchQuery(latLng: LatLng, radius: Long, callback: DsLoadedCallback) {
-
+    open fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
     }
 
-    open fun onTranslate(q: String, callback: DsLoadedCallback) {
-
+    open fun onGeosearchQuery(latLng: LatLng, radius: Long, callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
     }
 
-    open fun onRecentRequest(callback: DsLoadedCallback) {
-
+    open fun onTranslate(q: String, callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
     }
 
-    open fun onImage(cxt: Context, callback: DsLoadedCallback) {
+    open fun onRecentRequest(callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
+    }
 
+    open fun onImage(cxt: Context, callback: DsLoadedCallback): Disposable {
+        throw NotImplementedError()
     }
 }

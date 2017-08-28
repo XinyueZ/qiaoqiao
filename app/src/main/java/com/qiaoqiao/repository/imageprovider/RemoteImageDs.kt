@@ -8,12 +8,13 @@ import com.qiaoqiao.repository.AbstractDsSource
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.backend.ImageProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class RemoteImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvider) {
-    override fun onImage(cxt: Context, callback: DsLoadedCallback) {
+    override fun onImage(cxt: Context, callback: DsLoadedCallback): Disposable {
         imageProvider?.let {
-            it.getLaunchImages().subscribeOn(Schedulers.io())
+            return (it.getLaunchImages().subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         if (it.creatives.isNotEmpty()) {
@@ -27,7 +28,9 @@ class RemoteImageDs(imageProvider: ImageProvider) : AbstractDsSource(imageProvid
                     }, {
                         it.printStackTrace()
                         callback.onImageLoad(ByteArray(0))
-                    })
+                    }))
+        } ?: run {
+            throw NotImplementedError()
         }
     }
 }

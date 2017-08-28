@@ -12,24 +12,27 @@ import com.qiaoqiao.repository.backend.ProductsService
 import com.qiaoqiao.repository.backend.Wikipedia
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
 import com.qiaoqiao.rx.Composer
+import io.reactivex.disposables.Disposable
 import java.util.*
 
 class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: Wikipedia, productsService: ProductsService) : AbstractDsSource(google, wikipedia, productsService) {
-    override fun onTranslate(q: String, callback: DsLoadedCallback) {
+    override fun onTranslate(q: String, callback: DsLoadedCallback): Disposable {
         google?.let {
-            it.translateService
+            return (it.translateService
                     .translate(q,
                             Locale.getDefault().language,
                             "text",
                             key.toString())
                     .compose(Composer())
-                    .subscribe({ callback.onTranslateData(it.data) }, { callback.onException(it) })
+                    .subscribe({ callback.onTranslateData(it.data) }, { callback.onException(it) }))
+        } ?: run {
+            throw NotImplementedError()
         }
     }
 
-    override fun onKnowledgeQuery(keyword: String, callback: DsLoadedCallback) {
+    override fun onKnowledgeQuery(keyword: String, callback: DsLoadedCallback): Disposable {
         wikipedia?.let {
-            it.getResult(KnowledgeRequest(Locale.getDefault()
+            return (it.getResult(KnowledgeRequest(Locale.getDefault()
                     .language, keyword))
                     .compose(Composer())
                     .subscribe({
@@ -39,13 +42,15 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
                                 .size > 0) {
                             callback.onKnowledgeResponse(it)
                         }
-                    }, { callback.onException(it) })
+                    }, { callback.onException(it) }))
+        } ?: run {
+            throw NotImplementedError()
         }
     }
 
-    override fun onKnowledgeQuery(langLink: LangLink, callback: DsLoadedCallback) {
+    override fun onKnowledgeQuery(langLink: LangLink, callback: DsLoadedCallback): Disposable {
         wikipedia?.let {
-            it.getResult(KnowledgeRequest(langLink.language, langLink.query))
+            return (it.getResult(KnowledgeRequest(langLink.language, langLink.query))
                     .compose(Composer())
                     .subscribe({
                         if (it.query
@@ -54,43 +59,51 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
                                 .size > 0) {
                             callback.onKnowledgeResponse(it)
                         }
-                    }, { callback.onException(it) })
+                    }, { callback.onException(it) }))
+        } ?: run {
+            throw NotImplementedError()
         }
     }
 
-    override fun onKnowledgeQuery(pageId: Int, callback: DsLoadedCallback) {
+    override fun onKnowledgeQuery(pageId: Int, callback: DsLoadedCallback): Disposable {
         wikipedia?.let {
-            it.getResult(wikiQuery(Locale.getDefault()
+            return (it.getResult(wikiQuery(Locale.getDefault()
                     .language, pageId.toString() + ""))
                     .compose(Composer())
                     .subscribe({
                         if (!it.query.pages.list.isEmpty()) {
                             callback.onKnowledgeResponse(it)
                         }
-                    }, { callback.onException(it) })
+                    }, { callback.onException(it) }))
+        } ?: run {
+            throw NotImplementedError()
         }
     }
 
-    override fun onGeosearchQuery(latLng: LatLng, radius: Long, callback: DsLoadedCallback) {
+    override fun onGeosearchQuery(latLng: LatLng, radius: Long, callback: DsLoadedCallback): Disposable {
         wikipedia?.let {
             val geoLoc = String.format("%s|%s", latLng.latitude.toString(), latLng.longitude.toString())
-            it.getGeosearch(wikiGeosearch(Locale.getDefault()
+            return (it.getGeosearch(wikiGeosearch(Locale.getDefault()
                     .language, radius, geoLoc))
                     .compose(Composer())
                     .subscribe({
                         if (it.query != null) {
                             callback.onGeosearchResponse(it)
                         }
-                    }, { callback.onException(it) })
+                    }, { callback.onException(it) }))
+        } ?: run {
+            throw NotImplementedError()
         }
     }
 
-    override fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback) {
+    override fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback): Disposable {
         productsService?.let {
-            it.getProduct(KnowledgeRequest(Locale.getDefault().language, barcode.rawValue)).compose(Composer())
+            return (it.getProduct(KnowledgeRequest(Locale.getDefault().language, barcode.rawValue)).compose(Composer())
                     .subscribe({
                         callback.onKnowledgeResponse(ProductEntity(it))
-                    }, { callback.onException(it) })
+                    }, { callback.onException(it) }))
+        } ?: run {
+            throw NotImplementedError()
         }
     }
 }

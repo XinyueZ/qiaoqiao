@@ -53,6 +53,11 @@ class CropFragment : Fragment(), CropContract.View,
         showImage()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter?.end(activity)
+    }
+
     override fun setPresenter(presenter: CropContract.Presenter) {
         this.presenter = presenter
     }

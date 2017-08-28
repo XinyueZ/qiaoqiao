@@ -24,6 +24,8 @@ import com.qiaoqiao.repository.DsRepository
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult
 import com.qiaoqiao.rx.Composer
 import io.reactivex.Flowable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -37,10 +39,19 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
     private var apiClient: GoogleApiClient? = null
     private var localClient: FusedLocationProviderClient? = null
     private val localReq: LocationRequest = LocationRequest.create()
+    private val compositeDisposable = CompositeDisposable()
 
     @Inject
     fun onInjected() {
         view.setPresenter(this)
+    }
+
+    private fun addToAutoDispose(vararg disposables: Disposable) {
+        compositeDisposable.addAll(*disposables)
+    }
+
+    private fun autoDispose() {
+        compositeDisposable.clear()
     }
 
     override fun begin(hostActivity: FragmentActivity) {
@@ -49,12 +60,13 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
     }
 
     override fun end(hostActivity: FragmentActivity) {
-        apiClient?.stopAutoManage(hostActivity)
         apiClient?.let {
+            it.stopAutoManage(hostActivity)
             if (it.isConnected)
                 it.disconnect()
         }
         apiClient = null
+        autoDispose()
     }
 
     override fun settingLocating(cxt: Activity) {
@@ -101,7 +113,7 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
 
     @SuppressLint("MissingPermission")
     override fun searchAndSearch(cxt: Context, latLng: LatLng) {
-        dsRepository.onGeosearchQuery(latLng,
+        addToAutoDispose(dsRepository.onGeosearchQuery(latLng,
                 PreferenceManager.getDefaultSharedPreferences(cxt).getInt(PrefsKeys.KEY_GEOSEARCH_RADIUS, PrefsKeys.DEFAULT_GEOSEARCH_RADIUS).toLong(),
                 object : DsLoadedCallback() {
                     override fun onGeosearchResponse(result: GeoResult) {
@@ -122,6 +134,6 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
                                         }.filter { it.bitmap != null }.map { it as ClusterItem }
                         ).compose(Composer()).toList().subscribe(Consumer { view.showAllGeoAndPlaces(it) })
                     }
-                })
+                }))
     }
 }

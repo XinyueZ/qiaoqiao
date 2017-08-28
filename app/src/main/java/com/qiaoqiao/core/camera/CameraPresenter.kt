@@ -9,6 +9,8 @@ import com.qiaoqiao.core.camera.crop.model.CropSource
 import com.qiaoqiao.core.camera.vision.VisionPresenter
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.DsRepository
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.IOException
@@ -17,6 +19,15 @@ import javax.inject.Inject
 class CameraPresenter
 @Inject constructor(private val view: CameraContract.View, private val dsRepository: DsRepository) : CameraContract.Presenter {
     private lateinit var visionPresenter: VisionPresenter
+    private val compositeDisposable = CompositeDisposable()
+
+    private fun addToAutoDispose(vararg disposables: Disposable) {
+        compositeDisposable.addAll(*disposables)
+    }
+
+    private fun autoDispose() {
+        compositeDisposable.clear()
+    }
 
     @Inject
     fun onInjected() {
@@ -41,7 +52,7 @@ class CameraPresenter
 
     override fun findAnnotateImages(bytes: ByteArray) {
         view.updateViewWhenRequest()
-        dsRepository.onBytes(bytes, object : DsLoadedCallback() {
+        addToAutoDispose(dsRepository.onBytes(bytes, object : DsLoadedCallback() {
             override fun onVisionResponse(response: BatchAnnotateImagesResponse?) {
                 super.onVisionResponse(response)
                 if (response != null)
@@ -58,10 +69,12 @@ class CameraPresenter
                 view.showError(e.toString())
                 updateWhenResponse()
             }
-        })
+        }))
     }
 
     override fun begin(hostActivity: FragmentActivity) {}
 
-    override fun end(hostActivity: FragmentActivity) {}
+    override fun end(hostActivity: FragmentActivity) {
+        autoDispose()
+    }
 }

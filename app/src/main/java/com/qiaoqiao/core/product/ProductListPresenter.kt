@@ -7,14 +7,25 @@ import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.core.product.ui.ProductListFragment
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.DsRepository
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class ProductListPresenter @Inject constructor(private var view: ProductContract.ListView,
                                                private var dsRepository: DsRepository) : ProductContract.ListPresenter {
 
+    private val compositeDisposable = CompositeDisposable()
     @Inject
     fun onInjected() {
         view.setPresenter(this)
+    }
+
+    private fun addToAutoDispose(vararg disposables: Disposable) {
+        compositeDisposable.addAll(*disposables)
+    }
+
+    private fun autoDispose() {
+        compositeDisposable.clear()
     }
 
     override fun begin(hostActivity: FragmentActivity) {
@@ -29,14 +40,15 @@ class ProductListPresenter @Inject constructor(private var view: ProductContract
     }
 
     override fun end(hostActivity: FragmentActivity) {
+        autoDispose()
     }
 
     override fun showProductList(barcode: Barcode) {
-        dsRepository.onKnowledgeQuery(barcode, object : DsLoadedCallback() {
+        addToAutoDispose(dsRepository.onKnowledgeQuery(barcode, object : DsLoadedCallback() {
             override fun onKnowledgeResponse(product: ProductEntity) {
                 view.showProductList(product)
             }
-        })
+        }))
     }
 
 }

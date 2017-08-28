@@ -13,6 +13,7 @@ import com.qiaoqiao.repository.backend.ProductsService
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
 import com.qiaoqiao.utils.NetworkUtils
 import com.qiaoqiao.utils.NetworkUtils.*
+import io.reactivex.disposables.Disposable
 
 @RepositoryScope
 class DsRepository(google: Google,
@@ -24,44 +25,44 @@ class DsRepository(google: Google,
                    @RemoteImage val remoteImageDs: AbstractDsSource,
                    @LocalImage val localImageDs: AbstractDsSource) : AbstractDsSource(google, wikipedia, productsService) {
 
-    override fun onGeosearchQuery(@NonNull latLng: LatLng, radius: Long, @NonNull callback: DsLoadedCallback) {
-        knowledgeRemoteDs.onGeosearchQuery(latLng, radius, callback)
+    override fun onGeosearchQuery(@NonNull latLng: LatLng, radius: Long, @NonNull callback: DsLoadedCallback): Disposable {
+        return knowledgeRemoteDs.onGeosearchQuery(latLng, radius, callback)
     }
 
-    override fun onKnowledgeQuery(pageId: Int, @NonNull callback: DsLoadedCallback) {
-        knowledgeRemoteDs.onKnowledgeQuery(pageId, callback)
+    override fun onKnowledgeQuery(pageId: Int, @NonNull callback: DsLoadedCallback): Disposable {
+        return knowledgeRemoteDs.onKnowledgeQuery(pageId, callback)
     }
 
-    override fun onKnowledgeQuery(@NonNull keyword: String, @NonNull callback: DsLoadedCallback) {
-        knowledgeRemoteDs.onKnowledgeQuery(keyword, callback)
+    override fun onKnowledgeQuery(@NonNull keyword: String, @NonNull callback: DsLoadedCallback): Disposable {
+        return knowledgeRemoteDs.onKnowledgeQuery(keyword, callback)
     }
 
-    override fun onKnowledgeQuery(@NonNull langLink: LangLink, @NonNull callback: DsLoadedCallback) {
-        knowledgeRemoteDs.onKnowledgeQuery(langLink, callback)
+    override fun onKnowledgeQuery(@NonNull langLink: LangLink, @NonNull callback: DsLoadedCallback): Disposable {
+        return knowledgeRemoteDs.onKnowledgeQuery(langLink, callback)
     }
 
-    override fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback) {
-        knowledgeRemoteDs.onKnowledgeQuery(barcode, callback)
+    override fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback): Disposable {
+        return knowledgeRemoteDs.onKnowledgeQuery(barcode, callback)
     }
 
-    override fun onBytes(@NonNull bytes: ByteArray, @NonNull callback: DsLoadedCallback) {
-        cameraDs.onBytes(bytes, callback)
+    override fun onBytes(@NonNull bytes: ByteArray, @NonNull callback: DsLoadedCallback): Disposable {
+        return cameraDs.onBytes(bytes, callback)
     }
 
-    override fun onTranslate(@NonNull q: String, @NonNull callback: DsLoadedCallback) {
-        knowledgeRemoteDs.onKnowledgeQuery(q, callback)
+    override fun onTranslate(@NonNull q: String, @NonNull callback: DsLoadedCallback): Disposable {
+        return knowledgeRemoteDs.onKnowledgeQuery(q, callback)
     }
 
-    override fun onRecentRequest(@NonNull callback: DsLoadedCallback) {
-        databaseDs.onRecentRequest(callback)
+    override fun onRecentRequest(@NonNull callback: DsLoadedCallback): Disposable {
+        return databaseDs.onRecentRequest(callback)
     }
 
-    override fun onImage(@NonNull cxt: Context, @NonNull callback: DsLoadedCallback) {
+    override fun onImage(@NonNull cxt: Context, @NonNull callback: DsLoadedCallback): Disposable {
         val goodNetwork = (!NetworkUtils.isOnline(cxt) ||
                 NetworkUtils.getCurrentNetworkType(cxt) == CONNECTION_SLOW ||
                 NetworkUtils.getCurrentNetworkType(cxt) == CONNECTION_ROAMING ||
                 NetworkUtils.getCurrentNetworkType(cxt) == CONNECTION_OFFLINE)
-        when {
+        return when {
             goodNetwork ->
                 localImageDs.onImage(cxt, callback)
             else -> {

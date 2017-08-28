@@ -55,6 +55,11 @@ class SnapshotPlacesFragment : Fragment(), AwarenessContract.View,
         presenter?.settingLocating(activity)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter?.end(activity)
+    }
+
     override fun setPresenter(presenter: AwarenessContract.Presenter) {
         this.presenter = presenter
     }

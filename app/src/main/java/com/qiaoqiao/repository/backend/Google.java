@@ -28,8 +28,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -50,8 +50,8 @@ public final class Google {
 		mKey = key;
 	}
 
-	public void getAnnotateImageResponse(@NonNull AbstractImageBuilder builder, @NonNull Consumer<BatchAnnotateImagesResponse> consumer) {
-		callAnnotateImageResponse(builder, consumer);
+	public Disposable getAnnotateImageResponse(@NonNull AbstractImageBuilder builder, @NonNull Consumer<BatchAnnotateImagesResponse> consumer) {
+		return callAnnotateImageResponse(builder, consumer);
 	}
 
 	public static abstract class AbstractImageBuilder {
@@ -104,8 +104,8 @@ public final class Google {
 	}
 
 
-	private void callAnnotateImageResponse(@NonNull AbstractImageBuilder builder, @NonNull Consumer<BatchAnnotateImagesResponse> consumer) {
-		Observable.just(builder)
+	private Disposable callAnnotateImageResponse(@NonNull AbstractImageBuilder builder, @NonNull Consumer<BatchAnnotateImagesResponse> consumer) {
+		return Flowable.just(builder)
 		          .map(new Function<AbstractImageBuilder, BatchAnnotateImagesResponse>() {
 			          @Override
 			          public BatchAnnotateImagesResponse apply(final @NonNull AbstractImageBuilder imageBuilder) throws Exception {

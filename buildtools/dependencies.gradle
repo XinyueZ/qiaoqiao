@@ -137,13 +137,12 @@ ext {
             //Kotlin
             kotlin                : [group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre7", version: kotlin],
 
-
-
             //Rx
             //Instead this official rxAdapter, more info
             // see https://github.com/JakeWharton/retrofit2-rxjava2-adapter
             // see http://stackoverflow.com/questions/35233161/illegalargumentexception-could-not-locate-call-adapter-for-rx-observable-rxjava
             //compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+            rxjava                : [group: "io.reactivex.rxjava2", name: "rxjava", version: rxandroid],
             rxandroid             : [group: "io.reactivex.rxjava2", name: "rxandroid", version: rxandroid],
             rxAdapter             : [group: "com.jakewharton.retrofit", name: "retrofit2-rxjava2-adapter", version: rxandroidAdapter],
     ]
@@ -252,6 +251,7 @@ ext {
             [configuration: "implementation", dependency: libs.textDrawable],
 
             //Rx
+            [configuration: "implementation", dependency: libs.rxjava],
             [configuration: "implementation", dependency: libs.rxandroid],
             [configuration: "implementation", dependency: libs.rxAdapter],
 

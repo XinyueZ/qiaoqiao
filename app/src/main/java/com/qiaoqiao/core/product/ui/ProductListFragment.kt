@@ -32,6 +32,11 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
         return binding?.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter?.end(activity)
+    }
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val searchedCode: Barcode = arguments.getParcelable(EXTRAS_BARCODE)
