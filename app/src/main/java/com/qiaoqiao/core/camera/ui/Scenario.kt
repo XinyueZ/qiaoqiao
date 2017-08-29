@@ -9,6 +9,7 @@ import android.support.v4.view.ViewCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
 import com.qiaoqiao.R
 import com.qiaoqiao.core.camera.awareness.REQ_SETTING_LOCATING
 import com.qiaoqiao.core.camera.crop.model.CropSource
@@ -31,9 +32,11 @@ internal object Scenario {
             setMenuVisible(menu.findItem(R.id.action_crop_rotate), isCropThere && !isSnapshotPlacesThere)
             //Views
             val show = (!isCropThere && !isSnapshotPlacesThere)
+            val fireVision = FirebaseAuth.getInstance()
+                    .currentUser != null
             animateViews(captureFab, show)
-            animateViews(expandMoreBtn, show)
-            animateViews(expandLessBtn, show)
+            animateViews(expandMoreBtn, show && fireVision)
+            animateViews(expandLessBtn, show && fireVision)
             animateViews(cameraFaceFab, show)
             animateViews(flashFab, show)
             animateViews(cxt.supportFragmentManager.findFragmentById(R.id.stackview_history_fg).view, show)
