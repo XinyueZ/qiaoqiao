@@ -38,7 +38,6 @@ class HistoryStackViewAdapter(val list: MutableList<HistoryItem>, val layoutInfl
             try {
                 GlideApp.with(cxt)
                         .load(historyItem.imageUri)
-                        .centerCrop()
                         .placeholder(R.drawable.ic_default_image)
                         .into(holder.binding.historyItemIv)
             } catch (e: IllegalArgumentException) {

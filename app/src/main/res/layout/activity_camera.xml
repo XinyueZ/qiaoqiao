@@ -154,7 +154,7 @@
                             android:name="com.qiaoqiao.core.camera.history.ui.HistoryStackViewFragment"
                             android:layout_width="@dimen/stackview_item_size"
                             android:layout_height="@dimen/stackview_item_size"
-                            android:layout_gravity="top|start|left"
+                            android:layout_gravity="bottom|end|right"
                             android:layout_marginEnd="@dimen/medium"
                             android:layout_marginLeft="@dimen/medium"
                             android:layout_marginRight="@dimen/medium"
