@@ -18,7 +18,7 @@ internal class WebViewHolder(private val itemVisionWebBinding: WebViewBinding, e
     }
 
     override fun onViewRecycled() {
-        Glide.clear(itemVisionWebBinding.visionIv)
+        Glide.with(itemVisionWebBinding.visionIv).clear(itemVisionWebBinding.visionIv)
     }
 
     override fun getTransitionView(): View {

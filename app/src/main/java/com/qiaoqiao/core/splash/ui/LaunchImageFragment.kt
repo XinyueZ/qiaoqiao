@@ -11,9 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.app.PrefsKeys.COMMON_DELAY_SEC
 import com.qiaoqiao.core.camera.ui.CameraActivity
 import com.qiaoqiao.core.splash.SplashContract
@@ -23,10 +26,9 @@ import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.utils.DeviceUtils
 import com.qiaoqiao.utils.ImageUtils
 import com.qiaoqiao.utils.LL
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
-class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestListener<Uri, Bitmap> {
+class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestListener<Bitmap> {
 
     private var presenter: SplashContract.Presenter? = null
     private lateinit var binding: LaunchImageBinding
@@ -53,33 +55,13 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
         val screenSize = DeviceUtils.getScreenSize(context)
         val imageUri = Uri.parse(uri.toString() + "/" + screenSize.Width + "x" + screenSize.Height)
         LL.d(imageUri.toString())
-        Glide.with(this)
-                .load(imageUri).asBitmap()
+        GlideApp.with(this).asBitmap()
+                .load(imageUri)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(false)
-                .crossFade()
                 .centerCrop()
                 .listener(this)
                 .into(binding.launchImageIv)
-    }
-
-    override fun onResourceReady(resource: Bitmap?, model: Uri?, target: Target<Bitmap>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-        if (resource == null) return false
-        presenter?.saveLoadedLaunchImage(ImageUtils.convertImage2Bytes(resource), object : DsLoadedCallback() {
-            override fun onSomeThingSuccessfully() {
-                goToHome()
-            }
-
-            override fun onSomeThingUnsuccessfully() {
-                goToHome()
-            }
-        })
-        return false
-    }
-
-    override fun onException(e: Exception?, model: Uri?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-        goToHome()
-        return false
     }
 
     override fun showLaunchImage(data: ByteArray) {
@@ -93,7 +75,7 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
 
     override fun onStop() {
         super.onStop()
-        Glide.clear(binding.launchImageIv)
+        Glide.with(binding.launchImageIv).clear(binding.launchImageIv)
     }
 
     override fun setPresenter(presenter: SplashPresenter) {
@@ -103,5 +85,24 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
     private fun goToHome() {
         CameraActivity.showInstance(activity, true)
         activity.finish()
+    }
+
+    override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+        if (resource == null) return false
+        presenter?.saveLoadedLaunchImage(ImageUtils.convertImage2Bytes(resource), object : DsLoadedCallback() {
+            override fun onSomeThingSuccessfully() {
+                goToHome()
+            }
+
+            override fun onSomeThingUnsuccessfully() {
+                goToHome()
+            }
+        })
+        return false
+    }
+
+    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+        goToHome()
+        return false
     }
 }

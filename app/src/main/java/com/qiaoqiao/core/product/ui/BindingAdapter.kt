@@ -8,9 +8,9 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.qiaoqiao.R
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.core.product.model.ProductEntity
 import com.qiaoqiao.views.ImageFragment
 import com.qiaoqiao.views.ViewPagerAdapter
@@ -27,13 +27,12 @@ fun setProductImageList(vp: ViewPager, product: ProductEntity?) {
 @android.databinding.BindingAdapter("bind:imageUri")
 fun setImageViewUrl(imageView: ImageView, imageUri: Uri?) {
     if (imageUri == null) return
-    Glide.with(imageView.context)
+    GlideApp.with(imageView.context)
             .load(imageUri)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .skipMemoryCache(false)
             .placeholder(R.drawable.ic_default_image)
             .error(R.drawable.ic_default_image)
-            .crossFade()
             .into(imageView)
 }
 

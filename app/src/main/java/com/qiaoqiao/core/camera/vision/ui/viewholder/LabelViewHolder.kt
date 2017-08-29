@@ -19,7 +19,7 @@ internal class LabelViewHolder(private val itemVisionLabelBinding: LabelViewBind
     }
 
     override fun onViewRecycled() {
-        Glide.clear(itemVisionLabelBinding.visionIv)
+        Glide.with(itemVisionLabelBinding.visionIv).clear(itemVisionLabelBinding.visionIv)
     }
 
     override fun getTransitionView(): View {

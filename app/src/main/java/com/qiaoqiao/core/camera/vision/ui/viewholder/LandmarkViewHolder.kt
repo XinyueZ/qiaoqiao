@@ -6,6 +6,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.qiaoqiao.R
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.app.Key
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.databinding.LandmarkViewBinding
@@ -20,7 +21,7 @@ internal class LandmarkViewHolder(private val itemVisionLandmarkBinding: Landmar
                 "&zoom=15&size=180x180&markers=color:red%7Clabel:S%7C" + latlng + "&key=" +
                 key.toString() + "&sensor=true&maptype=roadmap"
 
-        Glide.with(cxt)
+        GlideApp.with(cxt)
                 .load(url)
                 .dontAnimate()
                 .centerCrop()
@@ -28,7 +29,6 @@ internal class LandmarkViewHolder(private val itemVisionLandmarkBinding: Landmar
                 .skipMemoryCache(false)
                 .placeholder(R.drawable.ic_default_image)
                 .error(R.drawable.ic_default_image)
-                .crossFade()
                 .into(imageView)
     }
 
@@ -44,7 +44,7 @@ internal class LandmarkViewHolder(private val itemVisionLandmarkBinding: Landmar
     }
 
     override fun onViewRecycled() {
-        Glide.clear(itemVisionLandmarkBinding.visionIv)
+        Glide.with(itemVisionLandmarkBinding.visionIv).clear(itemVisionLandmarkBinding.visionIv)
     }
 
     override fun getTransitionView(): View {

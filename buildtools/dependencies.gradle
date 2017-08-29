@@ -38,7 +38,7 @@ ext {
     vision = "v1-rev360-1.22.0"
 
     //Image, loader, video
-    glide = "3.8.0"
+    glide = "4.0.0"
     cropper = "2.4.7"
     circleImageView = "2.1.0"
 
@@ -93,6 +93,7 @@ ext {
 
             //Image, loader
             glide                 : [group: "com.github.bumptech.glide", name: "glide", version: glide],
+            glideAndroidProcessor : [group: "com.github.bumptech.glide", name: "compiler", version: glide],
             circleImageView       : [group: "de.hdodenhof", name: "circleimageview", version: circleImageView],
 
             //Bus
@@ -189,6 +190,7 @@ ext {
 
             //Image, loader
             [configuration: "implementation", dependency: libs.glide],
+            [configuration: "kapt", dependency: libs.glideAndroidProcessor],
             [configuration: "implementation", dependency: libs.circleImageView],
 
             //Bus

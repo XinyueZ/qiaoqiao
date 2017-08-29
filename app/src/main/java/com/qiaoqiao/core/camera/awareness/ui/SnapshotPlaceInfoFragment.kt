@@ -46,12 +46,10 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
         return dialog
     }
 
-
-
     override fun onStart() {
         super.onStart()
         val placeWrapper = arguments.getSerializable(EXTRAS_PLACE) as PlaceWrapper
-        CustomTabUtils.warmUp(activity,  (placeWrapper.place.websiteUri))
+        CustomTabUtils.warmUp(activity, (placeWrapper.place.websiteUri))
     }
 
     override fun onStop() {
@@ -105,6 +103,8 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Glide.clear(binding?.placeIv)
+        binding?.let {
+            Glide.with(it.placeIv).clear(it.placeIv)
+        }
     }
 }

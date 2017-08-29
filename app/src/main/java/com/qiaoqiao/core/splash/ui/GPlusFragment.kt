@@ -9,9 +9,9 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.qiaoqiao.R
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.app.PrefsKeys
 import com.qiaoqiao.app.PrefsKeys.*
 import com.qiaoqiao.databinding.FragmentGplusBinding
@@ -81,7 +81,7 @@ class GPlusFragment : Fragment(), View.OnClickListener {
                 val thumbnailUrl = prefs.getString(KEY_GOOGLE_PHOTO_URL, null)
                 it.root.setBackgroundResource(R.color.colorPrimary)
                 if (!TextUtils.isEmpty(thumbnailUrl)) {
-                    Glide.with(this)
+                    GlideApp.with(this)
                             .load(thumbnailUrl)
                             .error(AppCompatResources.getDrawable(context, R.drawable.ic_people))
                             .placeholder(AppCompatResources.getDrawable(context, R.drawable.ic_people))

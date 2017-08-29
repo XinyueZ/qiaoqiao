@@ -12,8 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.app.PrefsKeys
 import com.qiaoqiao.core.camera.crop.CropContract
 import com.qiaoqiao.core.camera.crop.model.CropSource
@@ -21,8 +22,6 @@ import com.qiaoqiao.databinding.FragmentCropBinding
 import com.qiaoqiao.utils.LL
 import com.theartofdev.edmodo.cropper.CropImageView
 import org.apache.commons.io.output.ByteArrayOutputStream
-
-
 
 class CropFragment : Fragment(), CropContract.View,
         View.OnClickListener,
@@ -72,12 +71,12 @@ class CropFragment : Fragment(), CropContract.View,
         when (uri.toString().startsWith("http")) {
             true -> {
                 LL.d(uri.toString())
-                Glide.with(this)
-                        .load("https://www.simponi.com/sites/www.simponi.com/files/logo.png").asBitmap()
+                GlideApp.with(this).asBitmap()
+                        .load("https://www.simponi.com/sites/www.simponi.com/files/logo.png")
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .skipMemoryCache(false)
                         .into(object : SimpleTarget<Bitmap>() {
-                            override fun onResourceReady(resource: Bitmap?, glideAnimation: GlideAnimation<in Bitmap>?) {
+                            override fun onResourceReady(resource: Bitmap?, transition: Transition<in Bitmap>?) {
                                 LL.d("onResourceReady")
                                 when (resource) {
                                     null -> return

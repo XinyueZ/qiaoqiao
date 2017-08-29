@@ -1,7 +1,7 @@
 package com.qiaoqiao.core.camera.vision.ui.viewholder
 
 import android.view.View
-import com.bumptech.glide.Glide
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.databinding.LogoViewBinding
 
@@ -18,7 +18,7 @@ internal class LogoViewHolder(private val itemVisionLogoBinding: LogoViewBinding
     }
 
     override fun onViewRecycled() {
-        Glide.clear(itemVisionLogoBinding.visionIv)
+        GlideApp.with(itemVisionLogoBinding.visionIv).clear(itemVisionLogoBinding.visionIv)
     }
 
     override fun getTransitionView(): View {

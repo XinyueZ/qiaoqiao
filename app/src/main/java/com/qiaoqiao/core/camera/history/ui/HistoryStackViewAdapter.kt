@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.bumptech.glide.Glide
 import com.qiaoqiao.R
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.core.camera.history.bus.HistoryItemClickEvent
 import com.qiaoqiao.databinding.ItemStackviewHistoryBinding
 import com.qiaoqiao.repository.database.HistoryItem
@@ -36,11 +36,10 @@ class HistoryStackViewAdapter(val list: MutableList<HistoryItem>, val layoutInfl
             holder.binding.historyItemIv.setImageResource(R.drawable.ic_default_image)
         } else {
             try {
-                Glide.with(cxt)
+                GlideApp.with(cxt)
                         .load(historyItem.imageUri)
                         .centerCrop()
                         .placeholder(R.drawable.ic_default_image)
-                        .crossFade()
                         .into(holder.binding.historyItemIv)
             } catch (e: IllegalArgumentException) {
             }

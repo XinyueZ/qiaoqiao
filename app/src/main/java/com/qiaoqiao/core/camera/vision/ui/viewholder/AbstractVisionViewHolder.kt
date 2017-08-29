@@ -6,9 +6,9 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.qiaoqiao.R
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.core.camera.vision.bus.VisionEntityClickEvent
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import de.greenrobot.event.EventBus
@@ -24,15 +24,14 @@ internal abstract class AbstractVisionViewHolder(rootView: View, protected val e
                         .language,
                 entity.description
                         .descriptionText)
-        Glide.with(cxt)
+        GlideApp.with(cxt)
                 .load(imageUrl)
-                .dontAnimate()
                 .centerCrop()
+                .dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(false)
                 .placeholder(R.drawable.ic_default_image)
                 .error(R.drawable.ic_default_image)
-                .crossFade()
                 .into(imageView)
     }
 

@@ -3,6 +3,7 @@ package com.qiaoqiao.core.detail.ui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,12 +28,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.qiaoqiao.R;
+import com.qiaoqiao.app.GlideApp;
 import com.qiaoqiao.core.detail.DetailContract;
 import com.qiaoqiao.core.detail.DetailPresenter;
 import com.qiaoqiao.databinding.FragmentDetailBinding;
@@ -197,13 +199,13 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	}
 
 
-	private void detailImageLoaded(GlideBitmapDrawable resource) {
+	private void detailImageLoaded(Bitmap resource) {
 		setRefreshing(false);
 		createPalette(resource);
 	}
 
-	private void createPalette(GlideBitmapDrawable resource) {
-		Palette.Builder b = new Palette.Builder(resource.getBitmap());
+	private void createPalette(Bitmap resource) {
+		Palette.Builder b = new Palette.Builder(resource);
 		b.maximumColorCount(1);
 		b.generate(DetailFragment.this);
 	}
@@ -227,28 +229,28 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 
 	private void loadDetailPreview(@NonNull ImageView imageView) {
 		if (mContextWeakReference.get() != null && mPreviewImage != null && mPreviewImage.getSource() != null && !getActivity().isFinishing()) {
-			Glide.with(mContextWeakReference.get())
-			     .load(mPreviewImage.getSource())
-			     .crossFade()
-			     .centerCrop()
-			     .diskCacheStrategy(DiskCacheStrategy.ALL)
-			     .skipMemoryCache(false)
-			     .placeholder(R.drawable.ic_default_image)
-			     .error(R.drawable.ic_default_image)
-			     .listener(new RequestListener<String, GlideDrawable>() {
-				     @Override
-				     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-					     previewLoaded(imageView);
-					     return false;
-				     }
+			GlideApp.with(mContextWeakReference.get())
+			        .asBitmap()
+			        .load(mPreviewImage.getSource())
+			        .centerCrop()
+			        .diskCacheStrategy(DiskCacheStrategy.ALL)
+			        .skipMemoryCache(false)
+			        .placeholder(R.drawable.ic_default_image)
+			        .error(R.drawable.ic_default_image)
+			        .listener(new RequestListener<Bitmap>() {
+				        @Override
+				        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+					        previewLoadedFail();
+					        return true;
+				        }
 
-				     @Override
-				     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-					     previewLoadedFail();
-					     return true;
-				     }
-			     })
-			     .into(imageView);
+				        @Override
+				        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+					        previewLoaded(imageView);
+					        return false;
+				        }
+			        })
+			        .into(imageView);
 		}
 	}
 
@@ -257,28 +259,28 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 			return;
 		}
 		setRefreshing(true);
-		Glide.with(mContextWeakReference.get())
-		     .load(mPhoto.getSource())
-		     .crossFade()
-		     .centerCrop()
-		     .diskCacheStrategy(DiskCacheStrategy.ALL)
-		     .error(R.drawable.ic_default_image)
-		     .placeholder(R.drawable.ic_default_image)
-		     .skipMemoryCache(false)
-		     .listener(new RequestListener<String, GlideDrawable>() {
-			     @Override
-			     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-				     detailImageLoaded((GlideBitmapDrawable) resource);
-				     return false;
-			     }
+		GlideApp.with(mContextWeakReference.get())
+		        .asBitmap()
+		        .load(mPhoto.getSource())
+		        .centerCrop()
+		        .diskCacheStrategy(DiskCacheStrategy.ALL)
+		        .error(R.drawable.ic_default_image)
+		        .placeholder(R.drawable.ic_default_image)
+		        .skipMemoryCache(false)
+		        .listener(new RequestListener<Bitmap>() {
+			        @Override
+			        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+				        loadDetailPreview(mBinding.detailIv);
+				        return true;
+			        }
 
-			     @Override
-			     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-				     loadDetailPreview(mBinding.detailIv);
-				     return true;
-			     }
-		     })
-		     .into(mBinding.detailIv);
+			        @Override
+			        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+				        detailImageLoaded(resource);
+				        return false;
+			        }
+		        })
+		        .into(mBinding.detailIv);
 	}
 
 
@@ -336,7 +338,9 @@ public final class DetailFragment extends Fragment implements DetailContract.Vie
 	@Override
 	public void onStop() {
 		super.onStop();
-		Glide.clear(mBinding.detailIv);
-		Glide.clear(mBinding.previewIv);
+		Glide.with(mBinding.detailIv)
+		     .clear(mBinding.detailIv);
+		Glide.with(mBinding.previewIv)
+		     .clear(mBinding.previewIv);
 	}
 }

@@ -14,7 +14,6 @@ import android.support.v7.content.res.AppCompatResources
 import android.support.v7.preference.PreferenceManager
 import android.view.View
 import android.view.animation.AnimationUtils
-import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -28,6 +27,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.qiaoqiao.R
+import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.app.PrefsKeys.*
 import com.qiaoqiao.databinding.ActivityConnectGoogleBinding
 import com.qiaoqiao.utils.DeviceUtils
@@ -110,7 +110,7 @@ class ConnectGoogleActivity : AppCompatActivity(), View.OnClickListener,
                         edit.putString(KEY_GOOGLE_ID, acct.id)
                         edit.putString(KEY_GOOGLE_DISPLAY_NAME, acct.displayName)
                         if (acct.photoUrl != null) {
-                            Glide.with(applicationContext)
+                            GlideApp.with(applicationContext)
                                     .load(acct.photoUrl)
                                     .error(AppCompatResources.getDrawable(applicationContext, R.drawable.ic_people))
                                     .placeholder(AppCompatResources.getDrawable(applicationContext, R.drawable.ic_people))
