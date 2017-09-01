@@ -51,7 +51,7 @@ public final class SettingContentFragment extends AbstractSettingFragment implem
 				if (TextUtils.equals(HEADER_PREFERENCE_TITLE_DATASTORE_CLEAR_CACHE, value)) {
 					CacheClearPreferenceDialog cacheClearPreferenceDialog = CacheClearPreferenceDialog.newInstance(getContext());
 					cacheClearPreferenceDialog.setTargetFragment(this, 0);
-					cacheClearPreferenceDialog.show(getChildFragmentManager(), null);
+					cacheClearPreferenceDialog.show(getFragmentManager(), null);
 					return;
 				}
 			}

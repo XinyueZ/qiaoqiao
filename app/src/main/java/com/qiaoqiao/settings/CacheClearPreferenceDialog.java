@@ -26,8 +26,7 @@ public class CacheClearPreferenceDialog extends PreferenceDialogFragmentCompat {
 		if (b) {
 			App.Companion.getRealm().executeTransaction(realm -> {
 				realm.deleteAll();
-				Toast.makeText(getContext(), R.string.preference_feedback_cleared_cache, Toast.LENGTH_LONG)
-				     .show();
+				Toast.makeText(getContext(), R.string.preference_feedback_cleared_cache, Toast.LENGTH_LONG).show();
 			});
 		}
 	}
