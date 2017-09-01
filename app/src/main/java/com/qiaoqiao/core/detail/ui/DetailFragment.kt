@@ -28,8 +28,6 @@ import com.qiaoqiao.R
 import com.qiaoqiao.app.GlideApp
 import com.qiaoqiao.core.detail.DetailContract
 import com.qiaoqiao.core.detail.DetailPresenter
-import com.qiaoqiao.core.detail.ui.DetailActivity.EXTRAS_KEYWORD
-import com.qiaoqiao.core.detail.ui.DetailActivity.EXTRAS_PAGE_ID
 import com.qiaoqiao.databinding.FragmentDetailBinding
 import com.qiaoqiao.repository.backend.model.wikipedia.Image
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink

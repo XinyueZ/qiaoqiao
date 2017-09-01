@@ -102,7 +102,7 @@ public final class CameraActivity extends AppCompatActivity implements CameraCon
 	public void onEvent(com.qiaoqiao.core.camera.awareness.bus.OpenClusterItemEvent e) {
 		ClusterItem clusterItem = e.getClusterItem();
 		if (clusterItem instanceof Geosearch) {
-			DetailActivity.showInstance(this, ((Geosearch) clusterItem).getPageId());
+			DetailActivity.Companion.showInstance(this, ((Geosearch) clusterItem).getPageId());
 			return;
 		}
 		if (clusterItem instanceof PlaceWrapper) {
