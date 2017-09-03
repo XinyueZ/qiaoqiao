@@ -10,12 +10,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.qiaoqiao.app.GlideApp
-import com.qiaoqiao.app.PrefsKeys
+import com.qiaoqiao.app.VIB_LNG
 import com.qiaoqiao.core.camera.crop.CropContract
 import com.qiaoqiao.core.camera.crop.model.CropSource
 import com.qiaoqiao.databinding.FragmentCropBinding
@@ -92,7 +91,7 @@ class CropFragment : Fragment(), CropContract.View,
     override fun onClick(view: View) {
         when (view.id) {
             else -> {
-                vibrator.vibrate(PrefsKeys.VIB_LNG)
+                vibrator.vibrate( VIB_LNG)
                 val drawable = binding?.cropFbPb?.drawable
                 binding?.let {
                     if (drawable is Animatable) {

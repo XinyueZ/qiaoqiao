@@ -15,7 +15,7 @@ import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.firebase.auth.FirebaseAuth
 import com.qiaoqiao.R
-import com.qiaoqiao.app.PrefsKeys
+import com.qiaoqiao.app.VIB_LNG
 import com.qiaoqiao.core.camera.barcode.BarcodeGraphic
 import com.qiaoqiao.core.camera.barcode.BarcodeTrackerFactory
 import com.qiaoqiao.core.camera.barcode.CameraSource
@@ -73,12 +73,12 @@ internal object CameraSetup {
                 if (FirebaseAuth.getInstance().currentUser == null)
                     ConnectGoogleActivity.showInstance(cxt, false)
                 else
-                    cameraSource.takePicture({ vibrator.vibrate(PrefsKeys.VIB_LNG) }, {
+                    cameraSource.takePicture({ vibrator.vibrate( VIB_LNG) }, {
                         mCameraPresenter.capturedByteArray(this, it)
                     })
             }
             mBinding.flashFab.setOnClickListener {
-                vibrator.vibrate(PrefsKeys.VIB_LNG)
+                vibrator.vibrate( VIB_LNG)
                 mBinding.cameraSource?.let {
                     val mode = if (TextUtils.equals(it.flashMode, Camera.Parameters.FLASH_MODE_TORCH))
                         Camera.Parameters.FLASH_MODE_OFF else Camera.Parameters.FLASH_MODE_TORCH
@@ -89,7 +89,7 @@ internal object CameraSetup {
             }
 
             mBinding.cameraFaceFab.setOnClickListener {
-                vibrator.vibrate(PrefsKeys.VIB_LNG)
+                vibrator.vibrate( VIB_LNG)
                 mBinding.cameraSource?.let {
                     CameraActivity.showInstance(cxt, it.cameraFacing == CameraSource.CAMERA_FACING_FRONT)
                     it.stop()

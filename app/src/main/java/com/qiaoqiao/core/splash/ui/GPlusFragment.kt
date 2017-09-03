@@ -11,9 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.qiaoqiao.R
-import com.qiaoqiao.app.GlideApp
-import com.qiaoqiao.app.PrefsKeys
-import com.qiaoqiao.app.PrefsKeys.*
+import com.qiaoqiao.app.*
 import com.qiaoqiao.databinding.FragmentGplusBinding
 import com.qiaoqiao.utils.DeviceUtils
 
@@ -77,7 +75,7 @@ class GPlusFragment : Fragment(), View.OnClickListener {
             } else {
                 val prefs = PreferenceManager.getDefaultSharedPreferences(context)
                 it.btn.setText(R.string.logout_google)
-                val name = prefs.getString(PrefsKeys.KEY_GOOGLE_DISPLAY_NAME, null)
+                val name = prefs.getString(KEY_GOOGLE_DISPLAY_NAME, null)
                 val thumbnailUrl = prefs.getString(KEY_GOOGLE_PHOTO_URL, null)
                 it.root.setBackgroundResource(R.color.colorPrimary)
                 if (!TextUtils.isEmpty(thumbnailUrl)) {

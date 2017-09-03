@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.google.android.gms.common.images.Size;
-import com.qiaoqiao.core.camera.barcode.CameraSource;
 
 import java.io.IOException;
 

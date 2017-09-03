@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.qiaoqiao.R
 import com.qiaoqiao.app.App
-import com.qiaoqiao.app.PrefsKeys.COMMON_DELAY_SEC
+import com.qiaoqiao.app.COMMON_DELAY_SEC
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter
 import com.qiaoqiao.databinding.SplashBinding

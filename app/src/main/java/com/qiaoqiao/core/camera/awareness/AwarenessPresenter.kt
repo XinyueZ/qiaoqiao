@@ -16,7 +16,8 @@ import com.google.android.gms.location.*
 import com.google.android.gms.location.places.Places
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
-import com.qiaoqiao.app.PrefsKeys
+import com.qiaoqiao.app.DEFAULT_GEOSEARCH_RADIUS
+import com.qiaoqiao.app.KEY_GEOSEARCH_RADIUS
 import com.qiaoqiao.core.camera.awareness.map.PlaceWrapper
 import com.qiaoqiao.core.camera.awareness.ui.Adjust
 import com.qiaoqiao.repository.DsLoadedCallback
@@ -107,14 +108,14 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
 
     override fun loadGeosearchAdjust(cxt: Context) {
         view.showAdjust(Adjust.Factory.createAdjust(cxt,
-                PrefsKeys.KEY_GEOSEARCH_RADIUS,
-                PreferenceManager.getDefaultSharedPreferences(cxt).getInt(PrefsKeys.KEY_GEOSEARCH_RADIUS, PrefsKeys.DEFAULT_GEOSEARCH_RADIUS)))
+                KEY_GEOSEARCH_RADIUS,
+                PreferenceManager.getDefaultSharedPreferences(cxt).getInt( KEY_GEOSEARCH_RADIUS,  DEFAULT_GEOSEARCH_RADIUS)))
     }
 
     @SuppressLint("MissingPermission")
     override fun searchAndSearch(cxt: Context, latLng: LatLng) {
         addToAutoDispose(dsRepository.onGeosearchQuery(latLng,
-                PreferenceManager.getDefaultSharedPreferences(cxt).getInt(PrefsKeys.KEY_GEOSEARCH_RADIUS, PrefsKeys.DEFAULT_GEOSEARCH_RADIUS).toLong(),
+                PreferenceManager.getDefaultSharedPreferences(cxt).getInt( KEY_GEOSEARCH_RADIUS,  DEFAULT_GEOSEARCH_RADIUS).toLong(),
                 object : DsLoadedCallback() {
                     override fun onGeosearchResponse(result: GeoResult) {
                         super.onGeosearchResponse(result)

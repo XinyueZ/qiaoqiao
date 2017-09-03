@@ -28,7 +28,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.qiaoqiao.R
 import com.qiaoqiao.app.GlideApp
-import com.qiaoqiao.app.PrefsKeys.*
+import com.qiaoqiao.app.KEY_GOOGLE_DISPLAY_NAME
+import com.qiaoqiao.app.KEY_GOOGLE_ID
+import com.qiaoqiao.app.KEY_GOOGLE_PHOTO_URL
 import com.qiaoqiao.databinding.ActivityConnectGoogleBinding
 import com.qiaoqiao.utils.DeviceUtils
 import com.qiaoqiao.utils.LL

@@ -9,12 +9,12 @@ import com.qiaoqiao.core.confidence.ui.Confidence;
 
 import javax.inject.Inject;
 
-import static com.qiaoqiao.app.PrefsKeys.DEFAULT_CONFIDENCE_IMAGE;
-import static com.qiaoqiao.app.PrefsKeys.DEFAULT_CONFIDENCE_LABEL;
-import static com.qiaoqiao.app.PrefsKeys.DEFAULT_CONFIDENCE_LOGO;
-import static com.qiaoqiao.app.PrefsKeys.KEY_CONFIDENCE_IMAGE;
-import static com.qiaoqiao.app.PrefsKeys.KEY_CONFIDENCE_LABEL;
-import static com.qiaoqiao.app.PrefsKeys.KEY_CONFIDENCE_LOGO;
+import static com.qiaoqiao.app.ConstsKt.DEFAULT_CONFIDENCE_IMAGE;
+import static com.qiaoqiao.app.ConstsKt.DEFAULT_CONFIDENCE_LABEL;
+import static com.qiaoqiao.app.ConstsKt.DEFAULT_CONFIDENCE_LOGO;
+import static com.qiaoqiao.app.ConstsKt.KEY_CONFIDENCE_IMAGE;
+import static com.qiaoqiao.app.ConstsKt.KEY_CONFIDENCE_LABEL;
+import static com.qiaoqiao.app.ConstsKt.KEY_CONFIDENCE_LOGO;
 
 public final class ConfidencePresenter implements ConfidenceContract.Presenter {
 	private @NonNull ConfidenceContract.View mView;

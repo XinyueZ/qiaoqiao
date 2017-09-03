@@ -1,6 +1,5 @@
 package de.immowelt.mobile.livestream.core.utils.customtab
 
-import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 
 /**

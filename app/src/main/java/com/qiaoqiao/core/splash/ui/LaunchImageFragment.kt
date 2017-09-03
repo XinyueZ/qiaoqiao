@@ -16,8 +16,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.qiaoqiao.app.COMMON_DELAY_SEC
 import com.qiaoqiao.app.GlideApp
-import com.qiaoqiao.app.PrefsKeys.COMMON_DELAY_SEC
 import com.qiaoqiao.core.camera.ui.CameraActivity
 import com.qiaoqiao.core.splash.SplashContract
 import com.qiaoqiao.core.splash.SplashPresenter

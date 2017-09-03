@@ -3,7 +3,7 @@ package com.qiaoqiao.core.camera.vision
 import android.content.Context
 import android.text.TextUtils
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse
-import com.qiaoqiao.app.PrefsKeys.*
+import com.qiaoqiao.app.*
 import com.qiaoqiao.core.camera.CameraPresenter
 import com.qiaoqiao.core.camera.vision.bus.VisionEntityClickEvent
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
