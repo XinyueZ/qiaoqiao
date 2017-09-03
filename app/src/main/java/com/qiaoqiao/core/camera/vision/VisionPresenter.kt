@@ -40,7 +40,7 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
         view.clear()
     }
 
-    override fun addResponseToScreen(response: BatchAnnotateImagesResponse, show: Boolean) {
+    override fun collectVisions(response: BatchAnnotateImagesResponse, show: Boolean) {
         if (contextReference.get() == null || response.responses == null || response.responses.isEmpty() || response.responses[0] == null) {
             view.addEntities(arrayListOf<VisionEntity>())
         } else {

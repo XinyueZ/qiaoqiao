@@ -56,7 +56,7 @@ class CameraPresenter
             override fun onVisionResponse(response: BatchAnnotateImagesResponse?) {
                 super.onVisionResponse(response)
                 if (response != null)
-                    visionPresenter.addResponseToScreen(response, true)
+                    visionPresenter.collectVisions(response, true)
             }
 
             override fun onVisionApiError(status: Status) {

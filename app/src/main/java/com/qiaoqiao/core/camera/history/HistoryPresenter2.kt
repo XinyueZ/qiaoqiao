@@ -21,7 +21,7 @@ class HistoryPresenter2 @Inject constructor(private val view: HistoryContract.Vi
 
     @Subscribe
     fun onEvent(e: HistoryItemClickEvent) {
-        visionPresenter?.addResponseToScreen(GsonFactory.getDefaultInstance()
+        visionPresenter?.collectVisions(GsonFactory.getDefaultInstance()
                 .createJsonParser(e.historyItem?.jsonText)
                 .parse(BatchAnnotateImagesResponse::class.java), true)
     }
