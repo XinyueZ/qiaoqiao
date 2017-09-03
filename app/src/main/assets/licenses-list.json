@@ -109,6 +109,11 @@
         {
           "name": "TextDrawable",
           "owner": "github.com/amulyakhare/TextDrawable"
+        },
+        {
+          "name": "sweet-alert-dialog",
+          "owner": "Pedant(http://pedant.cn)",
+          "copyright": "2014"
         }
       ]
     },
