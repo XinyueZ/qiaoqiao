@@ -76,19 +76,29 @@ internal object Scenario {
         with(cxt) {
             binding?.let {
                 when (requestCode) {
-                    REQ_WEB_LINK -> if (data != null && data.data != null) {
-                        openCrop(CropSource(data.data))
-                        return true
+                    REQ_WEB_LINK -> when {
+                        data != null && data.data != null -> {
+                            openCrop(CropSource(data.data))
+                            return true
+                        }
                     }
-                    REQ_FILE_SELECTOR -> if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-                        openCrop(CropSource(data.data))
-                        return true
+                    REQ_FILE_SELECTOR -> when {
+                        resultCode == Activity.RESULT_OK && data != null && data.data != null -> {
+                            openCrop(CropSource(data.data))
+                            return true
+                        }
                     }
-                    REQ_INVITE -> if (resultCode != Activity.RESULT_OK) {
-                        snackbar = Snackbar.make(it.root, R.string.invitation_send_failed, Snackbar.LENGTH_LONG)
-                                .setAction(android.R.string.cancel, this)
-                        snackbar?.show()
-                        return true
+                    REQ_INVITE -> {
+                        when {
+                            resultCode != Activity.RESULT_OK -> {
+                                snackbar = Snackbar.make(it.root, R.string.invitation_send_failed, Snackbar.LENGTH_LONG)
+                                        .setAction(android.R.string.cancel, this)
+                                snackbar?.show()
+                                return true
+                            }
+                            else -> {
+                            }
+                        }
                     }
                     REQ_SETTING_LOCATING -> {
                         mAwarenessPresenter.locating(this)

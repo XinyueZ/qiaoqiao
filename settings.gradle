@@ -1,1 +1,4 @@
-include ':app'
+include ':app' , ':sweet-alert-dialog'
+
+
+project(':sweet-alert-dialog').projectDir = new File('submodules/sweet-alert-dialog/library')

@@ -50,4 +50,7 @@
     <string name="logout_google">Abmelden</string>
     <string name="connect_successfully">Willkommen %s!</string>
     <string name="connect_ignore">Spät</string>
+
+    <string name="vision_successfully_title">Kriegst hin</string>
+    <string name="vision_successfully_content">%s</string>
 </resources>

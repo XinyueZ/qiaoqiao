@@ -20,6 +20,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.android.gms.maps.MapsInitializer
 import com.qiaoqiao.R
 import com.qiaoqiao.app.App
@@ -265,7 +266,7 @@ class CameraActivity : AppCompatActivity(), CameraContract.View, View.OnClickLis
         mCameraPresenter = presenter
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (Scenario.onActivityResult(this, requestCode, resultCode, data)) {
             return
         }
@@ -324,8 +325,14 @@ class CameraActivity : AppCompatActivity(), CameraContract.View, View.OnClickLis
             it.barTitleLoadingPb.stopShimmerAnimation()
             showVisionOnly()
             closeCropView()
-            when {  it.viewpager.currentItem != 0 -> it.viewpager.currentItem = 0
+            when {
+                it.viewpager.currentItem != 0 -> it.viewpager.currentItem = 0
             }
+
+            SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText(getString(R.string.vision_successfully_title))
+                    .setContentText(getString(R.string.vision_successfully_content, "this is a dog"))
+                    .show()
         }
     }
 
@@ -381,12 +388,8 @@ class CameraActivity : AppCompatActivity(), CameraContract.View, View.OnClickLis
         return true
     }
 
-    //--Begin permission--
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-
-    //--End permission--
 }
