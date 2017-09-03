@@ -11,11 +11,16 @@ import com.qiaoqiao.settings.RC_READ_EXTERNAL_STORAGE_PERMISSIONS
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import java.lang.ref.Reference
 import java.lang.ref.WeakReference
 
-internal class PermissionHelper(cxt: CameraActivity) : EasyPermissions.PermissionCallbacks {
+internal object PermissionHelper : EasyPermissions.PermissionCallbacks {
 
-    private val activity: WeakReference<CameraActivity> = WeakReference(cxt)
+    private lateinit var activity: Reference<CameraActivity>
+
+    fun setCameraActivity(cameraActivity: CameraActivity) {
+        activity = WeakReference(cameraActivity)
+    }
 
     @AfterPermissionGranted(RC_CAMERA_PERMISSIONS)
     fun requireCameraPermission() {
@@ -44,7 +49,7 @@ internal class PermissionHelper(cxt: CameraActivity) : EasyPermissions.Permissio
     fun requireFineLocationPermission() {
         if (activity.get() == null) return
         val act = activity.get() as CameraActivity
-        var frg = act.mSnapshotPlacesFragment as Fragment
+        val frg = act.mSnapshotPlacesFragment as Fragment
         if (EasyPermissions.hasPermissions(act, ACCESS_FINE_LOCATION)) {
             act.supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
