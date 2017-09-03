@@ -8,6 +8,10 @@
     <data>
 
         <variable
+            name="actionBarToggle"
+            type="android.support.v7.app.ActionBarDrawerToggle"/>
+
+        <variable
             name="clickHandler"
             type="android.view.View.OnClickListener"/>
 
@@ -98,7 +102,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|center_horizontal"
                                 android:layout_margin="@dimen/larger"
-                                android:gravity="center" >
+                                android:gravity="center">
 
                                 <android.support.design.widget.FloatingActionButton
                                     android:id="@+id/flash_fab"

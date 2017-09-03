@@ -19,6 +19,7 @@ package com.qiaoqiao.core.camera;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
@@ -34,9 +35,9 @@ public interface CameraContract {
 
 	interface View extends BaseView<CameraPresenter, ActivityCameraBinding> {
 
-		void showLoadFromLocal(@NonNull android.view.View v);
+		void showLoadFromLocal(@Nullable android.view.View v);
 
-		void showInputFromWeb(@NonNull android.view.View v);
+		void showInputFromWeb(@Nullable android.view.View v);
 
 		void showError(@NonNull String errorMessage);
 

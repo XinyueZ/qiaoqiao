@@ -5,15 +5,17 @@ import android.support.v4.view.GravityCompat
 internal object BackPressHandler {
     fun onBackPressed(cxt: CameraActivity): Boolean {
         with(cxt) {
-            if (mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                mBinding.drawerLayout.closeDrawer(GravityCompat.START)
-                return true
-            }
+            binding?.let {
+                if (it.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    it.drawerLayout.closeDrawer(GravityCompat.START)
+                    return true
+                }
 
-            if (mOnBottom) {
-                mBinding.viewpager.setCurrentItem(0, true)
-                showCameraOnly()
-                return true
+                if (alreadyOnBottom) {
+                    it.viewpager.setCurrentItem(0, true)
+                    showCameraOnly()
+                    return true
+                }
             }
         }
         return false

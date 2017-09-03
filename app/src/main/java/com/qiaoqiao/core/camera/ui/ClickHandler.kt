@@ -9,7 +9,7 @@ internal object ClickHandler {
             when (v.id) {
                 R.id.expand_less_btn -> showCameraOnly()
                 R.id.expand_more_btn -> showVisionOnly()
-                else -> mSnackbar?.dismiss()
+                else -> snackbar?.dismiss()
 
             }
         }
