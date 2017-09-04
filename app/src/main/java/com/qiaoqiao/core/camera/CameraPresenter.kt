@@ -7,6 +7,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse
 import com.google.api.services.vision.v1.model.Status
 import com.qiaoqiao.core.camera.crop.model.CropSource
 import com.qiaoqiao.core.camera.vision.VisionPresenter
+import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.DsRepository
 import io.reactivex.disposables.CompositeDisposable
@@ -39,8 +40,8 @@ class CameraPresenter
         visionPresenter.cameraPresenter = this
     }
 
-    override fun updateWhenResponse() {
-        view.updateViewWhenResponse()
+    override fun updateWhenResponse(visionEntity: VisionEntity) {
+        view.updateViewWhenResponse(visionEntity)
     }
 
     @Throws(IOException::class)
@@ -61,13 +62,13 @@ class CameraPresenter
 
             override fun onVisionApiError(status: Status) {
                 super.onVisionApiError(status)
-                updateWhenResponse()
+//                updateWhenResponse()
             }
 
             override fun onException(e: Throwable) {
                 super.onException(e)
                 view.showError(e.toString())
-                updateWhenResponse()
+//                updateWhenResponse()
             }
         }))
     }

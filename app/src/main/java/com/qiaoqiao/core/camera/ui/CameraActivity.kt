@@ -39,6 +39,7 @@ import com.qiaoqiao.core.camera.history.HistoryContract
 import com.qiaoqiao.core.camera.history.HistoryPresenter2
 import com.qiaoqiao.core.camera.vision.VisionContract
 import com.qiaoqiao.core.camera.vision.VisionPresenter
+import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.core.confidence.ConfidenceContract
 import com.qiaoqiao.core.confidence.ConfidencePresenter
 import com.qiaoqiao.core.detail.ui.DetailActivity
@@ -320,18 +321,17 @@ class CameraActivity : AppCompatActivity(), CameraContract.View, View.OnClickLis
         return binding!!
     }
 
-    override fun updateViewWhenResponse() {
+    override fun updateViewWhenResponse(visionEntity: VisionEntity) {
         binding?.let {
             it.barTitleLoadingPb.stopShimmerAnimation()
-            showVisionOnly()
             closeCropView()
             when {
                 it.viewpager.currentItem != 0 -> it.viewpager.currentItem = 0
             }
 
             SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(getString(R.string.vision_successfully_title))
-                    .setContentText(getString(R.string.vision_successfully_content, "this is a dog"))
+                    .setContentText(getString(R.string.vision_successfully_title))
+                    .setTitleText(getString(R.string.vision_successfully_content, visionEntity.description))
                     .show()
         }
     }

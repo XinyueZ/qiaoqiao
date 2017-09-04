@@ -49,22 +49,25 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
                         !TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context,
                                 KEY_CONFIDENCE_LABEL,
                                 DEFAULT_CONFIDENCE_LABEL)
-                    }).map({ VisionEntity(it, "LABEL_DETECTION").setActivated(true) }),
+                    }).map({ VisionEntity(it, "LABEL_DETECTION", it.score).setActivated(true) }),
                     Flowable.fromIterable(safeList(response.responses[0].landmarkAnnotations)).filter({
                         !TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context,
                                 KEY_CONFIDENCE_IMAGE,
                                 DEFAULT_CONFIDENCE_IMAGE)
-                    }).map({ VisionEntity(it, "LANDMARK_DETECTION").setActivated(true) }),
+                    }).map({ VisionEntity(it, "LANDMARK_DETECTION", it.score).setActivated(true) }),
                     Flowable.fromIterable(safeList(response.responses[0].logoAnnotations)).filter({
                         !TextUtils.isEmpty(it.description) && it.score > Confidence.getValueOnly(contextReference.get() as Context, KEY_CONFIDENCE_LOGO,
                                 DEFAULT_CONFIDENCE_LOGO)
-                    }).map({ VisionEntity(it, "LOGO_DETECTION").setActivated(true) }),
+                    }).map({ VisionEntity(it, "LOGO_DETECTION", it.score).setActivated(true) }),
                     Flowable.fromIterable(safeList(response.responses[0].webDetection.webEntities)).filter({
                         !TextUtils.isEmpty(it.description) && it.score > Confidence.createFromPrefs(contextReference.get() as Context, KEY_CONFIDENCE_IMAGE, DEFAULT_CONFIDENCE_IMAGE)
                                 .value
-                    }).map({ VisionEntity(it, "WEB_DETECTION").setActivated(true) })
-            ).compose(Composer()).toList().subscribe({ it -> view.addEntities(it)
-                if(show) cameraPresenter?.updateWhenResponse() })
+                    }).map({ VisionEntity(it, "WEB_DETECTION", it.score).setActivated(true) })
+            ).compose(Composer()).toList().subscribe { it ->
+                view.addEntities(it)
+                val entity = it.maxWith(Comparator<VisionEntity> { x, y -> (y.score - x.score).toInt() })
+                if (show) cameraPresenter?.updateWhenResponse(entity!!)
+            }
         }
     }
 }

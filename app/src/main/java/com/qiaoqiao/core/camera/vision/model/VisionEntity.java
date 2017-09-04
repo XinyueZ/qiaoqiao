@@ -9,11 +9,12 @@ public final class VisionEntity {
 	private final @NonNull GenericJson mVision;
 	private final @NonNull String mReadableName;
 	private boolean mActivated;
+	private float mScore;
 
-
-	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName) {
+	public VisionEntity(@NonNull GenericJson vision, @NonNull String readableName, float score) {
 		mVision = vision;
 		mReadableName = readableName;
+		mScore = score;
 	}
 
 
@@ -50,6 +51,10 @@ public final class VisionEntity {
 	public VisionEntity setActivated(boolean activated) {
 		mActivated = activated;
 		return this;
+	}
+
+	public float getScore() {
+		return mScore;
 	}
 
 	@Override

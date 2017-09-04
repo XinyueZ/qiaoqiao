@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.qiaoqiao.core.camera.crop.model.CropSource;
+import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
 import com.qiaoqiao.mvp.BasePresenter;
 import com.qiaoqiao.mvp.BaseView;
@@ -41,7 +42,7 @@ public interface CameraContract {
 
 		void showError(@NonNull String errorMessage);
 
-		void updateViewWhenResponse();
+		void updateViewWhenResponse(VisionEntity visionEntity);
 
 		void updateViewWhenRequest();
 
@@ -52,7 +53,7 @@ public interface CameraContract {
 
 	interface Presenter extends BasePresenter {
 
-		void updateWhenResponse();
+		void updateWhenResponse(VisionEntity visionEntity);
 
 		void findAnnotateImages(@NonNull byte[] bytes);
 
