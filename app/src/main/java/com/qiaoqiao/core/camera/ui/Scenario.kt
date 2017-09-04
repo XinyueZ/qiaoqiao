@@ -39,7 +39,10 @@ internal object Scenario {
                 animateViews(expandLessBtn, show && fireVision)
                 animateViews(cameraFaceFab, show)
                 animateViews(flashFab, show)
-                animateViews(cxt.supportFragmentManager.findFragmentById(R.id.stackview_history_fg).view, show)
+                val historyStackView = cxt.supportFragmentManager.findFragmentById(R.id.stackview_history_fg).view
+                historyStackView?.let {
+                    animateViews(it, show)
+                }
             }
         }
     }
@@ -48,13 +51,14 @@ internal object Scenario {
         item.isVisible = show
     }
 
-    private fun animateViews(view: View?, show: Boolean) {
+    private fun animateViews(view: View, show: Boolean) {
         ViewCompat.animate(view)
                 .alpha((if (show)
                     1
                 else
                     0).toFloat())
                 .start()
+        view.isEnabled = show
     }
 
     fun onOffsetChanged(cxt: CameraActivity, appBarLayout: AppBarLayout, verticalOffset: Int) {

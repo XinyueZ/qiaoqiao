@@ -65,8 +65,10 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
                     }).map({ VisionEntity(it, "WEB_DETECTION", it.score).setActivated(true) })
             ).compose(Composer()).toList().subscribe { it ->
                 view.addEntities(it)
-                val entity = it.maxWith(Comparator<VisionEntity> { x, y -> (y.score - x.score).toInt() })
-                if (show) cameraPresenter?.updateWhenResponse(entity!!)
+                if (show) {
+                    val entity = it.maxWith(Comparator<VisionEntity> { x, y -> -(y.score - x.score).toInt() })
+                    cameraPresenter?.updateWhenResponse(entity!!)
+                }
             }
         }
     }

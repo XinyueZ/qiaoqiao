@@ -13,7 +13,11 @@ import io.reactivex.disposables.Disposable
 class DsCameraSource(google: Google) : AbstractDsSource(google) {
     override fun onBytes(bytes: ByteArray, callback: DsLoadedCallback): Disposable {
         val r: Flowable<BatchAnnotateImagesResponse> = Flowable.create({ emitter ->
-            callback.pushOnFirebase(bytes, { callback.onException(it) }) {
+            callback.pushOnFirebase(
+                    bytes,
+                    {
+                        callback.onException(it)
+                    }) {
                 it.downloadUrl?.let {
                     val uri = it
                     google?.let {
