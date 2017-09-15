@@ -82,11 +82,6 @@
           "copyright": "2014-2017"
         },
         {
-          "name": "GlowPadBackport",
-          "owner": "Frakbot (Sebastiano Poggi and Francesco Pontillo)",
-          "copyright": "2015"
-        },
-        {
           "name": "Android-Image-Cropper",
           "owner": "Arthur Teplitzki, Edmodo, Inc.",
           "copyright": "2013, 2016"
@@ -94,11 +89,6 @@
         {
           "name": "Apache Common IO",
           "owner": "Apache"
-        },
-        {
-          "name": "material-camera",
-          "owner": "Aidan Follestad",
-          "copyright": "2017"
         }
       ]
     },
