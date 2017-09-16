@@ -12,13 +12,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+apply plugin: 'realm-android'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     mavenCentral()
 }
 
-apply plugin: 'realm-android'
 
 def buildNumber = 'bld' + (System.env.BUILD_NUMBER ?: 'SNAPSHOT')
 def globalConfiguration = rootProject.extensions.getByName("ext")
