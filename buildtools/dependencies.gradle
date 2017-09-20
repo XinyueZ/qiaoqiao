@@ -21,7 +21,7 @@ ext {
     appCompatVersion = project.SUPPORT
 
     //databinding
-    dataBinding = "3.0.0-alpha3"
+    dataBinding = ext.gradleVersion
 
     //Test libs
     testRules = 0.5
