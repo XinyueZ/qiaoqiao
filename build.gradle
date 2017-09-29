@@ -6,7 +6,7 @@ apply from: 'buildtools/dependencies.gradle'
 buildscript {
     ext.kotlin_version =  project.KOTLIN
     ext.realm =  project.REALM
-    ext.gradleVersion =  "3.0.0-beta6"
+    ext.gradleVersion =  project.GRADLE
     repositories {
         jcenter()
         mavenCentral()
