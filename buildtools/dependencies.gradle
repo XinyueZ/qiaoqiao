@@ -35,7 +35,7 @@ ext {
     httpClientGson = "1.20.0"
     httpClientAndroid = "1.20.0"
     playService = project.PLAY_FIRE
-    vision = "v1-rev362-1.22.0"
+    vision = "v1-rev364-1.23.0"
 
     //Image, loader, video
     glide = "4.0.0"
