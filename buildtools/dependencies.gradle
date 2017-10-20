@@ -17,7 +17,7 @@ ext {
     easypermissions = "0.4.2"
     multidexVersion = "1.0.2"
     mapsUtilsVersion = "0.5+"
-    rxandroidAdapter = "1.0.0"
+    rxandroidAdapter = "2+"
     appCompatVersion = project.SUPPORT
 
     //databinding
@@ -162,7 +162,7 @@ ext {
             //Rx
             [configuration: "implementation", dependency: [group: "io.reactivex.rxjava2", name: "rxjava", version: rxandroid]],
             [configuration: "implementation", dependency:  [group: "io.reactivex.rxjava2", name: "rxandroid", version: rxandroid]],
-            [configuration: "implementation", dependency: [group: "com.jakewharton.retrofit", name: "retrofit2-rxjava2-adapter", version: rxandroidAdapter]],
+            [configuration: "implementation", dependency: [group: "com.squareup.retrofit2", name: "adapter-rxjava2", version: rxandroidAdapter]],
 
             //Kotlin
             [configuration: "implementation", dependency: [group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre7", version: kotlin]],

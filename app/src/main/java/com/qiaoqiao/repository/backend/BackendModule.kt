@@ -3,7 +3,6 @@ package com.qiaoqiao.repository.backend
 import android.content.Context
 import android.text.TextUtils
 import com.google.gson.*
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.qiaoqiao.R
 import com.qiaoqiao.app.Key
 import com.qiaoqiao.repository.annotation.RepositoryScope
@@ -13,6 +12,7 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 import java.security.cert.CertificateException
