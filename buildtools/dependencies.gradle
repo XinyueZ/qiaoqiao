@@ -54,164 +54,69 @@ ext {
 
     kotlin = project.KOTLIN
 
-    libs = [
-            //support-lib
-            design                : [group: "com.android.support", name: "design", version: appCompatVersion],
-            multidex              : [group: "com.android.support", name: "multidex", version: multidexVersion],
-            palette               : [group: "com.android.support", name: "palette-v7", version: appCompatVersion],
-            customtabs            : [group: "com.android.support", name: "customtabs", version: appCompatVersion],
-            cardview              : [group: "com.android.support", name: "cardview-v7", version: appCompatVersion],
-            appcompat             : [group: "com.android.support", name: "appcompat-v7", version: appCompatVersion],
-            preference            : [group: "com.android.support", name: "preference-v7", version: appCompatVersion],
-            compat                : [group: "com.android.support", name: "support-compat", version: appCompatVersion],
-            recyclerview          : [group: "com.android.support", name: "recyclerview-v7", version: appCompatVersion],
-            core                  : [group: "com.android.support", name: "support-core-ui", version: appCompatVersion],
-            fragment              : [group: "com.android.support", name: "support-fragment", version: appCompatVersion],
-            coreUtils             : [group: "com.android.support", name: "support-core-utils", version: appCompatVersion],
-            annotations           : [group: "com.android.support", name: "support-annotations", version: appCompatVersion],
-            media                 : [group: "com.android.support", name: "support-media-compat", version: appCompatVersion],
-            vectorDrawable        : [group: "com.android.support", name: "support-vector-drawable", version: appCompatVersion],
-            animatedVectorDrawable: [group: "com.android.support", name: "animated-vector-drawable", version: appCompatVersion],
-
-            //Apache
-            apacheIO              : [group: "commons-io", name: "commons-io", version: apacheIO],
-
-            //Retrofit
-            retrofit              : [group: "com.squareup.retrofit2", name: "retrofit", version: retrofit],
-            retrofitMock          : [group: "com.squareup.retrofit2", name: "retrofit-mock", version: retrofit],
-            converterGson         : [group: "com.squareup.retrofit2", name: "converter-gson", version: retrofit],
-
-            //Dagger
-            dagger                : [group: "com.google.dagger", name: "dagger", version: dagger],
-            daggerAndroid         : [group: "com.google.dagger", name: "dagger-android", version: dagger],
-            daggerAndroidSupport  : [group: "com.google.dagger", name: "dagger-android-support", version: dagger],
-            daggerCompiler        : [group: "com.google.dagger", name: "dagger-compiler", version: dagger],
-            daggerAndroidProcessor: [group: "com.google.dagger", name: "dagger-android-processor", version: dagger],
-
-            //Databinding
-            dataBinding           : [group: "com.android.databinding", name: "compiler", version: dataBinding],
-
-            //Image, loader
-            glide                 : [group: "com.github.bumptech.glide", name: "glide", version: glide],
-            glideAndroidProcessor : [group: "com.github.bumptech.glide", name: "compiler", version: glide],
-            circleImageView       : [group: "de.hdodenhof", name: "circleimageview", version: circleImageView],
-
-            //Bus
-            eventbus              : [group: "de.greenrobot", name: "eventbus", version: bus],
-
-            //Parser
-            gson                  : [group: "com.google.code.gson", name: "gson", version: gson],
-
-            //Permission
-            easypermissions       : [group: "pub.devrel", name: "easypermissions", version: easypermissions],
-
-            //Util
-            mapsUtils             : [group: "com.google.maps.android", name: "android-maps-utils", version: mapsUtilsVersion],
-
-            //Facebook
-            shimmer               : [group: "com.facebook.shimmer", name: "shimmer", version: shimmer, ext: 'aar'],
-
-            //Google API, cloud-service etc.
-            vision                : [group: "com.google.apis", name: "google-api-services-vision", version: vision],
-            httpClientGson        : [group: "com.google.http-client", name: "google-http-client-gson", version: httpClientGson],
-            apiClientAndroid      : [group: "com.google.api-client", name: "google-api-client-android", version: httpClientAndroid],
-
-            //Cropper for image
-            cropper               : [group: "com.theartofdev.edmodo", name: "android-image-cropper", version: cropper],
-
-            //Play
-            maps                  : [group: "com.google.android.gms", name: "play-services-maps", version: playService],
-            googleAuth            : [group: "com.google.android.gms", name: "play-services-auth", version: playService],
-            mobileVision          : [group: "com.google.android.gms", name: "play-services-vision", version: playService],
-            location              : [group: "com.google.android.gms", name: "play-services-location", version: playService],
-            awareness             : [group: "com.google.android.gms", name: "play-services-awareness", version: playService],
-
-            //Firebase
-            fireAuth              : [group: "com.google.firebase", name: "firebase-auth", version: firebase],
-            fireStorage           : [group: "com.google.firebase", name: "firebase-storage", version: firebase],
-            fireInvite            : [group: "com.google.firebase", name: "firebase-invites", version: firebase],
-            fireDatabase          : [group: "com.google.firebase", name: "firebase-database", version: firebase],
-
-            //text-drawable
-            textDrawable          : [group: "com.amulyakhare", name: "com.amulyakhare.textdrawable", version: textDrawable],
-
-            //Kotlin
-            kotlin                : [group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre7", version: kotlin],
-
-            //Rx
-            //Instead this official rxAdapter, more info
-            // see https://github.com/JakeWharton/retrofit2-rxjava2-adapter
-            // see http://stackoverflow.com/questions/35233161/illegalargumentexception-could-not-locate-call-adapter-for-rx-observable-rxjava
-            //compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-            rxjava                : [group: "io.reactivex.rxjava2", name: "rxjava", version: rxandroid],
-            rxandroid             : [group: "io.reactivex.rxjava2", name: "rxandroid", version: rxandroid],
-            rxAdapter             : [group: "com.jakewharton.retrofit", name: "retrofit2-rxjava2-adapter", version: rxandroidAdapter],
-
-    ]
-
 
     appDependencies = [
             [configuration: "implementation", dependency: fileTree(dir: 'libs', include: ['*.jar'])],
             [configuration: "compile", dependency: project(':sweet-alert-dialog')],
 
             //support-lib
-            [configuration: "implementation", dependency: libs.core],
-            [configuration: "implementation", dependency: libs.media],
-            [configuration: "implementation", dependency: libs.design],
-            [configuration: "implementation", dependency: libs.compat],
-            [configuration: "implementation", dependency: libs.palette],
-            [configuration: "implementation", dependency: libs.multidex],
-            [configuration: "implementation", dependency: libs.cardview],
-            [configuration: "implementation", dependency: libs.fragment],
-            [configuration: "implementation", dependency: libs.coreUtils],
-            [configuration: "implementation", dependency: libs.appcompat],
-            [configuration: "implementation", dependency: libs.preference],
-            [configuration: "implementation", dependency: libs.customtabs],
-            [configuration: "implementation", dependency: libs.annotations],
-            [configuration: "implementation", dependency: libs.recyclerview],
-            [configuration: "implementation", dependency: libs.vectorDrawable],
-            [configuration: "implementation", dependency: libs.animatedVectorDrawable],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "support-core-ui", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "support-media-compat", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "design", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "preference-v7", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "palette-v7", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "multidex", version: multidexVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "cardview-v7", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "support-fragment", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "support-core-utils", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "appcompat-v7", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "preference-v7", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "customtabs", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "support-annotations", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "recyclerview-v7", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "support-vector-drawable", version: appCompatVersion]],
+            [configuration: "implementation", dependency: [group: "com.android.support", name: "animated-vector-drawable", version: appCompatVersion]],
 
             //Apache
-            [configuration: "implementation", dependency: libs.apacheIO],
+            [configuration: "implementation", dependency: [group: "commons-io", name: "commons-io", version: apacheIO]],
 
             //Retrofit
-            [configuration: "implementation", dependency: libs.retrofit],
-            [configuration: "implementation", dependency: libs.retrofitMock],
-            [configuration: "implementation", dependency: libs.converterGson],
+            [configuration: "implementation", dependency: [group: "com.squareup.retrofit2", name: "retrofit", version: retrofit]],
+            [configuration: "implementation", dependency:  [group: "com.squareup.retrofit2", name: "retrofit-mock", version: retrofit]],
+            [configuration: "implementation", dependency: [group: "com.squareup.retrofit2", name: "converter-gson", version: retrofit]],
 
             //Dagger
-            [configuration: "implementation", dependency: libs.dagger],
-            [configuration: "implementation", dependency: libs.daggerAndroid],
-            [configuration: "implementation", dependency: libs.daggerAndroidSupport],
-            [configuration: "kapt", dependency: libs.daggerCompiler],
-            [configuration: "kapt", dependency: libs.daggerAndroidProcessor],
+            [configuration: "implementation", dependency: [group: "com.google.dagger", name: "dagger", version: dagger]],
+            [configuration: "implementation", dependency: [group: "com.google.dagger", name: "dagger-android", version: dagger]],
+            [configuration: "implementation", dependency: [group: "com.google.dagger", name: "dagger-android-support", version: dagger]],
+            [configuration: "kapt", dependency: [group: "com.google.dagger", name: "dagger-compiler", version: dagger]],
+            [configuration: "kapt", dependency: [group: "com.google.dagger", name: "dagger-android-processor", version: dagger]],
 
             //DataBinding
-            [configuration: "kapt", dependency: libs.dataBinding],
+            [configuration: "kapt", dependency: [group: "com.android.databinding", name: "compiler", version: dataBinding]],
 
             //Image, loader
-            [configuration: "implementation", dependency: libs.glide],
-            [configuration: "kapt", dependency: libs.glideAndroidProcessor],
-            [configuration: "implementation", dependency: libs.circleImageView],
+            [configuration: "implementation", dependency:[group: "com.github.bumptech.glide", name: "glide", version: glide]],
+            [configuration: "kapt", dependency: [group: "com.github.bumptech.glide", name: "compiler", version: glide]],
+            [configuration: "implementation", dependency: [group: "de.hdodenhof", name: "circleimageview", version: circleImageView]],
 
             //Bus
-            [configuration: "implementation", dependency: libs.eventbus],
+            [configuration: "implementation", dependency: [group: "de.greenrobot", name: "eventbus", version: bus]],
 
             //Parser
-            [configuration: "implementation", dependency: libs.gson],
+            [configuration: "implementation", dependency: [group: "com.google.code.gson", name: "gson", version: gson]],
 
             //Permission
-            [configuration: "implementation", dependency: libs.easypermissions],
+            [configuration: "implementation", dependency: [group: "pub.devrel", name: "easypermissions", version: easypermissions]],
 
             //Util
-            [configuration: "implementation", dependency: libs.mapsUtils],
+            [configuration: "implementation", dependency: [group: "com.google.maps.android", name: "android-maps-utils", version: mapsUtilsVersion]],
 
             //Facebook
-            [configuration: "implementation", dependency: libs.shimmer],
+            [configuration: "implementation", dependency: [group: "com.facebook.shimmer", name: "shimmer", version: shimmer, ext: 'aar']],
 
             //Google API, cloud etc.
-            [configuration: "implementation", dependency: libs.vision,
+            [configuration: "implementation", dependency: [group: "com.google.apis", name: "google-api-services-vision", version: vision],
              options      : {
                  exclude module: 'httpclient'
                  exclude group: 'org.json', module: 'json'
@@ -219,7 +124,7 @@ ext {
                  exclude group: 'org.apache.httpcomponents', module: 'httpclient'
              }],
 
-            [configuration: "implementation", dependency: libs.httpClientGson,
+            [configuration: "implementation", dependency: [group: "com.google.http-client", name: "google-http-client-gson", version: httpClientGson],
              options      : {
                  exclude module: 'httpclient'
                  exclude group: 'org.json', module: 'json'
@@ -227,7 +132,7 @@ ext {
                  exclude group: 'org.apache.httpcomponents', module: 'httpclient'
              }],
 
-            [configuration: "implementation", dependency: libs.apiClientAndroid,
+            [configuration: "implementation", dependency: [group: "com.google.api-client", name: "google-api-client-android", version: httpClientAndroid],
              options      : {
                  exclude module: 'httpclient'
                  exclude group: 'org.json', module: 'json'
@@ -236,31 +141,31 @@ ext {
              }],
 
             //Cropper for image
-            [configuration: "implementation", dependency: libs.cropper],
+            [configuration: "implementation", dependency: [group: "com.theartofdev.edmodo", name: "android-image-cropper", version: cropper]],
 
             //Play
-            [configuration: "implementation", dependency: libs.maps],
-            [configuration: "implementation", dependency: libs.location],
-            [configuration: "implementation", dependency: libs.awareness],
-            [configuration: "implementation", dependency: libs.googleAuth],
-            [configuration: "implementation", dependency: libs.mobileVision],
+            [configuration: "implementation", dependency: [group: "com.google.android.gms", name: "play-services-maps", version: playService]],
+            [configuration: "implementation", dependency: [group: "com.google.android.gms", name: "play-services-location", version: playService]],
+            [configuration: "implementation", dependency: [group: "com.google.android.gms", name: "play-services-awareness", version: playService]],
+            [configuration: "implementation", dependency: [group: "com.google.android.gms", name: "play-services-auth", version: playService]],
+            [configuration: "implementation", dependency: [group: "com.google.android.gms", name: "play-services-vision", version: playService]],
 
             //Firebase
-            [configuration: "implementation", dependency: libs.fireAuth],
-            [configuration: "implementation", dependency: libs.fireInvite],
-            [configuration: "implementation", dependency: libs.fireStorage],
-            [configuration: "implementation", dependency: libs.fireDatabase],
+            [configuration: "implementation", dependency: [group: "com.google.firebase", name: "firebase-auth", version: firebase]],
+            [configuration: "implementation", dependency: [group: "com.google.firebase", name: "firebase-invites", version: firebase]],
+            [configuration: "implementation", dependency: [group: "com.google.firebase", name: "firebase-storage", version: firebase]],
+            [configuration: "implementation", dependency: [group: "com.google.firebase", name: "firebase-database", version: firebase]],
 
             //Text-drawable
-            [configuration: "implementation", dependency: libs.textDrawable],
+            [configuration: "implementation", dependency: [group: "com.amulyakhare", name: "com.amulyakhare.textdrawable", version: textDrawable]],
 
             //Rx
-            [configuration: "implementation", dependency: libs.rxjava],
-            [configuration: "implementation", dependency: libs.rxandroid],
-            [configuration: "implementation", dependency: libs.rxAdapter],
+            [configuration: "implementation", dependency: [group: "io.reactivex.rxjava2", name: "rxjava", version: rxandroid]],
+            [configuration: "implementation", dependency:  [group: "io.reactivex.rxjava2", name: "rxandroid", version: rxandroid]],
+            [configuration: "implementation", dependency: [group: "com.jakewharton.retrofit", name: "retrofit2-rxjava2-adapter", version: rxandroidAdapter]],
 
             //Kotlin
-            [configuration: "implementation", dependency: libs.kotlin],
+            [configuration: "implementation", dependency: [group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre7", version: kotlin]],
 
     ]
 }
