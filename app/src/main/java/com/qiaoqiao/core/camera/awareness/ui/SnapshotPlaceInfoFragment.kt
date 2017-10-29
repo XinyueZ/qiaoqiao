@@ -52,7 +52,11 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
         arguments?.let {
             val placeWrapper = it.getSerializable(EXTRAS_PLACE) as PlaceWrapper
             activity?.let {
-                CustomTabUtils.warmUp(it, (placeWrapper.place.websiteUri))
+                it.apply {
+                    placeWrapper.place.websiteUri?.let {
+                        CustomTabUtils.warmUp(this@apply, it)
+                    }
+                }
             }
         }
     }
