@@ -27,10 +27,12 @@ class ImageFragment : Fragment() {
         return binding?.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.let {
-            it.imageUri = arguments.getParcelable(EXTRAS_IMAGE_URI)
+            it.apply {
+                arguments?.let { this@apply.imageUri = it.getParcelable(EXTRAS_IMAGE_URI) }
+            }
             it.executePendingBindings()
         }
     }

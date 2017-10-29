@@ -32,29 +32,37 @@ class VisionListFragment : AbstractVisionFragment(), VisionContract.View {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, LAYOUT, container, false)
         binding?.fragment = this
         return binding?.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         retainInstance = true
         setRefreshing(false)
-        binding?.let {
-            val key = arguments.getSerializable(EXTRAS_KEY) as Key
-            val columns = resources.getInteger(R.integer.num_columns)
-            it.visionRv.layoutManager = GridLayoutManager(activity, columns)
-            visionListAdapter = VisionListAdapter(key)
-            it.visionRv.adapter = visionListAdapter
-            val dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-            val divideDrawable = AppCompatResources.getDrawable(activity, R.drawable.divider_drawable)
-            if (divideDrawable != null) {
-                dividerItemDecoration.setDrawable(divideDrawable)
+
+        arguments?.let {
+            it.apply {
+                binding?.let {
+                    val key = this@apply.getSerializable(EXTRAS_KEY) as Key
+                    val columns = resources.getInteger(R.integer.num_columns)
+                    it.visionRv.layoutManager = GridLayoutManager(activity, columns)
+                    visionListAdapter = VisionListAdapter(key)
+                    it.visionRv.adapter = visionListAdapter
+                    val dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+                    activity?.let {
+                        val divideDrawable = AppCompatResources.getDrawable(it, R.drawable.divider_drawable)
+                        if (divideDrawable != null) {
+                            dividerItemDecoration.setDrawable(divideDrawable)
+                        }
+                    }
+                    it.visionRv.addItemDecoration(dividerItemDecoration)
+                    presenter?.loadRecent()
+
+                }
             }
-            it.visionRv.addItemDecoration(dividerItemDecoration)
-            presenter?.loadRecent()
         }
     }
 

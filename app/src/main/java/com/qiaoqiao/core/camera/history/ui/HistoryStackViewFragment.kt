@@ -19,8 +19,8 @@ class HistoryStackViewFragment : Fragment(), HistoryContract.View2 {
     private var presenter: HistoryContract.Presenter2? = null
     private var adapter: HistoryStackViewAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate<FragmentStackviewHistoryBinding>(inflater, LAYOUT, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, LAYOUT, container, false)
         retainInstance = true
         return binding?.root
     }
@@ -31,16 +31,18 @@ class HistoryStackViewFragment : Fragment(), HistoryContract.View2 {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        presenter?.end(activity)
+        activity?.let { presenter?.end(it) }
     }
 
     override fun getBinding() = binding
 
     override fun showList(results: MutableList<HistoryItem>) {
-        adapter = HistoryStackViewAdapter(results, activity.layoutInflater)
-        binding?.let {
-            it.historyStv.adapter = adapter
-            it.historyStv.setSelection(results.size - 1)
+        activity?.let {
+            adapter = HistoryStackViewAdapter(results, it.layoutInflater)
+            binding?.let {
+                it.historyStv.adapter = adapter
+                it.historyStv.setSelection(results.size - 1)
+            }
         }
     }
 

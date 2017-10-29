@@ -32,11 +32,13 @@ class ProductListPresenter @Inject constructor(private var view: ProductContract
         val keyword = hostActivity.intent.getStringExtra(com.qiaoqiao.core.product.ui.ProductListActivity.Companion.EXTRAS_KEYWORD)
         val barcode = hostActivity.intent.getParcelableExtra<Barcode>(com.qiaoqiao.core.product.ui.ProductListActivity.Companion.EXTRAS_BARCODE)
         val fragment = view as ProductListFragment
-        fragment.arguments.putParcelable(com.qiaoqiao.core.product.ui.ProductListFragment.Companion.EXTRAS_BARCODE, barcode)
-        hostActivity.supportFragmentManager.beginTransaction()
-                .add(R.id.container,
-                        fragment,
-                        fragment.javaClass.name).commit()
+        fragment.arguments?.let {
+            it.putParcelable(com.qiaoqiao.core.product.ui.ProductListFragment.Companion.EXTRAS_BARCODE, barcode)
+            hostActivity.supportFragmentManager.beginTransaction()
+                    .add(R.id.container,
+                            fragment,
+                            fragment.javaClass.name).commit()
+        }
     }
 
     override fun end(hostActivity: FragmentActivity) {

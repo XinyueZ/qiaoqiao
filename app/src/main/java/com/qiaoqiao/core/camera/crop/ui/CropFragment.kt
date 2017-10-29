@@ -28,8 +28,8 @@ class CropFragment : Fragment(), CropContract.View,
     private var binding: FragmentCropBinding? = null
     private var presenter: CropContract.Presenter? = null
     private var uri = Uri.EMPTY
-    private val vibrator: Vibrator by lazy {
-        context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private val vibrator: Vibrator? by lazy {
+        context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
     }
 
     companion object {
@@ -53,7 +53,9 @@ class CropFragment : Fragment(), CropContract.View,
 
     override fun onDestroyView() {
         super.onDestroyView()
-        presenter?.end(activity)
+        activity?.let {
+            presenter?.end(it)
+        }
     }
 
     override fun setPresenter(presenter: CropContract.Presenter) {
@@ -89,19 +91,15 @@ class CropFragment : Fragment(), CropContract.View,
     }
 
     override fun onClick(view: View) {
-        when (view.id) {
-            else -> {
-                vibrator.vibrate( VIB_LNG)
-                val drawable = binding?.cropFbPb?.drawable
-                binding?.let {
-                    if (drawable is Animatable) {
-                        (drawable as Animatable).start()
-                        it.cropFbPb.visibility = View.VISIBLE
-                    }
-                    it.cropIv.getCroppedImageAsync()
-                    it.cropFb.isEnabled = false
-                }
+        vibrator?.vibrate(VIB_LNG)
+        val drawable = binding?.cropFbPb?.drawable
+        binding?.let {
+            if (drawable is Animatable) {
+                (drawable as Animatable).start()
+                it.cropFbPb.visibility = View.VISIBLE
             }
+            it.cropIv.getCroppedImageAsync()
+            it.cropFb.isEnabled = false
         }
     }
 

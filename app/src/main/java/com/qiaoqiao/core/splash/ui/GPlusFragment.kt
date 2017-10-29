@@ -21,7 +21,9 @@ class GPlusFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentGplusBinding.inflate(inflater, container, false)
         binding?.clickHandler = this
-        binding?.peoplePhotoIv?.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_people))
+        context?.let {
+            binding?.peoplePhotoIv?.setImageDrawable(AppCompatResources.getDrawable(it, R.drawable.ic_people))
+        }
         return binding?.root
     }
 
@@ -34,7 +36,9 @@ class GPlusFragment : Fragment(), View.OnClickListener {
     }
 
     private fun signIn() {
-        ConnectGoogleActivity.showInstance(activity, false)
+        activity?.let {
+            ConnectGoogleActivity.showInstance(it, false)
+        }
     }
 
     private fun signOut() {
@@ -44,7 +48,9 @@ class GPlusFragment : Fragment(), View.OnClickListener {
         edit.putString(KEY_GOOGLE_PHOTO_URL, DEFAULT_GOOGLE_PHOTO_URL)
         edit.putString(KEY_GOOGLE_DISPLAY_NAME, DEFAULT_GOOGLE_DISPLAY_NAME)
         SharedPreferencesCompat.EditorCompat.getInstance().apply(edit)
-        ConnectGoogleActivity.showInstance(activity, true)
+        activity?.let {
+            ConnectGoogleActivity.showInstance(it, true)
+        }
     }
 
     override fun onResume() {
@@ -65,28 +71,32 @@ class GPlusFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showUIStatus() {
-        binding?.let {
-            if (FirebaseAuth.getInstance().currentUser == null) {
-                it.btn.setText(R.string.login_google)
-                it.root.setBackgroundResource(R.color.colorBlueGrey)
-                it.peopleNameTv.text = ""
-                it.peoplePhotoIv.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_people))
+        context?.let {
+            it.apply {
+                binding?.let {
+                    if (FirebaseAuth.getInstance().currentUser == null) {
+                        it.btn.setText(R.string.login_google)
+                        it.root.setBackgroundResource(R.color.colorBlueGrey)
+                        it.peopleNameTv.text = ""
+                        it.peoplePhotoIv.setImageDrawable(AppCompatResources.getDrawable(this@apply, R.drawable.ic_people))
 
-            } else {
-                val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                it.btn.setText(R.string.logout_google)
-                val name = prefs.getString(KEY_GOOGLE_DISPLAY_NAME, null)
-                val thumbnailUrl = prefs.getString(KEY_GOOGLE_PHOTO_URL, null)
-                it.root.setBackgroundResource(R.color.colorPrimary)
-                if (!TextUtils.isEmpty(thumbnailUrl)) {
-                    GlideApp.with(this)
-                            .load(thumbnailUrl)
-                            .error(AppCompatResources.getDrawable(context, R.drawable.ic_people))
-                            .placeholder(AppCompatResources.getDrawable(context, R.drawable.ic_people))
-                            .into(it.peoplePhotoIv)
-                }
-                if (!TextUtils.isEmpty(name)) {
-                    it.peopleNameTv.text = name
+                    } else {
+                        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+                        it.btn.setText(R.string.logout_google)
+                        val name = prefs.getString(KEY_GOOGLE_DISPLAY_NAME, null)
+                        val thumbnailUrl = prefs.getString(KEY_GOOGLE_PHOTO_URL, null)
+                        it.root.setBackgroundResource(R.color.colorPrimary)
+                        if (!TextUtils.isEmpty(thumbnailUrl)) {
+                            GlideApp.with(this)
+                                    .load(thumbnailUrl)
+                                    .error(AppCompatResources.getDrawable(this@apply, R.drawable.ic_people))
+                                    .placeholder(AppCompatResources.getDrawable(this@apply, R.drawable.ic_people))
+                                    .into(it.peoplePhotoIv)
+                        }
+                        if (!TextUtils.isEmpty(name)) {
+                            it.peopleNameTv.text = name
+                        }
+                    }
                 }
             }
         }

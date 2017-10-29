@@ -46,7 +46,7 @@ class DetailFragment : Fragment(), DetailContract.View,
     private var photo: Image? = null
     private var previewImage: Image? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater!!, LAYOUT, container, false)
         binding?.let {
             it.fragment = this
@@ -65,9 +65,9 @@ class DetailFragment : Fragment(), DetailContract.View,
         super.onViewCreated(view, savedInstanceState)
         toggleContentLoading()
         setRefreshing(false)
-        with(context) {
-            contextWeakReference = WeakReference(this)
-            val actionBarHeight = calcActionBarHeight(this)
+        context?.let {
+            contextWeakReference = WeakReference(it)
+            val actionBarHeight = calcActionBarHeight(it)
 
             binding?.let {
                 with(it.loadingPb) {
@@ -80,9 +80,11 @@ class DetailFragment : Fragment(), DetailContract.View,
                 with(it.appbar) {
                     layoutParams.height = Math.ceil((DeviceUtils.getScreenSize(context).Height * 0.618f).toDouble()).toInt()
                     addOnOffsetChangedListener(this@DetailFragment)
-                    val transName = activity.intent.getStringExtra(getString(R.string.transition_share_item_name))
-                    if (!TextUtils.isEmpty(transName)) {
-                        ViewCompat.setTransitionName(this, transName)
+                    activity?.let {
+                        val transName = it.intent.getStringExtra(getString(R.string.transition_share_item_name))
+                        if (!TextUtils.isEmpty(transName)) {
+                            ViewCompat.setTransitionName(this, transName)
+                        }
                     }
                 }
 
@@ -118,12 +120,18 @@ class DetailFragment : Fragment(), DetailContract.View,
 
     override fun loadDetail() {
         presenter?.let {
-            val keyword = activity.intent.getStringExtra(EXTRAS_KEYWORD)
-            when (!TextUtils.isEmpty(keyword)) {
-                true -> it.loadDetail(keyword)
-                else -> {
-                    val pageId = activity.intent.getIntExtra(EXTRAS_PAGE_ID, -1)
-                    it.loadDetail(pageId)
+            it.apply {
+                activity?.let {
+                    with(it) {
+                        val keyword = this@with.intent.getStringExtra(EXTRAS_KEYWORD)
+                        when (!TextUtils.isEmpty(keyword)) {
+                            true -> this@apply.loadDetail(keyword)
+                            else -> {
+                                val pageId = this@with.intent.getIntExtra(EXTRAS_PAGE_ID, -1)
+                                this@apply.loadDetail(pageId)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -222,56 +230,60 @@ class DetailFragment : Fragment(), DetailContract.View,
     }
 
     private fun loadDetailPreview(imageView: ImageView) {
-        if (contextWeakReference!!.get() != null && previewImage != null && previewImage!!.source != null && !activity.isFinishing) {
-            GlideApp.with(contextWeakReference!!.get())
-                    .asBitmap()
-                    .load(previewImage!!.source)
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .skipMemoryCache(false)
-                    .placeholder(R.drawable.ic_default_image)
-                    .error(R.drawable.ic_default_image)
-                    .listener(object : RequestListener<Bitmap> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                            previewLoadedFail()
-                            return true
-                        }
+        activity?.let {
+            if (contextWeakReference!!.get() != null && previewImage != null && previewImage!!.source != null && !it.isFinishing) {
+                GlideApp.with(contextWeakReference!!.get())
+                        .asBitmap()
+                        .load(previewImage!!.source)
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .skipMemoryCache(false)
+                        .placeholder(R.drawable.ic_default_image)
+                        .error(R.drawable.ic_default_image)
+                        .listener(object : RequestListener<Bitmap> {
+                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                                previewLoadedFail()
+                                return true
+                            }
 
-                        override fun onResourceReady(resource: Bitmap, model: Any, target: com.bumptech.glide.request.target.Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                            previewLoaded(imageView)
-                            return false
-                        }
-                    })
-                    .into(imageView)
+                            override fun onResourceReady(resource: Bitmap, model: Any, target: com.bumptech.glide.request.target.Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                                previewLoaded(imageView)
+                                return false
+                            }
+                        })
+                        .into(imageView)
+            }
         }
     }
 
     private fun loadDetailImage() {
-        if (contextWeakReference!!.get() == null || photo == null || photo!!.source == null || activity.isFinishing) {
-            return
-        }
-        setRefreshing(true)
-        GlideApp.with(contextWeakReference!!.get())
-                .asBitmap()
-                .load(photo!!.source)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.ic_default_image)
-                .placeholder(R.drawable.ic_default_image)
-                .skipMemoryCache(false)
-                .listener(object : RequestListener<Bitmap> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                        loadDetailPreview(binding!!.detailIv)
-                        return true
-                    }
+        activity?.let {
+            if (contextWeakReference!!.get() == null || photo == null || photo!!.source == null || it.isFinishing) {
+                return
+            }
+            setRefreshing(true)
+            GlideApp.with(contextWeakReference!!.get())
+                    .asBitmap()
+                    .load(photo!!.source)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.ic_default_image)
+                    .placeholder(R.drawable.ic_default_image)
+                    .skipMemoryCache(false)
+                    .listener(object : RequestListener<Bitmap> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                            loadDetailPreview(binding!!.detailIv)
+                            return true
+                        }
 
-                    override
-                    fun onResourceReady(resource: Bitmap, model: Any, target: com.bumptech.glide.request.target.Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                        detailImageLoaded(resource)
-                        return false
-                    }
-                })
-                .into(binding!!.detailIv)
+                        override
+                        fun onResourceReady(resource: Bitmap, model: Any, target: com.bumptech.glide.request.target.Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                            detailImageLoaded(resource)
+                            return false
+                        }
+                    })
+                    .into(binding!!.detailIv)
+        }
     }
 
     private fun previewLoadedFail() {
@@ -323,7 +335,7 @@ class DetailFragment : Fragment(), DetailContract.View,
 
     override fun onError() {
         Snackbar.make(binding!!.root, R.string.loading_detail_fail, Snackbar.LENGTH_INDEFINITE)
-                .setAction(android.R.string.ok, { _ -> activity.supportFinishAfterTransition() })
+                .setAction(android.R.string.ok, { _ -> activity?.supportFinishAfterTransition() })
                 .show()
         setRefreshing(false)
     }

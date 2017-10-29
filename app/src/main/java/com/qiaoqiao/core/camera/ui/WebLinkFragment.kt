@@ -27,9 +27,9 @@ class WebLinkFragment : Fragment(), View.OnClickListener {
         binding?.let {
             val data = Intent()
             data.data = Uri.parse(it.uriTv.text.toString())
-            with(activity) {
-                setResult(Activity.RESULT_OK, data)
-                supportFinishAfterTransition()
+            activity?.let {
+                it.setResult(Activity.RESULT_OK, data)
+                it.supportFinishAfterTransition()
             }
         }
     }

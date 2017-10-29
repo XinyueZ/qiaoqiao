@@ -37,16 +37,16 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
         fun newInstance(cxt: Context): LaunchImageFragment = Fragment.instantiate(cxt, LaunchImageFragment::class.java.name) as LaunchImageFragment
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        val binding = LaunchImageBinding.inflate(inflater!!, container, false)
+        val binding = LaunchImageBinding.inflate(inflater, container, false)
         this.binding = binding
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter?.loadLaunchImage(context)
+        context?.let { presenter?.loadLaunchImage(it) }
     }
 
     override fun getBinding(): LaunchImageBinding = this.binding
@@ -83,8 +83,10 @@ class LaunchImageFragment : Fragment(), SplashContract.LaunchImageView, RequestL
     }
 
     private fun goToHome() {
-        CameraActivity.showInstance(activity, true)
-        activity.finish()
+        activity?.let {
+            CameraActivity.showInstance(it, true)
+            it.finish()
+        }
     }
 
     override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {

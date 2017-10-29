@@ -12,13 +12,17 @@ abstract class AbstractVisionFragment : Fragment() {
         if (activity == null || !userVisibleHint) return
         val latLng = entity.location.toLatLng()
         if (TextUtils.equals("LANDMARK_DETECTION", entity.readableName) && latLng != null) {
-            MapActivity.showInstance(activity, latLng, transitionView)
+            activity?.let {
+                MapActivity.showInstance(it, latLng, transitionView)
+            }
             return
         }
         if ((TextUtils.equals("WEB_DETECTION", entity.readableName) || TextUtils.equals("LOGO_DETECTION", entity.readableName) || TextUtils.equals("LABEL_DETECTION",
                 entity.readableName)) && !TextUtils
                 .isEmpty(entity.description.descriptionText)) {
-            DetailActivity.showInstance(activity, entity.description.descriptionText, transitionView)
+            activity?.let {
+                DetailActivity.showInstance(it, entity.description.descriptionText, transitionView)
+            }
         }
     }
 }

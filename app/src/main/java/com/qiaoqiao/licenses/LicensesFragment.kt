@@ -52,12 +52,12 @@ class LicensesFragment : AppCompatDialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate<FragmentLicensesBinding>(inflater!!, LAYOUT, container, showsDialog)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, LAYOUT, container, showsDialog)
         return binding.root
     }
 
-    override fun onViewCreated(view: View?, @Nullable savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, @Nullable savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadLicences()
     }
@@ -77,8 +77,7 @@ class LicensesFragment : AppCompatDialogFragment() {
     private fun loadLicences() {
         loaderManager.initLoader(ID_LOAD_LICENCES_TASK, EMPTY, object : LoaderManager.LoaderCallbacks<Licenses> {
 
-            override fun onCreateLoader(id: Int, args: Bundle): Loader<Licenses>? = CreateLoaderTask(context, gson)
-
+            override fun onCreateLoader(id: Int, args: Bundle) = context?.let { CreateLoaderTask(it, gson) }
             override fun onLoadFinished(loader: Loader<Licenses>, licenses: Licenses?) {
                 if (licenses != null) {
                     val adapter = LicencesListAdapter(licenses)

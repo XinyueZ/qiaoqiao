@@ -142,19 +142,12 @@ class CameraActivity : AppCompatActivity(), CameraContract.View, View.OnClickLis
 
         binding?.let {
             with(object : ActionBarDrawerToggle(this, it.drawerLayout, R.string.app_name, R.string.app_name) {
-                override fun onDrawerOpened(drawerView: View?) {}
+                override fun onDrawerOpened(drawerView: View) {}
             }) {
                 it.actionBarToggle = this
-                it.drawerLayout.addDrawerListener(this)
+                it.drawerLayout.setDrawerListener(this)
                 it.navView.setNavigationItemSelectedListener(this@CameraActivity)
             }
-        }
-    }
-
-    private fun setDownNavigationDrawer() {
-        binding?.let {
-            val toggle = it.actionBarToggle ?: return
-            it.drawerLayout.removeDrawerListener(toggle)
         }
     }
 
@@ -230,7 +223,6 @@ class CameraActivity : AppCompatActivity(), CameraContract.View, View.OnClickLis
 
     override fun onDestroy() {
         supportFragmentManager.removeOnBackStackChangedListener(this)
-        setDownNavigationDrawer()
         setDownAppBar()
         presentersEnd()
         super.onDestroy()

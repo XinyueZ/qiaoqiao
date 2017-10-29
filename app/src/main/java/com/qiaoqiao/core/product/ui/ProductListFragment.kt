@@ -34,16 +34,20 @@ class ProductListFragment : Fragment(), ProductContract.ListView {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        presenter?.end(activity)
+        activity?.let {
+            presenter?.end(it)
+        }
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val searchedCode: Barcode = arguments.getParcelable(EXTRAS_BARCODE)
-        presenter?.showProductList(searchedCode)
-        binding?.let {
-            it.loadingPbTv.text = String.format(getString(R.string.loading_product_by_upc), searchedCode.rawValue)
-            it.appbar.layoutParams.height = Math.ceil((DeviceUtils.getScreenSize(context).Height * 0.33333f).toDouble()).toInt()
+        arguments?.let {
+            val searchedCode: Barcode = it.getParcelable(EXTRAS_BARCODE)
+            presenter?.showProductList(searchedCode)
+            binding?.let {
+                it.loadingPbTv.text = String.format(getString(R.string.loading_product_by_upc), searchedCode.rawValue)
+                it.appbar.layoutParams.height = Math.ceil((DeviceUtils.getScreenSize(context).Height * 0.33333f).toDouble()).toInt()
+            }
         }
     }
 

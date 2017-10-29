@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
+import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatDialogFragment
 import android.text.TextUtils
 import android.view.View
@@ -40,7 +41,7 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
         binding?.let {
             dialog.setContentView(it.root)
             behavior = BottomSheetBehavior.from(it.root.parent as View)
-            it.placeWrapper = arguments.getSerializable(EXTRAS_PLACE) as PlaceWrapper
+            it.placeWrapper = arguments?.getSerializable(EXTRAS_PLACE) as? PlaceWrapper
             it.clickHandler = this@SnapshotPlaceInfoFragment
         }
         return dialog
@@ -48,13 +49,19 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
 
     override fun onStart() {
         super.onStart()
-        val placeWrapper = arguments.getSerializable(EXTRAS_PLACE) as PlaceWrapper
-        CustomTabUtils.warmUp(activity, (placeWrapper.place.websiteUri))
+        arguments?.let {
+            val placeWrapper = it.getSerializable(EXTRAS_PLACE) as PlaceWrapper
+            activity?.let {
+                CustomTabUtils.warmUp(it, (placeWrapper.place.websiteUri))
+            }
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        CustomTabUtils.clean(activity)
+        activity?.let {
+            CustomTabUtils.clean(it)
+        }
     }
 
     override fun onResume() {
@@ -64,18 +71,27 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
 
     override fun onClick(v: View?) {
         if (v == null) return
-        val placeWrapper = arguments.getSerializable(EXTRAS_PLACE) as PlaceWrapper
-        when (v.id) {
-            R.id.web_tv -> {
-                val app = context.applicationContext as App
-                CustomTabUtils.openWeb(activity, placeWrapper.place
-                        .websiteUri, app.customTabConfig.builder)
+        arguments?.let {
+            it.apply {
+                activity.let {
+                    with(it as FragmentActivity) {
+                        val placeWrapper = this@apply.getSerializable(EXTRAS_PLACE) as PlaceWrapper
+                        when (v.id) {
+                            R.id.web_tv -> {
+                                val app = this@with.application as App
+                                CustomTabUtils.openWeb(it, placeWrapper.place
+                                        .websiteUri, app.customTabConfig.builder)
+                            }
+                            R.id.tel_tv -> callPhoneNumber(this@with,
+                                    placeWrapper.place
+                                            .phoneNumber
+                                            .toString())
+                            else -> MapActivity.showInstance(this@with, placeWrapper.position, binding!!.openMapBtn)
+                        }
+                    }
+                }
             }
-            R.id.tel_tv -> callPhoneNumber(context,
-                    placeWrapper.place
-                            .phoneNumber
-                            .toString())
-            else -> MapActivity.showInstance(activity, placeWrapper.position, binding!!.openMapBtn)
+
         }
     }
 

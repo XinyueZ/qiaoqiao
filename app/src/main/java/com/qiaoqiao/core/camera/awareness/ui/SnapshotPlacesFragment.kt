@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -43,7 +44,7 @@ class SnapshotPlacesFragment : Fragment(), AwarenessContract.View,
         return binding?.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         retainInstance = true
         val fragmentById = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -52,12 +53,16 @@ class SnapshotPlacesFragment : Fragment(), AwarenessContract.View,
             onStart()
             getMapAsync(this@SnapshotPlacesFragment)
         }
-        presenter?.settingLocating(activity)
+        activity.let {
+            presenter?.settingLocating(it as FragmentActivity)
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        presenter?.end(activity)
+        activity.let {
+            presenter?.end(it as FragmentActivity)
+        }
     }
 
     override fun setPresenter(presenter: AwarenessContract.Presenter) {
@@ -79,17 +84,21 @@ class SnapshotPlacesFragment : Fragment(), AwarenessContract.View,
         gm.setOnMapClickListener(this)
         gm.uiSettings.isMapToolbarEnabled = false
         gm.uiSettings.isMyLocationButtonEnabled = false
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
-        }
+        context?.let {
+            if (ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(it,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return
+            }
+        } ?: kotlin.run { return }
         gm.isMyLocationEnabled = true
         googleMap = gm
     }
 
     override fun locating() {
         binding?.locatingControl?.startLocalProgressBar()
-        presenter?.locating(context)
+        context?.let {
+            presenter?.locating(it)
+        }
     }
 
     override fun onLocated(latLng: LatLng) {
@@ -105,8 +114,8 @@ class SnapshotPlacesFragment : Fragment(), AwarenessContract.View,
                 onLocated(latLng)
             }
         }
-        if (context != null) {
-            presenter?.searchAndSearch(context, latLng)
+        context?.let {
+            presenter?.searchAndSearch(it, latLng)
         }
     }
 
@@ -147,7 +156,9 @@ class SnapshotPlacesFragment : Fragment(), AwarenessContract.View,
         binding?.let {
             it.adjustFl.visibility = if (it.adjustFl.visibility != View.VISIBLE) View.VISIBLE else View.GONE
             if (it.adjustFl.visibility == View.VISIBLE) {
-                presenter?.loadGeosearchAdjust(context)
+                context?.let {
+                    presenter?.loadGeosearchAdjust(it)
+                }
             }
         }
     }
