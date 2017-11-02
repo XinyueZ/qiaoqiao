@@ -6,14 +6,14 @@ apply from: 'buildtools/dependencies.gradle'
 buildscript {
     ext.kotlin_version =  project.KOTLIN
     ext.realm =  project.REALM
-    ext.gradleVersion =  project.GRADLE
+    ext.gradle_version =  project.GRADLE
     repositories {
         jcenter()
         mavenCentral()
         google()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "io.realm:realm-gradle-plugin:$realm"
         classpath 'com.google.gms:google-services:3.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

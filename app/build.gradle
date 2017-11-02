@@ -49,6 +49,9 @@ android {
         applicationId globalConfiguration.getAt("applicationId")
         minSdkVersion globalConfiguration.getAt("minSdkVersion")
         targetSdkVersion globalConfiguration.getAt("targetSdkVersion")
+
+        //      testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner  globalConfiguration.getAt("testInstrumentationRunner")
     }
 
 
