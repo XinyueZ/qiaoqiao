@@ -29,7 +29,8 @@ ext {
     def hamcrest = "1.3"
     def testRunner = "1.0.1"
     def espresso = "3.0.1"
-    def junitForEspresso = "4.12"
+    def junit  = "4.12"
+    def dexmaker = "1.2"
 
     //Google Service
     def httpClientGson = "1.20.0"
@@ -174,7 +175,7 @@ ext {
             [configuration: "testImplementation", dependency: [group: 'org.mockito', name: 'mockito-all', version: mockitoVersion]],
             [configuration: "testImplementation", dependency: [group: 'org.mockito', name: 'mockito-core', version: mockitoVersion]],
             [configuration: "testImplementation", dependency: [group: 'org.hamcrest', name: 'hamcrest-all', version: hamcrest]],
-            [configuration: "testImplementation", dependency: [group: 'junit', name: 'junit', version: junitForEspresso]],
+            [configuration: "testImplementation", dependency: [group: 'junit', name: 'junit', version: junit]],
             [configuration: "androidTestImplementation", dependency: [group: 'com.android.support.test', name: 'runner', version: testRunner]],
             [configuration: "androidTestImplementation", dependency: [group: 'com.android.support.test', name: 'rules', version: testRunner]],
             [configuration: "androidTestImplementation", dependency: [group: 'com.android.support.test.espresso', name: 'espresso-core', version: espresso]],
@@ -184,6 +185,11 @@ ext {
             [configuration: "androidTestImplementation", dependency: [group: 'com.android.support.test.espresso', name: 'espresso-web', version: espresso]],
             [configuration: "androidTestImplementation", dependency: [group: 'com.android.support.test.espresso', name: 'espresso-idling-resource', version: espresso]],
             [configuration: "androidTestImplementation", dependency: [group: 'com.android.support.test.espresso.idling', name: 'idling-concurrent', version: espresso]],
+            [configuration: "androidTestImplementation", dependency: [group: 'org.mockito', name: 'mockito-all', version: mockitoVersion]],
+            [configuration: "androidTestImplementation", dependency: [group: 'org.mockito', name: 'mockito-core', version: mockitoVersion]],
+            [configuration: "androidTestImplementation", dependency: [group: 'junit', name: 'junit', version: junit]],
+            [configuration: "androidTestImplementation", dependency: [group: 'com.google.dexmaker', name: 'dexmaker', version: dexmaker]],
+            [configuration: "androidTestImplementation", dependency: [group: 'com.google.dexmaker', name: 'dexmaker-mockito', version: dexmaker]],
 
     ]
 }
