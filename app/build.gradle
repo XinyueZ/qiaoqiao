@@ -118,6 +118,23 @@ android {
         javaMaxHeapSize project.JAVA_MAX_HEAP_SIZE
     }
 
+
+    testOptions { // <-- You need this
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+
+        unitTests.all {
+            // All the usual Gradle options.
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen {false}
+                showStandardStreams = true
+            }
+        }
+
+    }
 }
 
 
