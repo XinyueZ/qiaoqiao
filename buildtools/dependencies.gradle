@@ -23,7 +23,7 @@ ext {
     def dataBinding = ext.gradle_version
 
     //Test libs
-    def multidexInstrumentation = "1.0.1"
+    def multidexInstrumentation = "1.0.2"
     def robolectric = "3.5.1"
     def shadowsMultidex = "3.4.2"
     def mockitoVersion = "1.10.19"
