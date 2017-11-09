@@ -23,6 +23,7 @@ ext {
     def dataBinding = ext.gradle_version
 
     //Test libs
+    def multidexInstrumentation = "1.0.1"
     def robolectric = "3.5.1"
     def shadowsMultidex = "3.4.2"
     def mockitoVersion = "1.10.19"
@@ -190,6 +191,7 @@ ext {
             [configuration: "androidTestImplementation", dependency: [group: 'junit', name: 'junit', version: junit]],
             [configuration: "androidTestImplementation", dependency: [group: 'com.google.dexmaker', name: 'dexmaker', version: dexmaker]],
             [configuration: "androidTestImplementation", dependency: [group: 'com.google.dexmaker', name: 'dexmaker-mockito', version: dexmaker]],
+            [configuration: "androidTestImplementation", dependency: [group: 'com.android.support', name: 'multidex-instrumentation', version: multidexInstrumentation]],
 
     ]
 }
