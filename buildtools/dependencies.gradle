@@ -167,7 +167,7 @@ ext {
             [configuration: "implementation", dependency: [group: "com.squareup.retrofit2", name: "adapter-rxjava2", version: rxandroidAdapter]],
 
             //Kotlin
-            [configuration: "implementation", dependency: [group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre7", version: kotlin]],
+            [configuration: "implementation", dependency: [group: "org.jetbrains.kotlin", name: "kotlin-stdlib", version: kotlin]],
 
 
 
