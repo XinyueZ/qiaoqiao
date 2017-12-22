@@ -149,9 +149,6 @@ dependencies {
 }
 
 
-kapt {
-    generateStubs = true
-}
 
 
 gradle.projectsEvaluated {
