@@ -19,4 +19,6 @@ ext {
     versionCode = Integer.parseInt(project.APP_VERSIONCODE)
     testInstrumentationRunner = project.TEST_RUNNER
     supportLibraryVersion = project.SUPPORT
+
+    debugStoreFile = "../signing/debug.keystore"
 }
