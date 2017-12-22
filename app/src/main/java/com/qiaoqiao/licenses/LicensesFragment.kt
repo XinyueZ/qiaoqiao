@@ -53,7 +53,7 @@ class LicensesFragment : AppCompatDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, LAYOUT, container, showsDialog)
+        binding = DataBindingUtil.inflate(inflater, LAYOUT, container, showsDialog)!!
         return binding.root
     }
 
@@ -141,7 +141,7 @@ private class LicencesListAdapter(licenses: Licenses) : BaseExpandableListAdapte
         var cv = convertView
         val binding: GroupBinding
         if (cv == null) {
-            binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), LAYOUT_GROUP, parent, false)
+            binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), LAYOUT_GROUP, parent, false)!!
             cv = binding.root
             cv!!.tag = binding
         } else {
@@ -160,7 +160,7 @@ private class LicencesListAdapter(licenses: Licenses) : BaseExpandableListAdapte
         var cv = convertView
         val binding: ChildBinding
         if (cv == null) {
-            binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), LAYOUT_CHILD, parent, false)
+            binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), LAYOUT_CHILD, parent, false)!!
             cv = binding.root
             cv.tag = binding
         } else {

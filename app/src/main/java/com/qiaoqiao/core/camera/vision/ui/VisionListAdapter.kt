@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import com.qiaoqiao.R
 import com.qiaoqiao.app.Key
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
-import com.qiaoqiao.core.camera.vision.ui.viewholder.*
+import com.qiaoqiao.core.camera.vision.ui.viewholder.AbstractVisionViewHolder
+import com.qiaoqiao.core.camera.vision.ui.viewholder.LabelViewHolder
+import com.qiaoqiao.core.camera.vision.ui.viewholder.LandmarkViewHolder
+import com.qiaoqiao.core.camera.vision.ui.viewholder.LogoViewHolder
+import com.qiaoqiao.core.camera.vision.ui.viewholder.WebViewHolder
 import com.qiaoqiao.databinding.LabelViewBinding
 import com.qiaoqiao.databinding.LandmarkViewBinding
 import com.qiaoqiao.databinding.LogoViewBinding
@@ -32,23 +36,23 @@ internal class VisionListAdapter(private var key: Key, private val entities: Lin
         when (viewType) {
             ITEM_TYPE_WEB -> {
                 val webBinding = DataBindingUtil.bind<WebViewBinding>(LayoutInflater.from(parent?.context)
-                        .inflate(ITEM_LAYOUT_WEB, parent, false))
+                        .inflate(ITEM_LAYOUT_WEB, parent, false))!!
                 return WebViewHolder(webBinding, entities)
             }
             ITEM_TYPE_LANDMARK -> {
                 val landmarkBinding = DataBindingUtil.bind<LandmarkViewBinding>(LayoutInflater.from(parent?.context)
-                        .inflate(ITEM_LAYOUT_LANDMARK, parent, false))
+                        .inflate(ITEM_LAYOUT_LANDMARK, parent, false))!!
                 return LandmarkViewHolder(landmarkBinding, entities, key)
             }
             ITEM_TYPE_LOGO -> {
                 val logoBinding = DataBindingUtil.bind<LogoViewBinding>(LayoutInflater.from(parent?.context)
-                        .inflate(ITEM_LAYOUT_LOGO, parent, false))
+                        .inflate(ITEM_LAYOUT_LOGO, parent, false))!!
                 return LogoViewHolder(logoBinding, entities)
             }
             else -> {
                 // ITEM_TYPE_LABEL
                 val labelBinding = DataBindingUtil.bind<LabelViewBinding>(LayoutInflater.from(parent?.context)
-                        .inflate(ITEM_LAYOUT_LABEL, parent, false))
+                        .inflate(ITEM_LAYOUT_LABEL, parent, false))!!
                 return LabelViewHolder(labelBinding, entities)
             }
         }

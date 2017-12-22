@@ -25,11 +25,11 @@ class LicensesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<ActivityLicensesBinding>(this, LAYOUT)
+        binding = DataBindingUtil.setContentView(this, LAYOUT)!!
         setupBar()
     }
 
-    fun setupBar() {
+    private fun setupBar() {
         setSupportActionBar(binding.appToolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -25,7 +25,7 @@ class ClusterRenderer internal constructor(
         map: GoogleMap,
         clusterManager: ClusterManager<ClusterItem>,
         inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater,
-        private val binding: LayoutPlaceBinding = LayoutPlaceBinding.inflate(inflater)
+        private val binding: LayoutPlaceBinding = LayoutPlaceBinding.inflate(inflater)!!
 ) : DefaultClusterRenderer<ClusterItem>(context, map, clusterManager) {
     init {
         val g = IconGenerator(context)

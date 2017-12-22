@@ -25,7 +25,7 @@ class HistoryStackViewAdapter(val list: MutableList<HistoryItem>, val layoutInfl
         val holder: ViewHolder
         val historyItem = list[position]
         if (cv == null) {
-            holder = ViewHolder(DataBindingUtil.inflate(layoutInflater, ITEM_LAYOUT, parent, false))
+            holder = ViewHolder(DataBindingUtil.inflate(layoutInflater, ITEM_LAYOUT, parent, false)!!)
             cv = holder.binding.root
             holder.binding.root.tag = holder
         } else {

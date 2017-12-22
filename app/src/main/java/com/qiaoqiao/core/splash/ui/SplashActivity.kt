@@ -29,7 +29,7 @@ class SplashActivity : AppCompatActivity() {
         uiHelper = SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, 0)
         uiHelper.hide()
         super.onCreate(savedInstanceState)
-        this.binding = DataBindingUtil.setContentView<SplashBinding>(this, LAYOUT)
+        this.binding = DataBindingUtil.setContentView(this, LAYOUT)!!
         App.inject(this)
     }
 
