@@ -49,7 +49,7 @@
             android:layout_gravity="top|left|start"
             android:layout_margin="@dimen/larger"
             android:background="@color/colorTransparent"
-            android:onClick="@{() -> activity.supportFinishAfterTransition()}"
+            app:clickListener="@{(v) -> activity.supportFinishAfterTransition()}"
             app:srcCompat="@drawable/ic_back"/>
 
         <LinearLayout

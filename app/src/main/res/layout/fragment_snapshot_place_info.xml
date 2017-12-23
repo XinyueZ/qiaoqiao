@@ -17,7 +17,7 @@
 
         <variable
             name="clickHandler"
-            type="View.OnClickListener"/>
+            type="android.view.View.OnClickListener"/>
 
 
     </data>
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/larger"
             android:background="@drawable/selector_transparent_item_background"
-            android:onClick="@{ clickHandler::onClick}"
+            bind:clickListener="@{(v) -> clickHandler.onClick(v)}"
             android:text="@{placeWrapper.getPlace().getPhoneNumber()}"
             android:textColor="@color/colorBlue"
             android:textStyle="italic"
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/larger"
             android:background="@drawable/selector_transparent_item_background"
-            android:onClick="@{  clickHandler::onClick}"
+            bind:clickListener="@{ (v) -> clickHandler.onClick(v)}"
             android:text="@{placeWrapper.getPlace().getWebsiteUri().toString()}"
             android:textColor="@color/colorBlue"
             android:visibility="@{placeWrapper.getPlace().getWebsiteUri() == null ? View.GONE : View.VISIBLE}"
@@ -99,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_round_blue_rectangle_item_background"
-            android:onClick="@{  clickHandler::onClick}"
+            bind:clickListener="@{ (v) -> clickHandler.onClick(v)}"
             android:padding="@dimen/mini"
             android:visibility="@{placeWrapper.getPlace().getLatLng() == null ? View.GONE : View.VISIBLE}">
 

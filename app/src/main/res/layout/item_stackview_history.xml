@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -18,7 +19,7 @@
         android:background="@color/colorBlack80"
         android:elevation="@dimen/z_card"
         android:foreground="@drawable/selector_transparent_item_background"
-        android:onClick="@{() -> viewholder.onEntryClicked(historyItem)}"
+        bind:clickListener="@{(v) -> viewholder.onEntryClicked(historyItem)}"
         android:stateListAnimator="@animator/raise">
 
         <ImageView
