@@ -158,6 +158,14 @@ gradle.projectsEvaluated {
 }
 
 
+afterEvaluate {
+    android.applicationVariants.all {
+        def name = it.name.capitalize()
+        tasks["kapt${name}Kotlin"].dependsOn("transformDataBindingWithDataBindingMergeArtifactsFor${name}")
+
+    }
+}
+
 // Rename final apks
 //android.applicationVariants.all { variant ->
 //    variant.outputs.each { output ->

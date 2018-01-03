@@ -1,0 +1,9 @@
+ext {
+    //Cmd: assembleRelease
+    //Cmd: ./gradlew installLiveRelease
+    //Cmd: ./gradlew installDebug
+    storeFile = "/.../offical.keystore"
+    storePassword = "store-pwd"
+    keyAlias = "alias"
+    keyPassword = "key-pwd"
+}
