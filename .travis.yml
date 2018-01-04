@@ -14,7 +14,7 @@ licenses:
 jdk:
     - oraclejdk8
 script:
-    - ./gradlew clean build
+    - ./gradlew clean assembleDebug -x :app:processLiveDebugGoogleServices -x :app:processDevDebugGoogleServices
 before_cache:
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
