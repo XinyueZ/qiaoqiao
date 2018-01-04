@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/tools"
     >
 
     <data>
@@ -49,7 +50,7 @@
             android:layout_marginTop="@dimen/larger"
             android:background="@drawable/selector_round_blue_gray_rectangle_item_background"
             android:gravity="center"
-            android:onClick="@{clickHandler::onClick}"
+            bind:clickListener="@{(v) -> clickHandler.onClick(v)}"
             android:paddingBottom="@dimen/small"
             android:paddingLeft="@dimen/small"
             android:paddingRight="@dimen/small"

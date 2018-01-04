@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data class="LogoViewBinding">
 
@@ -22,7 +23,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/vision_iv"
             style="@style/VisionImageView"
-            android:onClick="@{() -> viewholder.onClicked(visionEntity)}"
+            bind:clickListener="@{(v) -> viewholder.onClicked(visionEntity)}"
             android:layout_weight="1"
             android:baselineAligned="false"/>
 
@@ -30,7 +31,7 @@
             android:id="@+id/vision_tv_fl"
             style="@style/VisionItemRoot"
             android:background="@drawable/selector_round_blue_gray_rectangle_item_background"
-            android:onClick="@{() -> viewholder.onClicked(visionEntity)}">
+            bind:clickListener="@{(v) -> viewholder.onClicked(visionEntity)}">
 
 
             <TextView
