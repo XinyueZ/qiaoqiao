@@ -105,4 +105,7 @@
 
     <string name="vision_successfully_title">estimated</string>
     <string name="vision_successfully_content">%s</string>
+
+    <!--<string name="web_client_id">@string/default_web_client_id</string>-->
+    <string name="web_client_id">[FIXME: Here use @string/default_web_client_id instead]</string>
 </resources>

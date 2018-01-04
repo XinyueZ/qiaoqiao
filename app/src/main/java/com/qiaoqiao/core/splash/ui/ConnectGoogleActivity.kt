@@ -77,7 +77,7 @@ class ConnectGoogleActivity : AppCompatActivity(), View.OnClickListener,
                     .addApi(Auth.GOOGLE_SIGN_IN_API,
                             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
                                     .requestId()
-                                    .requestIdToken(getString(R.string.default_web_client_id))
+                                    .requestIdToken(getString(R.string.web_client_id))
                                     .build())
                     .build()
             it.googleLoginBtn.setOnClickListener(this)
