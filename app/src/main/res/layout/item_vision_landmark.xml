@@ -23,13 +23,13 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/vision_iv"
             style="@style/VisionImageView"
-            bind:clickListener="@{(v) -> viewholder.onClicked(visionEntity)}"/>
+            android:onClick="@{(v) -> viewholder.onClicked(visionEntity)}"/>
 
         <FrameLayout
             android:id="@+id/vision_tv_fl"
             style="@style/VisionItemRoot"
             android:background="@drawable/selector_round_green_rectangle_item_background"
-            bind:clickListener="@{(v) -> viewholder.onClicked(visionEntity)}">
+            android:onClick="@{(v) -> viewholder.onClicked(visionEntity)}">
 
 
             <TextView

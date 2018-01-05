@@ -51,7 +51,7 @@ android {
         targetSdkVersion globalConfiguration.getAt("targetSdkVersion")
 
         //      testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner  globalConfiguration.getAt("testInstrumentationRunner")
+        testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
     }
 
 
@@ -129,7 +129,7 @@ android {
             // All the usual Gradle options.
             testLogging {
                 events "passed", "skipped", "failed", "standardOut", "standardError"
-                outputs.upToDateWhen {false}
+                outputs.upToDateWhen { false }
                 showStandardStreams = true
             }
         }
@@ -149,6 +149,13 @@ dependencies {
 }
 
 
+afterEvaluate {
+    android.applicationVariants.all {
+        def name = it.name.capitalize()
+        tasks["kapt${name}Kotlin"].dependsOn("transformDataBindingWithDataBindingMergeArtifactsFor${name}")
+
+    }
+}
 
 
 gradle.projectsEvaluated {
@@ -156,7 +163,6 @@ gradle.projectsEvaluated {
         options.compilerArgs << "-Xmaxerrs" << "500" // or whatever number you want
     }
 }
-
 
 // Rename final apks
 //android.applicationVariants.all { variant ->

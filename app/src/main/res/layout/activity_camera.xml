@@ -147,7 +147,7 @@
                                 android:layout_marginBottom="@dimen/small"
                                 android:layout_marginTop="@dimen/small"
                                 android:background="@drawable/selector_round_green_rectangle_item_background"
-                                app:clickListener="@{(v) -> clickHandler.onClick(v)}"
+                                android:onClick="@{(v) -> clickHandler.onClick(v)}"
                                 android:tint="@color/colorWhite"
                                 app:srcCompat="@drawable/ic_expand_more"/>
                         </LinearLayout>
@@ -226,7 +226,7 @@
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginBottom="@dimen/small"
                     android:background="@drawable/selector_round_green_rectangle_item_background"
-                    app:clickListener="@{(v) -> clickHandler.onClick(v)}"
+                    android:onClick="@{(v) -> clickHandler.onClick(v)}"
                     android:tint="@color/colorWhite"
                     app:srcCompat="@drawable/ic_expand_less"/>
             </FrameLayout>

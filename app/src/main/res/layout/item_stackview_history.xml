@@ -19,7 +19,7 @@
         android:background="@color/colorBlack80"
         android:elevation="@dimen/z_card"
         android:foreground="@drawable/selector_transparent_item_background"
-        bind:clickListener="@{(v) -> viewholder.onEntryClicked(historyItem)}"
+        android:onClick="@{(v) -> viewholder.onEntryClicked(historyItem)}"
         android:stateListAnimator="@animator/raise">
 
         <ImageView

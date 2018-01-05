@@ -50,7 +50,7 @@
             android:layout_marginTop="@dimen/larger"
             android:background="@drawable/selector_round_blue_gray_rectangle_item_background"
             android:gravity="center"
-            bind:clickListener="@{(v) -> clickHandler.onClick(v)}"
+            android:onClick="@{(v) -> clickHandler.onClick(v)}"
             android:paddingBottom="@dimen/small"
             android:paddingLeft="@dimen/small"
             android:paddingRight="@dimen/small"
