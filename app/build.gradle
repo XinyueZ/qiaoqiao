@@ -149,15 +149,6 @@ dependencies {
 }
 
 
-afterEvaluate {
-    android.applicationVariants.all {
-        def name = it.name.capitalize()
-        tasks["kapt${name}Kotlin"].dependsOn("transformDataBindingWithDataBindingMergeArtifactsFor${name}")
-
-    }
-}
-
-
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xmaxerrs" << "500" // or whatever number you want
