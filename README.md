@@ -11,13 +11,14 @@
  
 
 
-- Use ```./gradlew clean assembleDebug -x :app:processLiveDebugGoogleServices -x :app:processDevDebugGoogleServices```
+- Compile ```./gradlew clean assembleDebug```
 
-- Ignore config of Play Service, use own one if checkout this project.
-    - ```app/src/dev/google-services.json```
-    - ```app/src/live/google-services.json```
+- Build APK: Because I have ignored config of Play Service, you must use own one if checkout this project.
+    - Dev version ```app/src/dev/google-services.json```
+    - Live version ```app/src/live/google-services.json```
     - Take care in ```strings.xml```, when use own ```google-services.json```
         -     <!--<string name="web_client_id">@string/default_web_client_id</string>-->
               <string name="web_client_id">[FIXME: Here use @string/default_web_client_id instead]</string>
+        - Comment out ```gradle.startParameter.excludedTaskNames``` in ```build.gradle```
             
 
