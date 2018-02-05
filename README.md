@@ -16,6 +16,7 @@
 - Build APK: Because I have ignored config of Play Service, you must use own one if checkout this project.
     - Dev version ```app/src/dev/google-services.json```
     - Live version ```app/src/live/google-services.json```
+    - Complete ```buildtools/release.json``` for a release version.
     - Take care in ```strings.xml```, when use own ```google-services.json```
         -     <!--<string name="web_client_id">@string/default_web_client_id</string>-->
               <string name="web_client_id">[FIXME: Here use @string/default_web_client_id instead]</string>
