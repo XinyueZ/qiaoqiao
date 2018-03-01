@@ -76,8 +76,7 @@ class LicensesFragment : AppCompatDialogFragment() {
 
     private fun loadLicences() {
         loaderManager.initLoader(ID_LOAD_LICENCES_TASK, EMPTY, object : LoaderManager.LoaderCallbacks<Licenses> {
-
-            override fun onCreateLoader(id: Int, args: Bundle) = context?.let { CreateLoaderTask(it, gson) }
+            override fun onCreateLoader(id: Int, args: Bundle?): Loader<Licenses> = CreateLoaderTask(requireContext(), gson)
             override fun onLoadFinished(loader: Loader<Licenses>, licenses: Licenses?) {
                 if (licenses != null) {
                     val adapter = LicencesListAdapter(licenses)

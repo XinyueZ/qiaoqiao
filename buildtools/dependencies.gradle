@@ -14,7 +14,7 @@ ext {
     def retrofit = "2.+"
     def rxandroid = "2.+"
     def easypermissions = "0.4.2"
-    def multidexVersion = "1.0.2"
+    def multidexVersion = project.MULTI_DEX
     def mapsUtilsVersion = "0.5+"
     def rxandroidAdapter = "2+"
     def appCompatVersion = project.SUPPORT
@@ -23,7 +23,7 @@ ext {
     def dataBinding = ext.gradle_version
 
     //Test libs
-    def multidexInstrumentation = "1.0.2"
+    def multidexInstrumentation = project.MULTI_DEX
     def robolectric = "3.5.1"
     def shadowsMultidex = "3.4.2"
     def mockitoVersion = "1.10.19"

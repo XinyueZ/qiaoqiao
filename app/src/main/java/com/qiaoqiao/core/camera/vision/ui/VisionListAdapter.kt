@@ -32,26 +32,26 @@ internal class VisionListAdapter(private var key: Key, private val entities: Lin
 
     override fun getItemCount() = entities.size
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AbstractVisionViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractVisionViewHolder {
         when (viewType) {
             ITEM_TYPE_WEB -> {
-                val webBinding = DataBindingUtil.bind<WebViewBinding>(LayoutInflater.from(parent?.context)
+                val webBinding = DataBindingUtil.bind<WebViewBinding>(LayoutInflater.from(parent.context)
                         .inflate(ITEM_LAYOUT_WEB, parent, false))!!
                 return WebViewHolder(webBinding, entities)
             }
             ITEM_TYPE_LANDMARK -> {
-                val landmarkBinding = DataBindingUtil.bind<LandmarkViewBinding>(LayoutInflater.from(parent?.context)
+                val landmarkBinding = DataBindingUtil.bind<LandmarkViewBinding>(LayoutInflater.from(parent.context)
                         .inflate(ITEM_LAYOUT_LANDMARK, parent, false))!!
                 return LandmarkViewHolder(landmarkBinding, entities, key)
             }
             ITEM_TYPE_LOGO -> {
-                val logoBinding = DataBindingUtil.bind<LogoViewBinding>(LayoutInflater.from(parent?.context)
+                val logoBinding = DataBindingUtil.bind<LogoViewBinding>(LayoutInflater.from(parent.context)
                         .inflate(ITEM_LAYOUT_LOGO, parent, false))!!
                 return LogoViewHolder(logoBinding, entities)
             }
             else -> {
                 // ITEM_TYPE_LABEL
-                val labelBinding = DataBindingUtil.bind<LabelViewBinding>(LayoutInflater.from(parent?.context)
+                val labelBinding = DataBindingUtil.bind<LabelViewBinding>(LayoutInflater.from(parent.context)
                         .inflate(ITEM_LAYOUT_LABEL, parent, false))!!
                 return LabelViewHolder(labelBinding, entities)
             }
@@ -75,13 +75,13 @@ internal class VisionListAdapter(private var key: Key, private val entities: Lin
         return super.getItemViewType(position)
     }
 
-    override fun onBindViewHolder(holder: AbstractVisionViewHolder?, position: Int) {
-        holder?.onBindViewHolder()
-        holder?.getBinding()?.executePendingBindings()
+    override fun onBindViewHolder(holder: AbstractVisionViewHolder, position: Int) {
+        holder.onBindViewHolder()
+        holder.getBinding().executePendingBindings()
     }
 
-    override fun onViewRecycled(holder: AbstractVisionViewHolder?) {
-        holder?.onViewRecycled()
+    override fun onViewRecycled(holder: AbstractVisionViewHolder) {
+        holder.onViewRecycled()
     }
 
     fun addVisionEntityList(entityList: List<VisionEntity>) {
