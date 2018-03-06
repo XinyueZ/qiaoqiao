@@ -19,6 +19,9 @@ ext {
     def rxandroidAdapter = "2+"
     def appCompatVersion = project.SUPPORT
 
+    //tensorflow
+    def tf = "+"
+
     //databinding
     def dataBinding = ext.gradle_version
 
@@ -168,6 +171,9 @@ ext {
 
             //Kotlin
             [configuration: "implementation", dependency: [group: "org.jetbrains.kotlin", name: "kotlin-stdlib", version: kotlin]],
+
+            //Tensorflow
+            [configuration: "implementation", dependency: [group: "org.tensorflow", name: "tensorflow-lite", version: tf]],
 
 
 
