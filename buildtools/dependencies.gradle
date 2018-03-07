@@ -18,6 +18,7 @@ ext {
     def mapsUtilsVersion = "0.5+"
     def rxandroidAdapter = "2+"
     def appCompatVersion = project.SUPPORT
+    def ktx = "0.2"
 
     //databinding
     def dataBinding = ext.gradle_version
@@ -78,6 +79,9 @@ ext {
             [configuration: "implementation", dependency: [group: "com.android.support", name: "recyclerview-v7", version: appCompatVersion]],
             [configuration: "implementation", dependency: [group: "com.android.support", name: "support-vector-drawable", version: appCompatVersion]],
             [configuration: "implementation", dependency: [group: "com.android.support", name: "animated-vector-drawable", version: appCompatVersion]],
+
+            //Ktx
+            [configuration: "implementation", dependency: [group: "androidx.core", name: "core-ktx", version: ktx]],
 
             //Apache
             [configuration: "implementation", dependency: [group: "commons-io", name: "commons-io", version: apacheIO]],
