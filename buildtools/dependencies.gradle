@@ -41,7 +41,7 @@ ext {
     def httpClientGson = "1.20.0"
     def httpClientAndroid = "1.20.0"
     def playService = project.PLAY_FIRE
-    def vision = "v1-rev371-1.23.0"
+    def vision = "v1-rev373-1.23.0"
 
     //Image, loader, video
     def glide = "4.0.0"
