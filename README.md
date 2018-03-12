@@ -3,7 +3,7 @@
 - Use Tensorflow-Lite to classify camera frames.
 - This is a standalone branch, it won't be merged in to [https://github.com/XinyueZ/qiaoqiao/tree/feature/dev](dev).
 - An Android-app that gives detected information about live shooting, based on Google AI.
-- Based on Google's Vision API.
+- Based on Google's [Vision API](https://cloud.google.com/vision/).
 
 # Task of this branch
 
