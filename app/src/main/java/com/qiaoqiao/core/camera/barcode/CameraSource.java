@@ -37,6 +37,7 @@ import android.view.WindowManager;
 import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
+import com.qiaoqiao.repository.backend.model.wikipedia.LangLink;
 
 import java.io.IOException;
 import java.lang.Thread.State;
@@ -1070,9 +1071,13 @@ public class CameraSource {
             mFrameProcessor.setNextFrame(data, camera);
 
             if (mFrameUpdateCallback != null) {
-                Camera.Parameters parameters = camera.getParameters();
-                if (parameters != null) {
-                    mFrameUpdateCallback.onUpdated(data, parameters.getPreviewSize(), parameters.getPreviewFormat());
+                try {
+                    Camera.Parameters parameters = camera.getParameters();
+                    if (parameters != null) {
+                        mFrameUpdateCallback.onUpdated(data, parameters.getPreviewSize(), parameters.getPreviewFormat());
+                    }
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
                 }
             }
         }
