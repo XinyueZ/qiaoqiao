@@ -384,4 +384,8 @@ class CameraActivity : AppCompatActivity(), CameraContract.View, View.OnClickLis
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
+    override fun tfOutput(tfOutput: String?) {
+        binding?.tfTv?.text = tfOutput
+    }
 }

@@ -11,7 +11,7 @@ import com.qiaoqiao.repository.backend.KnowledgeRequest
 import com.qiaoqiao.repository.backend.ProductsService
 import com.qiaoqiao.repository.backend.Wikipedia
 import com.qiaoqiao.repository.backend.model.wikipedia.LangLink
-import com.qiaoqiao.rx.Composer
+import com.qiaoqiao.rx.IoToMainScheduleObservable
 import io.reactivex.disposables.Disposable
 import java.util.*
 
@@ -23,7 +23,7 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
                             Locale.getDefault().language,
                             "text",
                             key.toString())
-                    .compose(Composer())
+                    .compose(IoToMainScheduleObservable())
                     .subscribe({ callback.onTranslateData(it.data) }, { callback.onException(it) }))
         } ?: run {
             throw NotImplementedError()
@@ -34,7 +34,7 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
         wikipedia?.let {
             return (it.getResult(KnowledgeRequest(Locale.getDefault()
                     .language, keyword))
-                    .compose(Composer())
+                    .compose(IoToMainScheduleObservable())
                     .subscribe({
                         if (it.query
                                 .pages
@@ -51,7 +51,7 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
     override fun onKnowledgeQuery(langLink: LangLink, callback: DsLoadedCallback): Disposable {
         wikipedia?.let {
             return (it.getResult(KnowledgeRequest(langLink.language, langLink.query))
-                    .compose(Composer())
+                    .compose(IoToMainScheduleObservable())
                     .subscribe({
                         if (it.query
                                 .pages
@@ -69,7 +69,7 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
         wikipedia?.let {
             return (it.getResult(wikiQuery(Locale.getDefault()
                     .language, pageId.toString() + ""))
-                    .compose(Composer())
+                    .compose(IoToMainScheduleObservable())
                     .subscribe({
                         if (!it.query.pages.list.isEmpty()) {
                             callback.onKnowledgeResponse(it)
@@ -85,7 +85,7 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
             val geoLoc = String.format("%s|%s", latLng.latitude.toString(), latLng.longitude.toString())
             return (it.getGeosearch(wikiGeosearch(Locale.getDefault()
                     .language, radius, geoLoc))
-                    .compose(Composer())
+                    .compose(IoToMainScheduleObservable())
                     .subscribe({
                         if (it.query != null) {
                             callback.onGeosearchResponse(it)
@@ -98,7 +98,7 @@ class DsKnowledgeRemoteSource(private val key: Key, google: Google, wikipedia: W
 
     override fun onKnowledgeQuery(barcode: Barcode, callback: DsLoadedCallback): Disposable {
         productsService?.let {
-            return (it.getProduct(KnowledgeRequest(Locale.getDefault().language, barcode.rawValue)).compose(Composer())
+            return (it.getProduct(KnowledgeRequest(Locale.getDefault().language, barcode.rawValue)).compose(IoToMainScheduleObservable())
                     .subscribe({
                         callback.onKnowledgeResponse(ProductEntity(it))
                     }, { callback.onException(it) }))

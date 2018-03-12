@@ -160,6 +160,12 @@ public class CameraSource {
      */
     private Map<byte[], ByteBuffer> mBytesToByteBuffer = new HashMap<>();
 
+    private FrameUpdateCallback mFrameUpdateCallback;
+
+    public void setFrameUpdateCallback(FrameUpdateCallback frameUpdateCallback) {
+        mFrameUpdateCallback = frameUpdateCallback;
+    }
+
     //==============================================================================================
     // Builder
     //==============================================================================================
@@ -322,6 +328,7 @@ public class CameraSource {
     public void release() {
         synchronized (mCameraLock) {
             stop();
+            mFrameUpdateCallback = null;
             mFrameProcessor.release();
         }
     }
@@ -1061,6 +1068,13 @@ public class CameraSource {
         @Override
         public void onPreviewFrame(byte[] data, Camera camera) {
             mFrameProcessor.setNextFrame(data, camera);
+
+            if (mFrameUpdateCallback != null) {
+                Camera.Parameters parameters = camera.getParameters();
+                if (parameters != null) {
+                    mFrameUpdateCallback.onUpdated(data, parameters.getPreviewSize(), parameters.getPreviewFormat());
+                }
+            }
         }
     }
 

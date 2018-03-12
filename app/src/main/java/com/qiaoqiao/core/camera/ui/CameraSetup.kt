@@ -55,6 +55,7 @@ internal object CameraSetup {
                         .setRequestedFps(15.0f)
                         .build()
                 try {
+                    cameraSource.setFrameUpdateCallback(mCameraPresenter)
                     it.cameraSource = cameraSource
                     it.scaleDetector = ScaleGestureDetector(this, ScaleListener(cameraSource))
                     it.gestureDetector = GestureDetectorCompat(this, CaptureGestureListener(this, it.barcodeDetectorOverlay as GraphicOverlay<BarcodeGraphic>))

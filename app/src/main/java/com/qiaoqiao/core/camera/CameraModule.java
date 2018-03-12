@@ -10,6 +10,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
 import com.qiaoqiao.core.camera.annotation.CameraScoped;
 import com.qiaoqiao.core.camera.crop.CropCallback;
+import com.qiaoqiao.core.camera.tf.ImageClassifier;
 
 import dagger.Module;
 import dagger.Provides;
@@ -37,6 +38,11 @@ public final class CameraModule {
 		return (CropCallback)mView;
 	}
 
+	@CameraScoped
+	@Provides
+	ImageClassifier provideImageClassifier(@NonNull Context cxt) {
+		return new ImageClassifier(cxt);
+	}
 
 	@Provides
 	@CameraScoped

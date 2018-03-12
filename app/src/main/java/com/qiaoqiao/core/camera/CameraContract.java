@@ -21,6 +21,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.qiaoqiao.core.camera.barcode.FrameUpdateCallback;
 import com.qiaoqiao.core.camera.crop.model.CropSource;
 import com.qiaoqiao.core.camera.vision.model.VisionEntity;
 import com.qiaoqiao.databinding.ActivityCameraBinding;
@@ -49,9 +50,12 @@ public interface CameraContract {
 		ActivityCameraBinding getBinding();
 
 		void openCrop(@NonNull CropSource cropSource);
+
+		void tfOutput(String tfOutput);
 	}
 
-	interface Presenter extends BasePresenter {
+	interface Presenter extends BasePresenter,
+	                            FrameUpdateCallback {
 
 		void updateWhenResponse(VisionEntity visionEntity);
 
