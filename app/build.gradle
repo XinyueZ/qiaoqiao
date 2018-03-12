@@ -164,4 +164,8 @@ gradle.projectsEvaluated {
 //    }
 //}
 
+kapt {
+    useBuildCache = true
+}
+
 apply plugin: 'com.google.gms.google-services'
