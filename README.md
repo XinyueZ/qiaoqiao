@@ -1,13 +1,14 @@
-# ViApp with Tensorflow-Lite
+# ViApp with [Vision API](https://cloud.google.com/vision/)
 
 - Use [Vision API](https://cloud.google.com/vision/) to classify camera frames.
 - An Android-app that gives detected information about live shooting, based on Google AI.
+- Based on Google's [Vision API](https://cloud.google.com/vision/).
 
-![sample](media/)
+[![Showcase](https://lh3.googleusercontent.com/n7Mmjue0dMFD6v6km_2vQWf6BOznblfdo4V2ZpyI5Cy0iqV8v5IiTcgjc6QxaTgmfOtHzn8D_GS9MUzjSqgX=w1920-h1080-n-k-rw)](https://drive.google.com/file/d/1ll_fCFRAAcsZ9Ja9yDb2MguMjne0vz_O/view)
 
 # CI and Checkout     
     
-[![Build Status](https://travis-ci.org/XinyueZ/qiaoqiao.svg?branch=master)](https://travis-ci.org/XinyueZ/qiaoqiao)
+[![Build Status](https://travis-ci.org/XinyueZ/qiaoqiao.svg?branch=feature%2Ftensorflow-lite)](https://travis-ci.org/XinyueZ/qiaoqiao)
  
 - Compile ```./gradlew clean assembleDebug```
 
