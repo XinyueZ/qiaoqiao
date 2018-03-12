@@ -1,9 +1,3 @@
-project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets/tf'
-
-assert file(project.ext.ASSET_DIR + "/graph.lite").exists()
-assert file(project.ext.ASSET_DIR + "/labels.txt").exists()
-
-
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -141,11 +135,6 @@ android {
         }
 
     }
-
-    aaptOptions {
-        noCompress "tflite"
-        noCompress "lite"
-    }
 }
 
 
@@ -174,5 +163,9 @@ gradle.projectsEvaluated {
 //                .replace(".apk", "-${android.defaultConfig.versionName}${buildNumber}.apk"))
 //    }
 //}
+
+kapt {
+    useBuildCache = true
+}
 
 apply plugin: 'com.google.gms.google-services'
