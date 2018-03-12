@@ -8,8 +8,8 @@
 
 # CI and Checkout     
     
-[![Build Status](https://travis-ci.org/XinyueZ/qiaoqiao.svg?branch=feature%2Ftensorflow-lite)](https://travis-ci.org/XinyueZ/qiaoqiao)
- 
+[![Build Status](https://travis-ci.org/XinyueZ/qiaoqiao.svg?branch=dev)](https://travis-ci.org/XinyueZ/qiaoqiao)
+
 - Compile ```./gradlew clean assembleDebug```
 
 - Build APK: Because I have ignored config of Play Service, you must use own one if checkout this project.
