@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="pb_stroke_width">10</integer>
-    <integer name="num_columns">2</integer>
-    <integer name="zoom">14</integer>
-</resources>

@@ -1,27 +1,17 @@
-# ViApp with [Vision API](https://cloud.google.com/vision/)
+# ViApp 
 
-- Use [Vision API](https://cloud.google.com/vision/) to classify camera frames.
-- An Android-app that gives detected information about live shooting, based on Google AI.
+### App for image classification
+
+- Using different AI tech to classify camera frames on Android platform.
 - Based on Google's [Vision API](https://cloud.google.com/vision/).
+- Based on Google's [Tensorflow lite](https://www.tensorflow.org/mobile/tflite/).
 
-[![Showcase](https://lh3.googleusercontent.com/n7Mmjue0dMFD6v6km_2vQWf6BOznblfdo4V2ZpyI5Cy0iqV8v5IiTcgjc6QxaTgmfOtHzn8D_GS9MUzjSqgX=w1920-h1080-n-k-rw)](https://drive.google.com/file/d/1ll_fCFRAAcsZ9Ja9yDb2MguMjne0vz_O/view)
+### Branch specialization
 
-# CI and Checkout     
-    
-[![Build Status](https://travis-ci.org/XinyueZ/qiaoqiao.svg?branch=dev)](https://travis-ci.org/XinyueZ/qiaoqiao)
-
-- Compile ```./gradlew clean assembleDebug```
-
-- Build APK: Because I have ignored config of Play Service, you must use own one if checkout this project.
-    - Dev version ```app/src/dev/google-services.json```
-    - Live version ```app/src/live/google-services.json```
-    - Complete ```buildtools/release.json``` for a release version.
-    - Take care in ```strings.xml```, when use own ```google-services.json```
-        -     <!--<string name="web_client_id">@string/default_web_client_id</string>-->
-              <string name="web_client_id">[FIXME: Here use @string/default_web_client_id instead]</string>
-        - Comment out ```gradle.startParameter.excludedTaskNames``` in ```build.gradle```
-            
-        
+branch | task
+---- | ---
+[dev](https://github.com/XinyueZ/qiaoqiao/tree/dev) | Develop features with [Vision API](https://cloud.google.com/vision/)
+[feature/tensorflow-lite](https://github.com/XinyueZ/qiaoqiao/tree/feature/tensorflow-lite) |  Evaluation with [Tensorflow lite](https://www.tensorflow.org/mobile/tflite/)
 
 # License
 
