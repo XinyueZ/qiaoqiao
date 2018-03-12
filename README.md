@@ -17,7 +17,7 @@
 
 # CI and Checkout     
     
-[![Build Status](https://travis-ci.org/XinyueZ/qiaoqiao.svg?branch=master)](https://travis-ci.org/XinyueZ/qiaoqiao)
+[![Build Status](https://travis-ci.org/XinyueZ/qiaoqiao.svg?branch=feature%2Ftensorflow-lite)](https://travis-ci.org/XinyueZ/qiaoqiao)
  
 - Compile ```./gradlew clean assembleDebug```
 
