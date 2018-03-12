@@ -9,7 +9,7 @@ import com.qiaoqiao.core.camera.vision.bus.VisionEntityClickEvent
 import com.qiaoqiao.core.camera.vision.model.VisionEntity
 import com.qiaoqiao.core.confidence.ui.Confidence
 import com.qiaoqiao.repository.DsRepository
-import com.qiaoqiao.rx.Composer
+import com.qiaoqiao.rx.IoToMainScheduleObservable
 import com.qiaoqiao.rx.safeList
 import de.greenrobot.event.Subscribe
 import io.reactivex.Flowable
@@ -63,7 +63,7 @@ class VisionPresenter @Inject constructor(cxt: Context, val view: VisionContract
                         !TextUtils.isEmpty(it.description) && it.score > Confidence.createFromPrefs(contextReference.get() as Context, KEY_CONFIDENCE_IMAGE, DEFAULT_CONFIDENCE_IMAGE)
                                 .value
                     }).map({ VisionEntity(it, "WEB_DETECTION", it.score).setActivated(true) })
-            ).compose(Composer()).toList().subscribe { it ->
+            ).compose(IoToMainScheduleObservable()).toList().subscribe { it ->
                 view.addEntities(it)
                 if (show) {
                     val entity = it.maxWith(Comparator<VisionEntity> { x, y -> -(y.score - x.score).toInt() })

@@ -23,7 +23,7 @@ import com.qiaoqiao.core.camera.awareness.ui.Adjust
 import com.qiaoqiao.repository.DsLoadedCallback
 import com.qiaoqiao.repository.DsRepository
 import com.qiaoqiao.repository.backend.model.wikipedia.geo.GeoResult
-import com.qiaoqiao.rx.Composer
+import com.qiaoqiao.rx.IoToMainScheduleObservable
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -133,7 +133,7 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
                                                 PlaceWrapper(it.place, image)
                                             } else PlaceWrapper(it.place, null)
                                         }.filter { it.bitmap != null }.map { it as ClusterItem }
-                        ).compose(Composer()).toList().subscribe(Consumer { view.showAllGeoAndPlaces(it) })
+                        ).compose(IoToMainScheduleObservable()).toList().subscribe(Consumer { view.showAllGeoAndPlaces(it) })
                     }
                 }))
     }
