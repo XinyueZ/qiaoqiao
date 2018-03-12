@@ -21,16 +21,18 @@
  
 - Compile ```./gradlew clean assembleDebug```
 
-- Build APK: Because I have ignored config of Play Service, you must use own one if checkout this project.
-    - Dev version ```app/src/dev/google-services.json```
-    - Live version ```app/src/live/google-services.json```
+- Build APK
+    - Create own play-service configs:
+        - Dev version  ```app/src/dev/google-services.json```
+        - Live version ```app/src/live/google-services.json```
+    - Create own [Vision API](https://cloud.google.com/vision/) key config and -> Add ```apikey=AIzaSyDyzw0eS3lQKLasdfasdf3tkjöl```
+        - ```app/src/dev/resources/key.properties```
+        - ```app/src/live/resources/key.properties```
     - Complete ```buildtools/release.json``` for a release version.
     - Take care in ```strings.xml```, when use own ```google-services.json```
         -     <!--<string name="web_client_id">@string/default_web_client_id</string>-->
               <string name="web_client_id">[FIXME: Here use @string/default_web_client_id instead]</string>
         - Comment out ```gradle.startParameter.excludedTaskNames``` in ```build.gradle```
-            
-        
 
 # License
 
