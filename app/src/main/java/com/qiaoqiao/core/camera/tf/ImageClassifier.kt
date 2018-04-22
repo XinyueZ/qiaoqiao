@@ -83,7 +83,7 @@ class ImageClassifier(context: Context) {
         convertBitmapToByteBuffer(bitmap)
         // Here's where the magic happens!!!
         val startTime = SystemClock.uptimeMillis()
-        tflite!!.run(imgData, labelProbArray)
+        tflite!!.run(imgData!!, labelProbArray!!)
         val endTime = SystemClock.uptimeMillis()
         Log.d(
             TAG,
