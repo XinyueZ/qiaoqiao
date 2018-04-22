@@ -1,3 +1,12 @@
+project.ext.DEV = "src/dev"
+project.ext.LIVE = "src/live"
+project.ext.ASSET_DIR = projectDir.toString() + '/assets'
+
+assert file(project.ext.LIVE + "/google-services.json").exists()
+assert file(project.ext.LIVE + "/resources/key.properties").exists()
+assert file(project.ext.DEV  + "/google-services.json").exists()
+assert file(project.ext.DEV + "/resources/key.properties").exists()
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -118,9 +127,6 @@ android {
         javaMaxHeapSize project.JAVA_MAX_HEAP_SIZE
     }
 
-    aaptOptions {
-        noCompress "lite"
-    }
 
     testOptions { // <-- You need this
         unitTests {
