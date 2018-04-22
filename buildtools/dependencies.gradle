@@ -21,7 +21,7 @@ ext {
     def ktx = "0.2"
 
     //tensorflow
-    def tf = "+"
+    def tf = "0.1"
 
     //databinding
     def dataBinding = ext.gradle_version
