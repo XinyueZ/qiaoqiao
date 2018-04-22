@@ -20,8 +20,6 @@ ext {
     def appCompatVersion = project.SUPPORT
     def ktx = "0.2"
 
-    //databinding
-    def dataBinding = ext.gradle_version
 
     //Test libs
     def multidexInstrumentation = project.MULTI_DEX
@@ -98,8 +96,6 @@ ext {
             [configuration: "kapt", dependency: [group: "com.google.dagger", name: "dagger-compiler", version: dagger]],
             [configuration: "kapt", dependency: [group: "com.google.dagger", name: "dagger-android-processor", version: dagger]],
 
-            //DataBinding
-            [configuration: "kapt", dependency: [group: "com.android.databinding", name: "compiler", version: dataBinding]],
 
             //Image, loader
             [configuration: "implementation", dependency: [group: "com.github.bumptech.glide", name: "glide", version: glide]],
