@@ -13,6 +13,10 @@ if (!executingOnCI) {
     println "👍  On computer building"
 } else {
     println "👍  On CI building"
+    assert !file(project.ext.LIVE + "/google-services.json").exists()
+    assert !file(project.ext.LIVE + "/resources/key.properties").exists()
+    assert !file(project.ext.DEV + "/google-services.json").exists()
+    assert !file(project.ext.DEV + "/resources/key.properties").exists()
 }
 
 buildscript {
