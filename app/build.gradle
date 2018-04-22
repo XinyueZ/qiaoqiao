@@ -1,11 +1,16 @@
-project.ext.DEV = "src/dev"
-project.ext.LIVE = "src/live"
-project.ext.ASSET_DIR = projectDir.toString() + '/assets'
+def ciServer = 'TRAVIS'
+def executingOnCI = "true".equals(System.getenv(ciServer))
 
-assert file(project.ext.LIVE + "/google-services.json").exists()
-assert file(project.ext.LIVE + "/resources/key.properties").exists()
-assert file(project.ext.DEV  + "/google-services.json").exists()
-assert file(project.ext.DEV + "/resources/key.properties").exists()
+if (!executingOnCI) {
+    project.ext.DEV = "src/dev"
+    project.ext.LIVE = "src/live"
+    project.ext.ASSET_DIR = projectDir.toString() + '/assets'
+
+    assert file(project.ext.LIVE + "/google-services.json").exists()
+    assert file(project.ext.LIVE + "/resources/key.properties").exists()
+    assert file(project.ext.DEV + "/google-services.json").exists()
+    assert file(project.ext.DEV + "/resources/key.properties").exists()
+}
 
 buildscript {
     repositories {
