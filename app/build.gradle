@@ -1,16 +1,16 @@
 def ciServer = 'TRAVIS'
 def executingOnCI = "true".equals(System.getenv(ciServer))
 
-if (!executingOnCI) {
-    project.ext.DEV = "src/dev"
-    project.ext.LIVE = "src/live"
-    project.ext.ASSET_DIR = projectDir.toString() + '/assets'
+project.ext.DEV = "src/dev"
+project.ext.LIVE = "src/live"
+project.ext.ASSET_DIR = projectDir.toString() + '/assets'
 
+if (!executingOnCI) {
+    println "👍  On computer building"
     assert file(project.ext.LIVE + "/google-services.json").exists()
     assert file(project.ext.LIVE + "/resources/key.properties").exists()
     assert file(project.ext.DEV + "/google-services.json").exists()
     assert file(project.ext.DEV + "/resources/key.properties").exists()
-    println "👍  On computer building"
 } else {
     println "👍  On CI building"
     assert !file(project.ext.LIVE + "/google-services.json").exists()
