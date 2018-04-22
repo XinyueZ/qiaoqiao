@@ -10,6 +10,9 @@ if (!executingOnCI) {
     assert file(project.ext.LIVE + "/resources/key.properties").exists()
     assert file(project.ext.DEV + "/google-services.json").exists()
     assert file(project.ext.DEV + "/resources/key.properties").exists()
+    println "👍  On computer building"
+} else {
+    println "👍  On CI building"
 }
 
 buildscript {
