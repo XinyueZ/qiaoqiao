@@ -31,7 +31,11 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
         fun newInstance(cxt: Context, placeWrapper: PlaceWrapper): AppCompatDialogFragment {
             val args = Bundle(1)
             args.putSerializable(EXTRAS_PLACE, placeWrapper)
-            return BottomSheetDialogFragment.instantiate(cxt, SnapshotPlaceInfoFragment::class.java.name, args) as SnapshotPlaceInfoFragment
+            return BottomSheetDialogFragment.instantiate(
+                cxt,
+                SnapshotPlaceInfoFragment::class.java.name,
+                args
+            ) as SnapshotPlaceInfoFragment
         }
     }
 
@@ -82,15 +86,22 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
                         val placeWrapper = this@apply.getSerializable(EXTRAS_PLACE) as PlaceWrapper
                         when (v.id) {
                             R.id.web_tv -> {
-                                val app = this@with.application as App
-                                CustomTabUtils.openWeb(it, placeWrapper.place
-                                        .websiteUri, app.customTabConfig.builder)
+                                placeWrapper.place.websiteUri?.apply {
+                                    val app = this@with.application as App
+                                    CustomTabUtils.openWeb(it, this, app.customTabConfig.builder)
+                                }
                             }
-                            R.id.tel_tv -> callPhoneNumber(this@with,
-                                    placeWrapper.place
-                                            .phoneNumber
-                                            .toString())
-                            else -> MapActivity.showInstance(this@with, placeWrapper.position, binding!!.openMapBtn)
+                            R.id.tel_tv -> callPhoneNumber(
+                                this@with,
+                                placeWrapper.place
+                                    .phoneNumber
+                                    .toString()
+                            )
+                            else -> MapActivity.showInstance(
+                                this@with,
+                                placeWrapper.position,
+                                binding!!.openMapBtn
+                            )
                         }
                     }
                 }
@@ -99,7 +110,8 @@ class SnapshotPlaceInfoFragment : BottomSheetDialogFragment(), View.OnClickListe
         }
     }
 
-    private fun getSanitizedPhoneNumber(phoneNumber: String) = phoneNumber.replace("[^0-9+]+".toRegex(), "")
+    private fun getSanitizedPhoneNumber(phoneNumber: String) =
+        phoneNumber.replace("[^0-9+]+".toRegex(), "")
 
     private fun createCallPhoneNumberIntent(phoneNumber: String?) = if (phoneNumber != null) {
         val sanitizedPhoneNumber = getSanitizedPhoneNumber(phoneNumber)
