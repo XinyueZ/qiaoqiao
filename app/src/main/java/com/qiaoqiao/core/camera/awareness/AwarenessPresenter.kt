@@ -12,7 +12,13 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.location.places.Places
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
@@ -125,13 +131,22 @@ constructor(private val view: AwarenessContract.View, private val apiBuilder: Go
                                 Flowable.just(Awareness.SnapshotApi.getPlaces(apiClient)).subscribeOn(Schedulers.io())
                                         .map { it.await() }.filter { it.status.isSuccess }.flatMapIterable { it.placeLikelihoods }.filter { apiClient != null }
                                         .map {
-                                            val res = Places.GeoDataApi.getPlacePhotos(apiClient, it.place.id).await()
-                                            if (res.status.isSuccess && res.photoMetadata.count > 0) {
-                                                val photo = res.photoMetadata[0]
-                                                val image = photo.getScaledPhoto(apiClient, photo.maxWidth, photo.maxHeight).await().bitmap
-                                                res.photoMetadata.release()
-                                                PlaceWrapper(it.place, image)
-                                            } else PlaceWrapper(it.place, null)
+                                            apiClient?.run {
+                                                val res = Places.GeoDataApi.getPlacePhotos(
+                                                    this,
+                                                    it.place.id
+                                                ).await()
+                                                if (res.status.isSuccess && res.photoMetadata.count > 0) {
+                                                    val photo = res.photoMetadata[0]
+                                                    val image = photo.getScaledPhoto(
+                                                        apiClient,
+                                                        photo.maxWidth,
+                                                        photo.maxHeight
+                                                    ).await().bitmap
+                                                    res.photoMetadata.release()
+                                                    PlaceWrapper(it.place, image)
+                                                } else PlaceWrapper(it.place, null)
+                                            } ?: kotlin.run { PlaceWrapper(it.place, null) }
                                         }.filter { it.bitmap != null }.map { it as ClusterItem }
                         ).compose(IoToMainScheduleObservable()).toList().subscribe(Consumer { view.showAllGeoAndPlaces(it) })
                     }
