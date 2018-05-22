@@ -10,7 +10,7 @@ allprojects {
 ext {
     def bus = "3+"
     def dagger = "2+"
-    def gson = "2.8.0"
+    def gson = "2+"
     def retrofit = "2.+"
     def rxandroid = "2.+"
     def easypermissions = "0.4.2"
