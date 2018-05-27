@@ -10,7 +10,7 @@ allprojects {
 ext {
     def bus = "3+"
     def dagger = "2+"
-    def gson = "2.8.0"
+    def gson = "2+"
     def retrofit = "2.+"
     def rxandroid = "2.+"
     def easypermissions = "0.4.2"
@@ -41,7 +41,7 @@ ext {
     def httpClientGson = "1.20.0"
     def httpClientAndroid = "1.20.0"
     def playService = project.PLAY_FIRE
-    def vision = "v1-rev376-1.23.0"
+    def vision = "v1-rev379-1.23.0"
 
     //Image, loader, video
     def glide = "4.0.0"
