@@ -117,13 +117,13 @@ android {
             // https://issuetracker.google.com/issues/110198434 and
             // https://youtrack.jetbrains.com/issue/KT-24915#comment=27-2914947
             tasks.whenTaskAdded { task ->
-                if (task.name == 'kaptDebugKotlin') {
+                if (task.name == 'kaptDebugKotlin' && project.tasks.findByName('dataBindingExportFeaturePackageIdsDebug')) {
                     task.dependsOn dataBindingExportFeaturePackageIdsDebug
                 }
-                if (task.name == 'kaptDevDebugKotlin') {
+                if (task.name == 'kaptDevDebugKotlin' && project.tasks.findByName('dataBindingExportFeaturePackageIdsDevDebug')) {
                     task.dependsOn dataBindingExportFeaturePackageIdsDevDebug
                 }
-                if (task.name == 'kaptLiveDebugKotlin') {
+                if (task.name == 'kaptLiveDebugKotlin' && project.tasks.findByName('dataBindingExportFeaturePackageIdsLiveDebug')) {
                     task.dependsOn dataBindingExportFeaturePackageIdsLiveDebug
                 }
             }
@@ -138,13 +138,13 @@ android {
             // https://issuetracker.google.com/issues/110198434 and
             // https://youtrack.jetbrains.com/issue/KT-24915#comment=27-2914947
             tasks.whenTaskAdded { task ->
-                if (task.name == 'kaptReleaseKotlin') {
+                if (task.name == 'kaptReleaseKotlin' && project.tasks.findByName('dataBindingExportFeaturePackageIdsRelease')) {
                     task.dependsOn dataBindingExportFeaturePackageIdsRelease
                 }
-                if (task.name == 'kaptDevDebugKotlin') {
+                if (task.name == 'kaptDevDebugKotlin' && project.tasks.findByName('dataBindingExportFeaturePackageIdsDevRelease')) {
                     task.dependsOn dataBindingExportFeaturePackageIdsDevRelease
                 }
-                if (task.name == 'kaptLiveDebugKotlin') {
+                if (task.name == 'kaptLiveDebugKotlin' && project.tasks.findByName('dataBindingExportFeaturePackageIdsLiveRelease')) {
                     task.dependsOn dataBindingExportFeaturePackageIdsLiveRelease
                 }
             }
